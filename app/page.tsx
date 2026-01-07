@@ -1,65 +1,446 @@
 import Image from "next/image";
+import StarBorder from "./components/UI/StarBorder";
+import Footer from "./components/Global/Footer";
+import { IoIosArrowForward } from "react-icons/io";
+import Slider from "./components/Global/Header";
 
-export default function Home() {
+
+
+const Home = async () => {
+
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <section className="w-full m-auto rounded-2xl">
+      {/* <header id="slider" className=" my-2 h-[60vh] overflow-hidden">
+        <div className={`flex slide h-full`}>
+          <div className="relative  min-w-full h-full">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={"/Assets/Images/slider2.png"}
+              fill
+              className=" object-cover"
+              alt=""
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+          <div className="relative min-w-full h-full">
+            <Image
+              src={"/Assets/Images/slider3.png"}
+              fill
+              className=" object-cover"
+              alt=""
+            />
+          </div>
+          <div className="relative min-w-full h-full">
+            <Image
+              src={"/Assets/Images/slider4.png"}
+              fill
+              className=" object-cover"
+              alt=""
+            />
+          </div>
         </div>
+      </header> */}
+      <Slider />
+      <main
+        id="cards"
+        className="w-full flex flex-col justify-center flex-wrap h-[30%] m-auto"
+      >
+        <div className="div w-full flex justify-center flex-wrap gap-3">
+          <StarBorder
+            as="button"
+            color="#00f7ff"
+            speed="5s"
+            className=" cardBlock w-[38%] "
+          >
+            <div className="text-left flex justify-between text-2xl font-bold">
+              Winter Collections
+              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
+                <IoIosArrowForward />
+              </div>
+            </div>
+            <div className="flex flex-wrap">
+              <div className="w-[43%] m-2 ">
+                <Image
+                  src={"/Assets/Images/CardPics/jcard3.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Sweat-Shirts
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Min 60-70% Off
+                </div>
+              </div>
+              <div className="w-[43%] m-2 ">
+                <Image
+                  src={"/Assets/Images/CardPics/jcard3.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Caps & Gloves
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Flat 30% Off on Trending
+                </div>
+              </div>
+              <div className="w-[43%] m-2 ">
+                <Image
+                  src={"/Assets/Images/CardPics/jcard3.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Jackets
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  🌟 New Arrivals 🌟
+                </div>
+              </div>
+              <div className="w-[43%] m-2 ">
+                <Image
+                  src={"/Assets/Images/CardPics/vastra7.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Sweater&apos;s
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Fresh Drops
+                </div>
+              </div>
+            </div>
+          </StarBorder>
+          <StarBorder
+            as="button"
+            color="#00f7ff"
+            speed="5s"
+            className=" cardBlock w-[38%]"
+          >
+            <div className="text-left flex justify-between text-2xl font-bold">
+              Men Collections
+              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
+                <IoIosArrowForward />
+              </div>
+            </div>
+            <div className="flex flex-wrap">
+              <div className="w-[43%] m-2 ">
+                <Image
+                  src={"/Assets/Images/CardPics/jcard1.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Pants
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Min 40-50% Off
+                </div>
+              </div>
+              <div className="w-[43%] m-2 ">
+                <Image
+                  src={"/Assets/Images/CardPics/jcard1.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Party
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  50% Discount on Top Brands
+                </div>
+              </div>
+              <div className="w-[43%] m-2 ">
+                <Image
+                  src={"/Assets/Images/CardPics/jcard1.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Formals
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Top Deals
+                </div>
+              </div>
+              <div className="w-[43%] m-2 ">
+                <Image
+                  src={"/Assets/Images/CardPics/jcard2.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Shirts
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Min. 70% Off
+                </div>
+              </div>
+            </div>
+          </StarBorder>
+          <StarBorder
+            as="button"
+            color="#00f7ff"
+            speed="5s"
+            className=" cardBlock w-[20%] "
+          >
+            <div className="text-left flex justify-between text-2xl font-bold">
+              Traditonal
+              <div className="w-[10%] m-1 text-xl rounded-full flex justify-center items-center bg-[#0084ff] text-white">
+                <IoIosArrowForward />
+              </div>
+            </div>
+            <div className="flex flex-col flex-wrap">
+              <div className="w-full">
+                <Image
+                  src={"/Assets/Images/CardPics/lcard1.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Ethic Wear
+                </div>
+                <div className=" font-bold text-green-600 m-2 text-xl text-left">
+                  Flat 30% Off on Top Brands
+                </div>
+              </div>
+              <div className="w-full">
+                <Image
+                  src={"/Assets/Images/CardPics/vastra1.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Festive Wear
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Best Deals
+                </div>
+              </div>
+            </div>
+          </StarBorder>
+          <StarBorder
+            as="button"
+            color="#00f7ff"
+            speed="5s"
+            className=" cardBlock w-[20%] "
+          >
+            <div className="text-left flex justify-between text-2xl font-bold">
+              Offers
+              <div className="w-[10%] m-1 text-xl rounded-full flex justify-center items-center bg-[#0084ff] text-white">
+                <IoIosArrowForward />
+              </div>
+            </div>
+            <div className="flex flex-col flex-wrap">
+              <div className="w-full">
+                <Image
+                  src={"/Assets/Images/top_offer/offer11.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Flat 50% Off
+                  <div className="text-red-500 font-medium">
+                    Limited Period Offer
+                  </div>
+                </div>
+              </div>
+              <div className="w-full">
+                <Image
+                  src={"/Assets/Images/top_offer/offer33.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Kids Sweat-Shirts
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Min 40% Off
+                </div>
+              </div>
+            </div>
+          </StarBorder>
+          <StarBorder
+            as="button"
+            color="#00f7ff"
+            speed="5s"
+            className=" cardBlock w-[38%] "
+          >
+            <div className="text-left flex justify-between text-2xl font-bold">
+              Women Collections
+              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
+                <IoIosArrowForward />
+              </div>
+            </div>
+            <div className="flex flex-wrap">
+              <div className="w-[43%] m-2">
+                <Image
+                  src={"/Assets/Images/CardPics/lcard1.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Jeans
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Min. 70-80% Off
+                </div>
+              </div>
+              <div className="w-[43%] m-2">
+                <Image
+                  src={"/Assets/Images/top_offer/offer11.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Western
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Latest Arrivals
+                </div>
+              </div>
+              <div className="w-[43%] m-2">
+                <Image
+                  src={"/Assets/Images/top_offer/offer11.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Suits
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Special Offers
+                </div>
+              </div>
+              <div className="w-[43%] m-2">
+                <Image
+                  src={"/Assets/Images/CardPics/vastra1.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Saree
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Trending
+                </div>
+              </div>
+            </div>
+          </StarBorder>
+          <StarBorder
+            as="button"
+            color="#00f7ff"
+            speed="5s"
+            className=" cardBlock w-[38%] "
+          >
+            <div className="text-left  flex justify-between text-2xl font-bold">
+              Children Collections
+              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
+                <IoIosArrowForward />
+              </div>
+            </div>
+            <div className="flex flex-wrap">
+              <div className="w-[43%] m-2">
+                <Image
+                  src={"/Assets/Images/CardPics/lcard2.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Dresses
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Top Deals
+                </div>
+              </div>
+              <div className="w-[43%] m-2">
+                <Image
+                  src={"/Assets/Images/top_offer/offer33.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Shirts
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Fresh Arrivals
+                </div>
+              </div>
+              <div className="w-[43%] m-2">
+                <Image
+                  src={"/Assets/Images/top_offer/offer33.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Casuals
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Top Deals
+                </div>
+              </div>
+              <div className="w-[43%] m-2">
+                <Image
+                  src={"/Assets/Images/CardPics/vastra6.png"}
+                  width={300}
+                  height={400}
+                  alt="img"
+                  className="hover:scale-105 hover:z-9999 ease-in-out transition-all duration-400"
+                ></Image>
+                <div className="m-2 font-semibold text-[20px] text-left">
+                  Tops
+                </div>
+                <div className="m-2 font-bold text-green-600 text-xl text-left">
+                  Min. 60% Off
+                </div>
+              </div>
+            </div>
+          </StarBorder>
+        </div>
+        
       </main>
-    </div>
+      <Footer />
+    </section>
   );
-}
+};
+
+export default Home;
