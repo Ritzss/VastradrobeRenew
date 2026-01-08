@@ -7,7 +7,7 @@ import React, { useState } from "react";
 
 const Register = () => {
   const [visible, setVisible] = useState(false);
-  const { registerForm, setRegisterForm } = useAppContext();
+  const { registerForm, setRegisterForm, handleRegister} = useAppContext();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -15,10 +15,7 @@ const Register = () => {
     setRegisterForm((prev: any) => ({ ...prev, [name]: value }));
   };
 
-  const handleRegister = (e: { preventDefault: () => void; })=>{
-    e.preventDefault();
-    setRegisterForm({ username: "", email: "", password: "" })
-  }
+ 
   return (
     <section className=" w-[65%] m-2 h-[70vh] flex">
       <aside className="w-[40%] bg-[#960019] border-r-4 h-full flex-col flex justify-between">

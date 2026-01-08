@@ -1,5 +1,5 @@
 'use client'
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext, Dispatch, FormEvent, SetStateAction } from "react";
 
 export type LoginData = {
   username: string;
@@ -19,6 +19,8 @@ export interface AppContextType {
   setLoginForm: Dispatch<SetStateAction<LoginData>>;
   registerForm: RegisterData;
   setRegisterForm: Dispatch<SetStateAction<RegisterData>>;
+  handleRegister:(e:FormEvent<HTMLFormElement>)=>void;
+  handleLogin:(e:FormEvent<HTMLFormElement>)=>void;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
