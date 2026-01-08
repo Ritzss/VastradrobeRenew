@@ -1,8 +1,24 @@
-import { createContext } from "react";
+'use client'
+import { createContext, Dispatch, SetStateAction } from "react";
 
-export interface AppContextType{
-    login: boolean;
-    setLogin: (value: boolean)=> void;
+export type LoginData = {
+  username: string;
+  password: string;
+};
+
+export type RegisterData = {
+  username: string;
+  email:string;
+  password:string;
 }
 
-export const AppContext = createContext<AppContextType|undefined>(undefined);
+export interface AppContextType {
+  islogged: boolean;
+  setIsLogged:Dispatch<SetStateAction<boolean>>;
+  loginForm: LoginData;
+  setLoginForm: Dispatch<SetStateAction<LoginData>>;
+  registerForm: RegisterData;
+  setRegisterForm: Dispatch<SetStateAction<RegisterData>>;
+}
+
+export const AppContext = createContext<AppContextType | undefined>(undefined);

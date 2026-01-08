@@ -438,7 +438,7 @@ const Home = async () => {
         </div>
         
       </main>
-      <Footer />
+      <Footer className=""/>
     </section>
   );
 };

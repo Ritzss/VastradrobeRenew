@@ -24,7 +24,7 @@ const Navbar = () => {
     "etc..",
   ];
   const [index, setIndex] = useState(0);
-  const { login } = useAppContext();
+  const { islogged } = useAppContext();
   const pathname = usePathname();
 
   const isActive = (path: string) =>
@@ -84,7 +84,7 @@ const Navbar = () => {
         </main>
         <footer id={"navcontentfooter"}>
           <aside className="p-1 flex gap-5">
-            {!login && (
+            {!islogged && (
               <Link href={"/account/login"}>
                 <div className="flex text-2xl gap-2 items-center">
                   <RiAccountBoxLine /> <span className="text-lg">Login</span>
@@ -94,7 +94,7 @@ const Navbar = () => {
             <div className="flex text-2xl gap-2 items-center">
               <MdSupportAgent /> <span className="text-lg">ContactUs</span>
             </div>
-            {login && (
+            {islogged && (
               <div className="flex text-2xl gap-2 items-center">
                 <RiAccountBoxFill /> <span className="text-lg">Account</span>
               </div>

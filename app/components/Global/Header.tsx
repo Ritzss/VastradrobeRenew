@@ -82,8 +82,7 @@ export default function Slider() {
       {/* LEFT ARROW */}
       <button
         onClick={prevSlide}
-        className="absolute top-1/2 left-4 -translate-y-1/2
-        bg-black/50 text-white p-3 rounded-full hover:bg-black transition"
+        className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black transition"
       >
         <FaChevronLeft />
       </button>
@@ -91,8 +90,7 @@ export default function Slider() {
       {/* RIGHT ARROW */}
       <button
         onClick={nextSlide}
-        className="absolute top-1/2 right-4 -translate-y-1/2
-        bg-black/50 text-white p-3 rounded-full hover:bg-black transition"
+        className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black transition"
       >
         <FaChevronRight />
       </button>
@@ -103,9 +101,7 @@ export default function Slider() {
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`h-3 w-3 rounded-full transition-all duration-300
-              ${current === index ? "bg-white scale-125" : "bg-white/50"}
-            `}
+            className={`h-3 w-3 rounded-full transition-all duration-300 ${current === index ? "bg-white scale-125" : "bg-white/50"}`}
           />
         ))}
       </div>

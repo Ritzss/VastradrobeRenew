@@ -26,9 +26,9 @@ export default function RootLayout({
         geistSans.className,
       ].join(" ")}
     >
-      <body className={`flex flex-col antialiased`}>
+      <body className={`flex flex-col`}>
         <AppProvider>
-          <div className="sticky top-0 z-999999 p-1">
+          <div className="sticky top-0 z-99">
             <Navbar />
           </div>
           <div className="">{children}</div>
