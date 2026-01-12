@@ -1,3 +1,5 @@
+import { useAppContext } from "@/hooks/useAppContext";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Boysbox = () => {
@@ -34,9 +36,18 @@ const Boysbox = () => {
     "Festive Wear",
   ];
 
+  const { setSubCategory } = useAppContext();
+  const router = useRouter();
+
+  const handleClick = (item: string) => {
+    const value = item.toLowerCase().replace(/\s+/g, "-");
+    setSubCategory(value);
+    router.push(`/boys?type=${value}`);
+  };
+
   return (
     <section className="w-[98vw] ml-2 py-5 text-white bg-[#000000e3] rounded-2xl shadow-[0_0_7px_rgb(255,255,255)]">
-      <div className="w-full p-2 text-4xl">Men&apos;s Collection</div>
+      <div className="w-full p-2 text-4xl">Boy&apos;s Collection</div>
       <div className="flex justify-around p-4">
         <span className="w-[33.3%]">
           <div className="text-left text-3xl font-bold hover:scale-105 duration-300 transition-all ml-4">
@@ -44,7 +55,11 @@ const Boysbox = () => {
           </div>
           {summerItems.map((item) => {
             return (
-              <div key={item} className={summerWear}>
+              <div
+                key={item}
+                className={summerWear}
+                onClick={() => handleClick(item)}
+              >
                 {item}
               </div>
             );
@@ -56,7 +71,11 @@ const Boysbox = () => {
           </div>
           {winterItems.map((item) => {
             return (
-              <div key={item} className={winterWear}>
+              <div
+                key={item}
+                className={winterWear}
+                onClick={() => handleClick(item)}
+              >
                 {item}
               </div>
             );
@@ -68,7 +87,11 @@ const Boysbox = () => {
           </div>
           {ethnicItems.map((item) => {
             return (
-              <div key={item} className={winterWear}>
+              <div
+                key={item}
+                className={winterWear}
+                onClick={() => handleClick(item)}
+              >
                 {item}
               </div>
             );

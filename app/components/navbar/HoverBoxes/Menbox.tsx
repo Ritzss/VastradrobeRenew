@@ -1,4 +1,6 @@
-import React from "react";
+'use client'
+import { useAppContext } from "@/hooks/useAppContext";
+import { useRouter } from "next/navigation";
 
 const Menbox = () => {
   const summerWear =
@@ -6,8 +8,8 @@ const Menbox = () => {
 
   const winterWear =
     "ml-4 text-lg hover:scale-105 hover:font-semibold hover:text-shadow-[0_0_10px_rgb(255,255,255)] duration-300 transition-all leading-loose";
-  
-    const summerItems = [
+
+  const summerItems = [
     "Cotton Shirts",
     "Linen Pants",
     "T-Shirts",
@@ -34,6 +36,15 @@ const Menbox = () => {
     "Festive Wear",
   ];
 
+  const { setSubCategory } = useAppContext();
+  const router = useRouter();;
+
+  const handleClick = (item: string) => {
+    const value = item.toLowerCase().replace(/\s+/g, "-");
+    setSubCategory(value);
+    router.push(`/men?type=${value}`);
+  };
+
   return (
     <section className="w-[98vw] ml-2 py-5 text-white bg-[#000000e3] rounded-2xl shadow-[0_0_7px_rgb(255,255,255)]">
       <div className="w-full p-2 text-4xl">Men&apos;s Collection</div>
@@ -44,7 +55,11 @@ const Menbox = () => {
           </div>
           {summerItems.map((item) => {
             return (
-              <div key={item} className={summerWear}>
+              <div
+                key={item}
+                className={summerWear}
+                onClick={() => handleClick(item)}
+              >
                 {item}
               </div>
             );
@@ -56,7 +71,11 @@ const Menbox = () => {
           </div>
           {winterItems.map((item) => {
             return (
-              <div key={item} className={winterWear}>
+              <div
+                key={item}
+                className={winterWear}
+                onClick={() => handleClick(item)}
+              >
                 {item}
               </div>
             );
@@ -68,7 +87,11 @@ const Menbox = () => {
           </div>
           {ethnicItems.map((item) => {
             return (
-              <div key={item} className={winterWear}>
+              <div
+                key={item}
+                className={winterWear}
+                onClick={() => handleClick(item)}
+              >
                 {item}
               </div>
             );

@@ -27,7 +27,7 @@ const Westernbox = () => {
   
   return (
     <section className="w-[98vw] ml-2 py-5 text-white bg-[#000000e3] rounded-2xl shadow-[0_0_7px_rgb(255,255,255)]">
-      <div className="w-full p-2 text-4xl">Men&apos;s Collection</div>
+      <div className="w-full p-2 text-4xl">Western Collection</div>
       <div className="flex justify-around p-4">
         <span className="w-[33.3%]">
           <div className="text-left text-3xl font-bold hover:scale-105 duration-300 transition-all ml-4">

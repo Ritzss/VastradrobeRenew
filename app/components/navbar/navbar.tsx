@@ -1,19 +1,12 @@
 "use client";
 import Image from "next/image";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaOpencart, FaRegHeart } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { MdSupportAgent } from "react-icons/md";
 import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
 import { useAppContext } from "@/hooks/useAppContext";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Menbox from "./HoverBoxes/Menbox";
-import Womenbox from "./HoverBoxes/Womenbox";
-import Boysbox from "./HoverBoxes/Boysbox";
-import GirlsBox from "./HoverBoxes/GirlsBox";
-import Traditionalbox from "./HoverBoxes/Traditionalbox";
-import Westernbox from "./HoverBoxes/WesternBox";
 
 const Navbar = () => {
   const searchItems = [
@@ -24,17 +17,19 @@ const Navbar = () => {
     "etc..",
   ];
   const [index, setIndex] = useState(0);
-  const { islogged } = useAppContext();
-  const pathname = usePathname();
-
-  const isActive = (path: string) =>
-    pathname === path || pathname.startsWith(path + "/");
+  const {
+    islogged,
+    cartCount,
+    searchQuery,
+    setSearchQuery,
+    selectGender,
+    setSelectGender,
+  } = useAppContext();
 
   useEffect(() => {
     const id = setInterval(() => {
       setIndex((prev) => (prev + 1) % searchItems.length);
     }, 3000);
-
     return () => clearInterval(id);
   });
 
@@ -43,7 +38,7 @@ const Navbar = () => {
       id={"navcontainer"}
       className="bg-[#dadada] transition-all ease-in-out duration-500 rounded-xl"
     >
-      <section className=" flex gap-3 border rounded-t-xl p-[1%]">
+      <section className=" bg-[#cd0000] text-white flex gap-3 p-[0.5%]">
         <header id={"navcontentheader"}>
           <Link href={"/"}>
             <Image
@@ -54,15 +49,18 @@ const Navbar = () => {
             />
           </Link>
         </header>
-        <main id={"navcontentmain"} className="w-[65%]">
+        <main id={"navcontentmain"} className="w-[65%] text-black">
           <span className="border flex bg-white justify-between rounded-xl w-[85%]">
             <span className=" w-[20%]">
               <select
                 className="w-full border-r-2  outline-0 p-2"
                 name="gender"
+                value={selectGender}
+                onChange={(e) => setSelectGender(e.target.value)}
                 id="gender"
               >
-                <option value="Male">Man</option>
+                <option value="">All</option>
+                <option value="Male">Men</option>
                 <option value="Women">Women</option>
                 <option value="Boys">Boys</option>
                 <option value="Boys">Girl</option>
@@ -72,7 +70,9 @@ const Navbar = () => {
               <input
                 type="text"
                 id="search"
+                value={searchQuery}
                 name="search"
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="outline-0 text-lg w-full"
                 placeholder={`Search ${searchItems[index]}?`}
               />
@@ -82,140 +82,42 @@ const Navbar = () => {
             </span>
           </span>
         </main>
-        <footer id={"navcontentfooter"}>
-          <aside className="p-1 flex gap-5">
+        <footer id={"navcontentfooter"} className="self-end">
+          <aside className="px-3 p-2 flex items-center justify-center gap-5">
             {!islogged && (
               <Link href={"/account/login"}>
                 <div className="flex text-2xl gap-2 items-center">
-                  <RiAccountBoxLine /> <span className="text-lg">Login</span>
+                  <RiAccountBoxLine /> <span className="text-lg text-[#cd0000] hover:text-white duration-400 trans w-0 hover:w-auto">Login</span>
                 </div>
               </Link>
             )}
             <div className="flex text-2xl gap-2 items-center">
-              <MdSupportAgent /> <span className="text-lg">ContactUs</span>
+              <MdSupportAgent /> <span className="text-lg text-[#cd0000] hover:text-white duration-400 trans w-0 hover:w-auto">ContactUs</span>
             </div>
             {islogged && (
               <div className="flex text-2xl gap-2 items-center">
-                <RiAccountBoxFill /> <span className="text-lg">Account</span>
+                <RiAccountBoxFill /> <span className="text-lg text-[#cd0000] hover:text-white duration-400 trans w-0 hover:w-auto">Account</span>
               </div>
             )}
+            <Link href={"/favroites"}>
             <div className="flex text-xl items-center">
               <FaRegHeart />
             </div>
-            <div className="flex text-2xl gap-2 items-center">
-              <FaOpencart /> <span className="text-lg">Cart</span>
-            </div>
+            </Link>
+            <Link href={"/cart"}>
+              <div className="relative flex text-2xl gap-3 items-center">
+                <FaOpencart />
+                <span className="text-lg">Cart </span>
+                <div className="absolute w-[25%] h-[55%] text-sm justify-center items-center flex rounded-full -right-3 -top-2 bg-[#ff6600] text-white">
+                  {cartCount}
+                </div>
+              </div>
+            </Link>
           </aside>
         </footer>
-      </section>
-      <section className="flex justify-evenly border text-xl rounded-b-xl w-full">
-        <NavItem
-          href="/men"
-          label="Men"
-          active={isActive("/men")}
-          hover="hover:bg-[#00ffff] hover:shadow-[inset_0_0_10px_0_#00ffff]"
-          activeStyle="bg-[#00ffff] shadow-[inset_0_0_10px_0_#00ffff]"
-          rounded="rounded-bl-xl"
-          dropdown={<Menbox />}
-        />
-
-        <NavItem
-          href="/women"
-          label="Women"
-          active={isActive("/women")}
-          hover="hover:bg-[#f04aff] hover:shadow-[inset_0_0_10px_0_#f04aff]"
-          activeStyle="bg-[#f04aff] shadow-[inset_0_0_10px_0_#f04aff]"
-          dropdown={<Womenbox />}
-        />
-
-        <NavItem
-          href="/boys"
-          label="Boys"
-          active={isActive("/boys")}
-          hover="hover:bg-[#ffff00] hover:shadow-[inset_0_0_10px_0_#ffff00]"
-          activeStyle="bg-[#ffff00] shadow-[inset_0_0_10px_0_#ffff00]"
-          dropdown={<Boysbox />}
-        />
-
-        <NavItem
-          href="/girls"
-          label="Girls"
-          active={isActive("/girls")}
-          hover="hover:bg-[#ff00d4] hover:shadow-[inset_0_0_10px_0_#ff00d4]"
-          activeStyle="bg-[#ff00d4] shadow-[inset_0_0_10px_0_#ff00d4]"
-          dropdown={<GirlsBox />}
-        />
-
-        <NavItem
-          href="/western"
-          label="Western"
-          active={isActive("/western")}
-          hover="hover:bg-[#a6ff00] hover:shadow-[inset_0_0_10px_0_#a6ff00]"
-          activeStyle="bg-[#a6ff00] shadow-[inset_0_0_10px_0_#a6ff00]"
-          dropdown={<Westernbox />}
-        />
-
-        <NavItem
-          href="/traditionals"
-          label="Traditional"
-          active={isActive("/traditionals")}
-          hover="hover:bg-[#c50052] hover:shadow-[inset_0_0_10px_0_#c50052]"
-          activeStyle="bg-[#c50052] shadow-[inset_0_0_10px_0_#c50052]"
-          dropdown={<Traditionalbox />}
-        />
-
-        <NavItem
-          href="/offers"
-          label="Offer"
-          active={isActive("/offers")}
-          hover="hover:bg-[#ff6600] hover:shadow-[inset_0_0_10px_0_#ff6600]"
-          activeStyle="bg-[#ff6600] shadow-[inset_0_0_10px_0_#ff6600]"
-          rounded="rounded-br-xl"
-        />
       </section>
     </nav>
   );
 };
 
 export default Navbar;
-
-const NavItem = ({
-  href,
-  label,
-  active,
-  hover,
-  activeStyle,
-  rounded = "",
-  dropdown,
-}: {
-  href: string;
-  label: string;
-  active: boolean;
-  hover: string;
-  activeStyle: string;
-  rounded?: string;
-  dropdown?: ReactNode;
-}) => {
-  return (
-    <div
-      className="group w-full"
-      onMouseEnter={() => document.body.classList.add("scroll-lock")}
-      onMouseLeave={() => document.body.classList.remove("scroll-lock")}
-    >
-      <div
-        className={`p-3 font-bold text-center transition-all duration-500 text-black bg-clip-text hover:text-transparent
-      ${rounded}
-      ${hover}
-      ${active ? `${activeStyle} text-transparent` : ""}`}
-      >
-        <Link href={href}>{label} </Link>
-      </div>
-
-      {dropdown && (
-        <div className="absolute left-0 z-50 py-5 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto">
-          {dropdown}
-        </div>
-      )}
-    </div>
-  );
-};

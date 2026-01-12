@@ -1,12 +1,12 @@
+"use client";
 import Image from "next/image";
 import StarBorder from "./components/UI/StarBorder";
 import Footer from "./components/Global/Footer";
 import { IoIosArrowForward } from "react-icons/io";
 import Slider from "./components/Global/Header";
+import CategoryBar from "./components/navbar/Categorybar";
 
-
-
-const Home = async () => {
+const Home = () => {
 
 
   return (
@@ -40,6 +40,7 @@ const Home = async () => {
         </div>
       </header> */}
       <Slider />
+      <CategoryBar className={"bg-[#ffffff] rounded-xl text-[#cd0000] my-2"} drop={false} Img={true}  />
       <main
         id="cards"
         className="w-full flex flex-col justify-center flex-wrap h-[30%] m-auto"
@@ -47,7 +48,7 @@ const Home = async () => {
         <div className="div w-full flex justify-center flex-wrap gap-3">
           <StarBorder
             as="button"
-            color="#00f7ff"
+            color="#ffffff"
             speed="5s"
             className=" cardBlock w-[38%] "
           >
@@ -122,7 +123,7 @@ const Home = async () => {
           </StarBorder>
           <StarBorder
             as="button"
-            color="#00f7ff"
+            color="#ffffff"
             speed="5s"
             className=" cardBlock w-[38%]"
           >
@@ -197,7 +198,7 @@ const Home = async () => {
           </StarBorder>
           <StarBorder
             as="button"
-            color="#00f7ff"
+            color="#ffffff"
             speed="5s"
             className=" cardBlock w-[20%] "
           >
@@ -242,7 +243,7 @@ const Home = async () => {
           </StarBorder>
           <StarBorder
             as="button"
-            color="#00f7ff"
+            color="#ffffff"
             speed="5s"
             className=" cardBlock w-[20%] "
           >
@@ -287,7 +288,7 @@ const Home = async () => {
           </StarBorder>
           <StarBorder
             as="button"
-            color="#00f7ff"
+            color="#ffffff"
             speed="5s"
             className=" cardBlock w-[38%] "
           >
@@ -362,7 +363,7 @@ const Home = async () => {
           </StarBorder>
           <StarBorder
             as="button"
-            color="#00f7ff"
+            color="#ffffff"
             speed="5s"
             className=" cardBlock w-[38%] "
           >
@@ -436,9 +437,8 @@ const Home = async () => {
             </div>
           </StarBorder>
         </div>
-        
       </main>
-      <Footer className=""/>
+      <Footer className="" />
     </section>
   );
 };

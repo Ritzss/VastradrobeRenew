@@ -1,13 +1,21 @@
 @import "tailwindcss";
 
 body{
-  background-color: #505050;
+  background-color: #ffffff;
 }
 
 body.scroll-lock {
   overflow: hidden;
 }
 
+.cardBlock{
+  background-color: #ffffff;
+  color: white;
+}
+
+.cardBlock:hover{
+  background-color: #cd0000;
+}
 
 @media (max-width:320px) {
   #navcontainer{

@@ -18,12 +18,12 @@ const Register = () => {
  
   return (
     <section className=" w-[65%] m-2 h-[70vh] flex">
-      <aside className="w-[40%] bg-[#960019] border-r-4 h-full flex-col flex justify-between">
+      <aside className="w-[40%] bg-[#ffffff] text-[#ffffff] shadow-[inset_0_0_20px_#cd0000] border-r-4 h-full flex-col flex justify-between">
         <header className="flex-col flex gap-5">
-          <div className="font-mono text-white pt-6 text-4xl flex justify-center hover:scale-115 hover:text-shadow-[0_0_10px] font-bold text-shadow-[0_0_20px] duration-500 transition-all">
+          <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center hover:scale-115 hover:text-shadow-[0_0_10px] font-bold text-shadow-[0_0_20px] duration-500 transition-all">
             Register
           </div>
-          <div className="text-white p-2.5 text-3xl font-great flex justify-start">
+        <div className="text-[#cd0000] p-2.5 text-xl font-great flex justify-start">
             It&apos;s look like you found yourself to a brand new Fashion hub.
             <br />
             <br />
@@ -32,7 +32,7 @@ const Register = () => {
         </header>
         <div className="overflow-hidden self-end">
           <Image
-            src={"/Assets/Images/loginimgrs.png"}
+            src={"/Assets/Images/authimg.png"}
             width={300}
             height={2}
             alt=""
@@ -40,7 +40,7 @@ const Register = () => {
           />
         </div>
       </aside>
-      <aside className="w-[60%] font-mono bg-white flex flex-col justify-center items-center ">
+      <aside className="w-[60%] font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-center items-center ">
         <form
           method="POST"
           className="flex flex-col justify-evenly w-full h-full p-4 "
@@ -98,7 +98,7 @@ const Register = () => {
             </div>
           </label>
           <div className="flex justify-evenly">
-            <button className="text-2xl hover:scale-110 hover:-translate-y-1 hover:text-[#960019] duration-500 transition-all hover:text-shadow-[0px_16px_5px_rgba(0,0,0,0.34)]">
+            <button onClick={handleRegister} className="text-2xl hover:scale-110 hover:-translate-y-1 hover:text-[#960019] duration-500 transition-all hover:text-shadow-[0px_16px_5px_rgba(0,0,0,0.34)]">
               Register
             </button>
           </div>

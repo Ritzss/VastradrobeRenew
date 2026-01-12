@@ -31,12 +31,12 @@
 
 .inner-content {
   position: relative;
-  border: 1px solid #222222;
+  border: 0px solid #222222;
   background: #ffffff;
   color: #000000;
   font-size: 16px;
   text-align: center;
-  padding: 16px 26px;
+  padding: 16px 18px;
   border-radius: 20px;
   z-index: 1;
 }
