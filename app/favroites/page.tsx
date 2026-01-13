@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
 import Image from "next/image";
 import StarBorder from "@/components/UI/StarBorder";
+import Link from "next/link";
 
 const FavoritesPage = () => {
   const { favCollections, products, createCollection, removeFromCollection } = useAppContext();
@@ -99,6 +100,9 @@ const FavoritesPage = () => {
           </section>
         );
       })}
+      <div>
+        <button className="text-xl w-full flex justify-center items-center gap-2">Return to <Link href={'/'} className="p-2 rounded bg-[#cd0000] text-white hover:shadow-[inset_0_0_10px_#000000]">Home</Link></button>
+      </div>
     </div>
   );
 };

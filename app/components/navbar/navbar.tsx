@@ -87,16 +87,16 @@ const Navbar = () => {
             {!islogged && (
               <Link href={"/account/login"}>
                 <div className="flex text-2xl gap-2 items-center">
-                  <RiAccountBoxLine /> <span className="text-lg text-[#cd0000] hover:text-white duration-400 trans w-0 hover:w-auto">Login</span>
+                  <RiAccountBoxLine /> <span className="text-lg">Login</span>
                 </div>
               </Link>
             )}
             <div className="flex text-2xl gap-2 items-center">
-              <MdSupportAgent /> <span className="text-lg text-[#cd0000] hover:text-white duration-400 trans w-0 hover:w-auto">ContactUs</span>
+              <MdSupportAgent /> <span className="text-lg">ContactUs</span>
             </div>
             {islogged && (
               <div className="flex text-2xl gap-2 items-center">
-                <RiAccountBoxFill /> <span className="text-lg text-[#cd0000] hover:text-white duration-400 trans w-0 hover:w-auto">Account</span>
+                <RiAccountBoxFill /> <span className="text-lg">Account</span>
               </div>
             )}
             <Link href={"/favroites"}>

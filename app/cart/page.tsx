@@ -18,8 +18,12 @@ const CartPage = () => {
 
   if (cartProducts.length === 0) {
     return (
-      <div className="p-10 text-xl flex justify-center items-center">
-        Your cart is empty
+      <div className="p-10 text-xl flex flex-col justify-center items-center gap-4">
+        <div >Your cart is empty</div>
+        
+        <button >
+          Return to <Link href={"/"} className="p-2 rounded bg-[#cd0000] text-white hover:shadow-[inset_0_0_10px_#000000]">Home</Link>
+        </button>
       </div>
     );
   }
