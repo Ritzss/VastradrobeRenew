@@ -8,7 +8,7 @@ import React, { useState } from "react";
 const Register = () => {
   const [visible, setVisible] = useState(false);
   const { registerForm, setRegisterForm, handleRegister} = useAppContext();
-
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,7 +42,7 @@ const Register = () => {
       </aside>
       <aside className="w-[60%] font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-center items-center ">
         <form
-          method="POST"
+        onSubmit={handleRegister}
           className="flex flex-col justify-evenly w-full h-full p-4 "
         >
           <label className="flex justify-between" htmlFor="LoginID">
@@ -54,7 +54,7 @@ const Register = () => {
                 value={registerForm.username}
                 onChange={handleInputChange}
                 placeholder="UserName"
-                id="LoginID"
+                id="Username"
                 className="outline-0 flex items-center w-full"
               />
             </div>
@@ -98,7 +98,7 @@ const Register = () => {
             </div>
           </label>
           <div className="flex justify-evenly">
-            <button onClick={handleRegister} className="text-2xl hover:scale-110 hover:-translate-y-1 hover:text-[#960019] duration-500 transition-all hover:text-shadow-[0px_16px_5px_rgba(0,0,0,0.34)]">
+            <button type="submit" className="text-2xl hover:scale-110 hover:-translate-y-1 hover:text-[#ffffff] duration-500 transition-all hover:text-shadow-[0px_16px_5px_rgba(0,0,0,0.34)]">
               Register
             </button>
           </div>

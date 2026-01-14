@@ -1,10 +1,11 @@
 "use client";
 
-import { createContext, Dispatch, MouseEvent, SetStateAction } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 import { Product } from "@/Types/Product";
+import { AuthUser } from "@/Types/AuthUser";
 
 export type LoginData = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -38,14 +39,17 @@ export interface AppContextType {
   setProducts: Dispatch<SetStateAction<Product[]>>;
 
   /* 🔐 Auth */
-  islogged: boolean;
-  setIsLogged: Dispatch<SetStateAction<boolean>>;
   loginForm: LoginData;
   setLoginForm: Dispatch<SetStateAction<LoginData>>;
   registerForm: RegisterData;
   setRegisterForm: Dispatch<SetStateAction<RegisterData>>;
-  handleRegister: (e: MouseEvent<HTMLButtonElement>) => void;
-  handleLogin: (e: MouseEvent<HTMLButtonElement>) => void;
+  handleRegister: (e: React.FormEvent) => void;
+  handleLogin: (e: React.FormEvent) => void;
+  handleLogout: (e: React.FormEvent) => void;
+  authLoading:boolean;
+  setAuthLoading:Dispatch<SetStateAction<boolean>>;
+  user:AuthUser | null;
+  setUser:Dispatch<SetStateAction<AuthUser | null>>;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);

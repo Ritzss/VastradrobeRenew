@@ -23,7 +23,7 @@ export default function RootLayout({
         geistSans.className,
       ].join(" ")}
     >
-      <body >
+      <body cz-shortcut-listen="true">
         <AppProvider>
           <div className="sticky top-0 z-99">
             <Navbar />

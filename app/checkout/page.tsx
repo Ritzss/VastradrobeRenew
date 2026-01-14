@@ -2,10 +2,22 @@
 
 import { useAppContext } from "@/hooks/useAppContext";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const CheckoutPage = () => {
-  const { cartItems, products } = useAppContext();
+  const { user, cartItems, authLoading, products } = useAppContext();
+  const router = useRouter();
+      useEffect(() => {
+          if (!authLoading && !user) {
+            router.push("/account/login");
+          }
+        }, [authLoading, user, router]);
+      
+        if (authLoading) return null;
+      
+        if (!user) return null;
+      
 
   const cartProducts = products.filter((p) =>
     cartItems.has(p.id)

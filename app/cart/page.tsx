@@ -4,10 +4,24 @@ import StarBorder from "@/components/UI/StarBorder";
 import { useAppContext } from "@/hooks/useAppContext";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const CartPage = () => {
-  const { cartItems, products, removeFromCart, incrementQty, decrementQty } =
+  const { cartItems,authLoading, products,user, removeFromCart, incrementQty, decrementQty } =
     useAppContext();
+
+    const router = useRouter();
+ useEffect(() => {
+     if (!authLoading && !user) {
+       router.push("/account/login");
+     }
+   }, [authLoading, user, router]);
+ 
+   if (authLoading) return null;
+ 
+   if (!user) return null;
+ 
 
   const cartProducts = products.filter((p) => cartItems.has(p.id));
 
@@ -16,13 +30,14 @@ const CartPage = () => {
     return sum + Math.round(item.price * 100) * qty;
   }, 0);
 
+
   if (cartProducts.length === 0) {
     return (
       <div className="p-10 text-xl flex flex-col justify-center items-center gap-4">
         <div >Your cart is empty</div>
         
         <button >
-          Return to <Link href={"/"} className="p-2 rounded bg-[#cd0000] text-white hover:shadow-[inset_0_0_10px_#000000]">Home</Link>
+          Continue <Link href={"/"} className="p-2 rounded bg-[#cd0000] text-white duration-500 transition-all hover:rounded-3xl hover:shadow-[inset_0_0_10px_#000000]">Shopping</Link>
         </button>
       </div>
     );

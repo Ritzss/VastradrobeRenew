@@ -1,15 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
 import Image from "next/image";
 import StarBorder from "@/components/UI/StarBorder";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const FavoritesPage = () => {
-  const { favCollections, products, createCollection, removeFromCollection } = useAppContext();
+  const {
+    user,
+    favCollections,
+    authLoading,
+    products,
+    createCollection,
+    removeFromCollection,
+  } = useAppContext();
   const [newCollection, setNewCollection] = useState("");
   const [showInput, setShowInput] = useState(false);
+
+  const router = useRouter();
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push("/account/login");
+    }
+  }, [authLoading, user, router]);
+
+  if (authLoading) return null;
+
+  if (!user) return null;
 
   return (
     <div className="p-10 flex flex-col gap-10">
@@ -84,7 +103,7 @@ const FavoritesPage = () => {
                   </div>
 
                   <div className="mt-2 font-semibold text-center">
-                    ₹{(item.price)*100}
+                    ₹{item.price * 100}
                   </div>
 
                   <button
@@ -96,12 +115,20 @@ const FavoritesPage = () => {
                 </StarBorder>
               ))}
             </div>
-            <hr className="border-2"/>
+            <hr className="border-2" />
           </section>
         );
       })}
       <div>
-        <button className="text-xl w-full flex justify-center items-center gap-2">Return to <Link href={'/'} className="p-2 rounded bg-[#cd0000] text-white hover:shadow-[inset_0_0_10px_#000000]">Home</Link></button>
+        <button className="text-xl w-full flex justify-center items-center gap-2">
+          Add New{" "}
+          <Link
+            href={"/"}
+            className="p-2 rounded bg-[#cd0000] duration-500 transition-all hover:rounded-3xl text-white hover:shadow-[inset_0_0_10px_#000000]"
+          >
+            Favorites
+          </Link>
+        </button>
       </div>
     </div>
   );

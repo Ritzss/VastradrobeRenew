@@ -43,18 +43,18 @@ const Login = () => {
       <aside className="w-[60%] font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-around items-center ">
         <header className="h-[50%] w-full p-4">
           <form
-            method="POST"
+            onSubmit={handleLogin}
             className="flex flex-col justify-between h-full p-4 "
           >
             <label className="flex justify-between" htmlFor="LoginID">
-              <div className=" w-[40%] text-xl">UserName/EmailID:</div>
+              <div className=" w-[40%] text-xl">EmailID:</div>
               <div className="border-b w-[65%]">
                 <input
                   type="text"
-                  name="username"
-                  value={loginForm.username}
+                  name="email"
+                  value={loginForm.email}
                   onChange={handleInputChange}
-                  placeholder="UserName/Email"
+                  placeholder="Email"
                   id="LoginID"
                   className="outline-0 flex items-center w-full"
                 />
@@ -86,8 +86,8 @@ const Login = () => {
             </label>
             <div className="flex justify-evenly">
               <button
+                type="submit"
                 className="text-2xl hover:-translate-y-1 hover:text-shadow-[0_16px_5px_rgba(0,0,0,0.34),0_0_7px_#FFFFFF] hover:scale-120 duration-500 transition-all"
-                onClick={handleLogin}
               >
                 Login
               </button>

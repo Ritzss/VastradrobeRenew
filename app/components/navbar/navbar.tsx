@@ -18,14 +18,16 @@ const Navbar = () => {
   ];
   const [index, setIndex] = useState(0);
   const {
-    islogged,
+    user,
+    authLoading,
     cartCount,
     searchQuery,
+    handleLogout,
     setSearchQuery,
     selectGender,
     setSelectGender,
   } = useAppContext();
-
+  const isLogged = !!user;
   useEffect(() => {
     const id = setInterval(() => {
       setIndex((prev) => (prev + 1) % searchItems.length);
@@ -84,25 +86,32 @@ const Navbar = () => {
         </main>
         <footer id={"navcontentfooter"} className="self-end">
           <aside className="px-3 p-2 flex items-center justify-center gap-5">
-            {!islogged && (
-              <Link href={"/account/login"}>
+            {!authLoading && !isLogged && (
+              <Link href="/account/login">
                 <div className="flex text-2xl gap-2 items-center">
-                  <RiAccountBoxLine /> <span className="text-lg">Login</span>
+                  <RiAccountBoxLine />
+                  <span className="text-lg">Login</span>
                 </div>
               </Link>
             )}
             <div className="flex text-2xl gap-2 items-center">
               <MdSupportAgent /> <span className="text-lg">ContactUs</span>
             </div>
-            {islogged && (
-              <div className="flex text-2xl gap-2 items-center">
-                <RiAccountBoxFill /> <span className="text-lg">Account</span>
+
+            {!authLoading && isLogged && (
+              <div className="flex text-2xl gap-4 items-center">
+                <RiAccountBoxFill />
+                <span className="text-lg">{user.username}</span>
+                <span className="text-lg cursor-pointer" onClick={handleLogout}>
+                  Logout
+                </span>
               </div>
             )}
+
             <Link href={"/favroites"}>
-            <div className="flex text-xl items-center">
-              <FaRegHeart />
-            </div>
+              <div className="flex text-xl items-center">
+                <FaRegHeart />
+              </div>
             </Link>
             <Link href={"/cart"}>
               <div className="relative flex text-2xl gap-3 items-center">
