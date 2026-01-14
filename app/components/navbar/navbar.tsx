@@ -101,7 +101,7 @@ const Navbar = () => {
             {!authLoading && isLogged && (
               <div className="flex text-2xl gap-4 items-center">
                 <RiAccountBoxFill />
-                <span className="text-lg">{user.username}</span>
+                <span className="text-lg"><Link href={"/profile"}>{user.username}</Link></span>
                 <span className="text-lg cursor-pointer" onClick={handleLogout}>
                   Logout
                 </span>

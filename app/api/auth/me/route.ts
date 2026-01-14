@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { connectDB } from "@/lib/db";
+import User from "@/model/User";
 
 export async function GET(req: Request) {
   try {
@@ -13,9 +15,29 @@ export async function GET(req: Request) {
       return NextResponse.json({ user: null }, { status: 401 });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
 
-    return NextResponse.json({ user: decoded }, { status: 200 });
+    await connectDB();
+
+    const user = await User.findById(decoded.id).select(
+      "email username deliveryAddress"
+    );
+
+    if (!user) {
+      return NextResponse.json({ user: null }, { status: 401 });
+    }
+
+    return NextResponse.json(
+      {
+        user: {
+          id: user._id,
+          email: user.email,
+          username: user.username,
+          deliveryAddress: user.deliveryAddress || null,
+        },
+      },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json({ user: null }, { status: 401 });
   }

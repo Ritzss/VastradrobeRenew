@@ -27,6 +27,7 @@ export interface AppContextType {
   /* 🛒 Cart (FIXED) */
   cartItems: Map<number, number>;
   cartCount: number;
+  clearCart:()=>void;
   addToCart: (id: number) => void;
   removeFromCart: (id: number) => void;
   incrementQty: (id: number) => void;
@@ -48,6 +49,7 @@ export interface AppContextType {
   handleLogout: (e: React.FormEvent) => void;
   authLoading:boolean;
   setAuthLoading:Dispatch<SetStateAction<boolean>>;
+  loadUser: () => Promise<void>;
   user:AuthUser | null;
   setUser:Dispatch<SetStateAction<AuthUser | null>>;
 }

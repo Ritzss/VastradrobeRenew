@@ -11,6 +11,11 @@ const protectedRoutes = [
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // ✅ VERY IMPORTANT — skip API routes
+  if (pathname.startsWith("/api")) {
+    return NextResponse.next();
+  }
+
   const isProtected = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
@@ -29,11 +34,9 @@ export async function middleware(req: NextRequest) {
 
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
-
     await jwtVerify(token, secret);
-
     return NextResponse.next();
-  } catch (err) {
+  } catch {
     const loginUrl = new URL("/account/login", req.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);

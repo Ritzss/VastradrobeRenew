@@ -26,6 +26,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     Favorites: new Set(), // default collection
   });
 
+  const clearCart = () => {
+    setCartItems(new Map());
+  };
+
   const createCollection = (name: string) => {
     setFavCollections((prev) => ({
       ...prev,
@@ -198,22 +202,22 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
    *
    */
   useEffect(() => {
-  const init = async () => {
-    try {
-      await loadUser();
+    const init = async () => {
+      try {
+        await loadUser();
 
-      // 🔥 LOAD CART ONLY IF USER EXISTS
-      if (user) {
-        await loadCart();
+        // 🔥 LOAD CART ONLY IF USER EXISTS
+        if (user) {
+          await loadCart();
+        }
+      } finally {
+        setAuthLoading(false);
       }
-    } finally {
-      setAuthLoading(false);
-    }
-  };
+    };
 
-  init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -253,6 +257,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
         /* cart (SINGLE SOURCE OF TRUTH) */
         cartItems,
+        clearCart,
         cartCount,
         addToCart,
         removeFromCart,
@@ -273,6 +278,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         handleRegister,
         handleLogin,
         handleLogout,
+        loadUser,
       }}
     >
       {children}
