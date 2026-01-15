@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Navbar from "./components/navbar/navbar";
 import "./globals.css";
-import { AppProvider } from "./context/contextProvider";
 import { geistMono, geistSans } from "./font";
+import ClientLayout from "./ClientLayout";
 
 export const metadata: Metadata = {
   title: "VastraDrobe",
@@ -23,13 +22,8 @@ export default function RootLayout({
         geistSans.className,
       ].join(" ")}
     >
-      <body cz-shortcut-listen="true">
-        <AppProvider>
-          <div className="sticky top-0 z-99">
-            <Navbar />
-          </div>
-          <div className="">{children}</div>
-        </AppProvider>
+      <body cz-shortcut-listen="true" className="bg-[#f9fafb]">
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

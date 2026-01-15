@@ -201,23 +201,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
    * Use EFFECTS
    *
    */
+
   useEffect(() => {
-    const init = async () => {
-      try {
-        await loadUser();
-
-        // 🔥 LOAD CART ONLY IF USER EXISTS
-        if (user) {
-          await loadCart();
-        }
-      } finally {
-        setAuthLoading(false);
-      }
-    };
-
-    init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    loadUser().finally(() => setAuthLoading(false));
   }, []);
+  useEffect(() => {
+    if (!user) return;
+
+    loadCart(); // 🔥 THIS restores cart after refresh
+  }, [user]);
 
   useEffect(() => {
     if (!user) return;

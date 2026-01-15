@@ -29,7 +29,7 @@ const Footer = ({ className }: { className: string }) => {
   ];
   const Customer = [
     "Track",
-    "Order",
+   
     "Returns & Refunds",
     "Shipping",
     "Information",
@@ -78,11 +78,15 @@ const Footer = ({ className }: { className: string }) => {
         <div className="w-[23%] flex flex-col  pt-7">
           <div className="text-4xl font-bold">Customer Care</div>
           <div className="w-full flex flex-col pt-7 text-left h-[50vh]">
+            <div className={underline}>
+              <Link href={"/orders"}>Orders</Link>
+            </div>
             {Customer.map((items, index) => {
               return (
                 <div key={index} className={underline}>
                   <Link href={`/help/${slugify(items)}`}>{items}</Link>
                 </div>
+                
               );
             })}
           </div>

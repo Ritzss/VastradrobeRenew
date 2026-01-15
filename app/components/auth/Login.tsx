@@ -15,7 +15,6 @@ const Login = () => {
       ...prev,
       [name]: value,
     }));
-    console.log(loginForm);
   };
   return (
     <div className="w-[65%] m-2 h-[70vh] flex">

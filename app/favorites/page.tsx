@@ -6,6 +6,7 @@ import Image from "next/image";
 import StarBorder from "@/components/UI/StarBorder";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import SkeletonLoader from "@/components/Global/SkeletonLoader";
 
 const FavoritesPage = () => {
   const {
@@ -116,10 +117,12 @@ const FavoritesPage = () => {
               ))}
             </div>
             <hr className="border-2" />
+          
           </section>
         );
       })}
       <div>
+        <SkeletonLoader />
         <button className="text-xl w-full flex justify-center items-center gap-2">
           Add New{" "}
           <Link

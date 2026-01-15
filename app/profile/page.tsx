@@ -3,6 +3,8 @@
 import { useAppContext } from "@/hooks/useAppContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ProfileCard from "@/components/UI/ProfileCard";
+import Link from "next/link";
 
 const ProfilePage = () => {
   const { user, authLoading, loadUser } = useAppContext();
@@ -22,7 +24,7 @@ const ProfilePage = () => {
 
   const handleSave = async () => {
     if (!address || !phone) {
-      alert("Address & phone required");
+      alert("Address,Email & phone required");
       return;
     }
 
@@ -46,31 +48,45 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-10">
+    <div className="p-10">
       <h1 className="text-3xl font-bold mb-6">My Profile</h1>
 
-      <div className="bg-white shadow rounded-lg p-6 space-y-4">
-        <div>
-          <label className="text-sm text-gray-600">Username</label>
-          <div className="font-semibold">{user.username}</div>
-        </div>
+      <div className="text-white max-w-5xl mx-auto bg-[#000000e6] shadow rounded-lg p-6 space-y-4">
+        <ProfileCard
+          name={user?.username}
+          handle={user?.username}
+          status=""
+          contactText="Upload photo (optional)"
+          avatarUrl="/Assets/Images/Profiles/profile.svg"
+          showUserInfo={true}
+          enableTilt={false}
+          enableMobileTilt={false}
+          onContactClick={() => console.log("Contact clicked")}
+        />
 
         <div>
-          <label className="text-sm text-gray-600">Email</label>
-          <div className="font-semibold">{user.email}</div>
-        </div>
-
-        <div>
-          <label className="text-sm text-gray-600">Phone</label>
+          <label className="text-sm text-[#ffffff]">Email ID</label>
           <input
+            className="w-full border text-[#ffffffac] cursor-none outline-0 no-caret p-2 rounded"
+            value={user?.email}
+            readOnly
+          />
+        </div>
+        <div>
+          <label className="text-sm text-white">Phone</label>
+          <input
+            type="text"
+            maxLength={10}
+            inputMode="numeric"
+            pattern="[0-9]{10}"
             className="w-full border p-2 rounded"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
           />
         </div>
 
         <div>
-          <label className="text-sm text-gray-600">Delivery Address</label>
+          <label className="text-sm text-white">Delivery Address</label>
           <textarea
             className="w-full border p-2 rounded"
             value={address}
@@ -78,13 +94,41 @@ const ProfilePage = () => {
           />
         </div>
 
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="bg-black text-white px-6 py-2 rounded"
-        >
-          {saving ? "Saving..." : "Save Changes"}
-        </button>
+        <div className="flex justify-end">
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-white text-black px-6 py-2 rounded"
+          >
+            {saving ? "Saving..." : "Save Changes"}
+          </button>
+        </div>
+      </div>
+      <div className="flex justify-around m-5">
+        <Link href={"/orders"} className="w-[33%]">
+          <button
+            type="button"
+            className="bg-[#e7aa00d8] h-[8svh] text-white px-6 py-2 rounded-xl shadow-[inset_0_0_10px_#ffffff] w-full"
+          >
+            Order
+          </button>
+        </Link>
+        <Link href={"/favorites"} className="w-[33%]">
+          <button
+            type="button"
+            className="bg-[#ff0080ce] h-[8svh] text-white px-6 py-2 rounded-xl shadow-[inset_0_0_10px_#ffffff] w-full"
+          >
+            Favorites
+          </button>
+        </Link>
+        <Link href={"/"} className="w-[33%]">
+          <button
+            type="button"
+            className="bg-[#cd0000d0] h-[8svh] text-white px-6 py-2 rounded-xl shadow-[inset_0_0_10px_#ffffff] w-full"
+          >
+            Home
+          </button>
+        </Link>
       </div>
     </div>
   );

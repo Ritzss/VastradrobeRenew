@@ -16,6 +16,9 @@ body.scroll-lock {
 .cardBlock:hover{
   background-color: #cd0000;
 }
+.no-caret {
+  caret-color: transparent;
+}
 
 @media (max-width:320px) {
   #navcontainer{

@@ -8,6 +8,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
   Pid: number;
@@ -98,13 +99,15 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
           </div>
         )}
         <div>
-          <Image
-            src={src}
-            width={150}
-            height={2}
-            alt="image"
-            className="h-55 object-contain hover:scale-110 duration-300 transition-all mx-auto"
-          ></Image>
+          <Link href={`/product/${Pid}`}>
+            <Image
+              src={src}
+              width={150}
+              height={2}
+              alt="image"
+              className="h-55 object-contain hover:scale-110 duration-300 transition-all mx-auto"
+            ></Image>
+          </Link>
         </div>
         <div className="flex-col hover:-translate-y-4 bg-white duration-300 transition-all flex gap-5 flex-1">
           <div className="text-2xl font-bold line-clamp-1">{title}</div>
@@ -117,9 +120,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
           <button
             type="button"
             onClick={handleCartToggle}
-            className="bg-black gap-2 text-white w-[75%] rounded-lg
-                       hover:translate-y-1 hover:rounded-xl duration-500 transition-all
-                       flex justify-center items-center"
+            className="bg-black gap-2 text-white w-[75%] rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
           >
             {isInCart ? (
               <>

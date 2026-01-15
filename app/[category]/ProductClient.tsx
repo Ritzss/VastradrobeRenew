@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCard from "@/components/Global/ProductCard";
+import SkeletonLoader from "@/components/Global/SkeletonLoader";
 import { useAppContext } from "@/hooks/useAppContext";
 import { Product } from "@/Types/Product";
 import { useEffect } from "react";
@@ -25,6 +26,22 @@ const ProductClient = ({
   useEffect(() => {
     setProducts(products);
   }, [products, setProducts]);
+
+  /* ----------------------------------
+     SKELETON
+  -----------------------------------*/
+if(products.length==0){
+    return (
+      <div className="flex flex-wrap justify-evenly gap-6 p-6">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <SkeletonLoader key={i} />
+        ))}
+      </div>
+    );
+}
+
+
+
 
   /* ----------------------------------
      FILTER LOGIC

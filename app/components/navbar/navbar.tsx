@@ -42,7 +42,7 @@ const Navbar = () => {
     >
       <section className=" bg-[#cd0000] text-white flex gap-3 p-[0.5%]">
         <header id={"navcontentheader"}>
-          <Link href={"/"}>
+          < Link scroll={false} href={"/"}>
             <Image
               src={"/Assets/Images/vastradrobe.png"}
               width={120}
@@ -87,7 +87,7 @@ const Navbar = () => {
         <footer id={"navcontentfooter"} className="self-end">
           <aside className="px-3 p-2 flex items-center justify-center gap-5">
             {!authLoading && !isLogged && (
-              <Link href="/account/login">
+              <Link scroll={false} href="/account/login">
                 <div className="flex text-2xl gap-2 items-center">
                   <RiAccountBoxLine />
                   <span className="text-lg">Login</span>
@@ -101,19 +101,19 @@ const Navbar = () => {
             {!authLoading && isLogged && (
               <div className="flex text-2xl gap-4 items-center">
                 <RiAccountBoxFill />
-                <span className="text-lg"><Link href={"/profile"}>{user.username}</Link></span>
+                <span className="text-lg"><Link scroll={false} href={"/profile"}>{user.username}</Link></span>
                 <span className="text-lg cursor-pointer" onClick={handleLogout}>
                   Logout
                 </span>
               </div>
             )}
 
-            <Link href={"/favroites"}>
+            <Link href={"/favorites"} scroll={false}>
               <div className="flex text-xl items-center">
                 <FaRegHeart />
               </div>
             </Link>
-            <Link href={"/cart"}>
+            <Link href={"/cart"} scroll={false}>
               <div className="relative flex text-2xl gap-3 items-center">
                 <FaOpencart />
                 <span className="text-lg">Cart </span>

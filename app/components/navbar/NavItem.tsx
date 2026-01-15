@@ -37,8 +37,8 @@ const NavItem = ({
       ${hover}
       ${active ? `${activeStyle} text-transparent` : ""}`}
       >
-        <Link href={href}>
-        <div className={`w-full ${Img ? "h-25" : "h-3" } flex justify-center overflow-hiddn hover:scale-105 transition-all duration-500`}>
+        <Link href={href} scroll={false}>
+        <div className={`w-full ${Img ? "h-25" : "h-3" } flex justify-center overflow-hidden transition-all duration-500`}>
         {Img && <Image src={src} width={100} height={1} alt="q" className="text-[#cd0000]" />}
         </div>
         {label} 
