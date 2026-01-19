@@ -37,11 +37,11 @@ const Footer = ({ className }: { className: string }) => {
     "FAQs",
   ];
 
-  const slugify = (text: string) =>
-  text
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/\s+/g, "-");
+  // const slugify = (text: string) =>
+  // text
+  //   .toLowerCase()
+  //   .replace(/&/g, "and")
+  //   .replace(/\s+/g, "-");
 
   return (
     <footer
@@ -55,7 +55,7 @@ const Footer = ({ className }: { className: string }) => {
             {Company.map((items, index) => {
               return (
                 <div key={index} className={underline}>
-                  <Link href={`/contactus/${slugify(items)}`}>
+                  <Link href={`#`}>
                     {items}
                   </Link>
                 </div>
@@ -69,7 +69,7 @@ const Footer = ({ className }: { className: string }) => {
             {Category.map((items, index) => {
               return (
                 <div key={index} className={underline}>
-                  <Link href={`/${slugify(items)}`}>{items}</Link>
+                  <Link href={`#`}>{items}</Link>
                 </div>
               );
             })}
@@ -84,7 +84,7 @@ const Footer = ({ className }: { className: string }) => {
             {Customer.map((items, index) => {
               return (
                 <div key={index} className={underline}>
-                  <Link href={`/help/${slugify(items)}`}>{items}</Link>
+                  <Link href={`#`}>{items}</Link>
                 </div>
                 
               );

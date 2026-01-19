@@ -98,7 +98,7 @@ export default function ProductPage() {
       </div>
 
       {/* CENTER: MAIN IMAGE */}
-      <div className="relative w-[40%] aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden">
+      <div className="relative w-[40%] aspect-3/4 bg-neutral-100 rounded-xl overflow-hidden">
         <Image
           src={activeImage}
           alt={product.title}
