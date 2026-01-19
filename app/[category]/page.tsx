@@ -15,6 +15,7 @@ const allowed = [
   "western",
   "traditionals",
   "offers",
+  "electronics",
 ];
 
 export default async function Page({ params }: PageProps) {
