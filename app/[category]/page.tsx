@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import ProductClient from "./ProductClient";
 
 type PageProps = {
@@ -25,12 +26,18 @@ const normalizedCategory = category
   .toLowerCase()
   .replace(/\/$/, "");
 
-
+if (!allowed.includes(normalizedCategory)) {
+  notFound();
+}
 
 
   const res = await fetch("https://fakestoreapi.com/products", {
     cache: "no-store",
   });
+
+  if (!res.ok) {
+    notFound();
+  }
 
   const products = await res.json();
 
