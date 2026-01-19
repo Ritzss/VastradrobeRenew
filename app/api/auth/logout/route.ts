@@ -10,6 +10,8 @@ export async function POST() {
     name: "token",
     value: "",
     httpOnly: true,
+    secure: true,       // 🔥 MUST MATCH login
+    sameSite: "lax",    // 🔥 MUST MATCH login
     path: "/",
     maxAge: 0,
   });

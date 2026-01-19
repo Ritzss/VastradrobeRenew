@@ -173,31 +173,36 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     router.push("/");
   };
 
-  const loadUser = async () => {
-    try {
-      const res = await fetch("/api/auth/me");
-      if (!res.ok) throw new Error();
-
-      const data = await res.json();
-      setUser(data.user);
-    } catch {
-      setUser(null);
-    }
-  };
-  const loadCart = async () => {
-    const res = await fetch("/api/cart");
-    if (!res.ok) return;
-
-    const data = await res.json();
-
-    const map = new Map<number, number>();
-    data.cart.forEach((item: any) => {
-      map.set(item.productId, item.qty);
+ const loadUser = async () => {
+  try {
+    const res = await fetch("/api/auth/me", {
+      credentials: "include", // 🔥 REQUIRED
     });
 
-    setCartItems(map);
-  };
+    if (!res.ok) throw new Error();
 
+    const data = await res.json();
+    setUser(data.user);
+  } catch {
+    setUser(null);
+  }
+};
+  const loadCart = async () => {
+  const res = await fetch("/api/cart", {
+    credentials: "include",
+  });
+
+  if (!res.ok) return;
+
+  const data = await res.json();
+  const map = new Map<number, number>();
+
+  data.cart.forEach((item: any) => {
+    map.set(item.productId, item.qty);
+  });
+
+  setCartItems(map);
+};
   /**
    * Use EFFECTS
    *

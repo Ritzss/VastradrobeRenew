@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import ProductClient from "./ProductClient";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     category: string;
-  };
+  }>;
 };
 
 const allowed = [
@@ -18,7 +18,8 @@ const allowed = [
 ];
 
 export default async function Page({ params }: PageProps) {
-  const { category } = params;
+  // 🔥 IMPORTANT: await params
+  const { category } = await params;
 
   if (!allowed.includes(category)) {
     notFound();

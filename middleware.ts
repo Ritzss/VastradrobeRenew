@@ -1,25 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
-const protectedRoutes = [
-  "/cart",
-  "/checkout",
-  "/favroites",
-  "/profile",
-];
+const protectedRoutes = ["/cart", "/checkout", "/favorites", "/profile"];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // ✅ VERY IMPORTANT — skip API routes
+  // ✅ ALWAYS allow API routes
   if (pathname.startsWith("/api")) {
     return NextResponse.next();
   }
 
+  // 🔒 Check if route is protected
   const isProtected = protectedRoutes.some((route) =>
-    pathname.startsWith(route)
+    pathname.startsWith(route),
   );
 
+  // ✅ Public route → allow
   if (!isProtected) {
     return NextResponse.next();
   }
@@ -43,11 +40,12 @@ export async function middleware(req: NextRequest) {
   }
 }
 
+/* 🔥 VERY IMPORTANT */
 export const config = {
   matcher: [
     "/cart/:path*",
     "/checkout/:path*",
-    "/favroites/:path*",
+    "/favorites/:path*",
     "/profile/:path*",
   ],
 };
