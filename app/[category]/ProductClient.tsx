@@ -1,7 +1,6 @@
 "use client";
 
 import ProductCard from "@/components/Global/ProductCard";
-import SkeletonLoader from "@/components/Global/SkeletonLoader";
 import { useAppContext } from "@/hooks/useAppContext";
 import { Product } from "@/Types/Product";
 import { useEffect } from "react";
@@ -13,46 +12,19 @@ const ProductClient = ({
   products: Product[];
   category: string;
 }) => {
-  const {
-    searchQuery,
-    selectGender,
-    subCategory,
-    setProducts,
-  } = useAppContext();
+  const { searchQuery, selectGender, subCategory, setProducts } =
+    useAppContext();
 
-  /* ----------------------------------
-     STORE PRODUCTS IN CONTEXT
-  -----------------------------------*/
   useEffect(() => {
     setProducts(products);
   }, [products, setProducts]);
 
-  /* ----------------------------------
-     SKELETON
-  -----------------------------------*/
-if(products.length==0){
-    return (
-      <div className="flex flex-wrap justify-evenly gap-6 p-6">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <SkeletonLoader key={i} />
-        ))}
-      </div>
-    );
-}
-
-
-
-
-  /* ----------------------------------
-     FILTER LOGIC
-  -----------------------------------*/
   const filteredProducts = products.filter((p) => {
     const categoryMatch = p.category
       .toLowerCase()
       .includes(category.toLowerCase());
 
-    const normalizedSub =
-      subCategory?.replace(/-/g, " ").toLowerCase() || "";
+    const normalizedSub = subCategory?.replace(/-/g, " ").toLowerCase() || "";
 
     const subCategoryMatch =
       !normalizedSub ||
@@ -65,36 +37,20 @@ if(products.length==0){
       p.description.toLowerCase().includes(searchQuery.toLowerCase());
 
     const genderMatch =
-      !selectGender ||
-      p.category.toLowerCase().includes(selectGender);
+      !selectGender || p.category.toLowerCase().includes(selectGender);
 
-    return (
-      categoryMatch &&
-      subCategoryMatch &&
-      searchMatch &&
-      genderMatch
-    );
+    return categoryMatch && subCategoryMatch && searchMatch && genderMatch;
   });
 
-  /* ----------------------------------
-     EMPTY STATE
-  -----------------------------------*/
   if (filteredProducts.length === 0) {
     return (
       <div className="w-full py-24 text-center">
-        <h2 className="text-2xl font-bold">
-          No products found
-        </h2>
-        <p className="text-gray-500 mt-2">
-          Try selecting a different category
-        </p>
+        <h2 className="text-2xl font-bold">No products found</h2>
+        <p className="text-gray-500 mt-2">Try selecting a different category</p>
       </div>
     );
   }
 
-  /* ----------------------------------
-     RENDER
-  -----------------------------------*/
   return (
     <div className="flex flex-wrap justify-evenly text-black">
       {filteredProducts.map((item) => (

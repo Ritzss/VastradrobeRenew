@@ -2,31 +2,37 @@ import { notFound } from "next/navigation";
 import ProductClient from "./ProductClient";
 
 type PageProps = {
-  params: Promise<{
+  params: {
     category: string;
-  }>;
+  };
 };
 
-const Page = async ({ params }: PageProps) => {
-  const { category } = await params;
-  const allowed = [
-    "men",
-    "women",
-    "boys",
-    "girls",
-    "western",
-    "traditionals",
-    "offers",
-  ];
+const allowed = [
+  "men",
+  "women",
+  "boys",
+  "girls",
+  "western",
+  "traditionals",
+  "offers",
+];
+
+export default async function Page({ params }: PageProps) {
+  const { category } = params;
 
   if (!allowed.includes(category)) {
     notFound();
   }
 
-  const data = await fetch("https://fakestoreapi.com/products");
-  const products = await data.json();
+  const res = await fetch("https://fakestoreapi.com/products", {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    notFound();
+  }
+
+  const products = await res.json();
 
   return <ProductClient products={products} category={category} />;
-};
-
-export default Page;
+}
