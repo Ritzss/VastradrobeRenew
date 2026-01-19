@@ -21,9 +21,15 @@ export default async function Page({ params }: PageProps) {
   // 🔥 IMPORTANT: await params
   const { category } = await params;
 
-  if (!allowed.includes(category)) {
-    notFound();
-  }
+
+const normalizedCategory = category
+  .toLowerCase()
+  .replace(/\/$/, "");
+
+if (!allowed.includes(normalizedCategory)) {
+  notFound();
+}
+
 
   const res = await fetch("https://fakestoreapi.com/products", {
     cache: "no-store",
@@ -35,5 +41,5 @@ export default async function Page({ params }: PageProps) {
 
   const products = await res.json();
 
-  return <ProductClient products={products} category={category} />;
+  return <ProductClient products={products} category={normalizedCategory}/>;
 }
