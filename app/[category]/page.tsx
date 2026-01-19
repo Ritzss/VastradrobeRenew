@@ -37,8 +37,13 @@ if (!allowed.includes(normalizedCategory)) {
   });
 
   if (!res.ok) {
-    notFound();
-  }
+  return (
+    <div style={{ color: "white", padding: 40 }}>
+      <h1>Fetch failed</h1>
+      <p>Status: {res.status}</p>
+    </div>
+  );
+}
 
   const products = await res.json();
 
