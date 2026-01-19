@@ -8,7 +8,7 @@ const SkeletonLoader = () => {
       glareOpacity={0.15}
       glareAngle={-30}
       glareSize={150}
-      width="25%"
+      width="24%"
       height="60svh"
       transitionDuration={800}
       playOnce={false}

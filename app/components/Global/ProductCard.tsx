@@ -49,7 +49,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
       addToCart(Pid); // adds with qty = 1
     }
 
-    router.push("/checkout");
+    router.push(`/checkout?buyNow=${Pid}`);
   };
   return (
     <StarBorder
@@ -98,8 +98,8 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
             ))}
           </div>
         )}
-        <div>
-          <Link href={`/product/${Pid}`}>
+        <Link target="_blank" href={`/product/${Pid}`}>
+          <div>
             <Image
               src={src}
               width={150}
@@ -107,15 +107,17 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
               alt="image"
               className="h-55 object-contain hover:scale-110 duration-300 transition-all mx-auto"
             ></Image>
-          </Link>
-        </div>
-        <div className="flex-col hover:-translate-y-4 bg-white duration-300 transition-all flex gap-5 flex-1">
-          <div className="text-2xl font-bold line-clamp-1">{title}</div>
-          <div>
-            <p className="line-clamp-1">{description}</p>
           </div>
-          <div className="font-bold text-lg ">&#8377;{Number(price) * 100}</div>
-        </div>
+          <div className="flex-col hover:-translate-y-4 duration-300 transition-all flex gap-5 flex-1">
+            <div className="text-2xl font-bold line-clamp-1">{title}</div>
+            <div>
+              <p className="line-clamp-1">{description}</p>
+            </div>
+            <div className="font-bold text-lg ">
+              &#8377;{Number(price) * 100}
+            </div>
+          </div>
+        </Link>
         <div className="flex  gap-2 justify-between">
           <button
             type="button"

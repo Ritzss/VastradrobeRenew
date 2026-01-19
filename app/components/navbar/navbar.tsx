@@ -7,6 +7,7 @@ import { MdSupportAgent } from "react-icons/md";
 import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
 import { useAppContext } from "@/hooks/useAppContext";
 import Link from "next/link";
+import { Home } from "lucide-react";
 
 const Navbar = () => {
   const searchItems = [
@@ -40,9 +41,9 @@ const Navbar = () => {
       id={"navcontainer"}
       className="bg-[#dadada] transition-all ease-in-out duration-500 rounded-xl"
     >
-      <section className=" bg-[#cd0000] text-white flex gap-3 p-[0.5%]">
-        <header id={"navcontentheader"}>
-          < Link scroll={false} href={"/"}>
+      <section className=" bg-[#cd0000] text-white flex justify-around gap-3 p-[0.5%]">
+        <header id={"navcontentheader"} className="flex justify-center items-center gap-3">
+          <Link scroll={false} href={"/"}>
             <Image
               src={"/Assets/Images/vastradrobe.png"}
               width={120}
@@ -50,9 +51,14 @@ const Navbar = () => {
               alt={"Vastradrobe"}
             />
           </Link>
+          <Link href={"/"}>
+            <div className="flex text-2xl gap-2 items-center">
+              <Home />
+            </div>
+          </Link>
         </header>
-        <main id={"navcontentmain"} className="w-[65%] text-black">
-          <span className="border flex bg-white justify-between rounded-xl w-[85%]">
+        <main id={"navcontentmain"} className="w-[40%] text-black">
+          <span className="border flex bg-white justify-between rounded-xl w-full">
             <span className=" w-[20%]">
               <select
                 className="w-full border-r-2  outline-0 p-2"
@@ -101,7 +107,11 @@ const Navbar = () => {
             {!authLoading && isLogged && (
               <div className="flex text-2xl gap-4 items-center">
                 <RiAccountBoxFill />
-                <span className="text-lg"><Link scroll={false} href={"/profile"}>{user.username}</Link></span>
+                <span className="text-lg">
+                  <Link scroll={false} href={"/profile"}>
+                    {user.username}
+                  </Link>
+                </span>
                 <span className="text-lg cursor-pointer" onClick={handleLogout}>
                   Logout
                 </span>

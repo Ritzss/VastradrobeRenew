@@ -14,6 +14,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [selectGender, setSelectGender] = useState<string>("");
   const [subCategory, setSubCategory] = useState<string>("");
   const [products, setProducts] = useState<Product[]>([]);
+  const [cartLoaded, setCartLoaded] = useState<boolean>(false);
   const [cartItems, setCartItems] = useState<Map<number, number>>(new Map());
   const router = useRouter();
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -205,14 +206,20 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     loadUser().finally(() => setAuthLoading(false));
   }, []);
+  
   useEffect(() => {
-    if (!user) return;
+  if (!user) return;
 
-    loadCart(); // 🔥 THIS restores cart after refresh
-  }, [user]);
+  const initCart = async () => {
+    await loadCart();      // ⬅️ pulls cart from DB
+    setCartLoaded(true);   // ⬅️ marks cart as safe
+  };
+
+  initCart();
+}, [user]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !cartLoaded) return;
 
     const cartArray = Array.from(cartItems.entries()).map(
       ([productId, qty]) => ({ productId, qty })
@@ -223,7 +230,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cart: cartArray }),
     });
-  }, [cartItems, user]);
+  }, [cartItems, user, cartLoaded]);
 
   /**
    * USE EFFECTS END

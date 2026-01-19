@@ -2,41 +2,83 @@
 
 import { useAppContext } from "@/hooks/useAppContext";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const CheckoutPage = () => {
-  const { user, clearCart, cartItems, authLoading, products, loadUser } = useAppContext();
+  const {
+    user,
+    clearCart,
+    cartItems,
+    authLoading,
+    products,
+    loadUser,
+  } = useAppContext();
+
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const buyNowId = searchParams.get("buyNow"); // 🔥 NEW
+
   const [address, setAddress] = useState(
     () => user?.deliveryAddress?.address || ""
   );
-  const [phone, setPhone] = useState(() => user?.deliveryAddress?.phone || "");
+  const [phone, setPhone] = useState(
+    () => user?.deliveryAddress?.phone || ""
+  );
+
+  /* ---------------- AUTH GUARD ---------------- */
   useEffect(() => {
     if (!authLoading && !user) {
       router.push("/account/login");
     }
   }, [authLoading, user, router]);
+
   if (authLoading || !user) return null;
-  const cartProducts = products.filter((p) => cartItems.has(p.id));
-  const total = cartProducts.reduce((sum, p) => {
-    const qty = cartItems.get(p.id) || 1;
-    return sum + p.price * qty;
-  }, 0);
-  if (cartProducts.length === 0) {
+
+  /* ---------------- CHECKOUT MODE LOGIC ---------------- */
+  let checkoutProducts: any[] = [];
+
+  if (buyNowId) {
+    // 🔥 BUY NOW MODE
+    const product = products.find(
+      (p) => p.id === Number(buyNowId)
+    );
+    if (product) {
+      checkoutProducts = [{ ...product, qty: 1 }];
+    }
+  } else {
+    // 🛒 CART MODE
+    checkoutProducts = products
+      .filter((p) => cartItems.has(p.id))
+      .map((p) => ({
+        ...p,
+        qty: cartItems.get(p.id)!,
+      }));
+  }
+
+  if (!checkoutProducts.length) {
     return <div className="p-10 text-xl">Your cart is empty</div>;
   }
+
+  const total = checkoutProducts.reduce(
+    (sum, p) => sum + p.price * p.qty,
+    0
+  );
+
+  /* ---------------- PLACE ORDER ---------------- */
   const handlePlaceOrder = async () => {
     if (!address || !phone) {
       alert("Please enter address and phone number");
       return;
     }
-    const productsPayload = cartProducts.map((p) => ({
+
+    const productsPayload = checkoutProducts.map((p) => ({
       productId: p.id,
       title: p.title,
       price: p.price,
-      qty: cartItems.get(p.id),
+      qty: p.qty,
     }));
+
     try {
       const res = await fetch("/api/orders/place", {
         method: "POST",
@@ -45,23 +87,31 @@ const CheckoutPage = () => {
           address,
           phone,
           products: productsPayload,
+          buyNow: !!buyNowId, // 🔥 NEW
         }),
       });
+
       const data = await res.json();
+
       if (!res.ok) {
         alert(data.message || "Order failed");
         return;
       }
-      clearCart();
+
+      if (!buyNowId) {
+        clearCart(); // ✅ ONLY clear cart for cart checkout
+      }
+
       alert("Order placed successfully!");
       await loadUser();
-      router.push("/orders"); // next: order success page
+      router.push("/orders");
     } catch (err) {
       console.error("Order error:", err);
       alert("Something went wrong");
     }
   };
 
+  /* ---------------- UI (UNCHANGED) ---------------- */
   return (
     <div className="p-10 grid grid-cols-3 gap-8">
       <div className="col-span-2">
@@ -81,19 +131,23 @@ const CheckoutPage = () => {
           />
         </div>
       </div>
+
       <div className="bg-white p-4 rounded-lg shadow h-fit">
-        {cartProducts.map((item) => (
+        {checkoutProducts.map((item) => (
           <div key={item.id} className="flex justify-between mb-2">
             <Image src={item.image} width={40} height={40} alt="" />
-            <span>x{cartItems.get(item.id)}</span>
+            <span>x{item.qty}</span>
             <span>₹{Math.round(item.price * 100)}</span>
           </div>
         ))}
+
         <hr />
+
         <div className="flex justify-between font-bold text-lg mt-2">
           <span>Total</span>
           <span>₹{Math.round(total * 100)}</span>
         </div>
+
         <button
           className="mt-4 w-full bg-black text-white py-2 rounded-lg"
           onClick={handlePlaceOrder}

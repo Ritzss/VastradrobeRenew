@@ -61,7 +61,7 @@ const ProfilePage = () => {
           showUserInfo={true}
           enableTilt={false}
           enableMobileTilt={false}
-          onContactClick={() => console.log("Contact clicked")}
+          onContactClick={() => console.log("will update in next version")}
         />
 
         <div>

@@ -6,7 +6,7 @@ import Image from "next/image";
 import StarBorder from "@/components/UI/StarBorder";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import SkeletonLoader from "@/components/Global/SkeletonLoader";
+import { Plus } from "lucide-react";
 
 const FavoritesPage = () => {
   const {
@@ -38,9 +38,9 @@ const FavoritesPage = () => {
         {!showInput ? (
           <button
             onClick={() => setShowInput(true)}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 bg-black text-white rounded-md flex gap-2"
           >
-            ➕ New Collection
+            <Plus /> New Collection
           </button>
         ) : (
           <>
@@ -122,12 +122,11 @@ const FavoritesPage = () => {
         );
       })}
       <div>
-        <SkeletonLoader />
         <button className="text-xl w-full flex justify-center items-center gap-2">
           Add New{" "}
           <Link
             href={"/"}
-            className="p-2 rounded bg-[#cd0000] duration-500 transition-all hover:rounded-3xl text-white hover:shadow-[inset_0_0_10px_#000000]"
+            className="p-2 rounded bg-[#cd0000] duration-500 transition-all hover:rounded-xl text-white"
           >
             Favorites
           </Link>
