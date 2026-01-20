@@ -38,7 +38,7 @@ if (!allowed.includes(normalizedCategory)) {
 
   if (!res.ok) {
   return (
-    <div style={{ color: "white", padding: 40 }}>
+    <div style={{ color: "black", padding: 40 }}>
       <h1>Fetch failed</h1>
       <p>Status: {res.status}</p>
     </div>

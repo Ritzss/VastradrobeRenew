@@ -19,10 +19,10 @@ const CategoryBar = (props: { className: unknown; drop: boolean; Img:boolean }) 
       className={`flex overflow-hidden justify-evenly border text-xl rounded-b-xl w-full ${props.className}`}
     >
       <NavItem
-        href="/electronics"
+        href="/men"
         src="/Assets/Images/CateImg/mennew.png"
         label="Men"
-        active={isActive("/electonics")}
+        active={isActive("/men")}
         hover="hover:bg-[#00ffff] hover:shadow-[inset_0_0_10px_0_#00ffff]"
         activeStyle="bg-[#00ffff] shadow-[inset_0_0_10px_0_#00ffff]"
         dropdown={<Menbox />}
