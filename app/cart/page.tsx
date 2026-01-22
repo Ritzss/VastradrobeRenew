@@ -163,6 +163,7 @@ const CartPage = () => {
         <Link href="/checkout">
           <button className="bg-black text-white px-8 py-3 rounded-lg text-lg">
             Proceed to Checkout
+            hello
           </button>
         </Link>
       </div>
