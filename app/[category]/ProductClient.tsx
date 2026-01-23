@@ -2,14 +2,14 @@
 
 import ProductCard from "@/components/Global/ProductCard";
 import { useAppContext } from "@/hooks/useAppContext";
-import { Product } from "@/Types/Product";
+import { IMSProduct } from "@/Types/Product";
 import { useEffect } from "react";
 
 const ProductClient = ({
   products,
   category,
 }: {
-  products: Product[];
+  products: IMSProduct[];
   category: string;
 }) => {
   const { searchQuery, selectGender, subCategory, setProducts } =
@@ -19,34 +19,47 @@ const ProductClient = ({
     setProducts(products);
   }, [products, setProducts]);
 
-  const filteredProducts = products.filter((p) => {
-    const categoryMatch = p.category
+  const normalizedCategory = category.trim().toLowerCase();
+  const normalizedGender = selectGender?.trim().toLowerCase();
+  const normalizedSub =
+    subCategory?.replace(/-/g, " ").trim().toLowerCase() || "";
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
+ const filteredProducts = products.filter((p) => {
+  const productCategory =
+    p.category?.trim().toLowerCase() || "";
+
+  const categoryMatch =
+    productCategory.split(" ").includes(normalizedCategory);
+
+  const genderMatch =
+    !normalizedGender || productCategory.includes(normalizedGender);
+
+  const productSub =
+    (p.subcategory || p.subcategory || "")
+      .trim()
+      .toLowerCase();
+
+  const subCategoryMatch =
+    !normalizedSub || productSub === normalizedSub;
+
+  const searchMatch =
+    !normalizedSearch ||
+    p.name.toLowerCase().includes(normalizedSearch) ||
+    (p.description || "")
       .toLowerCase()
-      .includes(category.toLowerCase());
+      .includes(normalizedSearch);
 
-    const normalizedSub = subCategory?.replace(/-/g, " ").toLowerCase() || "";
-
-    const subCategoryMatch =
-      !normalizedSub ||
-      p.title.toLowerCase().includes(normalizedSub) ||
-      p.description.toLowerCase().includes(normalizedSub);
-
-    const searchMatch =
-      !searchQuery.trim() ||
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const genderMatch =
-      !selectGender || p.category.toLowerCase().includes(selectGender);
-
-    return categoryMatch && subCategoryMatch && searchMatch && genderMatch;
-  });
+  return categoryMatch && genderMatch && subCategoryMatch && searchMatch;
+});
 
   if (filteredProducts.length === 0) {
     return (
       <div className="w-full py-24 text-center">
         <h2 className="text-2xl font-bold">No products found</h2>
-        <p className="text-gray-500 mt-2">Try selecting a different category</p>
+        <p className="text-gray-500 mt-2">
+          Try selecting a different category
+        </p>
       </div>
     );
   }
@@ -55,11 +68,11 @@ const ProductClient = ({
     <div className="flex flex-wrap justify-evenly text-black">
       {filteredProducts.map((item) => (
         <ProductCard
-          key={item.id}
-          Pid={item.id}
-          title={item.title}
-          src={item.image}
-          description={item.description}
+          key={item.productId}
+          Pid={item.productId}
+          title={item.name}
+          src={item.images?.[0] || "/Assets/Images/placeholder.png"}
+          description={item.description || ""}
           price={item.price}
         />
       ))}

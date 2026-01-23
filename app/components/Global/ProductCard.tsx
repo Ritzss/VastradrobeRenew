@@ -114,7 +114,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
               <p className="line-clamp-1">{description}</p>
             </div>
             <div className="font-bold text-lg ">
-              &#8377;{Number(price) * 100}
+              &#8377;{Number(price)}
             </div>
           </div>
         </Link>

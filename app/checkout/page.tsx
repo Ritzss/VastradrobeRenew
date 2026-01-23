@@ -4,6 +4,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { IMSProduct } from "@/Types/Product";
 
 const CheckoutPage = () => {
   const {
@@ -17,7 +18,7 @@ const CheckoutPage = () => {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const buyNowId = searchParams.get("buyNow"); // 🔥 NEW
+  const buyNowId = searchParams.get("buyNow");
 
   const [address, setAddress] = useState(
     () => user?.deliveryAddress?.address || ""
@@ -36,23 +37,24 @@ const CheckoutPage = () => {
   if (authLoading || !user) return null;
 
   /* ---------------- CHECKOUT MODE LOGIC ---------------- */
-  let checkoutProducts: any[] = [];
+  let checkoutProducts: (IMSProduct & { qty: number })[] = [];
 
   if (buyNowId) {
     // 🔥 BUY NOW MODE
     const product = products.find(
-      (p) => p.id === Number(buyNowId)
+      (p) => p.productId === Number(buyNowId)
     );
+
     if (product) {
       checkoutProducts = [{ ...product, qty: 1 }];
     }
   } else {
     // 🛒 CART MODE
     checkoutProducts = products
-      .filter((p) => cartItems.has(p.id))
+      .filter((p) => cartItems.has(p.productId))
       .map((p) => ({
         ...p,
-        qty: cartItems.get(p.id)!,
+        qty: cartItems.get(p.productId)!,
       }));
   }
 
@@ -73,8 +75,8 @@ const CheckoutPage = () => {
     }
 
     const productsPayload = checkoutProducts.map((p) => ({
-      productId: p.id,
-      title: p.title,
+      productId: p.productId,
+      name: p.name,
       price: p.price,
       qty: p.qty,
     }));
@@ -87,19 +89,17 @@ const CheckoutPage = () => {
           address,
           phone,
           products: productsPayload,
-          buyNow: !!buyNowId, // 🔥 NEW
+          buyNow: !!buyNowId,
         }),
       });
 
-      const data = await res.json();
-
       if (!res.ok) {
-        alert(data.message || "Order failed");
-        return;
+        const text = await res.text();
+        throw new Error(text);
       }
 
       if (!buyNowId) {
-        clearCart(); // ✅ ONLY clear cart for cart checkout
+        clearCart();
       }
 
       alert("Order placed successfully!");
@@ -111,7 +111,7 @@ const CheckoutPage = () => {
     }
   };
 
-  /* ---------------- UI (UNCHANGED) ---------------- */
+  /* ---------------- UI ---------------- */
   return (
     <div className="p-10 grid grid-cols-3 gap-8">
       <div className="col-span-2">
@@ -134,10 +134,18 @@ const CheckoutPage = () => {
 
       <div className="bg-white p-4 rounded-lg shadow h-fit">
         {checkoutProducts.map((item) => (
-          <div key={item.id} className="flex justify-between mb-2">
-            <Image src={item.image} width={40} height={40} alt="" />
+          <div
+            key={item.productId}
+            className="flex justify-between items-center mb-2"
+          >
+            <Image
+              src={item.images?.[0] || "/Assets/Images/placeholder.png"}
+              width={40}
+              height={40}
+              alt={item.name}
+            />
             <span>x{item.qty}</span>
-            <span>₹{Math.round(item.price * 100)}</span>
+            <span>₹{item.price * item.qty}</span>
           </div>
         ))}
 
@@ -145,7 +153,7 @@ const CheckoutPage = () => {
 
         <div className="flex justify-between font-bold text-lg mt-2">
           <span>Total</span>
-          <span>₹{Math.round(total * 100)}</span>
+          <span>₹{total}</span>
         </div>
 
         <button
