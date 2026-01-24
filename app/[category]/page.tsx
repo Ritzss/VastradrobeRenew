@@ -19,33 +19,37 @@ const allowed = [
 ];
 
 export default async function Page({ params }: PageProps) {
-  // 🔥 IMPORTANT: await params
   const { category } = await params;
 
+  const normalizedCategory = category.toLowerCase().replace(/\/$/, "");
 
-const normalizedCategory = category
-  .toLowerCase()
-  .replace(/\/$/, "");
+  if (!allowed.includes(normalizedCategory)) {
+    notFound();
+  }
 
-if (!allowed.includes(normalizedCategory)) {
-  notFound();
-}
+ const res = await fetch(
+  `${process.env.IMS_BASE_URL}/api/ims/public/products`,
+  { cache: "no-store" }
+);
 
-
-  const res = await fetch("https://fakestoreapi.com/products", {
-    cache: "no-store",
-  });
+const data = await res.json();
 
   if (!res.ok) {
+    return (
+      <div style={{ color: "black", padding: 40 }}>
+        <h1>Fetch failed</h1>
+        <p>Status: {res.status}</p>
+      </div>
+    );
+  }
+
+  // ✅ THIS IS THE FIX
+
+const products = data.products;
   return (
-    <div style={{ color: "black", padding: 40 }}>
-      <h1>Fetch failed</h1>
-      <p>Status: {res.status}</p>
-    </div>
+    <ProductClient
+      products={products}
+      category={normalizedCategory}
+    />
   );
-}
-
-  const products = await res.json();
-
-  return <ProductClient products={products} category={normalizedCategory}/>;
 }

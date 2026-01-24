@@ -1,43 +1,26 @@
-'use client'
+"use client";
 
-import React, { ReactNode, useEffect } from 'react'
-import { AppProvider } from './context/contextProvider'
-import { AnimatePresence, motion } from 'framer-motion'
-import Navbar from './components/navbar/navbar'
-import { usePathname } from 'next/navigation'
+import React, { ReactNode, useEffect } from "react";
+import { AppProvider } from "./context/contextProvider";
+import Navbar from "./components/navbar/navbar";
+import { Toaster } from "sonner";
 
-const ClientLayout = ({children}:{children:ReactNode}) => {
-const pathname = usePathname();
+const ClientLayout = ({ children }: { children: ReactNode }) => {
 
-useEffect(() => {
-  if ("scrollRestoration" in history) {
-    history.scrollRestoration = "manual";
-  }
-}, []);
-    return (
-      <AppProvider>
-    <AnimatePresence mode="wait">
-          <motion.main
-            key={pathname}
-            className="min-h-svh"
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{
-              duration: 0.35,
-              ease: [0.22, 1, 0.36, 1], // premium easing
-            }}
-          >
-          
-         
-          <div className="sticky top-0 z-99">
-            <Navbar />
-          </div>
-          <div className="">{children}</div>
-         </motion.main>
-        </AnimatePresence>
-        </AppProvider>
-  )
-}
+  useEffect(() => {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+  }, []);
+  return (
+    <AppProvider>
+      <Toaster position="top-right" richColors/>
+      <div className="sticky top-0 z-99">
+        <Navbar />
+      </div>
+      <div className="">{children}</div>
+    </AppProvider>
+  );
+};
 
-export default ClientLayout
+export default ClientLayout;

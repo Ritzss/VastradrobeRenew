@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, Dispatch, SetStateAction } from "react";
-import { Product } from "@/Types/Product";
+import { IMSProduct } from "@/Types/Product";
 import { AuthUser } from "@/Types/AuthUser";
 
 export type LoginData = {
@@ -24,20 +24,24 @@ export interface AppContextType {
   subCategory: string;
   setSubCategory: Dispatch<SetStateAction<string>>;
 
-  /* 🛒 Cart (FIXED) */
+  /* 🛒 Cart */
   cartItems: Map<number, number>;
   cartCount: number;
-  clearCart:()=>void;
+  clearCart: () => void;
   addToCart: (id: number) => void;
   removeFromCart: (id: number) => void;
   incrementQty: (id: number) => void;
   decrementQty: (id: number) => void;
+
+  /* ❤️ Favorites (DB-backed) */
   favCollections: Record<string, Set<number>>;
-  addToCollection: (collection: string, id: number) => void;
-  removeFromCollection: (collection: string, id: number) => void;
-  createCollection: (collection: string) => void;
-  products: Product[];
-  setProducts: Dispatch<SetStateAction<Product[]>>;
+  createCollection: (collection: string) => Promise<void>;
+  addToCollection: (collection: string, id: number) => Promise<void>;
+  removeFromCollection: (collection: string, id: number) => Promise<void>;
+
+  /* 📦 Products */
+  products: IMSProduct[];
+  setProducts: Dispatch<SetStateAction<IMSProduct[]>>;
 
   /* 🔐 Auth */
   loginForm: LoginData;
@@ -46,12 +50,12 @@ export interface AppContextType {
   setRegisterForm: Dispatch<SetStateAction<RegisterData>>;
   handleRegister: (e: React.FormEvent) => void;
   handleLogin: (e: React.FormEvent) => void;
-  handleLogout: (e: React.FormEvent) => void;
-  authLoading:boolean;
-  setAuthLoading:Dispatch<SetStateAction<boolean>>;
+  handleLogout: () => void;
   loadUser: () => Promise<void>;
-  user:AuthUser | null;
-  setUser:Dispatch<SetStateAction<AuthUser | null>>;
+  authLoading: boolean;
+  user: AuthUser | null;
 }
 
-export const AppContext = createContext<AppContextType | undefined>(undefined);
+export const AppContext = createContext<AppContextType | undefined>(
+  undefined
+);

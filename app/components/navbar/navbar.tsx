@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaOpencart, FaRegHeart } from "react-icons/fa6";
-import { IoSearch } from "react-icons/io5";
+import { IoCart, IoSearch } from "react-icons/io5";
 import { MdSupportAgent } from "react-icons/md";
 import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
 import { useAppContext } from "@/hooks/useAppContext";
@@ -18,6 +18,7 @@ const Navbar = () => {
     "etc..",
   ];
   const [index, setIndex] = useState(0);
+  const [acc, setAcc] = useState<boolean>(false);
   const {
     user,
     authLoading,
@@ -36,13 +37,31 @@ const Navbar = () => {
     return () => clearInterval(id);
   });
 
+  const timerRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  const handleMouseEnter = () => {
+    timerRef.current = setTimeout(() => {
+      setAcc(true);
+    }, 500); //
+  };
+
+  const handleMouseLeave = () => {
+    if (timerRef.current !== undefined) {
+      clearTimeout(timerRef.current);
+    }
+    setAcc(false);
+  };
+
   return (
     <nav
       id={"navcontainer"}
       className="bg-[#dadada] transition-all ease-in-out duration-500 rounded-xl"
     >
       <section className=" bg-[#cd0000] text-white flex justify-around gap-3 p-[0.5%]">
-        <header id={"navcontentheader"} className="flex justify-center items-center gap-3">
+        <header
+          id={"navcontentheader"}
+          className="flex justify-center items-center gap-3"
+        >
           <Link scroll={false} href={"/"}>
             <Image
               src={"/Assets/Images/vastradrobe.png"}
@@ -105,24 +124,37 @@ const Navbar = () => {
             </div>
 
             {!authLoading && isLogged && (
-              <div className="flex text-2xl gap-4 items-center">
+              <div
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                className="flex text-2xl gap-4 items-center"
+              >
                 <RiAccountBoxFill />
-                <span className="text-lg">
-                  <Link scroll={false} href={"/profile"}>
-                    {user.username}
-                  </Link>
-                </span>
+                <div className="text-lg cursor-pointer relative">Account</div>
+                {acc && (
+                  <div className="text-lg absolute border-[#cd0000] border -bottom-28 right-50 rounded-lg duration-500 transition-all bg-white">
+                    <span className="text-[#cd0000] m-2 h-full flex flex-col gap-3">
+                      <Link className="border-b hover:text-right" scroll={false} href={"/profile"}>
+                        {user.username}
+                      </Link>
+                      <Link className="border-b hover:text-right" href={"/favorites"} scroll={false}>
+                        <div className="flex gap-2 items-center">
+                          <FaRegHeart /> Favorites
+                        </div>
+                      </Link>
+                      <Link className="border-b hover:text-right" href={"/orders"} scroll={false}>
+                        <div className="flex gap-2 items-center">
+                          <IoCart /> Orders
+                        </div>
+                      </Link>
+                    </span>
+                  </div>
+                )}
                 <span className="text-lg cursor-pointer" onClick={handleLogout}>
                   Logout
                 </span>
               </div>
             )}
-
-            <Link href={"/favorites"} scroll={false}>
-              <div className="flex text-xl items-center">
-                <FaRegHeart />
-              </div>
-            </Link>
             <Link href={"/cart"} scroll={false}>
               <div className="relative flex text-2xl gap-3 items-center">
                 <FaOpencart />

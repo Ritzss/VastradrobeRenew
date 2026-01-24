@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/db";
 import User from "@/model/User";
+import { toast } from "sonner";
 
 export async function POST(req: Request) {
   try {
@@ -25,6 +26,7 @@ export async function POST(req: Request) {
     });
 
     if (existingUser) {
+      toast.error("user already have")
       return NextResponse.json(
         { message: "Username or email already exists" },
         { status: 409 }

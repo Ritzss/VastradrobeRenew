@@ -79,7 +79,7 @@ const OrdersPage = () => {
             >
               <span className="line-clamp-1">{item.title}</span>
               <span>
-                x{item.qty} · ₹{Math.round(item.price * 100)}
+                x{item.qty} · ₹{Math.round(item.price)}
               </span>
             </div>
           ))}
@@ -88,7 +88,7 @@ const OrdersPage = () => {
 
           <div className="flex justify-between font-semibold">
             <span>Total</span>
-            <span>₹{Math.round(order.totalAmount * 100)}</span>
+            <span>₹{Math.round(order.totalAmount)}</span>
           </div>
 
           <div className="mt-2 text-sm text-gray-600">
