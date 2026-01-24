@@ -1,60 +1,42 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
 import { AppContext, LoginData, RegisterData } from "./AppContext";
-import { Product } from "@/Types/Product";
-import { useRouter } from "next/navigation";
+import { IMSProduct } from "@/Types/Product";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AuthUser } from "@/Types/AuthUser";
+import { toast } from "sonner";
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  /* ---------------- AUTH ---------------- */
-
-  /* ---------------- SEARCH / FILTER ---------------- */
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectGender, setSelectGender] = useState<string>("");
-  const [subCategory, setSubCategory] = useState<string>("");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [cartLoaded, setCartLoaded] = useState<boolean>(false);
-  const [cartItems, setCartItems] = useState<Map<number, number>>(new Map());
   const router = useRouter();
+
+  /* 🔍 Search & Filter */
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectGender, setSelectGender] = useState("");
+  const [subCategory, setSubCategory] = useState("");
+
+  /* 📦 Products */
+  const [products, setProducts] = useState<IMSProduct[]>([]);
+
+  /* 🔐 Auth */
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
+  const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
 
-  /* ❤️ FAVORITES */
+  /* 🛒 Cart */
+  const [cartItems, setCartItems] = useState<Map<number, number>>(new Map());
+
+  /* ❤️ Favorites (DB-backed) */
   const [favCollections, setFavCollections] = useState<
     Record<string, Set<number>>
-  >({
-    Favorites: new Set(), // default collection
-  });
+  >({});
 
-  const clearCart = () => {
-    setCartItems(new Map());
-  };
+  /* ---------------- CART ---------------- */
 
-  const createCollection = (name: string) => {
-    setFavCollections((prev) => ({
-      ...prev,
-      [name]: new Set(),
-    }));
-  };
-
-  const addToCollection = (collection: string, id: number) => {
-    setFavCollections((prev) => {
-      const next = { ...prev };
-      next[collection] = new Set(next[collection]).add(id);
-      return next;
-    });
-  };
-
-  const removeFromCollection = (collection: string, id: number) => {
-    setFavCollections((prev) => {
-      const next = { ...prev };
-      const set = new Set(next[collection]);
-      set.delete(id);
-      next[collection] = set;
-      return next;
-    });
-  };
+  const clearCart = () => setCartItems(new Map());
 
   const addToCart = (id: number) => {
     setCartItems((prev) => {
@@ -62,6 +44,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       next.set(id, (next.get(id) || 0) + 1);
       return next;
     });
+    toast.success(`item is added to cart`)
   };
 
   const removeFromCart = (id: number) => {
@@ -70,6 +53,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       next.delete(id);
       return next;
     });
+    toast.error(`item is removed to cart`)
   };
 
   const incrementQty = (id: number) => {
@@ -94,7 +78,72 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     0
   );
 
-  /* ---------------- FORMS ---------------- */
+  /* ---------------- FAVORITES (API) ---------------- */
+
+  const loadFavorites = async () => {
+  const res = await fetch("/api/favorites", {
+    credentials: "include",
+  });
+
+  const parsed: Record<string, Set<number>> = {
+    Favorites: new Set(), // 👈 DEFAULT
+  };
+
+  if (res.ok) {
+    const data = await res.json();
+
+    Object.entries(data.favorites || {}).forEach(
+      ([collection, ids]: any) => {
+        parsed[collection] = new Set(ids);
+      }
+    );
+  }
+
+  setFavCollections(parsed);
+};
+
+
+  const createCollection = async (collection: string) => {
+    // no API needed yet, collection auto-created on add
+    setFavCollections((prev) => ({
+      ...prev,
+      [collection]: new Set(),
+    }));
+    toast.success(`New Collection ${collection} Cretated`)
+  };
+
+  const addToCollection = async (collection: string, id: number) => {
+    await fetch("/api/favorites/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ collection, productId: id }),
+    });
+
+    setFavCollections((prev) => {
+      const next = { ...prev };
+      next[collection] = new Set(next[collection] || []).add(id);
+      return next;
+    });
+  };
+
+  const removeFromCollection = async (collection: string, id: number) => {
+    await fetch("/api/favorites/remove", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ collection, productId: id }),
+    });
+
+    setFavCollections((prev) => {
+      const next = { ...prev };
+      const set = new Set(next[collection]);
+      set.delete(id);
+      next[collection] = set;
+      return next;
+    });
+  };
+
+  /* ---------------- AUTH ---------------- */
+
   const [loginForm, setLoginForm] = useState<LoginData>({
     email: "",
     password: "",
@@ -106,35 +155,44 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     password: "",
   });
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const loadUser = async () => {
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: registerForm.username,
-          email: registerForm.email,
-          password: registerForm.password,
-        }),
+      const res = await fetch("/api/auth/me", {
+        credentials: "include",
       });
-
+      if (!res.ok) throw new Error();
       const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message);
-        return;
-      }
-
-      setRegisterForm({ username: "", email: "", password: "" });
-      await loadUser();
-      router.push("/"); // or wherever you want after login
-    } catch (err) {
-      console.error("Register error:", err);
-      alert("Something went wrong");
+      setUser(data.user);
+    } catch {
+      setUser(null);
     }
   };
+
+ const handleRegister = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const res = await fetch("/api/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(registerForm),
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+    toast.error(data.message || "Registration failed");
+    return;
+  }
+
+  setRegisterForm({ username: "", email: "", password: "" });
+  toast.success("Account created");
+
+  router.replace("/");
+
+  setTimeout(() => {
+    loadUser();
+  }, 0);
+};
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,116 +200,60 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: loginForm.email, // 🔴 LOGIN IS BY EMAIL
-          password: loginForm.password,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginForm),
       });
 
-      const data = await res.json();
+      // ⬇️ THIS is the critical part
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch {
+        // backend crashed before sending JSON
+      }
 
       if (!res.ok) {
-        alert(data.message || "Login failed");
+        toast.error(data?.message || "Login failed");
         return;
       }
 
-      // ✅ success
-      setLoginForm({ email: "", password: "" });
-      await loadUser();
-      router.push("/"); // or dashboard / profile
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("Something went wrong");
+      toast.success("Logged in successfully");
+
+      router.replace(safeRedirect);
+
+      // hydrate user AFTER navigation
+      setTimeout(() => {
+        loadUser();
+      }, 0);
+    } catch {
+      toast.error("Server error. Please try again.");
     }
   };
+
+
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     setUser(null);
-    router.push("/");
+    setFavCollections({});
+     router.replace("/");
   };
 
- const loadUser = async () => {
-  try {
-    const res = await fetch("/api/auth/me", {
-      credentials: "include", // 🔥 REQUIRED
-    });
-
-    if (!res.ok) throw new Error();
-
-    const data = await res.json();
-    setUser(data.user);
-  } catch {
-    setUser(null);
-  }
-};
-  const loadCart = async () => {
-  const res = await fetch("/api/cart", {
-    credentials: "include",
-  });
-
-  if (!res.ok) return;
-
-  const data = await res.json();
-  const map = new Map<number, number>();
-
-  data.cart.forEach((item: any) => {
-    map.set(item.productId, item.qty);
-  });
-
-  setCartItems(map);
-};
-  /**
-   * Use EFFECTS
-   *
-   */
+  /* ---------------- EFFECTS ---------------- */
 
   useEffect(() => {
     loadUser().finally(() => setAuthLoading(false));
   }, []);
-  
-  useEffect(() => {
-  if (!user) return;
-
-  const initCart = async () => {
-    await loadCart();      // ⬅️ pulls cart from DB
-    setCartLoaded(true);   // ⬅️ marks cart as safe
-  };
-
-  initCart();
-}, [user]);
 
   useEffect(() => {
-    if (!user || !cartLoaded) return;
+    if (!user) return;
+    loadFavorites();
+  }, [user]);
 
-    const cartArray = Array.from(cartItems.entries()).map(
-      ([productId, qty]) => ({ productId, qty })
-    );
-
-    fetch("/api/cart/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart: cartArray }),
-    });
-  }, [cartItems, user, cartLoaded]);
-
-  /**
-   * USE EFFECTS END
-   *
-   */
+  /* ---------------- PROVIDER ---------------- */
 
   return (
     <AppContext.Provider
       value={{
-        /* auth */
-        authLoading,
-        setAuthLoading,
-        user,
-        setUser,
-
-        /* search / filter */
         searchQuery,
         setSearchQuery,
         selectGender,
@@ -259,22 +261,22 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         subCategory,
         setSubCategory,
 
-        /* cart (SINGLE SOURCE OF TRUTH) */
         cartItems,
-        clearCart,
         cartCount,
+        clearCart,
         addToCart,
         removeFromCart,
         incrementQty,
         decrementQty,
+
         favCollections,
         createCollection,
         addToCollection,
         removeFromCollection,
+
         products,
         setProducts,
 
-        /* forms */
         loginForm,
         setLoginForm,
         registerForm,
@@ -283,6 +285,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         handleLogin,
         handleLogout,
         loadUser,
+        authLoading,
+        user,
       }}
     >
       {children}

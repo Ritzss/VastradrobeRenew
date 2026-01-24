@@ -1,7 +1,6 @@
 import Login from '@/components/auth/Login';
 import Register from '@/components/auth/Register';
 import { notFound } from 'next/navigation';
-import React from 'react'
 
 type PageProps = {
   params: {

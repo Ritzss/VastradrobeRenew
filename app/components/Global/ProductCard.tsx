@@ -91,7 +91,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
                   setSelectedCollection(collection);
                   setShowCollections(false);
                 }}
-                className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer whitespace-nowrap"
+                className="px-4 py-2 text-sm hover:bg-gray-100 hover:rounded-xl cursor-pointer whitespace-nowrap"
               >
                 {collection}
               </div>

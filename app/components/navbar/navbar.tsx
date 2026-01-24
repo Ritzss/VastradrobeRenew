@@ -49,7 +49,7 @@ const Navbar = () => {
     if (timerRef.current !== undefined) {
       clearTimeout(timerRef.current);
     }
-    setAcc(true);
+    setAcc(false);
   };
 
   return (
@@ -132,17 +132,17 @@ const Navbar = () => {
                 <RiAccountBoxFill />
                 <div className="text-lg cursor-pointer relative">Account</div>
                 {acc && (
-                  <div className="text-lg absolute -bottom-18 right-38 rounded-lg duration-500 transition-all bg-white">
-                    <span className="text-[#cd0000] m-2 h-full flex flex-col gap-10">
-                      <Link scroll={false} href={"/profile"}>
+                  <div className="text-lg absolute border-[#cd0000] border -bottom-28 right-50 rounded-lg duration-500 transition-all bg-white">
+                    <span className="text-[#cd0000] m-2 h-full flex flex-col gap-3">
+                      <Link className="border-b hover:text-right" scroll={false} href={"/profile"}>
                         {user.username}
                       </Link>
-                      <Link href={"/favorites"} scroll={false}>
+                      <Link className="border-b hover:text-right" href={"/favorites"} scroll={false}>
                         <div className="flex gap-2 items-center">
                           <FaRegHeart /> Favorites
                         </div>
                       </Link>
-                      <Link href={"/orders"} scroll={false}>
+                      <Link className="border-b hover:text-right" href={"/orders"} scroll={false}>
                         <div className="flex gap-2 items-center">
                           <IoCart /> Orders
                         </div>

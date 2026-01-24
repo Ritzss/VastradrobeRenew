@@ -46,9 +46,6 @@ const data = await res.json();
   // ✅ THIS IS THE FIX
 
 const products = data.products;
-  console.log(products);
-  
-
   return (
     <ProductClient
       products={products}
