@@ -95,12 +95,12 @@ const FavoritesClient = () => {
                       }
                       width={150}
                       height={150}
-                      alt={String(item.title)}
+                      alt={String(item.name)}
                       className="mx-auto h-45 object-contain"
                     />
 
                     <div className="mt-3 font-bold text-center line-clamp-2">
-                      {item.title}
+                      {item.name}
                     </div>
 
                     <div className="mt-2 font-semibold text-center">
