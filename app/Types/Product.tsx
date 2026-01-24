@@ -1,6 +1,5 @@
 // Types/IMSProduct.ts
 export type IMSProduct = {
-  [x: string]: number;
   productId: number;
   name: string;
   description?: string;
