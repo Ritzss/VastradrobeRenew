@@ -3,11 +3,22 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const Login = () => {
   const { loginForm, setLoginForm, handleLogin } = useAppContext();
   const [visible, setVisible] = useState<boolean>(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const redirectTo = searchParams.get("redirect") || "/";
+  const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
+
+  const onSubmit = async (e: React.FormEvent) => {
+    await handleLogin(e);
+    router.replace(safeRedirect);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,7 +53,7 @@ const Login = () => {
       <aside className="w-[60%] font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-around items-center ">
         <header className="h-[50%] w-full p-4">
           <form
-            onSubmit={handleLogin}
+            onSubmit={onSubmit}
             className="flex flex-col justify-between h-full p-4 "
           >
             <label className="flex justify-between" htmlFor="LoginID">

@@ -4,7 +4,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { AppContext, LoginData, RegisterData } from "./AppContext";
 import { IMSProduct } from "@/Types/Product";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AuthUser } from "@/Types/AuthUser";
 import { toast } from "sonner";
 
@@ -22,9 +22,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   /* 🔐 Auth */
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/";
-  const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
 
   /* 🛒 Cart */
   const [cartItems, setCartItems] = useState<Map<number, number>>(new Map());
@@ -219,7 +216,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
       toast.success("Logged in successfully");
 
-      router.replace(safeRedirect);
+     
 
       // hydrate user AFTER navigation
       setTimeout(() => {
