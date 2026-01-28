@@ -48,7 +48,7 @@ export async function POST(req: Request) {
         phone,
       },
       totalAmount,
-      status: "placed", // lowercase ✅
+      status: "pending", // lowercase ✅
     });
 
     // ✅ SAVE DELIVERY ADDRESS

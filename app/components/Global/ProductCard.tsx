@@ -104,7 +104,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
               src={src}
               width={150}
               height={2}
-              alt="image"
+              alt={title}
               className="h-55 object-contain hover:scale-110 duration-300 transition-all mx-auto"
             ></Image>
           </div>

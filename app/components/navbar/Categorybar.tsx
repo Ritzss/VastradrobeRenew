@@ -8,7 +8,11 @@ import Womenbox from "./HoverBoxes/Womenbox";
 import { usePathname } from "next/navigation";
 import NavItem from "./NavItem";
 
-const CategoryBar = (props: { className: unknown; drop: boolean; Img:boolean }) => {
+const CategoryBar = (props: {
+  className: unknown;
+  drop: boolean;
+  Img: boolean;
+}) => {
   const pathname = usePathname();
 
   const isActive = (path: string) =>
@@ -21,83 +25,83 @@ const CategoryBar = (props: { className: unknown; drop: boolean; Img:boolean }) 
       <NavItem
         href="/men"
         src="/Assets/Images/CateImg/mennew.png"
+        Img={props.Img}
         label="Men"
         active={isActive("/men")}
-        hover="hover:bg-[#00ffff] hover:shadow-[inset_0_0_10px_0_#00ffff]"
-        activeStyle="bg-[#00ffff] shadow-[inset_0_0_10px_0_#00ffff]"
+        hover="hover:bg-[#00ffff] hover:border-[#00ffff] hover:border-b-2"
+        activeStyle="bg-[#00ffff] border-[#00ffff] border-b-2"
         dropdown={<Menbox />}
         drop={props.drop}
-        Img={props.Img}
       />
 
       <NavItem
         href="/women"
         src="/Assets/Images/CateImg/womennew.png"
+        Img={props.Img}
         label="Women"
         active={isActive("/women")}
-        hover="hover:bg-[#f04aff] hover:shadow-[inset_0_0_10px_0_#f04aff]"
-        activeStyle="bg-[#f04aff] shadow-[inset_0_0_10px_0_#f04aff]"
+        hover="hover:bg-[#f04aff] hover:border-[#f04aff] hover:border-b-2"
+        activeStyle="bg-[#f04aff] border-[#f04aff] border-b-2"
         dropdown={<Womenbox />}
         drop={props.drop}
-        Img={props.Img}
       />
 
       <NavItem
         href="/boys"
         src="/Assets/Images/CateImg/boy.png"
+        Img={props.Img}
         label="Boys"
         active={isActive("/boys")}
-        hover="hover:bg-[#ffff00] hover:shadow-[inset_0_0_10px_0_#ffff00]"
-        activeStyle="bg-[#ffff00] shadow-[inset_0_0_10px_0_#ffff00]"
+        hover="hover:bg-[#ffff00] hover:border-[#ffff00] hover:border-b-2"
+        activeStyle="bg-[#ffff00] border-[#ffff00] border-b-2"
         dropdown={<Boysbox />}
         drop={props.drop}
-        Img={props.Img}
       />
 
       <NavItem
         href="/girls"
         src="/Assets/Images/CateImg/girl.png"
+        Img={props.Img}
         label="Girls"
         active={isActive("/girls")}
-        hover="hover:bg-[#ff00d4] hover:shadow-[inset_0_0_10px_0_#ff00d4]"
-        activeStyle="bg-[#ff00d4] shadow-[inset_0_0_10px_0_#ff00d4]"
+        hover="hover:bg-[#ff00d4] hover:border-[#ff00d4] hover:border-b-2"
+        activeStyle="bg-[#ff00d4] border-[#ff00d4] border-b-2"
         dropdown={<GirlsBox />}
         drop={props.drop}
-        Img={props.Img}
       />
 
       <NavItem
         href="/western"
         src="/Assets/Images/CateImg/western.png"
+        Img={props.Img}
         label="Western"
         active={isActive("/western")}
-        hover="hover:bg-[#a6ff00] hover:shadow-[inset_0_0_10px_0_#a6ff00]"
-        activeStyle="bg-[#a6ff00] shadow-[inset_0_0_10px_0_#a6ff00]"
+        hover="hover:bg-[#a6ff00] hover:border-[#a6ff00] hover:border-b-2"
+        activeStyle="bg-[#a6ff00] border-[#a6ff00] border-b-2"
         dropdown={<Westernbox />}
         drop={props.drop}
-        Img={props.Img}
       />
 
       <NavItem
         href="/traditionals"
         src="/Assets/Images/CateImg/traditional.png"
+        Img={props.Img}
         label="Traditional"
         active={isActive("/traditionals")}
-        hover="hover:bg-[#c50052] hover:shadow-[inset_0_0_10px_0_#c50052]"
-        activeStyle="bg-[#c50052] shadow-[inset_0_0_10px_0_#c50052]"
+        hover="hover:bg-[#c50052] hover:border-[#c50052] hover:border-b-2"
+        activeStyle="bg-[#c50052] border-[#c50052] border-b-2"
         dropdown={<Traditionalbox />}
         drop={props.drop}
-        Img={props.Img}
       />
 
       <NavItem
         href="/offers"
+        Img={props.Img}
         src="/Assets/Images/CateImg/offer.png"
         label="Offer"
         active={isActive("/offers")}
-        hover="hover:bg-[#ff6600] hover:shadow-[inset_0_0_10px_0_#ff6600]"
-        activeStyle="bg-[#ff6600] shadow-[inset_0_0_10px_0_#ff6600]"
-        Img={props.Img}
+        hover="hover:bg-[#ff6600] hover:border-[#ff6600] hover:border-b-2"
+        activeStyle="bg-[#ff6600] border-[#ff6600] border-b-2"
       />
     </section>
   );

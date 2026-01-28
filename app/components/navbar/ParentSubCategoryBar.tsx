@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { PARENT_SUBCATEGORIES } from "@/Data/ParentSubCat";
 import { useAppContext } from "@/hooks/useAppContext";
-import Image from "next/image";
+// import Image from "next/image";
 
 const slugify = (text: string) =>
   text.toLowerCase().replace(/\s+/g, "-");
@@ -11,52 +11,52 @@ const slugify = (text: string) =>
 /* ----------------------------------
    CATEGORY → SUBCATEGORY → IMAGE MAP
 -----------------------------------*/
-const SUBCATEGORY_IMAGES_BY_CATEGORY: Record<
-  string,
-  Record<string, string>
-> = {
-  men: {
-    topwear: "/Assets/Images/subcat/men/topwear.png",
-    bottomwear: "/Assets/Images/subcat/men/bottomwear.png",
-    "ethnic-wear": "/Assets/Images/subcat/men/ethnicwear.png",
-    "winter-wear": "/Assets/Images/subcat/men/winterwear.png",
-    "festive-wear": "/Assets/Images/subcat/men/festivewear.png",
-  },
+// const SUBCATEGORY_IMAGES_BY_CATEGORY: Record<
+//   string,
+//   Record<string, string>
+// > = {
+//   men: {
+//     topwear: "/Assets/Images/subcat/men/topwear.png",
+//     bottomwear: "/Assets/Images/subcat/men/bottomwear.png",
+//     "ethnic-wear": "/Assets/Images/subcat/men/ethnicwear.png",
+//     "winter-wear": "/Assets/Images/subcat/men/winterwear.png",
+//     "festive-wear": "/Assets/Images/subcat/men/festivewear.png",
+//   },
 
-  women: {
-    topwear: "/Assets/Images/subcat/women/topwear.png",
-    bottomwear: "/Assets/Images/subcat/women/bottomwear.png",
-    "ethnic-wear": "/Assets/Images/subcat/women/ethnicwear.png",
-    "winter-wear": "/Assets/Images/subcat/women/winterwear.png",
-    "festive-wear": "/Assets/Images/subcat/women/festivewear.png",
-  },
+//   women: {
+//     topwear: "/Assets/Images/subcat/women/topwear.png",
+//     bottomwear: "/Assets/Images/subcat/women/bottomwear.png",
+//     "ethnic-wear": "/Assets/Images/subcat/women/ethnicwear.png",
+//     "winter-wear": "/Assets/Images/subcat/women/winterwear.png",
+//     "festive-wear": "/Assets/Images/subcat/women/festivewear.png",
+//   },
 
-  boys: {
-    topwear: "/Assets/Images/subcat/boys/topwear.png",
-    bottomwear: "/Assets/Images/subcat/boys/bottomwear.png",
-    "winter-wear": "/Assets/Images/subcat/boys/winterwear.png",
-    "ethnic-wear": "/Assets/Images/subcat/boys/ethnicwear.png",
-  },
+//   boys: {
+//     topwear: "/Assets/Images/subcat/boys/topwear.png",
+//     bottomwear: "/Assets/Images/subcat/boys/bottomwear.png",
+//     "winter-wear": "/Assets/Images/subcat/boys/winterwear.png",
+//     "ethnic-wear": "/Assets/Images/subcat/boys/ethnicwear.png",
+//   },
 
-  girls: {
-    topwear: "/Assets/Images/subcat/girls/topwears.png",
-    bottomwear: "/Assets/Images/subcat/girls/bottomwear.png",
-    "winter-wear": "/Assets/Images/subcat/girls/winterwear.png",
-    "ethnic-wear": "/Assets/Images/subcat/girls/ethnicwear.png",
-  },
+//   girls: {
+//     topwear: "/Assets/Images/subcat/girls/topwears.png",
+//     bottomwear: "/Assets/Images/subcat/girls/bottomwear.png",
+//     "winter-wear": "/Assets/Images/subcat/girls/winterwear.png",
+//     "ethnic-wear": "/Assets/Images/subcat/girls/ethnicwear.png",
+//   },
 
-  western: {
-    dresses: "/Assets/Images/subcat/western/dresses.png",
-    "co-ords": "/Assets/Images/subcat/western/coords.png",
-    jackets: "/Assets/Images/subcat/western/jacket.png",
-  },
+//   western: {
+//     dresses: "/Assets/Images/subcat/western/dresses.png",
+//     "co-ords": "/Assets/Images/subcat/western/coords.png",
+//     jackets: "/Assets/Images/subcat/western/jacket.png",
+//   },
 
-  traditionals: {
-    kurtas: "/Assets/Images/subcat/traditional/kurtas.png",
-    lehengas: "/Assets/Images/subcat/traditional/Lehenga.png",
-    sherwanis: "/Assets/Images/subcat/traditional/Sherwani.png",
-  },
-};
+//   traditionals: {
+//     kurtas: "/Assets/Images/subcat/traditional/kurtas.png",
+//     lehengas: "/Assets/Images/subcat/traditional/Lehenga.png",
+//     sherwanis: "/Assets/Images/subcat/traditional/Sherwani.png",
+//   },
+// };
 
 const ParentSubCategoryBar = () => {
   const pathname = usePathname();
@@ -69,17 +69,17 @@ const ParentSubCategoryBar = () => {
 
   return (
     <div className="w-full bg-white border-b">
-      <div className="flex justify-around gap-8 px-6 py-3 overflow-x-auto">
+      <div className="flex justify-center gap-8 px-6 py-3 overflow-x-auto">
 
         {/* ALL */}
         <div className="flex flex-col items-center">
-          <Image
+          {/* <Image
             src="/Assets/Images/subcat/allwear.png"
             alt="All"
             width={48}
             height={48}
             className="mb-1"
-          />
+          /> */}
           <button
             onClick={() => {
               setSubCategory("");
@@ -100,15 +100,15 @@ const ParentSubCategoryBar = () => {
           const slug = slugify(sub);
           const isActive = subCategory === slug;
 
-          const img =
-            SUBCATEGORY_IMAGES_BY_CATEGORY[category]?.[slug];
+          // const img =
+          //   SUBCATEGORY_IMAGES_BY_CATEGORY[category]?.[slug];
 
           return (
             <div
               key={slug}
               className="flex flex-col items-center"
             >
-              {img && (
+              {/* {img && (
                 <Image
                   src={img}
                   alt={sub}
@@ -116,7 +116,7 @@ const ParentSubCategoryBar = () => {
                   height={48}
                   className="mb-1"
                 />
-              )}
+              )} */}
 
               <button
                 onClick={() => {

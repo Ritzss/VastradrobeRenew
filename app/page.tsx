@@ -2,16 +2,14 @@
 import Image from "next/image";
 import StarBorder from "./components/UI/StarBorder";
 import Footer from "./components/Global/Footer";
-import { IoIosArrowForward } from "react-icons/io";
 import Slider from "./components/Global/Header";
 import CategoryBar from "./components/navbar/Categorybar";
+import PixelCard from "./components/UI/PixelCard";
 
 const Home = () => {
-
-
   return (
     <section className="w-full m-auto rounded-2xl">
-      {/* <header id="slider" className=" my-2 h-[60vh] overflow-hidden">
+      {/* <header id="slider" className=" my-2 h-full overflow-hidden">
         <div className={`flex slide h-full`}>
           <div className="relative  min-w-full h-full">
             <Image
@@ -40,7 +38,11 @@ const Home = () => {
         </div>
       </header> */}
       <Slider />
-      <CategoryBar className={"bg-[#ffffff] rounded-xl text-[#cd0000] my-2"} drop={false} Img={true}  />
+      <CategoryBar
+        className={"bg-[#ffffff] rounded-xl text-[#cd0000] my-2"}
+        drop={false}
+        Img={false}
+      />
       <main
         id="cards"
         className="w-full flex flex-col justify-center flex-wrap h-[30%] m-auto"
@@ -50,391 +52,133 @@ const Home = () => {
             as="button"
             color="#ffffff"
             speed="5s"
-            className=" cardBlock w-[38%] "
+            className="cardBlock w-[24%]"
           >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Winter Collections
-              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard3.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Sweat-Shirts
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min 60-70% Off
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard3.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Caps & Gloves
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Flat 30% Off on Trending
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard3.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Jackets
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  🌟 New Arrivals 🌟
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/vastra7.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Sweater&apos;s
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Fresh Drops
-                </div>
-              </div>
-            </div>
-          </StarBorder>
-          <StarBorder
-            as="button"
-            color="#ffffff"
-            speed="5s"
-            className=" cardBlock w-[38%]"
-          >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Men Collections
-              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Pants
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min 40-50% Off
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Party
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  50% Discount on Top Brands
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Formals
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Top Deals
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard2.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Shirts
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min. 70% Off
-                </div>
-              </div>
-            </div>
-          </StarBorder>
-          <StarBorder
-            as="button"
-            color="#ffffff"
-            speed="5s"
-            className=" cardBlock w-[20%] "
-          >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Traditonal
-              <div className="w-[10%] m-1 text-xl rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-col flex-wrap">
-              <div className="w-full">
-                <Image
-                  src={"/Assets/Images/CardPics/lcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Ethic Wear
-                </div>
-                <div className=" font-bold text-green-600 m-2 text-xl text-left">
-                  Flat 30% Off on Top Brands
-                </div>
-              </div>
-              <div className="w-full">
-                <Image
-                  src={"/Assets/Images/CardPics/vastra1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Festive Wear
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Best Deals
-                </div>
-              </div>
-            </div>
-          </StarBorder>
-          <StarBorder
-            as="button"
-            color="#ffffff"
-            speed="5s"
-            className=" cardBlock w-[20%] "
-          >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Offers
-              <div className="w-[10%] m-1 text-xl rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-col flex-wrap">
-              <div className="w-full">
-                <Image
-                  src={"/Assets/Images/top_offer/offer11.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Flat 50% Off
-                  <div className="text-red-500 font-medium">
-                    Limited Period Offer
+            <PixelCard variant="default">
+              <div className="absolute  w-full h-full">
+                <div className="group relative w-full h-full  ">
+                  <Image
+                    fill
+                    src={"/Assets/Images/Hero/heroWinter.jpg"}
+                    alt=""
+                    className="-z-1"
+                  />
+                  <div className="h-[10%] text-2xl absolute bottom-0 text-white opacity-0 transition-all duration-500 w-full group-hover:opacity-100">
+                    Winter Collections
                   </div>
                 </div>
               </div>
-              <div className="w-full">
-                <Image
-                  src={"/Assets/Images/top_offer/offer33.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Kids Sweat-Shirts
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min 40% Off
-                </div>
-              </div>
-            </div>
+            </PixelCard>
           </StarBorder>
           <StarBorder
             as="button"
             color="#ffffff"
             speed="5s"
-            className=" cardBlock w-[38%] "
+            className="cardBlock w-[24%]"
           >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Women Collections
-              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/CardPics/lcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Jeans
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min. 70-80% Off
+            <PixelCard variant="blue">
+              <div className="absolute w-full h-full">
+                <div className="group relative w-full h-full  ">
+                  <Image
+                    fill
+                    src={"/Assets/Images/Hero/heroMen.jpg"}
+                    alt=""
+                    className="-z-1"
+                  />
+                  <div className="h-[10%] absolute bottom-0 text-white opacity-0 transition-all duration-500 w-full group-hover:opacity-100">
+                    Men Collections
+                  </div>
                 </div>
               </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/top_offer/offer11.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Western
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Latest Arrivals
-                </div>
-              </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/top_offer/offer11.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Suits
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Special Offers
-                </div>
-              </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/CardPics/vastra1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Saree
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Trending
-                </div>
-              </div>
-            </div>
+            </PixelCard>
           </StarBorder>
           <StarBorder
             as="button"
             color="#ffffff"
             speed="5s"
-            className=" cardBlock w-[38%] "
+            className="cardBlock w-[24%]"
           >
-            <div className="text-left  flex justify-between text-2xl font-bold">
-              Children Collections
-              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/CardPics/lcard2.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Dresses
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Top Deals
+            <PixelCard variant="pink">
+              <div className="absolute w-full h-full">
+                <div className="group relative w-full h-full  ">
+                  <Image
+                    fill
+                    src={"/Assets/Images/Hero/heroWomen.jpg"}
+                    alt=""
+                    className="-z-1"
+                  />
+                  <div className="h-[10%] absolute bottom-0 text-white opacity-0 transition-all duration-500 w-full group-hover:opacity-100">
+                    Women Collections
+                  </div>
                 </div>
               </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/top_offer/offer33.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Shirts
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Fresh Arrivals
-                </div>
-              </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/top_offer/offer33.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Casuals
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Top Deals
+            </PixelCard>
+          </StarBorder>
+          <StarBorder
+            as="button"
+            color="#ffffff"
+            speed="5s"
+            className="cardBlock w-[24%]"
+          >
+            <PixelCard variant="pink">
+              <div className="absolute w-full h-full">
+                <div className="group relative w-full h-full  ">
+                  <Image
+                    fill
+                    src={"/Assets/Images/Hero/heroChildren.jpg"}
+                    alt=""
+                    className="-z-1"
+                  />
+                  <div className="h-[10%] absolute bottom-0 text-white opacity-0 transition-all duration-500 w-full group-hover:opacity-100">
+                    Children Collections
+                  </div>
                 </div>
               </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/CardPics/vastra6.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-9999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Tops
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min. 60% Off
+            </PixelCard>
+          </StarBorder>
+          <StarBorder
+            as="button"
+            color="#ffffff"
+            speed="5s"
+            className="cardBlock w-[24%]"
+          >
+            <PixelCard variant="pink">
+              <div className="absolute w-full h-full">
+                <div className="group relative w-full h-full  ">
+                  <Image
+                    fill
+                    src={"/Assets/Images/Hero/heroTraditionals.jpg"}
+                    alt=""
+                    className="-z-1"
+                  />
+                  <div className="h-[10%] absolute bottom-0 text-white opacity-0 transition-all duration-500 w-full group-hover:opacity-100">
+                    Traditonal
+                  </div>
                 </div>
               </div>
-            </div>
+            </PixelCard>
+          </StarBorder>
+          <StarBorder
+            as="button"
+            color="#ffffff"
+            speed="5s"
+            className="cardBlock w-[24%]"
+          >
+            <PixelCard variant="green">
+              <div className="absolute w-full h-full">
+                <div className="group relative w-full h-full  ">
+                  <Image
+                    fill
+                    src={"/Assets/Images/Hero/heroWestern.jpg"}
+                    alt=""
+                    className="-z-1"
+                  />
+                  <div className="absolute bottom-0 text-white opacity-0 transition-all duration-500 w-full group-hover:opacity-100">
+                    Western Collections
+                  </div>
+                </div>
+              </div>
+            </PixelCard>
           </StarBorder>
         </div>
       </main>

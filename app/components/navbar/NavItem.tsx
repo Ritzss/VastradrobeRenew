@@ -15,33 +15,42 @@ const NavItem = ({
   drop,
 }: {
   href: string;
-  Img:boolean;
-  src:string;
+  Img: boolean;
+  src: string;
   label: string;
   active: boolean;
   hover: string;
   activeStyle: string;
   rounded?: string;
   dropdown?: ReactNode;
-  drop?:boolean;
+  drop?: boolean;
 }) => {
   return (
     <div
       className="group w-full"
-    //   onMouseEnter={() => document.body.classList.add("scroll-lock")}
-    //   onMouseLeave={() => document.body.classList.remove("scroll-lock")}
+      //   onMouseEnter={() => document.body.classList.add("scroll-lock")}
+      //   onMouseLeave={() => document.body.classList.remove("scroll-lock")}
     >
-      <div
-        className={` font-bold text-center transition-all duration-500 bg-clip-text hover:text-transparent 
-      ${rounded}
-      ${hover}
-      ${active ? `${activeStyle} text-transparent` : ""}`}
-      >
-        <Link href={href} scroll={false}>
-        <div className={`w-full ${Img ? "h-25" : "h-3" } flex justify-center overflow-hidden transition-all duration-500`}>
-        {Img && <Image src={src} width={100} height={1} alt="q" className="text-[#cd0000]" />}
-        </div>
-        {label} 
+      <div className="font-bold text-center p-3">
+        <Link
+          href={href}
+          scroll={false}
+          className={` font-bold text-center bg-clip-text hover:text-transparent ${rounded} ${hover} ${active ? `${activeStyle} text-transparent` : ""}`}
+        >
+          {Img && (
+            <div
+              className={`w-full ${Img ? "h-25" : "h-3"} flex justify-center relative overflow-hidden transition-all duration-500`}
+            >
+              <Image
+                src={src}
+                width={100}
+                height={1}
+                alt="q"
+                className="text-[#cd0000]"
+              />
+            </div>
+          )}
+          {label}
         </Link>
       </div>
 

@@ -115,7 +115,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ collection, productId: id }),
     });
-
+    await loadFavorites();
     setFavCollections((prev) => {
       const next = { ...prev };
       next[collection] = new Set(next[collection] || []).add(id);
@@ -129,7 +129,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ collection, productId: id }),
     });
-
+    await loadFavorites();
     setFavCollections((prev) => {
       const next = { ...prev };
       const set = new Set(next[collection]);

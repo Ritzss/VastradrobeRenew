@@ -46,6 +46,49 @@ body.scroll-lock {
   }
 }
 
+.menu-btn {
+  width: 32px;
+  height: 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.line {
+  height: 2px;
+  width: 100%;
+  background: black;
+  transition: all 0.3s ease;
+}
+
+/* Transform into X */
+.line1.open {
+  transform: rotate(45deg) translate(2px, 0px);
+}
+
+.line2.open {
+  transform: rotate(-45deg) translate(2px, 0px);
+}
+
+/* Menu Panel */
+.menu-panel {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  z-index: 50;
+}
+
 /* SLIDER */
 .slide {
   gap: 0.1rem;

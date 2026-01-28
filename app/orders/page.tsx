@@ -69,7 +69,7 @@ const OrdersPage = () => {
 
           <div className="mb-2 text-sm">
             <strong>Status:</strong>{" "}
-            <span className="text-green-600">{order.status}</span>
+            <span className="text-green-600">{order.status=="pending" ? "placed" : "delivered"}</span>
           </div>
 
           {order.items.map((item, idx) => (

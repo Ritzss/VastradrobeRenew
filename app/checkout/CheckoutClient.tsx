@@ -93,6 +93,7 @@ const CheckoutClient = ({ buyNowId }: Props) => {
 
       await loadUser(); // 🔄 refresh user to get saved address
       router.push("/orders");
+      toast.success("Order is Placed!☺🎊")
     } catch (err) {
       console.error(err);
       toast.error("Order failed");
