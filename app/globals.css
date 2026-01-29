@@ -9,7 +9,7 @@ body.scroll-lock {
 }
 
 .cardBlock{
-  background-color: #ffffff;
+  background-color: #cd000000;
   color: white;
 }
 
@@ -90,36 +90,21 @@ body.scroll-lock {
 }
 
 /* SLIDER */
-.slide {
-  gap: 0.1rem;
-  animation: slider 20s linear infinite;
+.slider {
+  width: max-content;
+  animation: scroll 15s linear infinite;
 }
 
-.slide:hover{
+#cards:hover .slider {
   animation-play-state: paused;
 }
 
-
-/* SLIDER ANIMATION */
-@keyframes slider {
-  /* Slide 1 */
-  0%, 20% {
-    transform: translateX(0%);
+@keyframes scroll {
+  from {
+    transform: translateX(0);
   }
-
-  /* Slide 2 */
-  30%, 50% {
-    transform: translateX(-100%);
-  }
-
-  /* Slide 3 */
-  60%, 80% {
-    transform: translateX(-200%);
-  }
-
-  /* Reset */
-  100% {
-    transform: translateX(0%);
+  to {
+    transform: translateX(-50%);
   }
 }
 

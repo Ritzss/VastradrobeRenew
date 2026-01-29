@@ -9,7 +9,7 @@ const layout = ({children}: {children: ReactNode}) => {
       <CategoryBar className={"bg-[#ffffff] text-[#cd0000] rounded-b-xl"} drop={false} Img={false} />
       <ParentSubCategoryBar />
         <div className='w-full full'>{children}</div>
-        <Footer className='' />
+     
     </section>
   )
 }

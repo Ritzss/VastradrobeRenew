@@ -165,67 +165,77 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
- const handleRegister = async (e: React.FormEvent) => {
+const handleRegister = async (e: React.FormEvent): Promise<boolean> => {
   e.preventDefault();
 
-  const res = await fetch("/api/auth/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(registerForm),
-  });
+  try {
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(registerForm),
+    });
 
-  if (!res.ok) {
-    const data = await res.json();
-    toast.error(data.message || "Registration failed");
-    return;
+    let data: any = null;
+    try {
+      data = await res.json();
+    } catch {
+      // backend failed before JSON
+    }
+
+    if (!res.ok) {
+      toast.error(data?.message || "Registration failed");
+      return false;
+    }
+
+    toast.success("Account created");
+
+    setRegisterForm({ username: "", email: "", password: "" });
+
+    // hydrate auth state FIRST
+    await loadUser();
+
+    return true;
+  } catch {
+    toast.error("Server error. Please try again.");
+    return false;
   }
-
-  setRegisterForm({ username: "", email: "", password: "" });
-  toast.success("Account created");
-
-  router.replace("/");
-
-  setTimeout(() => {
-    loadUser();
-  }, 0);
 };
 
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleLogin = async (e: React.FormEvent): Promise<boolean> => {
+  e.preventDefault();
 
+  try {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginForm),
+    });
+
+    let data: any = null;
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginForm),
-      });
-
-      // ⬇️ THIS is the critical part
-      let data: any = null;
-      try {
-        data = await res.json();
-      } catch {
-        // backend crashed before sending JSON
-      }
-
-      if (!res.ok) {
-        toast.error(data?.message || "Login failed");
-        return;
-      }
-
-      toast.success("Logged in successfully");
-
-     
-
-      // hydrate user AFTER navigation
-      setTimeout(() => {
-        loadUser();
-      }, 0);
+      data = await res.json();
     } catch {
-      toast.error("Server error. Please try again.");
+      // backend died before JSON, fine
     }
-  };
+
+    if (!res.ok) {
+      toast.error(data?.message || "Login failed");
+      return false;
+    }
+
+    toast.success("Logged in successfully");
+
+    // ensure auth state updates BEFORE redirect
+    await loadUser();
+
+    return true;
+  } catch {
+    toast.error("Server error. Please try again.");
+    return false;
+  }
+};
+
 
 
   const handleLogout = async () => {

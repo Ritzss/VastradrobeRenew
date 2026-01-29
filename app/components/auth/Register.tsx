@@ -3,6 +3,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
 const Register = () => {
@@ -14,6 +15,21 @@ const Register = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setRegisterForm((prev: any) => ({ ...prev, [name]: value }));
   };
+
+   const router = useRouter();
+    const searchParams = useSearchParams();
+  
+    const redirectTo = searchParams.get("redirect") || "/";
+    const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
+  
+    const onSubmit = async (e: React.FormEvent) => {
+      const success = await handleRegister(e);
+      
+      if (success){
+      router.replace(safeRedirect);
+    }
+    };
+
 
  
   return (
@@ -42,7 +58,7 @@ const Register = () => {
       </aside>
       <aside className="w-[60%] font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-center items-center ">
         <form
-        onSubmit={handleRegister}
+        onSubmit={onSubmit}
           className="flex flex-col justify-evenly w-full h-full p-4 "
         >
           <label className="flex justify-between" htmlFor="LoginID">

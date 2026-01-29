@@ -4,6 +4,7 @@ import { ReactNode, useEffect } from "react";
 import { AppProvider } from "./context/contextProvider";
 import Navbar from "./components/navbar/navbar";
 import { Toaster } from "sonner";
+import Footer from "./components/Global/Footer";
 // import { useAppContext } from "./hooks/useAppContext";
 
 const ClientLayout = ({ children }: { children: ReactNode }) => {
@@ -21,7 +22,8 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
       <div className="">
         <Navbar products={[]} />
       </div>
-      <div className="m-1 min-h-screen">{children}</div>
+      <div className="min-h-screen">{children}</div>
+      <div><Footer className=""/></div>
     </AppProvider>
   );
 };

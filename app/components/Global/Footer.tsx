@@ -46,7 +46,7 @@ const Footer = ({ className }: { className: string }) => {
   return (
     <footer
       id="foot"
-      className={`relative bottom-0 flex flex-col bg-black text-[#dadada] mt-2 w-full ${className}`}
+      className={`relative bottom-0 flex flex-col bg-[#000000cf] text-[#dadada] mt-2 w-full ${className}`}
     >
       <section id="footercontent" className="flex justify-around ">
         <div className="w-[23%] flex flex-col pt-7">

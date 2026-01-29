@@ -48,8 +48,8 @@ export interface AppContextType {
   setLoginForm: Dispatch<SetStateAction<LoginData>>;
   registerForm: RegisterData;
   setRegisterForm: Dispatch<SetStateAction<RegisterData>>;
-  handleRegister: (e: React.FormEvent) => void;
-  handleLogin: (e: React.FormEvent) => void;
+  handleRegister: (e: React.FormEvent) => Promise<boolean>;
+  handleLogin: (e: React.FormEvent) => Promise<boolean>;
   handleLogout: () => void;
   loadUser: () => Promise<void>;
   authLoading: boolean;

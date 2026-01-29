@@ -44,13 +44,13 @@ const Navbar = ({ products }: { products: any[] }) => {
 
   return (
     <nav id={"navcontainer"} className="bg-[#ffffff] rounded-xl">
-      <section className="p-2 ">
-        <article className="flex justify-between items-center w-full px-10 border bg-[#cd0000] text-white rounded-xl ">
+      <section className="">
+        <article className="flex justify-between items-center w-full px-10 bg-[#cd0000] text-white">
 
         <Link
           scroll={false}
           href={"/"}
-          className="flex justify-center relative border-2 border-dashed rounded-2xl h-[15vh] w-[23vw]"
+          className="flex justify-center relative border-2 border-dashed rounded-2xl h-[10vh] w-[15vw]"
         >
           <Image
             src={"/Assets/Images/VaStraDrobe.png"}
@@ -86,7 +86,7 @@ const Navbar = ({ products }: { products: any[] }) => {
         </span>
         </article>
       </section>
-      <section className="sticky top-0 z-50 border rounded-xl bg-[#ffffff] text-[#cd0000] flex justify-center gap-2 p-[0.5%] h-[7vh]">
+      <section className="sticky top-0 z-50 border mt-1 rounded-xl bg-[#ffffff] text-[#cd0000] flex justify-center gap-2 p-[0.5%] h-[7vh]">
         <header
           id={"navcontentheader"}
           className="flex justify-center items-center gap-3"

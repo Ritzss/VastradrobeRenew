@@ -1,9 +1,13 @@
-import ProductCard from "@/components/Global/ProductCard";
-import { Key } from "react";
+// app/products/page.tsx (or wherever this lives)
 
-const ProductClient = async () => {
+import AllProductClient from "./AllProductClient";
+
+
+const PAGE_SIZE = 8;
+
+const ProductPage = async () => {
   const res = await fetch(
-    `${process.env.IMS_BASE_URL}/api/ims/public/products`,
+    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&limit=${PAGE_SIZE}`,
     { cache: "no-store" }
   );
 
@@ -12,41 +16,16 @@ const ProductClient = async () => {
   }
 
   const data = await res.json();
-  const Products = Array.isArray(data.products) ? data.products : [];
+  const initialProducts = Array.isArray(data.products)
+    ? data.products
+    : [];
 
   return (
-    <section className="w-full px-4 ">
-      <div className="mb-4 text-sm text-gray-600">
-        Showing {Products.length} products
-      </div>
-
-      <div
-        className="flex flex-wrap justify-evenly text-black"
-      >
-        {Products.map(
-          (item: {
-            productId: Key;
-            name: string;
-            images: unknown[];
-            description: unknown;
-            price: number;
-          }) => (
-            <ProductCard
-              key={item.productId}
-              Pid={item.productId as number}
-              title={item.name}
-              src={
-                (item.images?.[0] as string) ||
-                "/Assets/Images/placeholder.png"
-              }
-              description={(item.description as string) || ""}
-              price={item.price}
-            />
-          )
-        )}
-      </div>
-    </section>
+    <AllProductClient
+      initialProducts={initialProducts}
+      pageSize={PAGE_SIZE}
+    />
   );
 };
 
-export default ProductClient;
+export default ProductPage;

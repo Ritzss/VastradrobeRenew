@@ -16,8 +16,11 @@ const Login = () => {
   const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
 
   const onSubmit = async (e: React.FormEvent) => {
-    await handleLogin(e);
+    const success = await handleLogin(e);
+    
+    if (success){
     router.replace(safeRedirect);
+  }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

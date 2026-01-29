@@ -53,11 +53,12 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
   };
   return (
     <StarBorder
+    thickness={3}
       color="#ffffff"
       speed="5s"
       className="cardBlock flex flex-col justify-between rounded-2xl my-2 w-[24%]"
     >
-      <div className="flex flex-col justify-between text-left h-full">
+      <div className="relative h-[56vh] overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left">
         <span
           className="cursor-pointer self-end text-3xl"
           onClick={() => {
@@ -75,13 +76,13 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
           {selectedCollection ? (
             <FaHeart className="text-[#ff0000]" />
           ) : (
-            <CiHeart />
+            <CiHeart className="text-white"/>
           )}
         </span>
 
         {/* 📂 COLLECTION DROPDOWN */}
         {showCollections && !selectedCollection && (
-          <div className="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg z-50">
+          <div className="absolute right-0 bottom-20 mt-2 bg-white border rounded-lg shadow-lg z-50">
             {Object.keys(favCollections).map((collection) => (
               <div
                 key={collection}
@@ -102,13 +103,12 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
           <div>
             <Image
               src={src}
-              width={150}
-              height={2}
+              fill
               alt={title}
-              className="h-55 object-contain hover:scale-110 duration-300 transition-all mx-auto"
+              className="h-55 -z-2 object-contain hover:scale-110 duration-300 transition-all mx-auto"
             ></Image>
           </div>
-          <div className="flex-col hover:-translate-y-4 duration-300 transition-all flex gap-5 flex-1">
+          <div className="flex-col hover:-translate-y-4 duration-300 text-white transition-all flex gap-5 flex-1">
             <div className="text-2xl font-bold line-clamp-1">{title}</div>
             <div>
               <p className="line-clamp-1">{description}</p>
@@ -118,7 +118,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
             </div>
           </div>
         </Link>
-        <div className="flex  gap-2 justify-between">
+        <div className="flex gap-2 justify-between">
           <button
             type="button"
             onClick={handleCartToggle}

@@ -7,21 +7,33 @@ const TypingEffect = ({ text }: { text: string }) => {
 
   useEffect(() => {
     let index = 0;
-    setDisplayedText("");
+    let typingInterval: NodeJS.Timeout;
+    let restartTimeout: NodeJS.Timeout;
 
-    const interval = setInterval(() => {
-      index++;
+    const startTyping = () => {
+      typingInterval = setInterval(() => {
+        index++;
+        setDisplayedText(text.slice(0, index));
 
-      setDisplayedText(text.slice(0, index));
-      console.log(text.slice(0, index));
-      
+        if (index === text.length) {
+          clearInterval(typingInterval);
 
-      if (index === text.length) {
-        clearInterval(interval);
-      }
-    }, 100);
+          // pause before restarting
+          restartTimeout = setTimeout(() => {
+            index = 0;
+            setDisplayedText("");
+            startTyping();
+          }, 500); // pause duration
+        }
+      }, 60);
+    };
 
-    return () => clearInterval(interval);
+    startTyping();
+
+    return () => {
+      clearInterval(typingInterval);
+      clearTimeout(restartTimeout);
+    };
   }, [text]);
 
   return <div>{displayedText}</div>;

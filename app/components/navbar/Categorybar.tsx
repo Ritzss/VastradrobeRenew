@@ -46,29 +46,14 @@ const CategoryBar = (props: {
         drop={props.drop}
       />
 
-      <NavItem
-        href="/boys"
-        src="/Assets/Images/CateImg/boy.png"
-        Img={props.Img}
-        label="Boys"
-        active={isActive("/boys")}
-        hover="hover:bg-[#ffff00] hover:border-[#ffff00] hover:border-b-2"
-        activeStyle="bg-[#ffff00] border-[#ffff00] border-b-2"
-        dropdown={<Boysbox />}
-        drop={props.drop}
-      />
-
-      <NavItem
-        href="/girls"
-        src="/Assets/Images/CateImg/girl.png"
-        Img={props.Img}
-        label="Girls"
-        active={isActive("/girls")}
-        hover="hover:bg-[#ff00d4] hover:border-[#ff00d4] hover:border-b-2"
-        activeStyle="bg-[#ff00d4] border-[#ff00d4] border-b-2"
-        dropdown={<GirlsBox />}
-        drop={props.drop}
-      />
+      {/* <NavItem
+        href="/children"
+        label="Children"
+        active={isActive("/children")}
+        dropdown={<ChildrenBox />} // boys + girls inside
+        drop={drop}
+        Img={Img}
+      /> */}
 
       <NavItem
         href="/western"
