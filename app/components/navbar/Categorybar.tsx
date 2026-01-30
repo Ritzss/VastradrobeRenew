@@ -1,12 +1,11 @@
 "use client";
-import Boysbox from "./HoverBoxes/Boysbox";
-import GirlsBox from "./HoverBoxes/GirlsBox";
 import Menbox from "./HoverBoxes/Menbox";
 import Traditionalbox from "./HoverBoxes/Traditionalbox";
 import Westernbox from "./HoverBoxes/WesternBox";
 import Womenbox from "./HoverBoxes/Womenbox";
 import { usePathname } from "next/navigation";
 import NavItem from "./NavItem";
+import ChildrenBox from "./HoverBoxes/ChildrenBox";
 
 const CategoryBar = (props: {
   className: unknown;
@@ -46,14 +45,17 @@ const CategoryBar = (props: {
         drop={props.drop}
       />
 
-      {/* <NavItem
+      <NavItem
         href="/children"
+        src={""} 
+        Img={props.Img}  
         label="Children"
         active={isActive("/children")}
+        hover="hover:bg-[#ffff00] hover:border-[#ffff00] hover:border-b-2"
+        activeStyle="bg-[#ffff00] border-[#ffff00] border-b-2"
         dropdown={<ChildrenBox />} // boys + girls inside
-        drop={drop}
-        Img={Img}
-      /> */}
+        drop={props.drop}
+      />
 
       <NavItem
         href="/western"

@@ -6,6 +6,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { useEffect, useState } from "react";
 import SkeletonLoader from "@/components/Global/SkeletonLoader";
 import { IMSProduct } from "@/Types/Product";
+import Loading from "@/product/[id]/loading";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -75,8 +76,7 @@ export default function ProductPage() {
   if (loading) {
     return (
       <div className="flex justify-center gap-6 p-10">
-        <SkeletonLoader />
-        <SkeletonLoader />
+        <Loading/>
       </div>
     );
   }

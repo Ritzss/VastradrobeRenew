@@ -20,7 +20,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
     <AppProvider>
       <Toaster position="top-right" richColors/>
       <div className="">
-        <Navbar products={[]} />
+        <Navbar />
       </div>
       <div className="min-h-screen">{children}</div>
       <div><Footer className=""/></div>

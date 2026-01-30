@@ -82,7 +82,7 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
             key={`${item.productId}-${index}`}
             Pid={item.productId}
             title={item.name}
-            src={item.images?.[0] || "/Assets/Images/placeholder.png"}
+            src={item.images?.[0]}
             description={item.description || ""}
             price={item.price}
           />

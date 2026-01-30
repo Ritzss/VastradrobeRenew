@@ -58,7 +58,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
       speed="5s"
       className="cardBlock flex flex-col justify-between rounded-2xl my-2 w-[24%]"
     >
-      <div className="relative h-[56vh] overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left">
+      <div className={`relative h-[57vh] overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left ${!src ? "bg-[#0000006b]":""}`}>
         <span
           className="cursor-pointer self-end text-3xl"
           onClick={() => {
@@ -102,7 +102,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
         <Link target="_blank" href={`/product/${Pid}`}>
           <div>
             <Image
-              src={src}
+              src={src || "/Assets/Images/Newplaceholder.png"}
               fill
               alt={title}
               className="h-55 -z-2 object-contain hover:scale-110 duration-300 transition-all mx-auto"

@@ -12,7 +12,7 @@ import { Home, LogOut } from "lucide-react";
 import { AiFillProduct } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
-const Navbar = ({ products }: { products: any[] }) => {
+const Navbar = () => {
   const searchItems = [
     "Pants....",
     "Tops...",
@@ -31,7 +31,6 @@ const Navbar = ({ products }: { products: any[] }) => {
     searchQuery,
     handleLogout,
     setSearchQuery,
-    selectGender,
   } = useAppContext();
   const isLogged = !!user;
 
@@ -46,44 +45,47 @@ const Navbar = ({ products }: { products: any[] }) => {
     <nav id={"navcontainer"} className="bg-[#ffffff] rounded-xl">
       <section className="">
         <article className="flex justify-between items-center w-full px-10 bg-[#cd0000] text-white">
-
-        <Link
-          scroll={false}
-          href={"/"}
-          className="flex justify-center relative border-2 border-dashed rounded-2xl h-[10vh] w-[15vw]"
-        >
-          <Image
-            src={"/Assets/Images/VaStraDrobe.png"}
-            fill
-            alt={"Vastradrobe"}
-          />
-        </Link>
-        <span className="flex items-center pt-[4%] h-[18vh] gap-2">
-          {!authLoading && !isLogged && (
-            <Link scroll={false} href="/account/login">
-              <div className="flex text-lg gap-2 items-center">
-                <RiAccountBoxLine />
-                <span className="text-lg">Login/Register</span>
-              </div>
-            </Link>
-          )}
-          {isLogged && <Link
+          <Link
             scroll={false}
-            href="/profile"
-            className=" flex gap-2 items-center text-lg hover:border-b"
+            href={"/"}
+            className="flex justify-center relative border-2 border-dashed rounded-2xl h-[10vh] w-[15vw]"
           >
-            <RiAccountBoxFill />
-            <span className="text-lg"> {user?.username}</span>
-          </Link>}
+            <Image
+              src={"/Assets/Images/VaStraDrobe.png"}
+              fill
+              alt={"Vastradrobe"}
+            />
+          </Link>
+          <span className="flex items-center pt-[4%] h-[18vh] gap-2">
+            {!authLoading && !isLogged && (
+              <Link scroll={false} href="/account/login">
+                <div className="flex text-lg gap-2 items-center">
+                  <RiAccountBoxLine />
+                  <span className="text-lg">Login/Register</span>
+                </div>
+              </Link>
+            )}
+            {isLogged && (
+              <Link
+                scroll={false}
+                href="/profile"
+                className=" flex gap-2 items-center text-lg hover:border-b"
+              >
+                <RiAccountBoxFill />
+                <span className="text-lg"> {user?.username}</span>
+              </Link>
+            )}
 
-          {isLogged && <span
-            className="text-lg hover:border-b cursor-pointer flex gap-2 items-center"
-            onClick={handleLogout}
-          >
-            <LogOut/>
-           <span className="text-lg"> Logout</span>
-          </span>}
-        </span>
+            {isLogged && (
+              <span
+                className="text-lg hover:border-b cursor-pointer flex gap-2 items-center"
+                onClick={handleLogout}
+              >
+                <LogOut />
+                <span className="text-lg"> Logout</span>
+              </span>
+            )}
+          </span>
         </article>
       </section>
       <section className="sticky top-0 z-50 border mt-1 rounded-xl bg-[#ffffff] text-[#cd0000] flex justify-center gap-2 p-[0.5%] h-[7vh]">
@@ -106,76 +108,28 @@ const Navbar = ({ products }: { products: any[] }) => {
         </header>
         <main id={"navcontentmain"} className="w-[35%] text-black">
           <span className="border flex bg-white justify-between rounded-xl w-full">
-            <span className=" w-[20%]">
-              <select
-                className="w-full border-r-2  outline-0 p-2"
-                name="gender"
-                value={selectGender}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setSearchQuery(value);
-
-                  if (!value.trim()) {
-                    setSuggestions([]);
-                    return;
-                  }
-
-                  const filtered = products
-                    .filter((p) =>
-                      p.name.toLowerCase().includes(value.toLowerCase()),
-                    )
-                    .slice(0, 5);
-
-                  setSuggestions(filtered);
-                }}
-                id="gender"
-              >
-                <option value="">All</option>
-                <option value="Male">Men</option>
-                <option value="Women">Women</option>
-                <option value="Boys">Boys</option>
-                <option value="Girls">Girl</option>
-              </select>
-            </span>
-            <span className="flex items-center px-2 gap-1 w-full">
+            
+            <span className="flex items-center px-2 gap-1 h-[4.5vh] w-full">
               <input
-                type="text"
-                id="search"
+              className="w-full outline-0"
                 value={searchQuery}
-                name="search"
+                onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && searchQuery.trim()) {
-                    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-                    setSuggestions([]);
+                    router.push(
+                      `/search?q=${encodeURIComponent(searchQuery)}`,
+                    );
                   }
                 }}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setSearchQuery(value);
-
-                  if (!value.trim()) {
-                    setSuggestions([]);
-                    return;
-                  }
-
-                  const filtered = products
-                    .filter((p) =>
-                      p.name.toLowerCase().includes(value.toLowerCase()),
-                    )
-                    .slice(0, 5);
-
-                  setSuggestions(filtered);
-                }}
-                className="outline-0 text-lg w-full relative"
                 placeholder={`Search ${searchItems[index]}?`}
               />
               {suggestions.length > 0 && (
                 <div className="absolute bg-white border w-full mt-1 rounded-lg shadow-lg z-50">
                   {suggestions.map((item) => (
                     <div
-                      key={item.id}
+                      key={item.productId}
                       onClick={() => {
-                        router.push(`/product/${item.id}`);
+                        router.push(`/product/${item.productId}`);
                         setSuggestions([]);
                       }}
                       className="p-2 hover:bg-gray-100 cursor-pointer"
