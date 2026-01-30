@@ -58,7 +58,7 @@ const slugify = (text: string) =>
 //   },
 // };
 
-const ParentSubCategoryBar = () => {
+const ParentSubCategoryBar = ({className}:{className:string}) => {
   const pathname = usePathname();
   const router = useRouter();
   const { subCategory, setSubCategory } = useAppContext();
@@ -68,7 +68,7 @@ const ParentSubCategoryBar = () => {
   if (!category || !PARENT_SUBCATEGORIES[category]) return null;
 
   return (
-    <div className="w-full bg-white border-b">
+    <div className={`w-full bg-white ${className}`}>
       <div className="flex justify-center gap-8 px-6 py-3 overflow-x-auto">
 
         {/* ALL */}

@@ -1,4 +1,3 @@
-import Footer from '@/components/Global/Footer'
 import CategoryBar from '@/components/navbar/Categorybar'
 import ParentSubCategoryBar from '@/components/navbar/ParentSubCategoryBar'
 import { ReactNode } from 'react'
@@ -6,8 +5,10 @@ import { ReactNode } from 'react'
 const layout = ({children}: {children: ReactNode}) => {
   return (
     <section className=''>
-      <CategoryBar className={" text-[#cd0000] rounded-b-xl"} drop={false} Img={false} />
-      <ParentSubCategoryBar />
+      <article className='group'>
+        <CategoryBar className={" text-[#cd0000] rounded-b-xl"} drop={false} Img={false} />
+      <ParentSubCategoryBar className='-translate-y-30 opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0'/>
+      </article>
         <div className='w-full full'>{children}</div>
      
     </section>
