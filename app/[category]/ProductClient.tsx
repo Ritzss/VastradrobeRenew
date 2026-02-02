@@ -60,8 +60,7 @@ products.forEach((p) => {
     <div className="flex flex-wrap justify-evenly text-black">
       {filteredProducts.map((item) => (
         <ProductCard
-          key={item.productId} product={item}          
-        />
+          key={item.productId} product={item} className={""}        />
       ))}
     </div>
   );

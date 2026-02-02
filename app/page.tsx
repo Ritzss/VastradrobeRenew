@@ -1,4 +1,3 @@
-import Footer from "./components/Global/Footer";
 import Slider from "./components/Global/Header";
 // import CategoryBar from "./components/navbar/Categorybar";
 import CategorySlider from "./components/Home/CategorySlider";

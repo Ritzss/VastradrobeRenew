@@ -17,7 +17,8 @@ type Props = {
 };
 
 const ProductCard = ({ product, className }: Props) => {
-  const { productId, name, description, images, price, mrp } = product;
+  const { name, description, images, price, mrp } = product;
+  const productId = Number(product.productId);
   const {
     cartItems,
     addToCart,
@@ -42,18 +43,11 @@ const ProductCard = ({ product, className }: Props) => {
   const isInCart = cartItems.has(productId);
 
   const handleCartToggle = () => {
-    if (isInCart) {
-      removeFromCart(productId);
-    } else {
-      addToCart(productId);
-    }
+    isInCart ? removeFromCart(productId) : addToCart(productId);
   };
 
   const handleBuyNow = () => {
-    if (!cartItems.has(productId)) {
-      addToCart(productId); // adds with qty = 1
-    }
-
+    if (!isInCart) addToCart(productId);
     router.push(`/checkout?buyNow=${productId}`);
   };
   return (
@@ -121,8 +115,7 @@ const ProductCard = ({ product, className }: Props) => {
             </div>
             <div className="font-bold text-lg ">
               &#8377;{Number(price)}
-              <span
-                className="line-through font-extralight relative bottom-3">
+              <span className="line-through font-extralight relative bottom-3">
                 &#8377;{Number(mrp)}
               </span>
             </div>
