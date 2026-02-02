@@ -39,7 +39,6 @@ const Home = async () => {
       {/* ✅ Latest Products (server-side) */}
       <LatestArrivals products={latestProducts} />
       <SocialProof />
-      <Footer className="" />
     </section>
   );
 };
