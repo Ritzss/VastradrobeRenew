@@ -51,7 +51,7 @@ const Navbar = () => {
             className="flex justify-center relative border-2 border-dashed rounded-2xl h-[10vh] w-[15vw]"
           >
             <Image
-              src={"/Assets/Images/VaStraDrobe.png"}
+              src={"https://res.cloudinary.com/dwhn5ec09/image/upload/v1769775688/VaStraDrobe_vtulqu.png"}
               fill
               alt={"Vastradrobe"}
             />
