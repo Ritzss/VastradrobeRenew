@@ -1,23 +1,16 @@
 "use client";
 
 import ProductCard from "@/components/Global/ProductCard";
+import { IMSProduct } from "@/Types/Product";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type Product = {
-  productId: number;
-  name: string;
-  images: string[];
-  description: string;
-  price: number;
-};
-
 type Props = {
-  initialProducts: Product[];
+  initialProducts: IMSProduct[];
   pageSize: number;
 };
 
 const AllProductClient = ({ initialProducts, pageSize }: Props) => {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<IMSProduct[]>(initialProducts);
   const [page, setPage] = useState(2); // page 1 already loaded
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -79,13 +72,7 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
       <div className="flex flex-wrap justify-evenly gap-3">
         {products.map((item,index) => (
           <ProductCard
-            key={`${item.productId}-${index}`}
-            Pid={item.productId}
-            title={item.name}
-            src={item.images?.[0]}
-            description={item.description || ""}
-            price={item.price}
-          />
+            key={`${item.productId}-${index}`} product={item}/>
         ))}
       </div>
 

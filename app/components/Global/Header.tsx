@@ -74,7 +74,13 @@ export default function Slider() {
       >
         {images.map((src, index) => (
           <div key={index} className="relative min-w-full h-full">
-            <Image src={src} fill className="object-cover" alt="" />
+            <Image
+              src={src}
+              fill
+              loading="eager"
+              className="object-cover"
+              alt=""
+            />
           </div>
         ))}
       </div>

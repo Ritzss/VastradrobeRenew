@@ -19,6 +19,11 @@ const Login = () => {
     const success = await handleLogin(e);
     
     if (success){
+      setLoginForm((prev)=>({
+        ...prev,
+        password:"",
+        email:""
+      }))
     router.replace(safeRedirect);
   }
   };

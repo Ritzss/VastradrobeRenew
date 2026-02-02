@@ -108,11 +108,11 @@ const CartClient = () => {
             speed="5s"
             className="cardBlock flex justify-between rounded-2xl my-2"
           >
-            <div className="flex justify-between w-full">
+            <div className="flex justify-between w-full p-4 text-start">
               <Image
                 src={
                   item.images?.[0] ??
-                  "/Assets/Images/placeholder.png"
+                  "/Assets/Images/Newplaceholder.png"
                 }
                 width={150}
                 height={150}

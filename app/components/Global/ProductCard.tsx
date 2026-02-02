@@ -9,16 +9,15 @@ import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { IMSProduct } from "@/Types/Product";
 
 type Props = {
-  Pid: number;
-  title: string;
-  src: string;
-  description: string;
-  price: number;
+  product: IMSProduct;
+  className?: string;
 };
 
-const ProductCard = ({ Pid, title, src, description, price }: Props) => {
+const ProductCard = ({ product, className }: Props) => {
+  const { productId, name, description, images, price, mrp } = product;
   const {
     cartItems,
     addToCart,
@@ -29,42 +28,57 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
   } = useAppContext();
   const [showCollections, setShowCollections] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
-    null
+    null,
   );
   const router = useRouter();
 
+  const hasImage = Array.isArray(images) && images.length > 0;
+
+  const imageSrc = hasImage
+    ? product.images[0]
+    : "/Assets/Images/Newplaceholder.png";
+
   // ✅ derive cart state from global context
-  const isInCart = cartItems.has(Pid);
+  const isInCart = cartItems.has(productId);
 
   const handleCartToggle = () => {
     if (isInCart) {
-      removeFromCart(Pid);
+      removeFromCart(productId);
     } else {
-      addToCart(Pid);
+      addToCart(productId);
     }
   };
 
   const handleBuyNow = () => {
-    if (!cartItems.has(Pid)) {
-      addToCart(Pid); // adds with qty = 1
+    if (!cartItems.has(productId)) {
+      addToCart(productId); // adds with qty = 1
     }
 
-    router.push(`/checkout?buyNow=${Pid}`);
+    router.push(`/checkout?buyNow=${productId}`);
   };
   return (
     <StarBorder
-    thickness={3}
+      thickness={3}
       color="#ffffff"
       speed="5s"
-      className="cardBlock flex flex-col justify-between rounded-2xl my-2 w-[24%]"
+      className={`cardBlock flex flex-col justify-between rounded-2xl my-2 w-[24%] ${className}`}
     >
-      <div className={`relative h-[57vh] overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left ${!src ? "bg-[#0000006b]":""}`}>
+      <div
+        className={`relative h-[57vh] overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
+      >
+        <Image
+          src={imageSrc}
+          fill
+          sizes="images"
+          alt={name}
+          className="h-55 -z-2 object-contain hover:scale-110 duration-300 transition-all mx-auto"
+        ></Image>
         <span
           className="cursor-pointer self-end text-3xl"
           onClick={() => {
             if (selectedCollection) {
               // ❤️ already selected → remove
-              removeFromCollection(selectedCollection, Pid);
+              removeFromCollection(selectedCollection, productId);
               setSelectedCollection(null);
               setShowCollections(false);
             } else {
@@ -76,7 +90,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
           {selectedCollection ? (
             <FaHeart className="text-[#ff0000]" />
           ) : (
-            <CiHeart className="text-white"/>
+            <CiHeart className="text-white" />
           )}
         </span>
 
@@ -88,7 +102,7 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
                 key={collection}
                 onClick={(e) => {
                   e.stopPropagation(); // 🚫 prevent heart click
-                  addToCollection(collection, Pid);
+                  addToCollection(collection, productId);
                   setSelectedCollection(collection);
                   setShowCollections(false);
                 }}
@@ -99,22 +113,18 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
             ))}
           </div>
         )}
-        <Link target="_blank" href={`/product/${Pid}`}>
-          <div>
-            <Image
-              src={src || "/Assets/Images/Newplaceholder.png"}
-              fill
-              alt={title}
-              className="h-55 -z-2 object-contain hover:scale-110 duration-300 transition-all mx-auto"
-            ></Image>
-          </div>
+        <Link target="_blank" href={`/product/${productId}`}>
           <div className="flex-col hover:-translate-y-4 duration-300 text-white transition-all flex gap-5 flex-1">
-            <div className="text-2xl font-bold line-clamp-1">{title}</div>
+            <div className="text-2xl font-bold line-clamp-1">{name}</div>
             <div>
               <p className="line-clamp-1">{description}</p>
             </div>
             <div className="font-bold text-lg ">
               &#8377;{Number(price)}
+              <span
+                className="line-through font-extralight relative bottom-3">
+                &#8377;{Number(mrp)}
+              </span>
             </div>
           </div>
         </Link>

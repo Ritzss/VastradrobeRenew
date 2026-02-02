@@ -4,6 +4,12 @@ import { jwtVerify } from "jose";
 const protectedRoutes = ["/cart", "/checkout", "/favorites", "/profile"];
 const authRoutes = ["/account/login", "/account/register"];
 
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined");
+}
+
+const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -21,7 +27,7 @@ export async function middleware(req: NextRequest) {
     }
 
     try {
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+      
       await jwtVerify(token, secret);
 
       // logged in → redirect away from auth pages

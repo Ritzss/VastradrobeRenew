@@ -53,6 +53,8 @@ const Navbar = () => {
             <Image
               src={"https://res.cloudinary.com/dwhn5ec09/image/upload/v1769775688/VaStraDrobe_vtulqu.png"}
               fill
+              loading="eager"
+              sizes="images"
               alt={"Vastradrobe"}
             />
           </Link>

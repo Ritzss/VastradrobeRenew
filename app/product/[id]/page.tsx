@@ -4,7 +4,6 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useAppContext } from "@/hooks/useAppContext";
 import { useEffect, useState } from "react";
-import SkeletonLoader from "@/components/Global/SkeletonLoader";
 import { IMSProduct } from "@/Types/Product";
 import Loading from "@/product/[id]/loading";
 

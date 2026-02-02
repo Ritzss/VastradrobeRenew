@@ -60,12 +60,7 @@ products.forEach((p) => {
     <div className="flex flex-wrap justify-evenly text-black">
       {filteredProducts.map((item) => (
         <ProductCard
-          key={item.productId}
-          Pid={item.productId}
-          title={item.name}
-          src={item.images?.[0]}
-          description={item.description || ""}
-          price={item.price}
+          key={item.productId} product={item}          
         />
       ))}
     </div>
