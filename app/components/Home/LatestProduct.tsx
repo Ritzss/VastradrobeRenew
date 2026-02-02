@@ -12,6 +12,7 @@ type LatestArrivalsProps = {
 const LatestArrivals = ({ products }: LatestArrivalsProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   // drag state (mutable, no re-renders)
   const isDown = useRef(false);
@@ -39,12 +40,29 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
     return () => observer.disconnect();
   }, []);
 
+  /* ---------------------fade controllers------------------ */
+
+  const updateFades = () => {
+    const slider = sliderRef.current;
+    const wrapper = wrapperRef.current;
+    if (!slider || !wrapper) return;
+    const { scrollLeft, scrollWidth, clientWidth } = slider;
+
+    wrapper.classList.toggle("show-left", scrollLeft > 0);
+    wrapper.classList.toggle(
+      "show-right",
+      scrollLeft + clientWidth < scrollWidth - 1,
+    );
+  };
+
   /* ---------- subtle nudge (once, when visible) ---------- */
   useEffect(() => {
     if (!isVisible || !products || products.length === 0) return;
 
     const slider = sliderRef.current;
     if (!slider) return;
+
+    updateFades();
 
     slider.scrollBy({ left: 40, behavior: "smooth" });
     const t = setTimeout(() => {
@@ -85,7 +103,7 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
             <h2 className="text-[2rem] text-[#2B2B2B] font-semibold">
               Latest Arrivals
             </h2>
-            <span className="text-md hover:bg-[#fffa00] hover:text-white text-[#2B2B2B] border px-2 py-1 rounded-full">
+            <span className="text-md hover:bg-[#cd0000] hover:text-white text-[#2B2B2B] border px-2 py-1 rounded-full">
               New
             </span>
           </Link>
@@ -93,10 +111,11 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
         <span className="text-sm text-gray-500">Drag to explore →</span>
       </div>
       <div className="relative">
-        <div className="latest-slider-wrapper">
+        <div ref={wrapperRef} className="latest-slider-wrapper">
           {/* Slider */}
           <div
             ref={sliderRef}
+            onScroll={updateFades}
             className="flex gap-4 overflow-x-auto cursor-grab select-none"
             onMouseDown={onMouseDown}
             onMouseUp={stopDragging}

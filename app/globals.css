@@ -147,17 +147,24 @@ body.scroll-lock {
   height: 100%;
   z-index: 10;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
-.latest-slider-wrapper::before {
+/* LEFT fade */
+.latest-slider-wrapper.show-left::before {
   left: 0;
+  opacity: 1;
   background: linear-gradient(to right, white, transparent);
 }
 
-.latest-slider-wrapper::after {
+/* RIGHT fade */
+.latest-slider-wrapper.show-right::after {
   right: 0;
+  opacity: 1;
   background: linear-gradient(to left, white, transparent);
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   .slide,
