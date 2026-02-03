@@ -14,7 +14,6 @@ export default async function SearchPage({ searchParams }: any) {
   return (
     <ProductClient
       products={data.products}
-      category={category}
     />
   );
 }
