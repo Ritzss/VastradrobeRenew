@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
-import Image from "next/image";
-import StarBorder from "@/components/UI/StarBorder";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import ProductCard from "@/components/Global/ProductCard";
 
 const FavoritesClient = () => {
   const {
     favCollections,
     products,
+    setProducts,
     createCollection,
     removeFromCollection,
   } = useAppContext();
@@ -18,11 +18,30 @@ const FavoritesClient = () => {
   const [newCollection, setNewCollection] = useState("");
   const [showInput, setShowInput] = useState(false);
 
+  useEffect(() => {
+    const allIds = Array.from(
+      new Set(Object.values(favCollections).flatMap((set) => Array.from(set))),
+    ).join(",");
+
+    if (!allIds) return;
+
+    const loadProduct = async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?ids=${allIds}`,
+        { cache: "no-store" },
+      );
+
+      const data = await res.json();
+      setProducts(data.products || []);
+    };
+
+    loadProduct();
+  }, [favCollections, setProducts]);
+
   return (
     <div className="p-10 flex flex-col gap-10">
       <h1 className="text-3xl font-bold">Your Favorites ❤️</h1>
-
-      {/* CREATE COLLECTION */}
+      CREATE COLLECTION
       <div className="flex items-center gap-4 mb-6">
         {!showInput ? (
           <button
@@ -62,18 +81,13 @@ const FavoritesClient = () => {
           </>
         )}
       </div>
-
       {/* COLLECTIONS */}
       {Object.entries(favCollections).map(([collection, ids]) => {
-        const favProducts = products.filter((p) =>
-          ids.has(p.productId)
-        );
+        const favProducts = products.filter((p) => ids.has(p.productId));
 
         return (
           <section key={collection}>
-            <h2 className="text-2xl font-semibold mb-4">
-              {collection}
-            </h2>
+            <h2 className="text-2xl font-semibold mb-4">{collection}</h2>
 
             {favProducts.length === 0 ? (
               <div className="text-gray-500 italic">
@@ -82,43 +96,52 @@ const FavoritesClient = () => {
             ) : (
               <div className="flex flex-wrap gap-6">
                 {favProducts.map((item) => (
-                  <StarBorder
+                  <ProductCard
                     key={item.productId}
-                    color="#ffffff"
-                    speed="5s"
-                    className="w-[23%] p-4 rounded-2xl flex flex-col justify-between"
+                    product={item}
+                    button={false}
+                    classNameInner="h-[55vh]"
                   >
-                    <Image
-                      src={
-                        item.images?.[0] ||
-                        "/Assets/Images/placeholder.png"
-                      }
-                      width={150}
-                      height={150}
-                      alt={String(item.name)}
-                      className="mx-auto h-45 object-contain"
-                    />
-
-                    <div className="mt-3 font-bold text-center line-clamp-2">
-                      {item.name}
-                    </div>
-
-                    <div className="mt-2 font-semibold text-center">
-                      ₹{item.price}
-                    </div>
-
                     <button
                       onClick={() =>
-                        removeFromCollection(
-                          collection,
-                          item.productId
-                        )
+                        removeFromCollection(collection, item.productId)
                       }
-                      className="mt-3 text-red-600 font-semibold"
+                      className="p-2 rounded-lg hover:translate-y-1 hover:rounded-xl w-full bg-[#cd0000] duration-500 transition-all text-white flex justify-center items-center gap-2 "
                     >
-                      Remove ❤️
+                      Remove Item
                     </button>
-                  </StarBorder>
+                  </ProductCard>
+                  // <StarBorder
+                  //   key={item.productId}
+                  //   color="#cd0000"
+                  //   speed="5s"
+                  //   className="w-[23%] border"
+                  // >
+                  //   {/* <div className="relative w-[30vh] h-[40vh] overflow-hidden rounded-xl">
+                  //     <Image
+                  //     src={item.images?.[0] || "/Assets/Images/Newplaceholder.png"}
+                  //     fill
+                  //     sizes="photo"
+                  //     alt={String(item.name)}
+                  //     className="mx-auto h-45 object-contain"
+                  //   />
+                  //   </div>
+
+                  //   <div className="mt-3 font-bold text-center line-clamp-2">
+                  //     {item.name}
+                  //   </div>
+
+                  //   <div className="mt-2 font-semibold text-center">
+                  //     ₹{item.price}
+                  //   </div> */}
+
+                  //   <button
+
+                  //     className="mt-3 text-red-600 font-semibold"
+                  //   >
+                  //     Remove ❤️
+                  //   </button>
+                  // </StarBorder>
                 ))}
               </div>
             )}
@@ -127,7 +150,6 @@ const FavoritesClient = () => {
           </section>
         );
       })}
-
       {/* CTA */}
       <div>
         <button className="text-xl w-full flex justify-center items-center gap-2">

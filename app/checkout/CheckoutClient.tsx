@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useAppContext } from "@/hooks/useAppContext";
@@ -35,8 +37,7 @@ const CheckoutClient = ({ buyNowId }: Props) => {
 
   /* ---------------- PRODUCTS ---------------- */
   const checkoutProducts = useMemo<
-    (IMSProduct & { qty: number })[]
-  >(() => {
+    (IMSProduct & { qty: number })[]>(() => {
     if (buyNowId) {
       const product = products.find(
         (p) => p.productId === Number(buyNowId)
@@ -63,43 +64,63 @@ const CheckoutClient = ({ buyNowId }: Props) => {
 
   /* ---------------- PLACE ORDER ---------------- */
   const handlePlaceOrder = async () => {
-    if (!address || !phone) {
-      toast.error("Please enter address and phone number");
-      return;
-    }
+  if (!address || !phone) {
+    toast.error("Please enter address and phone number");
+    return;
+  }
 
-    try {
-      const res = await fetch("/api/orders/place", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          address,
-          phone,
-          products: checkoutProducts.map((p) => ({
-            productId: p.productId,
-            name: p.name,
-            price: p.price,
-            qty: p.qty,
-          })),
-          buyNow: Boolean(buyNowId),
-        }),
-      });
+  const res = await fetch("/api/payment/create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount: total }),
+  });
 
-      if (!res.ok) {
-        throw new Error(await res.text());
-      }
+  const order = await res.json();
 
-      if (!buyNowId) clearCart();
-
-      await loadUser(); // 🔄 refresh user to get saved address
-      router.push("/orders");
-      toast.success("Order is Placed!☺🎊")
-    } catch (err) {
-      console.error(err);
-      toast.error("Order failed");
-    }
+  const options = {
+    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+    amount: order.amount,
+    currency: "INR",
+    name: "VastraDrobe",
+    order_id: order.id,
+    handler: async function (response: any) {
+      await verifyAndPlaceOrder(response);
+    },
+    prefill: { contact: phone },
+    theme: { color: "#000000" },
   };
 
+  const razorpay = new (window as any).Razorpay(options);
+  razorpay.open();
+};
+
+const verifyAndPlaceOrder = async (payment: any) => {
+  const res = await fetch("/api/orders/place", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      address,
+      phone,
+      payment,
+      products: checkoutProducts.map((p) => ({
+        productId: p.productId,
+        name: p.name,
+        price: p.price,
+        qty: p.qty,
+      })),
+    }),
+  });
+
+  if (!res.ok) {
+    toast.error("Payment verification failed");
+    return;
+  }
+
+  clearCart();
+  await loadUser();
+  router.push("/orders");
+  toast.success("Payment successful 🎉");
+};
   /* ---------------- UI ---------------- */
   return (
     <div className="p-10 grid grid-cols-3 gap-8">

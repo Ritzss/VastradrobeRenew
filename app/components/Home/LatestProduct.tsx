@@ -18,6 +18,7 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
   const isDown = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -78,12 +79,14 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
   const onMouseDown = (e: React.MouseEvent) => {
     if (!sliderRef.current) return;
     isDown.current = true;
+    setIsDragging(true);
     startX.current = e.pageX - sliderRef.current.offsetLeft;
     scrollLeft.current = sliderRef.current.scrollLeft;
   };
 
   const stopDragging = () => {
     isDown.current = false;
+    setIsDragging(false);
   };
 
   const onMouseMove = (e: React.MouseEvent) => {
@@ -116,7 +119,7 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
           <div
             ref={sliderRef}
             onScroll={updateFades}
-            className="flex gap-4 overflow-x-auto cursor-grab select-none"
+            className={`flex gap-4 overflow-x-auto cursor-${isDragging? "grabbing" : "grab"} group select-none`}
             onMouseDown={onMouseDown}
             onMouseUp={stopDragging}
             onMouseLeave={stopDragging}

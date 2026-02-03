@@ -6,7 +6,7 @@ type PageProps = {
   };
 };
 
-const CheckoutPage = ({ searchParams }: PageProps) => {
+const CheckoutPage = async ({ searchParams }: PageProps) => {
   return <CheckoutClient buyNowId={searchParams.buyNow ?? null} />;
 };
 

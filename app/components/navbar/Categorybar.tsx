@@ -1,11 +1,11 @@
 "use client";
-import Menbox from "./HoverBoxes/Menbox";
-import Traditionalbox from "./HoverBoxes/Traditionalbox";
-import Westernbox from "./HoverBoxes/WesternBox";
-import Womenbox from "./HoverBoxes/Womenbox";
+// import Menbox from "./HoverBoxes/Menbox";
+// import Traditionalbox from "./HoverBoxes/Traditionalbox";
+// import Westernbox from "./HoverBoxes/WesternBox";
+// import Womenbox from "./HoverBoxes/Womenbox";
 import { usePathname } from "next/navigation";
 import NavItem from "./NavItem";
-import ChildrenBox from "./HoverBoxes/ChildrenBox";
+// import ChildrenBox from "./HoverBoxes/ChildrenBox";
 
 const CategoryBar = (props: {
   className: unknown;
@@ -29,8 +29,8 @@ const CategoryBar = (props: {
         active={isActive("/men")}
         hover="hover:bg-[#00ffff] hover:border-[#00ffff] hover:border-b-2"
         activeStyle="bg-[#00ffff] border-[#00ffff] border-b-2"
-        dropdown={<Menbox />}
-        drop={props.drop}
+        // dropdown={<Menbox />}
+        // drop={props.drop}
       />
 
       <NavItem
@@ -41,22 +41,31 @@ const CategoryBar = (props: {
         active={isActive("/women")}
         hover="hover:bg-[#f04aff] hover:border-[#f04aff] hover:border-b-2"
         activeStyle="bg-[#f04aff] border-[#f04aff] border-b-2"
-        dropdown={<Womenbox />}
-        drop={props.drop}
+        // dropdown={<Womenbox />}
+        // drop={props.drop}
       />
 
       <NavItem
         href="/children"
-        src={""} 
-        Img={props.Img}  
+        src={""}
+        Img={props.Img}
         label="Children"
         active={isActive("/children")}
         hover="hover:bg-[#ffff00] hover:border-[#ffff00] hover:border-b-2"
         activeStyle="bg-[#ffff00] border-[#ffff00] border-b-2"
-        dropdown={<ChildrenBox />} // boys + girls inside
-        drop={props.drop}
+        // dropdown={<ChildrenBox />} // boys + girls inside
+        // drop={props.drop}
       />
 
+      <NavItem
+        href="/winter"
+        Img={props.Img}
+        src="/Assets/Images/CateImg/offer.png"
+        label="Winter"
+        active={isActive("/winter")}
+        hover="hover:bg-[#ff6600] hover:border-[#ff6600] hover:border-b-2"
+        activeStyle="bg-[#ff6600] border-[#ff6600] border-b-2"
+      />
       <NavItem
         href="/western"
         src="/Assets/Images/CateImg/western.png"
@@ -65,8 +74,8 @@ const CategoryBar = (props: {
         active={isActive("/western")}
         hover="hover:bg-[#a6ff00] hover:border-[#a6ff00] hover:border-b-2"
         activeStyle="bg-[#a6ff00] border-[#a6ff00] border-b-2"
-        dropdown={<Westernbox />}
-        drop={props.drop}
+        // dropdown={<Westernbox />}
+        // drop={props.drop}
       />
 
       <NavItem
@@ -77,18 +86,8 @@ const CategoryBar = (props: {
         active={isActive("/traditionals")}
         hover="hover:bg-[#c50052] hover:border-[#c50052] hover:border-b-2"
         activeStyle="bg-[#c50052] border-[#c50052] border-b-2"
-        dropdown={<Traditionalbox />}
-        drop={props.drop}
-      />
-
-      <NavItem
-        href="/offers"
-        Img={props.Img}
-        src="/Assets/Images/CateImg/offer.png"
-        label="Offer"
-        active={isActive("/offers")}
-        hover="hover:bg-[#ff6600] hover:border-[#ff6600] hover:border-b-2"
-        activeStyle="bg-[#ff6600] border-[#ff6600] border-b-2"
+        // dropdown={<Traditionalbox />}
+        // drop={props.drop}
       />
     </section>
   );

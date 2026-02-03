@@ -6,17 +6,20 @@ import { FaCartArrowDown, FaHeart } from "react-icons/fa6";
 import { IoExitOutline } from "react-icons/io5";
 import { useAppContext } from "@/hooks/useAppContext";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { IMSProduct } from "@/Types/Product";
 
 type Props = {
+  button?:boolean;
   product: IMSProduct;
   className?: string;
+  classNameInner?: string;
+  children?:ReactNode;
 };
 
-const ProductCard = ({ product, className }: Props) => {
+const ProductCard = ({ product, className,classNameInner,button=true,children }: Props) => {
   const { name, description, images, price, mrp } = product;
   const productId = Number(product.productId);
   const {
@@ -43,6 +46,7 @@ const ProductCard = ({ product, className }: Props) => {
   const isInCart = cartItems.has(productId);
 
   const handleCartToggle = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     isInCart ? removeFromCart(productId) : addToCart(productId);
   };
 
@@ -58,7 +62,7 @@ const ProductCard = ({ product, className }: Props) => {
       className={`cardBlock flex flex-col justify-between rounded-2xl my-2 w-[24%] ${className}`}
     >
       <div
-        className={`relative h-[57vh] overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
+        className={`relative ${classNameInner ? classNameInner : "h-[57vh]"} overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
       >
         <Image
           src={imageSrc}
@@ -67,7 +71,7 @@ const ProductCard = ({ product, className }: Props) => {
           alt={name}
           className="h-55 -z-2 object-contain hover:scale-110 duration-300 transition-all mx-auto"
         ></Image>
-        <span
+        {button && <span
           className="cursor-pointer self-end text-3xl"
           onClick={() => {
             if (selectedCollection) {
@@ -86,7 +90,7 @@ const ProductCard = ({ product, className }: Props) => {
           ) : (
             <CiHeart className="text-white" />
           )}
-        </span>
+        </span>}
 
         {/* 📂 COLLECTION DROPDOWN */}
         {showCollections && !selectedCollection && (
@@ -121,7 +125,8 @@ const ProductCard = ({ product, className }: Props) => {
             </div>
           </div>
         </Link>
-        <div className="flex gap-2 justify-between">
+        {children}
+        {button && <div className="flex gap-2 justify-between">
           <button
             type="button"
             onClick={handleCartToggle}
@@ -146,7 +151,7 @@ const ProductCard = ({ product, className }: Props) => {
           >
             Buy Now <IoExitOutline className="text-2xl" />
           </button>
-        </div>
+        </div>}
       </div>
     </StarBorder>
   );

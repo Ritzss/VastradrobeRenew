@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
+
 const images = [
   "/Assets/Images/slider2.png",
   "/Assets/Images/slider3.png",
@@ -111,6 +112,9 @@ export default function Slider() {
           />
         ))}
       </div>
+
+
+
     </header>
   );
 }

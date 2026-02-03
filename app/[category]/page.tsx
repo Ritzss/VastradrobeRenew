@@ -13,7 +13,6 @@ const CATEGORY_MAP: Record<string, string[]> = {
   western: ["western"],
   traditionals: ["traditionals"],
   winter: ["winter"],
-  offers:["offer"],
 };
 
 export default async function Page({ params }: PageProps) {
@@ -48,7 +47,6 @@ export default async function Page({ params }: PageProps) {
   return (
     <ProductClient
       products={products}
-      category={normalizedCategory}
     />
   );
 }

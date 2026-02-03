@@ -7,35 +7,25 @@ import { IMSProduct } from "@/Types/Product";
 
 const ProductClient = ({
   products,
-  category,
 }: {
   products: IMSProduct[];
-  category: string;
 }) => {
   const { searchQuery, subCategory } = useAppContext();
 
-  const normalizedCategory = normalize(category);
   const normalizedSub = normalize(subCategory);
   const normalizedSearch = searchQuery?.toLowerCase() || "";
 
   const filteredProducts = products.filter((p) => {
-    const categoryMatch =
-      !normalizedCategory || normalize(p.category) === normalizedCategory;
+  const subCategoryMatch =
+    !normalizedSub || normalize(p.subcategory) === normalizedSub;
 
-    const subCategoryMatch =
-      !normalizedSub || normalize(p.subcategory) === normalizedSub;
+  const searchMatch =
+    !normalizedSearch ||
+    p.name.toLowerCase().includes(normalizedSearch) ||
+    (p.description || "").toLowerCase().includes(normalizedSearch);
 
-    const searchMatch =
-      !normalizedSearch ||
-      p.name.toLowerCase().includes(normalizedSearch) ||
-      (p.description || "").toLowerCase().includes(normalizedSearch);
-
-    return categoryMatch && subCategoryMatch && searchMatch;
-  });
-
-
-  console.log("CATEGORY FROM URL:", category);
-console.log("SUBCATEGORY FROM CONTEXT:", subCategory);
+  return subCategoryMatch && searchMatch;
+});
 
 products.forEach((p) => {
   console.log({

@@ -109,16 +109,18 @@ const CartClient = () => {
             className="cardBlock flex justify-between rounded-2xl my-2"
           >
             <div className="flex justify-between w-full p-4 text-start">
-              <Image
+             <div className="relative w-[10%] h-[20vh] rounded-2xl">
+               <Image
                 src={
                   item.images?.[0] ??
                   "/Assets/Images/Newplaceholder.png"
                 }
-                width={150}
-                height={150}
+                fill
+                sizes="photo"
                 alt={item.name}
                 className="object-contain"
               />
+             </div>
 
               <div className="flex flex-col justify-center flex-1 px-6 gap-3">
                 <div className="text-2xl font-bold line-clamp-1">
@@ -132,7 +134,7 @@ const CartClient = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 w-50">
+              <div className="flex flex-col gap-3 justify-between w-50">
                 <div className="flex border rounded-lg overflow-hidden">
                   <button
                     onClick={() =>
