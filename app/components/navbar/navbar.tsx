@@ -23,6 +23,7 @@ const Navbar = () => {
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const [showTopBar, setShowTopBar] = useState(true);
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const {
     user,
@@ -41,55 +42,70 @@ const Navbar = () => {
     return () => clearInterval(id);
   });
 
-  return (
-    <nav id={"navcontainer"} className="bg-[#ffffff] rounded-xl">
-      <section className="">
-        <article className="flex justify-between items-center w-full px-10 bg-[#cd0000] text-white">
-          <Link
-            scroll={false}
-            href={"/"}
-            className="flex justify-center relative border-2 border-dashed rounded-2xl h-[10vh] w-[15vw]"
-          >
-            <Image
-              src={"https://res.cloudinary.com/dwhn5ec09/image/upload/v1769775688/VaStraDrobe_vtulqu.png"}
-              fill
-              loading="eager"
-              sizes="images"
-              alt={"Vastradrobe"}
-            />
-          </Link>
-          <span className="flex items-center pt-[4%] h-[18vh] gap-2">
-            {!authLoading && !isLogged && (
-              <Link scroll={false} href="/account/login">
-                <div className="flex text-lg gap-2 items-center">
-                  <RiAccountBoxLine />
-                  <span className="text-lg">Login/Register</span>
-                </div>
-              </Link>
-            )}
-            {isLogged && (
-              <Link
-                scroll={false}
-                href="/profile"
-                className=" flex gap-2 items-center text-lg hover:border-b"
-              >
-                <RiAccountBoxFill />
-                <span className="text-lg"> {user?.username}</span>
-              </Link>
-            )}
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowTopBar(window.scrollY === 0);
+    };
 
-            {isLogged && (
-              <span
-                className="text-lg hover:border-b cursor-pointer flex gap-2 items-center"
-                onClick={handleLogout}
-              >
-                <LogOut />
-                <span className="text-lg"> Logout</span>
-              </span>
-            )}
-          </span>
-        </article>
-      </section>
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <nav id={"navcontainer"} className="bg-[#ffffff] transition-all duration-1000 rounded-xl">
+      {showTopBar && (
+        <section
+          className={`overflow-hidden h-[18vh] ${showTopBar ? " opacity-100" : " opacity-0"}`}
+        >
+          <article className="flex justify-between items-center w-full px-10 bg-[#cd0000] text-white">
+            <Link
+              scroll={false}
+              href={"/"}
+              className="flex justify-center relative border-2 border-dashed rounded-2xl h-[10vh] w-[15vw]"
+            >
+              <Image
+                src={
+                  "https://res.cloudinary.com/dwhn5ec09/image/upload/v1769775688/VaStraDrobe_vtulqu.png"
+                }
+                fill
+                loading="eager"
+                sizes="images"
+                alt={"Vastradrobe"}
+              />
+            </Link>
+            <span className="flex items-center pt-[4%] h-[18vh] gap-2">
+              {!authLoading && !isLogged && (
+                <Link scroll={false} href="/account/login">
+                  <div className="flex text-lg gap-2 items-center">
+                    <RiAccountBoxLine />
+                    <span className="text-lg">Login/Register</span>
+                  </div>
+                </Link>
+              )}
+              {isLogged && (
+                <Link
+                  scroll={false}
+                  href="/profile"
+                  className=" flex gap-2 items-center text-lg hover:border-b"
+                >
+                  <RiAccountBoxFill />
+                  <span className="text-lg"> {user?.username}</span>
+                </Link>
+              )}
+
+              {isLogged && (
+                <span
+                  className="text-lg hover:border-b cursor-pointer flex gap-2 items-center"
+                  onClick={handleLogout}
+                >
+                  <LogOut />
+                  <span className="text-lg"> Logout</span>
+                </span>
+              )}
+            </span>
+          </article>
+        </section>
+      )}
       <section className="sticky top-0 z-50 border mt-1 rounded-xl bg-[#ffffff] text-[#cd0000] flex justify-center gap-2 p-[0.5%] h-[7vh]">
         <header
           id={"navcontentheader"}
@@ -110,17 +126,14 @@ const Navbar = () => {
         </header>
         <main id={"navcontentmain"} className="w-[35%] text-black">
           <span className="border flex bg-white justify-between rounded-xl w-full">
-            
             <span className="flex items-center px-2 gap-1 h-[4.5vh] w-full">
               <input
-              className="w-full outline-0"
+                className="w-full outline-0"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && searchQuery.trim()) {
-                    router.push(
-                      `/search?q=${encodeURIComponent(searchQuery)}`,
-                    );
+                    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
                   }
                 }}
                 placeholder={`Search ${searchItems[index]}?`}

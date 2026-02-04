@@ -28,7 +28,7 @@ export default function RootLayout({
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="afterInteractive"
         />
-        <ClientLayout>{children}</ClientLayout>
+        <ClientLayout >{children}</ClientLayout>
       </body>
     </html>
   );

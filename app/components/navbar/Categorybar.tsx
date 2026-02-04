@@ -19,7 +19,7 @@ const CategoryBar = (props: {
 
   return (
     <section
-      className={`flex overflow-hidden justify-evenly border text-xl rounded-b-xl w-full ${props.className}`}
+      className={`flex overflow-hidden justify-evenly border-b text-xl w-full ${props.className}`}
     >
       <NavItem
         href="/men"
