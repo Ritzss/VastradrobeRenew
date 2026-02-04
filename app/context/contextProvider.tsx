@@ -55,7 +55,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     return [...prev, { productId, size, qty: 1 }];
   });
 
-  toast.success(`Added to cart (${size})`);
+  toast.success(`Item Added to cart`);
 };
 
  const removeFromCart = (productId: number, size: string) => {
@@ -64,6 +64,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       (i) => !(i.productId === productId && i.size === size)
     )
   );
+  toast.error(`Item Removed from cart`);
 };
 
 const incrementQty = (productId: number, size: string) => {
