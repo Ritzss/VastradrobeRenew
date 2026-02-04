@@ -12,14 +12,20 @@ import Link from "next/link";
 import { IMSProduct } from "@/Types/Product";
 
 type Props = {
-  button?:boolean;
+  button?: boolean;
   product: IMSProduct;
   className?: string;
   classNameInner?: string;
-  children?:ReactNode;
+  children?: ReactNode;
 };
 
-const ProductCard = ({ product, className,classNameInner,button=true,children }: Props) => {
+const ProductCard = ({
+  product,
+  className,
+  classNameInner,
+  button = true,
+  children,
+}: Props) => {
   const { name, description, images, price, mrp } = product;
   const productId = Number(product.productId);
   const {
@@ -43,54 +49,68 @@ const ProductCard = ({ product, className,classNameInner,button=true,children }:
     : "/Assets/Images/Newplaceholder.png";
 
   // ✅ derive cart state from global context
-  const isInCart = cartItems.has(productId);
+  const defaultSize = product.sizes?.[0] || "FREE";
+
+  const isInCart = cartItems.some(
+    (item) => item.productId === productId && item.size === defaultSize);
 
   const handleCartToggle = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    isInCart ? removeFromCart(productId) : addToCart(productId);
+    isInCart
+      ? removeFromCart(productId, defaultSize)
+      : addToCart(productId, defaultSize);
   };
 
+  console.log(product);
+
   const handleBuyNow = () => {
-    if (!isInCart) addToCart(productId);
-    router.push(`/checkout?buyNow=${productId}`);
-  };
+  if (!isInCart) {
+    addToCart(productId, defaultSize);
+  }
+
+  router.push(
+    `/checkout?buyNow=${productId}&size=${defaultSize}`
+  );
+};
   return (
     <StarBorder
       thickness={3}
       color="#ffffff"
       speed="5s"
-      className={`cardBlock flex flex-col justify-between rounded-2xl my-2 w-[24%] ${className}`}
+      className={`cardBlock overflow-hidden flex flex-col justify-between rounded-2xl my-2 w-[24%] ${className}`}
     >
       <div
-        className={`relative ${classNameInner ? classNameInner : "h-[57vh]"} overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
+        className={`relative ${classNameInner ? classNameInner : "h-[57vh]"} group overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
       >
         <Image
           src={imageSrc}
           fill
           sizes="images"
           alt={name}
-          className="h-55 -z-2 object-contain hover:scale-110 duration-300 transition-all mx-auto"
+          className="h-55 -z-2 group-hover:scale-105 object-contain duration-500 transition-all mx-auto"
         ></Image>
-        {button && <span
-          className="cursor-pointer self-end text-3xl"
-          onClick={() => {
-            if (selectedCollection) {
-              // ❤️ already selected → remove
-              removeFromCollection(selectedCollection, productId);
-              setSelectedCollection(null);
-              setShowCollections(false);
-            } else {
-              // 🤍 not selected → open dropdown
-              setShowCollections((prev) => !prev);
-            }
-          }}
-        >
-          {selectedCollection ? (
-            <FaHeart className="text-[#ff0000]" />
-          ) : (
-            <CiHeart className="text-white" />
-          )}
-        </span>}
+        {button && (
+          <span
+            className="cursor-pointer self-end text-3xl"
+            onClick={() => {
+              if (selectedCollection) {
+                // ❤️ already selected → remove
+                removeFromCollection(selectedCollection, productId);
+                setSelectedCollection(null);
+                setShowCollections(false);
+              } else {
+                // 🤍 not selected → open dropdown
+                setShowCollections((prev) => !prev);
+              }
+            }}
+          >
+            {selectedCollection ? (
+              <FaHeart className="text-[#ff0000]" />
+            ) : (
+              <CiHeart className="text-white" />
+            )}
+          </span>
+        )}
 
         {/* 📂 COLLECTION DROPDOWN */}
         {showCollections && !selectedCollection && (
@@ -126,32 +146,34 @@ const ProductCard = ({ product, className,classNameInner,button=true,children }:
           </div>
         </Link>
         {children}
-        {button && <div className="flex gap-2 justify-between">
-          <button
-            type="button"
-            onClick={handleCartToggle}
-            className="bg-black gap-2 text-white w-[75%] rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
-          >
-            {isInCart ? (
-              <>
-                Remove Item
-                <MdOutlineRemoveShoppingCart className="text-2xl " />
-              </>
-            ) : (
-              <>
-                Add to Cart
-                <FaCartArrowDown className="text-2xl" />
-              </>
-            )}
-          </button>
+        {button && (
+          <div className="flex gap-2 justify-between">
+            <button
+              type="button"
+              onClick={handleCartToggle}
+              className="bg-black gap-2 text-white w-[75%] rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
+            >
+              {isInCart ? (
+                <>
+                  Remove Item
+                  <MdOutlineRemoveShoppingCart className="text-2xl " />
+                </>
+              ) : (
+                <>
+                  Add to Cart
+                  <FaCartArrowDown className="text-2xl" />
+                </>
+              )}
+            </button>
 
-          <button
-            onClick={handleBuyNow}
-            className="p-2 rounded-lg hover:translate-y-1 hover:rounded-xl w-[50%] bg-[#cd0000] duration-500 transition-all text-white flex justify-center items-center gap-2 "
-          >
-            Buy Now <IoExitOutline className="text-2xl" />
-          </button>
-        </div>}
+            <button
+              onClick={handleBuyNow}
+              className="p-2 rounded-lg hover:translate-y-1 hover:rounded-xl w-[50%] bg-[#cd0000] duration-500 transition-all text-white flex justify-center items-center gap-2 "
+            >
+              Buy Now <IoExitOutline className="text-2xl" />
+            </button>
+          </div>
+        )}
       </div>
     </StarBorder>
   );

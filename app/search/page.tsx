@@ -1,8 +1,7 @@
 // app/search/page.tsx
 import ProductClient from "@/[category]/ProductClient";
 
-export default async function SearchPage({ searchParams }: any) {
-  const category = searchParams.category || "";
+export default async function SearchPage() {
 
   const res = await fetch(
     `${process.env.IMS_BASE_URL}/api/ims/public/products`,

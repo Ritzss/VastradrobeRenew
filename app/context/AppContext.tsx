@@ -15,6 +15,12 @@ export type RegisterData = {
   password: string;
 };
 
+export type CartItem = {
+  productId: number;
+  size: string;
+  qty: number;
+};
+
 export interface AppContextType {
   /* 🔍 Search & Filter */
   selectGender: string;
@@ -25,13 +31,13 @@ export interface AppContextType {
   setSubCategory: Dispatch<SetStateAction<string>>;
 
   /* 🛒 Cart */
-  cartItems: Map<number, number>;
+  cartItems: CartItem[];
   cartCount: number;
   clearCart: () => void;
-  addToCart: (id: number) => void;
-  removeFromCart: (id: number) => void;
-  incrementQty: (id: number) => void;
-  decrementQty: (id: number) => void;
+  addToCart: (productId: number, size: string) => void;
+  removeFromCart: (productId: number, size: string) => void;
+  incrementQty: (productId: number, size: string) => void;
+  decrementQty: (productId: number, size: string) => void;
 
   /* ❤️ Favorites (DB-backed) */
   favCollections: Record<string, Set<number>>;

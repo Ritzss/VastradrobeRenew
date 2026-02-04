@@ -119,7 +119,7 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
           <div
             ref={sliderRef}
             onScroll={updateFades}
-            className={`flex gap-4 overflow-x-auto cursor-${isDragging? "grabbing" : "grab"} group select-none`}
+            className={`flex gap-4 overflow-x-auto ${isDragging? "cursor-grabbing" : "cursor-grab"}`}
             onMouseDown={onMouseDown}
             onMouseUp={stopDragging}
             onMouseLeave={stopDragging}

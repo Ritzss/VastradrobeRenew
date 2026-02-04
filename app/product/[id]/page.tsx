@@ -18,7 +18,8 @@ export default function ProductPage() {
 
   const [product, setProduct] = useState<IMSProduct | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || "FREE",
+  );
   const [activeImage, setActiveImage] = useState<string>("");
 
   useEffect(() => {
@@ -27,15 +28,11 @@ export default function ProductPage() {
       return;
     }
 
-    const existing = products.find(
-      (p) => p.productId === productId
-    );
+    const existing = products.find((p) => p.productId === productId);
 
     if (existing) {
       setProduct(existing);
-      setActiveImage(
-        existing.images?.[0] || "/Assets/Images/placeholder.png"
-      );
+      setActiveImage(existing.images?.[0] || "/Assets/Images/Newplaceholder.png");
       setLoading(false);
       return;
     }
@@ -44,7 +41,7 @@ export default function ProductPage() {
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products/${productId}`,
-          { cache: "no-store" }
+          { cache: "no-store" },
         );
 
         if (!res.ok) throw new Error("Fetch failed");
@@ -54,13 +51,13 @@ export default function ProductPage() {
 
         setProduct(fetchedProduct);
         setActiveImage(
-          fetchedProduct.images?.[0] || "/Assets/Images/placeholder.png"
+          fetchedProduct.images?.[0] || "/Assets/Images/Newplaceholder.png",
         );
 
         setProducts((prev) =>
           prev.some((p) => p.productId === fetchedProduct.productId)
             ? prev
-            : [...prev, fetchedProduct]
+            : [...prev, fetchedProduct],
         );
       } catch {
         setProduct(null);
@@ -75,23 +72,17 @@ export default function ProductPage() {
   if (loading) {
     return (
       <div className="flex justify-center gap-6 p-10">
-        <Loading/>
+        <Loading />
       </div>
     );
   }
 
   if (!product) {
-    return (
-      <div className="p-10 text-xl text-center">
-        Product not found
-      </div>
-    );
+    return <div className="p-10 text-xl text-center">Product not found</div>;
   }
 
   const sizes =
-    product.sizes && product.sizes.length > 0
-      ? product.sizes
-      : FALLBACK_SIZES;
+    product.sizes && product.sizes.length > 0 ? product.sizes : FALLBACK_SIZES;
 
   return (
     <div className="px-12 py-10 flex gap-14">
@@ -103,12 +94,7 @@ export default function ProductPage() {
             className="border rounded-lg h-[12svh] relative hover:border-black"
             onClick={() => setActiveImage(img)}
           >
-            <Image
-              src={img}
-              alt=""
-              fill
-              className="object-contain p-2"
-            />
+            <Image src={img} alt="" fill className="object-contain p-2" />
           </button>
         ))}
       </div>
@@ -129,9 +115,7 @@ export default function ProductPage() {
         <h1 className="text-3xl font-bold">{product.name}</h1>
         <p className="text-neutral-600">{product.description}</p>
 
-        <div className="text-2xl font-semibold">
-          ₹{product.price}
-        </div>
+        <div className="text-2xl font-semibold">₹{product.price}</div>
 
         {/* SIZE SELECT */}
         <div className="flex gap-3">
@@ -153,7 +137,7 @@ export default function ProductPage() {
         {/* ADD TO CART */}
         <button
           disabled={!selectedSize}
-          onClick={() => addToCart(product.productId)}
+          onClick={() => addToCart(product.productId, selectedSize)}
           className={`mt-4 px-8 py-3 rounded-lg text-white transition ${
             selectedSize
               ? "bg-black hover:scale-105"

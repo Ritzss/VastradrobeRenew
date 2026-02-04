@@ -19,9 +19,13 @@ const CartClient = () => {
 
   /* ---------------- FETCH MISSING PRODUCTS ---------------- */
   useEffect(() => {
-    if (!cartItems.size) return;
+    if (!cartItems) return;
 
-    const missingIds = Array.from(cartItems.keys()).filter(
+    const productIdsInCart = Array.from(cartItems.values()).map(
+      (item) => item.productId
+    );
+
+    const missingIds = productIdsInCart.filter(
       (id) => !products.some((p) => p.productId === id)
     );
 
@@ -44,12 +48,8 @@ const CartClient = () => {
         );
 
         setProducts((prev) => {
-          const map = new Map(
-            prev.map((p) => [p.productId, p])
-          );
-          fetched.forEach((p) =>
-            map.set(p.productId, p)
-          );
+          const map = new Map(prev.map((p) => [p.productId, p]));
+          fetched.forEach((p) => map.set(p.productId, p));
           return Array.from(map.values());
         });
       } catch (err) {
@@ -61,25 +61,25 @@ const CartClient = () => {
   }, [cartItems, products, setProducts]);
 
   /* ---------------- DERIVED DATA ---------------- */
-  const cartProducts = useMemo(
-    () =>
-      products.filter((p) =>
-        cartItems.has(p.productId)
-      ),
-    [products, cartItems]
+
+  const cartEntries = useMemo(
+    () => Array.from(cartItems.values()),
+    [cartItems]
   );
 
   const cartTotal = useMemo(
     () =>
-      cartProducts.reduce((sum, item) => {
-        const qty = cartItems.get(item.productId)!;
-        return sum + item.price * qty;
+      cartEntries.reduce((sum, item) => {
+        const product = products.find(
+          (p) => p.productId === item.productId
+        );
+        return product ? sum + product.price * item.qty : sum;
       }, 0),
-    [cartProducts, cartItems]
+    [cartEntries, products]
   );
 
   /* ---------------- EMPTY ---------------- */
-  if (!cartProducts.length) {
+  if (!cartEntries.length) {
     return (
       <div className="p-10 text-xl flex flex-col justify-center items-center gap-4">
         <div>Your cart is empty</div>
@@ -98,39 +98,42 @@ const CartClient = () => {
     <div className="p-10 flex flex-col gap-6">
       <h1 className="text-3xl font-bold">Your Cart</h1>
 
-      {cartProducts.map((item) => {
-        const qty = cartItems.get(item.productId)!;
+      {cartEntries.map((entry) => {
+        const product = products.find(
+          (p) => p.productId === entry.productId
+        );
+        if (!product) return null;
 
         return (
           <StarBorder
-            key={item.productId}
+            key={`${entry.productId}_${entry.size}`}
             color="#ffffff"
             speed="5s"
             className="cardBlock flex justify-between rounded-2xl my-2"
           >
             <div className="flex justify-between w-full p-4 text-start">
-             <div className="relative w-[10%] h-[20vh] rounded-2xl">
-               <Image
-                src={
-                  item.images?.[0] ??
-                  "/Assets/Images/Newplaceholder.png"
-                }
-                fill
-                sizes="photo"
-                alt={item.name}
-                className="object-contain"
-              />
-             </div>
+              <div className="relative w-[10%] h-[20vh] rounded-2xl">
+                <Image
+                  src={
+                    product.images?.[0] ??
+                    "/Assets/Images/Newplaceholder.png"
+                  }
+                  fill
+                  alt={product.name}
+                  className="object-contain"
+                />
+              </div>
 
               <div className="flex flex-col justify-center flex-1 px-6 gap-3">
                 <div className="text-2xl font-bold line-clamp-1">
-                  {item.name}
+                  {product.name}
                 </div>
-                <p className="line-clamp-2">
-                  {item.description}
+                <p className="line-clamp-2">{product.description}</p>
+                <p className="font-semibold">
+                  Size: {entry.size}
                 </p>
                 <div className="font-bold text-lg">
-                  ₹{item.price * qty}
+                  ₹{product.price * entry.qty}
                 </div>
               </div>
 
@@ -138,18 +141,18 @@ const CartClient = () => {
                 <div className="flex border rounded-lg overflow-hidden">
                   <button
                     onClick={() =>
-                      decrementQty(item.productId)
+                      decrementQty(entry.productId, entry.size)
                     }
                     className="w-10 bg-gray-200"
                   >
                     −
                   </button>
                   <div className="flex-1 flex items-center justify-center">
-                    {qty}
+                    {entry.qty}
                   </div>
                   <button
                     onClick={() =>
-                      incrementQty(item.productId)
+                      incrementQty(entry.productId, entry.size)
                     }
                     className="w-10 bg-gray-200"
                   >
@@ -159,7 +162,7 @@ const CartClient = () => {
 
                 <button
                   onClick={() =>
-                    removeFromCart(item.productId)
+                    removeFromCart(entry.productId, entry.size)
                   }
                   className="bg-red-600 text-white rounded-lg py-2"
                 >

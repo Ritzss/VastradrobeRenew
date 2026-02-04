@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema(
     cart: [
       {
         productId: Number,
+        size: String,
         qty: Number,
       },
     ],

@@ -2,11 +2,13 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { AppContext, LoginData, RegisterData } from "./AppContext";
+import { AppContext, CartItem, LoginData, RegisterData } from "./AppContext";
 import { IMSProduct } from "@/Types/Product";
 import { useRouter } from "next/navigation";
 import { AuthUser } from "@/Types/AuthUser";
 import { toast } from "sonner";
+
+
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
@@ -24,7 +26,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [authLoading, setAuthLoading] = useState(true);
 
   /* 🛒 Cart */
-  const [cartItems, setCartItems] = useState<Map<number, number>>(new Map());
+
+ const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   /* ❤️ Favorites (DB-backed) */
   const [favCollections, setFavCollections] = useState<
@@ -33,72 +36,84 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   /* ---------------- CART ---------------- */
 
-  const clearCart = () => setCartItems(new Map());
+  const clearCart = () => setCartItems([]);
 
-  const addToCart = (id: number) => {
-    setCartItems((prev) => {
-      const next = new Map(prev);
-      next.set(id, (next.get(id) || 0) + 1);
-      return next;
-    });
-    toast.success(`item is added to cart`)
-  };
+  const addToCart = (productId: number, size: string) => {
+  setCartItems((prev) => {
+    const existing = prev.find(
+      (i) => i.productId === productId && i.size === size
+    );
 
-  const removeFromCart = (id: number) => {
-    setCartItems((prev) => {
-      const next = new Map(prev);
-      next.delete(id);
-      return next;
-    });
-    toast.error(`item is removed to cart`)
-  };
+    if (existing) {
+      return prev.map((i) =>
+        i.productId === productId && i.size === size
+          ? { ...i, qty: i.qty + 1 }
+          : i
+      );
+    }
 
-  const incrementQty = (id: number) => {
-    setCartItems((prev) => {
-      const next = new Map(prev);
-      next.set(id, (next.get(id) || 1) + 1);
-      return next;
-    });
-  };
+    return [...prev, { productId, size, qty: 1 }];
+  });
 
-  const decrementQty = (id: number) => {
-    setCartItems((prev) => {
-      const next = new Map(prev);
-      const current = next.get(id) || 1;
-      if (current > 1) next.set(id, current - 1);
-      return next;
-    });
-  };
+  toast.success(`Added to cart (${size})`);
+};
 
-  const cartCount = Array.from(cartItems.values()).reduce(
-    (sum, qty) => sum + qty,
-    0
+ const removeFromCart = (productId: number, size: string) => {
+  setCartItems((prev) =>
+    prev.filter(
+      (i) => !(i.productId === productId && i.size === size)
+    )
   );
+};
+
+const incrementQty = (productId: number, size: string) => {
+  setCartItems((prev) =>
+    prev.map((i) =>
+      i.productId === productId && i.size === size
+        ? { ...i, qty: i.qty + 1 }
+        : i
+    )
+  );
+};
+
+const decrementQty = (productId: number, size: string) => {
+  setCartItems((prev) =>
+    prev
+      .map((i) =>
+        i.productId === productId && i.size === size
+          ? { ...i, qty: i.qty - 1 }
+          : i
+      )
+      .filter((i) => i.qty > 0)
+  );
+};
+
+const cartCount = cartItems.reduce(
+  (sum, item) => sum + item.qty,
+  0
+);
 
   /* ---------------- FAVORITES (API) ---------------- */
 
   const loadFavorites = async () => {
-  const res = await fetch("/api/favorites", {
-    credentials: "include",
-  });
+    const res = await fetch("/api/favorites", {
+      credentials: "include",
+    });
 
-  const parsed: Record<string, Set<number>> = {
-    Favorites: new Set(), // 👈 DEFAULT
-  };
+    const parsed: Record<string, Set<number>> = {
+      Favorites: new Set(), // 👈 DEFAULT
+    };
 
-  if (res.ok) {
-    const data = await res.json();
+    if (res.ok) {
+      const data = await res.json();
 
-    Object.entries(data.favorites || {}).forEach(
-      ([collection, ids]: any) => {
+      Object.entries(data.favorites || {}).forEach(([collection, ids]: any) => {
         parsed[collection] = new Set(ids);
-      }
-    );
-  }
+      });
+    }
 
-  setFavCollections(parsed);
-};
-
+    setFavCollections(parsed);
+  };
 
   const createCollection = async (collection: string) => {
     // no API needed yet, collection auto-created on add
@@ -106,7 +121,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       ...prev,
       [collection]: new Set(),
     }));
-    toast.success(`New Collection ${collection} Cretated`)
+    toast.success(`New Collection ${collection} Cretated`);
   };
 
   const addToCollection = async (collection: string, id: number) => {
@@ -165,91 +180,143 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-const handleRegister = async (e: React.FormEvent): Promise<boolean> => {
-  e.preventDefault();
+  const handleRegister = async (e: React.FormEvent): Promise<boolean> => {
+    e.preventDefault();
 
-  try {
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(registerForm),
-    });
-
-    let data: any = null;
     try {
-      data = await res.json();
-    } catch {
-      // backend failed before JSON
-    }
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registerForm),
+      });
 
-    if (!res.ok) {
-      toast.error(data?.message || "Registration failed");
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch {
+        // backend failed before JSON
+      }
+
+      if (!res.ok) {
+        toast.error(data?.message || "Registration failed");
+        return false;
+      }
+
+      toast.success("Account created");
+
+      setRegisterForm({ username: "", email: "", password: "" });
+
+      // hydrate auth state FIRST
+      await loadUser();
+
+      return true;
+    } catch {
+      toast.error("Server error. Please try again.");
       return false;
     }
+  };
 
-    toast.success("Account created");
+  const handleLogin = async (e: React.FormEvent): Promise<boolean> => {
+    e.preventDefault();
 
-    setRegisterForm({ username: "", email: "", password: "" });
-
-    // hydrate auth state FIRST
-    await loadUser();
-
-    return true;
-  } catch {
-    toast.error("Server error. Please try again.");
-    return false;
-  }
-};
-
-
-const handleLogin = async (e: React.FormEvent): Promise<boolean> => {
-  e.preventDefault();
-
-  try {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(loginForm),
-    });
-
-    let data: any = null;
     try {
-      data = await res.json();
-    } catch {
-      // backend died before JSON, fine
-    }
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginForm),
+      });
 
-    if (!res.ok) {
-      toast.error(data?.message || "Login failed");
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch {
+        // backend died before JSON, fine
+      }
+
+      if (!res.ok) {
+        toast.error(data?.message || "Login failed");
+        return false;
+      }
+
+      toast.success("Logged in successfully");
+
+      // ensure auth state updates BEFORE redirect
+      await loadUser();
+
+      return true;
+    } catch {
+      toast.error("Server error. Please try again.");
       return false;
     }
-
-    toast.success("Logged in successfully");
-
-    // ensure auth state updates BEFORE redirect
-    await loadUser();
-
-    return true;
-  } catch {
-    toast.error("Server error. Please try again.");
-    return false;
-  }
-};
-
-
+  };
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     setUser(null);
     setFavCollections({});
-     router.replace("/");
+    router.replace("/");
   };
+
+  
 
   /* ---------------- EFFECTS ---------------- */
 
   useEffect(() => {
     loadUser().finally(() => setAuthLoading(false));
   }, []);
+
+ /* ---------------- CART HYDRATION ---------------- */
+useEffect(() => {
+  const hydrateCart = async () => {
+    // 🔐 Logged-in user → load from DB
+    if (user) {
+      try {
+        const res = await fetch("/api/cart", {
+          credentials: "include",
+        });
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+
+        // ✅ cart is ARRAY
+        setCartItems(Array.isArray(data.cart) ? data.cart : []);
+      } catch (err) {
+        console.error("Failed to load cart from DB", err);
+      }
+    }
+
+    // 👤 Guest → load from localStorage
+    else {
+      const stored = localStorage.getItem("vastradrobe_cart");
+      if (!stored) return;
+
+      try {
+        const parsed = JSON.parse(stored);
+        setCartItems(Array.isArray(parsed) ? parsed : []);
+      } catch {
+        localStorage.removeItem("vastradrobe_cart");
+      }
+    }
+  };
+
+  hydrateCart();
+}, [user]);
+
+
+  /* ---------------- CART PERSISTENCE ---------------- */
+  useEffect(() => {
+  if (!user) return;
+
+  fetch("/api/cart/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${document.cookie}`, // or however you pass token
+    },
+    body: JSON.stringify({ cart: cartItems }),
+  });
+}, [cartItems, user]);
 
   useEffect(() => {
     if (!user) return;

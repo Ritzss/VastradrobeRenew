@@ -27,15 +27,6 @@ const ProductClient = ({
   return subCategoryMatch && searchMatch;
 });
 
-products.forEach((p) => {
-  console.log({
-    productCategory: p.category,
-    productSubcategory: p.subcategory,
-    normalizedProductSub: normalize(p.subcategory),
-    normalizedSelectedSub: normalize(subCategory),
-  });
-});
-
 
   if (filteredProducts.length === 0) {
     return (
