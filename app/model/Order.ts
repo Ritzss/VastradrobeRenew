@@ -11,9 +11,14 @@ const OrderSchema = new mongoose.Schema(
     items: [
       {
         productId: Number,
-        title: String,
+        name: String,
         price: Number,
+        size: {
+          type: String,
+          required: true,
+        },
         qty: Number,
+        image: [{ type: String }],
       },
     ],
 
@@ -39,8 +44,7 @@ const OrderSchema = new mongoose.Schema(
       paymentId: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.models.Order ||
-  mongoose.model("Order", OrderSchema);
+export default mongoose.models.Order || mongoose.model("Order", OrderSchema);

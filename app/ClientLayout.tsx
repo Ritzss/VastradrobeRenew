@@ -18,7 +18,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
       <Toaster position="top-right" richColors />
 
       {/* Sticky navbar must be OUTSIDE scroll containers */}
-      <header className="fixed top-0 left-0 w-full z-50 h-[14vh]">
+      <header className="fixed top-0 left-0 w-full z-50 h-[14vh] transition-all duration-1000">
         <Navbar />
       </header>
 

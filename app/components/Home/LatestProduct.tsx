@@ -128,7 +128,7 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
           >
             {products.map((product) => (
               <div key={product.productId} className="w-85 shrink-0">
-                <ProductCard product={product} className="w-[99%]" />
+                <ProductCard product={product} className="w-[99%]" button={false}/>
               </div>
             ))}
           </div>

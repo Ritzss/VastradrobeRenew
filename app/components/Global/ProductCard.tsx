@@ -52,7 +52,8 @@ const ProductCard = ({
   const defaultSize = product.sizes?.[0] || "FREE";
 
   const isInCart = cartItems.some(
-    (item) => item.productId === productId && item.size === defaultSize);
+    (item) => item.productId === productId && item.size === defaultSize,
+  );
 
   const handleCartToggle = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -60,18 +61,13 @@ const ProductCard = ({
       ? removeFromCart(productId, defaultSize)
       : addToCart(productId, defaultSize);
   };
-
-  console.log(product);
-
   const handleBuyNow = () => {
-  if (!isInCart) {
-    addToCart(productId, defaultSize);
-  }
+    if (!isInCart) {
+      addToCart(productId, defaultSize);
+    }
 
-  router.push(
-    `/checkout?buyNow=${productId}&size=${defaultSize}`
-  );
-};
+    router.push(`/checkout?buyNow=${productId}&size=${defaultSize}`);
+  };
   return (
     <StarBorder
       thickness={3}
@@ -132,7 +128,7 @@ const ProductCard = ({
           </div>
         )}
         <Link target="_blank" href={`/product/${productId}`}>
-          <div className="flex-col hover:-translate-y-4 duration-300 text-white transition-all flex gap-5 flex-1">
+          <div className="flex-col hover:-translate-y-4 duration-300 text-white transition-all flex gap-2 flex-1">
             <div className="text-2xl font-bold line-clamp-1">{name}</div>
             <div>
               <p className="line-clamp-1">{description}</p>

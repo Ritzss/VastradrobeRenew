@@ -52,10 +52,9 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav id={"navcontainer"} className="bg-[#ffffff] transition-all duration-1000 rounded-xl">
-      {showTopBar && (
+    <nav id={"navcontainer"} className="rounded-xl">
         <section
-          className={`overflow-hidden h-[18vh] ${showTopBar ? " opacity-100" : " opacity-0"}`}
+          className={`overflow-hidden ${showTopBar ? " opacity-100" : "h-1 opacity-0"}`}
         >
           <article className="flex justify-between items-center w-full px-10 bg-[#cd0000] text-white">
             <Link
@@ -105,8 +104,7 @@ const Navbar = () => {
             </span>
           </article>
         </section>
-      )}
-      <section className="sticky top-0 z-50 border mt-1 rounded-xl bg-[#ffffff] text-[#cd0000] flex justify-center gap-2 p-[0.5%] h-[7vh]">
+      <section className="sticky w-[98%] mx-auto top-0 z-50 border mt-1 rounded-xl bg-[#ffffff] text-[#cd0000] flex justify-center gap-2 p-[0.5%] h-[7vh]">
         <header
           id={"navcontentheader"}
           className="flex justify-center items-center gap-3"
