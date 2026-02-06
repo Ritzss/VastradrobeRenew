@@ -1,8 +1,5 @@
 import Link from "next/link";
-import {
-  FaFacebookF,
-  FaInstagram,
-} from "react-icons/fa6";
+import { FaFacebookF, FaInstagram } from "react-icons/fa6";
 
 const Footer = ({ className }: { className?: string }) => {
   const underline =
@@ -18,13 +15,7 @@ const Footer = ({ className }: { className?: string }) => {
     "Policy",
     "Terms & Conditions",
   ];
-  const Category = [
-    "Men",
-    "Women",
-    "children",
-    "Winter",
-    "Summer",
-  ];
+  const Category = ["Men", "Women", "children", "Winter", "Summer"];
   const Customer = [
     "Track",
     "Returns & Refunds",
@@ -35,89 +26,92 @@ const Footer = ({ className }: { className?: string }) => {
   ];
 
   const slugify = (text: string) =>
-  text
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/\s+/g, "-");
+    text.toLowerCase().replace(/&/g, "and").replace(/\s+/g, "-");
 
   return (
     <footer
       id="foot"
-      className={`relative bottom-0 flex flex-col bg-[#000000cf] text-[#dadada] mt-2 w-full ${className}`}
+      className={`bg-[#000000cf] text-[#dadada] mt-6 w-full ${className ?? ""}`}
     >
-      <section id="footercontent" className="flex justify-around h-[40vh]">
-        <div className="w-[23%] flex flex-col pt-7">
-          <div className="text-4xl font-bold">Company</div>
-          <div className="w-full flex flex-col pt-7 text-left h-[50vh]">
-            {Company.map((items, index) => {
-              return (
-                <div key={index} className={underline}>
-                  <Link href={`#`}>
-                    {items}
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="w-[23%] flex flex-col pt-7">
-          <div className="text-4xl font-bold">Shop</div>
-          <div className="w-full flex flex-col pt-7 text-left h-[50vh]">
-            {Category.map((items, index) => {
-              return (
-                <div key={index} className={underline}>
-                  <Link href={`/${slugify(items)}`}>{items}</Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="w-[23%] flex flex-col  pt-7">
-          <div className="text-4xl font-bold">Customer Care</div>
-          <div className="w-full flex flex-col pt-7 text-left h-[50vh]">
-            <div className={underline}>
-              <Link href={"/orders"}>Orders</Link>
+      {/* MAIN CONTENT */}
+      <section
+        id="footercontent"
+        className="  max-w-7xl mx-auto  px-6 py-12  grid grid-cols-1  sm:grid-cols-2  md:grid-cols-4  gap-10"
+      >
+        {/* COMPANY */}
+        <div className="flex flex-col gap-6">
+          <h3 className="text-xl md:text-2xl font-semibold">Company</h3>
+          {Company.map((item, index) => (
+            <div key={index} className={underline}>
+              <Link href="#">{item}</Link>
             </div>
-            {Customer.map((items, index) => {
-              return (
-                <div key={index} className={underline}>
-                  <Link href={`#`}>{items}</Link>
-                </div>
-                
-              );
-            })}
-          </div>
+          ))}
         </div>
-        <div className="w-[23%] flex flex-col pt-7">
-          <div className="text-4xl font-bold">Contact Us</div>
-          <div className="w-full flex flex-col pt-7 gap-5 text-left h-[50vh]">
-            <div className="">
-              <Link href={Address} target="_blank">
-                Address
-              </Link>{" "}
-              : GF 43, Augusta Point, Golf Course Rd, Parsvnath Exotica, DLF
-              Phase 5, Sector 53, Gurugram, Haryana 122011
+
+        {/* SHOP */}
+        <div className="flex flex-col gap-6">
+          <h3 className="text-xl md:text-2xl font-semibold">Shop</h3>
+          {Category.map((item, index) => (
+            <div key={index} className={underline}>
+              <Link href={`/${slugify(item)}`}>{item}</Link>
             </div>
-            <div>Phone: 080539 43352</div>
-            <div className="text-xl">
-              Social Media:
-              <div className="flex gap-4 items-center">
-                <div className="cursor-pointer text-gray-400 hover:text-[#1877F2] border p-2  rounded-xl duration-300">
-                  <a href="https://facebook.com" target="_blank">
-                    <FaFacebookF size={23} />
-                  </a>
-                </div>
-                <div className="cursor-pointer text-gray-400 hover:text-[#d10a5d] border p-2  rounded-xl duration-300">
-                  <a href="https://instagram.com" target="_blank">
-                    <FaInstagram size={23} />
-                  </a>
-                </div>
-              </div>
+          ))}
+        </div>
+
+        {/* CUSTOMER CARE */}
+        <div className="flex flex-col gap-6">
+          <h3 className="text-xl md:text-2xl font-semibold">Customer Care</h3>
+          <div className={underline}>
+            <Link href="/orders">Orders</Link>
+          </div>
+          {Customer.map((item, index) => (
+            <div key={index} className={underline}>
+              <Link href="#">{item}</Link>
             </div>
+          ))}
+        </div>
+
+        {/* CONTACT */}
+        <div className="flex flex-col gap-6">
+          <h3 className="text-xl md:text-2xl font-semibold">Contact Us</h3>
+
+          <div className="text-sm leading-relaxed text-gray-300">
+            <Link
+              href={Address}
+              target="_blank"
+              className="underline hover:text-white"
+            >
+              Address
+            </Link>
+            <p className="mt-2">
+              GF 43, Augusta Point, Golf Course Rd, Parsvnath Exotica, DLF Phase
+              5, Sector 53, Gurugram, Haryana 122011
+            </p>
+          </div>
+
+          <div className="text-sm">Phone: 080539 43352</div>
+
+          <div className="flex gap-4 items-center">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              className="text-gray-400 hover:text-[#1877F2] border p-2 rounded-lg transition"
+            >
+              <FaFacebookF size={20} />
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              className="text-gray-400 hover:text-[#d10a5d] border p-2 rounded-lg transition"
+            >
+              <FaInstagram size={20} />
+            </a>
           </div>
         </div>
       </section>
-      <section className="w-full text-center ">
+
+      {/* BOTTOM BAR */}
+      <section className="border-t border-white/10 py-4 text-center text-sm text-gray-400">
         © 2025 VastraDrobe. All rights reserved. Crafted with ❤️ for everyday
         fashion.
       </section>

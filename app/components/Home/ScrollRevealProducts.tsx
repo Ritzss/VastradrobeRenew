@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import ProductCard from "../Global/ProductCard";
+import HorizontalScroll from "@/components/Global/HorizontalScroll";
 import { IMSProduct } from "@/Types/Product";
 
 type Props = {
@@ -14,6 +15,7 @@ const ScrollRevealProducts = ({ products, category, title }: Props) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
 
+  /* scroll reveal (in + out) */
   useEffect(() => {
     if (!ref.current) return;
 
@@ -26,11 +28,9 @@ const ScrollRevealProducts = ({ products, category, title }: Props) => {
     return () => observer.disconnect();
   }, []);
 
+  /* category filter */
   const filteredProducts = products.filter((product) => {
-    const productCategory =
-      product.category ||
-      "";
-
+    const productCategory = product.category || "";
     return productCategory.toLowerCase() === category.toLowerCase();
   });
 
@@ -50,10 +50,29 @@ const ScrollRevealProducts = ({ products, category, title }: Props) => {
         {title ?? `Explore ${category}`}
       </h2>
 
-      <div className="flex flex-wrap gap-4 justify-between">
+      {/* ---------- MOBILE (horizontal scroll) ---------- */}
+      <div className="md:hidden">
+        <HorizontalScroll>
+          {filteredProducts.slice(0, 6).map((product) => (
+            <div
+              key={product.productId}
+              className="w-[75%] sm:w-[60%] shrink-0"
+            >
+              <ProductCard
+                product={product}
+                className="w-full"
+                button={false}
+              />
+            </div>
+          ))}
+        </HorizontalScroll>
+      </div>
+
+      {/* ---------- DESKTOP (wrap layout) ---------- */}
+      <div className="hidden md:flex flex-wrap gap-4 justify-between">
         {filteredProducts.slice(0, 4).map((product) => (
-          <div key={product.productId} className="w-[48%] md:w-[23%]">
-            <ProductCard product={product} className="w-full" button={false}/>
+          <div key={product.productId} className="w-[23%]">
+            <ProductCard product={product} className="w-full" button={false} />
           </div>
         ))}
       </div>

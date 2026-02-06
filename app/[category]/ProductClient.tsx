@@ -38,7 +38,7 @@ const ProductClient = ({
   }
 
   return (
-    <div className="flex flex-wrap justify-evenly text-black">
+    <div className="flex flex-wrap w-[98vw] justify-evenly text-black">
       {filteredProducts.map((item) => (
         <ProductCard
           key={item.productId} product={item} className={""}        />

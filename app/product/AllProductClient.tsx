@@ -72,7 +72,7 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
       <div className="flex flex-wrap justify-evenly gap-3">
         {products.map((item,index) => (
           <ProductCard
-            key={`${item.productId}-${index}`} product={item}/>
+            key={`${item.productId}-${index}`} product={item} className="product-card"/>
         ))}
       </div>
 

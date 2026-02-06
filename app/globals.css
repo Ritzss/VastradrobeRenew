@@ -185,3 +185,60 @@ body.scroll-lock {
     animation: none;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+/* makeing responsiveness outoff thin air */
+
+/* ===========================
+   RESPONSIVE LAYOUT UTILITIES
+   =========================== */
+
+/* Product listing cards */
+.product-card {
+  width: 80%;
+}
+
+
+
+@media (min-width: 768px) {
+  .product-card {
+    width: 45%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-card {
+    width: 24%;
+  }
+}
+
+/* Generic responsive container */
+.page-container {
+  width: 100%;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .page-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .page-container {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

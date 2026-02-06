@@ -73,7 +73,7 @@ const ProductCard = ({
       thickness={3}
       color="#ffffff"
       speed="5s"
-      className={`cardBlock overflow-hidden flex flex-col justify-between rounded-2xl my-2 w-[24%] ${className}`}
+      className={`cardBlock overflow-hidden flex flex-col justify-between rounded-2xl my-2  ${className} w-[24%]`}
     >
       <div
         className={`relative ${classNameInner ? classNameInner : "h-[57vh]"} group overflow-hidden flex flex-col justify-end rounded-3xl w-full p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}

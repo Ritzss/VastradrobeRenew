@@ -13,6 +13,7 @@ import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
 import { LogOut } from "lucide-react";
 
 import { useAppContext } from "@/hooks/useAppContext";
+import { FaRegListAlt } from "react-icons/fa";
 
 const Navbar = () => {
   const router = useRouter();
@@ -42,6 +43,19 @@ const Navbar = () => {
     );
     return () => clearInterval(id);
   }, [searchItems.length]);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+
+    const handleChange = () => {
+      if (media.matches) {
+        setMenuOpen(false);
+      }
+    };
+
+    media.addEventListener("change", handleChange);
+    return () => media.removeEventListener("change", handleChange);
+  }, []);
 
   /* 🔍 FETCH SEARCH SUGGESTIONS (DEBOUNCED) */
   useEffect(() => {
@@ -82,7 +96,10 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 bg-white border-b">
       <div className="max-w-7xl mx-auto h-14 px-4 flex justify-center items-center gap-6">
         {/* LOGO */}
-        <Link href="/" className="relative h-11 w-35 rounded-xl bg-[#cd0000] shrink-0">
+        <Link
+          href="/"
+          className="relative h-11 w-35 rounded-xl bg-[#cd0000] shrink-0"
+        >
           <Image
             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1769775688/VaStraDrobe_vtulqu.png"
             fill
@@ -94,8 +111,12 @@ const Navbar = () => {
 
         {/* NAV */}
         <div className="hidden md:flex gap-6 text-sm font-medium text-gray-700">
-          <Link href="/" className="hover:text-[#cd0000]">Home</Link>
-          <Link href="/product" className="hover:text-[#cd0000]">Shop</Link>
+          <Link href="/" className="hover:text-[#cd0000]">
+            Home
+          </Link>
+          <Link href="/product" className="hover:text-[#cd0000]">
+            Shop
+          </Link>
         </div>
 
         {/* SEARCH */}
@@ -145,14 +166,64 @@ const Navbar = () => {
         </div>
 
         {/* CART */}
-        <Link href="/cart" className="relative text-gray-700 hover:text-[#cd0000]">
-          <IoCart size={22} />
+        <Link
+          href="/cart"
+          className="relative text-gray-700 hover:text-[#cd0000]"
+        >
+          <IoCart size={18} />
           {cartCount > 0 && (
             <span className="absolute -top-1 -right-2 text-xs bg-[#cd0000] text-white rounded-full px-1.5">
               {cartCount}
             </span>
           )}
         </Link>
+
+        {/* DESKTOP ACTIONS */}
+        <div className="hidden md:flex items-center gap-4 text-gray-700">
+          {!authLoading && !isLogged && (
+            <Link
+              href="/account/login"
+              className="text-sm hover:text-[#cd0000] transition"
+            >
+              Login
+            </Link>
+          )}
+
+          {isLogged && (
+            <>
+              <Link
+                href="/favorites"
+                className="hover:text-[#cd0000] transition"
+                title="Favorites"
+              >
+                <FaRegHeart size={18} />
+              </Link>
+
+              <Link
+                href="/orders"
+                className="hover:text-[#cd0000] transition"
+                title="Orders"
+              >
+                <FaRegListAlt size={18} />
+              </Link>
+
+              <Link
+                href="/profile"
+                className="hover:text-[#cd0000] transition text-sm flex gap-2"
+              >
+                <RiAccountBoxLine size={21} />
+                {user?.username}
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="text-sm text-red-600 hover:underline"
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </div>
 
         {/* HAMBURGER */}
         <button
@@ -185,7 +256,7 @@ const Navbar = () => {
               </Link>
 
               <Link href="/orders" className="flex gap-2">
-                <IoCart /> Orders
+                <FaRegListAlt /> Orders
               </Link>
 
               <button

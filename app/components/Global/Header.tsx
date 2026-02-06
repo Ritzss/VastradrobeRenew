@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-
 const images = [
   "/Assets/Images/slider2.png",
   "/Assets/Images/slider3.png",
@@ -61,7 +60,7 @@ export default function Slider() {
 
   return (
     <header
-      className="relative my-2 h-[60vh] overflow-hidden rounded-xl"
+      className="relative my-2 overflow-hidden rounded-xl h-[35vh] sm:h-[45vh] md:h-[60vh]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={onTouchStart}
@@ -89,21 +88,20 @@ export default function Slider() {
       {/* LEFT ARROW */}
       <button
         onClick={prevSlide}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black transition"
+        className="absolute top-1/2 left-2 sm:left-4 -translate-y-1/2 bg-black/40 text-white p-2 sm:p-3 rounded-full hover:bg-black transition"
       >
-        <FaChevronLeft />
+        <FaChevronLeft className="text-sm sm:text-base" />
       </button>
 
-      {/* RIGHT ARROW */}
       <button
         onClick={nextSlide}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black transition"
+        className=" absolute top-1/2 right-2 sm:right-4 -translate-y-1/2 bg-black/40 text-white p-2 sm:p-3 rounded-full hover:bg-black transition "
       >
-        <FaChevronRight />
+        <FaChevronRight className="text-sm sm:text-base" />
       </button>
 
       {/* DOTS */}
-      <div className="absolute bottom-4 w-full flex justify-center gap-3">
+      <div className="absolute bottom-3 sm:bottom-4 w-full flex justify-center gap-2 sm:gap-3">
         {images.map((_, index) => (
           <button
             key={index}
@@ -112,9 +110,6 @@ export default function Slider() {
           />
         ))}
       </div>
-
-
-
     </header>
   );
 }
