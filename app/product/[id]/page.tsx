@@ -118,7 +118,7 @@ export default function ProductPage() {
         <div className="text-2xl font-semibold">₹{product.price}</div>
 
         {/* SIZE SELECT */}
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           {sizes.map((size) => (
             <button
               key={size}
@@ -146,6 +146,7 @@ export default function ProductPage() {
         >
           {selectedSize ? "Add to Cart" : "Select Size"}
         </button>
+        
       </div>
     </div>
   );

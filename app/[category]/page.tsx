@@ -10,8 +10,8 @@ const CATEGORY_MAP: Record<string, string[]> = {
   men: ["men"],
   women: ["women"],
   children: ["boys", "girls"],
-  western: ["western"],
-  traditionals: ["traditionals"],
+  summer: ["summer"],
+  festive: ["festive"],
   winter: ["winter"],
 };
 

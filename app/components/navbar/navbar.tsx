@@ -1,215 +1,207 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FaOpencart, FaRegHeart } from "react-icons/fa6";
-import { IoCart, IoSearch } from "react-icons/io5";
-import { MdSupportAgent } from "react-icons/md";
-import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
-import { useAppContext } from "@/hooks/useAppContext";
 import Link from "next/link";
-import { Home, LogOut } from "lucide-react";
-import { AiFillProduct } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
+import { IoSearch, IoCart } from "react-icons/io5";
+import { FaRegHeart } from "react-icons/fa6";
+import { MdSupportAgent } from "react-icons/md";
+import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
+import { LogOut } from "lucide-react";
+
+import { useAppContext } from "@/hooks/useAppContext";
+
 const Navbar = () => {
-  const searchItems = [
-    "Pants....",
-    "Tops...",
-    "Sandals.....",
-    "Jackets...",
-    "etc..",
-  ];
-  const [index, setIndex] = useState(0);
-  const [open, setOpen] = useState(false);
   const router = useRouter();
-  const [showTopBar, setShowTopBar] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+
+  const searchItems = ["Pants", "Tops", "Sandals", "Jackets"];
+  const [index, setIndex] = useState(0);
+
   const {
     user,
     authLoading,
     cartCount,
     searchQuery,
-    handleLogout,
     setSearchQuery,
+    handleLogout,
   } = useAppContext();
+
   const isLogged = !!user;
 
+  /* rotating placeholder */
   useEffect(() => {
-    const id = setInterval(() => {
-      setIndex((prev) => (prev + 1) % searchItems.length);
-    }, 3000);
+    const id = setInterval(
+      () => setIndex((p) => (p + 1) % searchItems.length),
+      3000,
+    );
     return () => clearInterval(id);
-  });
+  }, [searchItems.length]);
 
+  /* 🔍 FETCH SEARCH SUGGESTIONS (DEBOUNCED) */
   useEffect(() => {
-    const handleScroll = () => {
-      setShowTopBar(window.scrollY === 0);
-    };
+    if (!searchQuery.trim()) {
+      setSuggestions([]);
+      return;
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const timer = setTimeout(async () => {
+      try {
+        setLoadingSuggestions(true);
+
+        const res = await fetch(
+          `/api/search/suggestions?q=${encodeURIComponent(searchQuery)}`,
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch");
+
+        const data = await res.json();
+        setSuggestions(data || []);
+      } catch {
+        setSuggestions([]);
+      } finally {
+        setLoadingSuggestions(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const handleSelectSuggestion = (id: string) => {
+    setSuggestions([]);
+    setSearchQuery("");
+    router.push(`/product/${id}`);
+  };
 
   return (
-    <nav id={"navcontainer"} className="rounded-xl">
-        <section
-          className={`overflow-hidden ${showTopBar ? " opacity-100" : "h-1 opacity-0"}`}
-        >
-          <article className="flex justify-between items-center w-full px-10 bg-[#cd0000] text-white">
-            <Link
-              scroll={false}
-              href={"/"}
-              className="flex justify-center relative border-2 border-dashed rounded-2xl h-[10vh] w-[15vw]"
-            >
-              <Image
-                src={
-                  "https://res.cloudinary.com/dwhn5ec09/image/upload/v1769775688/VaStraDrobe_vtulqu.png"
+    <nav className="sticky top-0 z-50 bg-white border-b">
+      <div className="max-w-7xl mx-auto h-14 px-4 flex justify-center items-center gap-6">
+        {/* LOGO */}
+        <Link href="/" className="relative h-11 w-35 rounded-xl bg-[#cd0000] shrink-0">
+          <Image
+            src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1769775688/VaStraDrobe_vtulqu.png"
+            fill
+            alt="Vastradrobe"
+            className="object-contain"
+            priority
+          />
+        </Link>
+
+        {/* NAV */}
+        <div className="hidden md:flex gap-6 text-sm font-medium text-gray-700">
+          <Link href="/" className="hover:text-[#cd0000]">Home</Link>
+          <Link href="/product" className="hover:text-[#cd0000]">Shop</Link>
+        </div>
+
+        {/* SEARCH */}
+        <div className="flex-1 max-w-md relative">
+          <div className="flex items-center bg-gray-50 rounded-lg px-3 py-2 focus-within:bg-white focus-within:ring-1 focus-within:ring-gray-300">
+            <IoSearch className="text-gray-400 text-sm" />
+            <input
+              className="ml-2 w-full bg-transparent outline-none text-sm placeholder:text-gray-400"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && searchQuery.trim()) {
+                  setSuggestions([]);
+                  router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
                 }
-                fill
-                loading="eager"
-                sizes="images"
-                alt={"Vastradrobe"}
-              />
-            </Link>
-            <span className="flex items-center pt-[4%] h-[18vh] gap-2">
-              {!authLoading && !isLogged && (
-                <Link scroll={false} href="/account/login">
-                  <div className="flex text-lg gap-2 items-center">
-                    <RiAccountBoxLine />
-                    <span className="text-lg">Login/Register</span>
-                  </div>
-                </Link>
-              )}
-              {isLogged && (
-                <Link
-                  scroll={false}
-                  href="/profile"
-                  className=" flex gap-2 items-center text-lg hover:border-b"
-                >
-                  <RiAccountBoxFill />
-                  <span className="text-lg"> {user?.username}</span>
-                </Link>
-              )}
-
-              {isLogged && (
-                <span
-                  className="text-lg hover:border-b cursor-pointer flex gap-2 items-center"
-                  onClick={handleLogout}
-                >
-                  <LogOut />
-                  <span className="text-lg"> Logout</span>
-                </span>
-              )}
-            </span>
-          </article>
-        </section>
-      <section className="sticky w-[98%] mx-auto top-0 z-50 border mt-1 rounded-xl bg-[#ffffff] text-[#cd0000] flex justify-center gap-2 p-[0.5%] h-[7vh]">
-        <header
-          id={"navcontentheader"}
-          className="flex justify-center items-center gap-3"
-        >
-          <Link href={"/"}>
-            <div className="flex text-lg hover:border-b gap-2 items-center">
-              <Home />
-              Home
-            </div>
-          </Link>
-          <Link href={"/product"}>
-            <div className="flex text-lg hover:border-b gap-2 items-center">
-              <AiFillProduct />
-              All Products
-            </div>
-          </Link>
-        </header>
-        <main id={"navcontentmain"} className="w-[35%] text-black">
-          <span className="border flex bg-white justify-between rounded-xl w-full">
-            <span className="flex items-center px-2 gap-1 h-[4.5vh] w-full">
-              <input
-                className="w-full outline-0"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && searchQuery.trim()) {
-                    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-                  }
-                }}
-                placeholder={`Search ${searchItems[index]}?`}
-              />
-              {suggestions.length > 0 && (
-                <div className="absolute bg-white border w-full mt-1 rounded-lg shadow-lg z-50">
-                  {suggestions.map((item) => (
-                    <div
-                      key={item.productId}
-                      onClick={() => {
-                        router.push(`/product/${item.productId}`);
-                        setSuggestions([]);
-                      }}
-                      className="p-2 hover:bg-gray-100 cursor-pointer"
-                    >
-                      {item.name}
-                    </div>
-                  ))}
-                </div>
-              )}
-              <label htmlFor="search" className="font-bold p-1">
-                <IoSearch />
-              </label>
-            </span>
-          </span>
-        </main>
-        <footer className="flex items-center overflow-hidden">
-          {/* Inline expanding menu */}
-          <div
-            id="navcontentfooter"
-            className={`flex items-center transition-all duration-500 ease-in-out overflow-hidden ${open ? "max-w-178 opacity-100" : "max-w-0 opacity-0"}`}
-          >
-            <aside className="px-3 flex items-center gap-5 bg-white rounded-md whitespace-nowrap">
-              <Link
-                scroll={false}
-                href="/favorites"
-                className="flex gap-2 justify-center items-center text-lg hover:border-b"
-              >
-                <FaRegHeart />
-                <span className="text-lg">Favorites</span>
-              </Link>
-              <Link
-                scroll={false}
-                href="/orders"
-                className="flex gap-2 justify-center items-center text-lg hover:border-b"
-              >
-                <IoCart />
-                <span className="text-lg">Orders</span>
-              </Link>
-
-              <div className="flex text-lg hover:border-b gap-2 items-center">
-                <MdSupportAgent />
-                <span className="text-lg">ContactUs</span>
-              </div>
-
-              <Link href="/cart" scroll={false}>
-                <div className="relative flex hover:border-b text-lg gap-3 items-center">
-                  <FaOpencart />
-                  <span className="text-lg">Cart</span>
-                  <div className="absolute w-[25%] h-[55%] text-sm flex items-center justify-center rounded-full -right-4 top-0 text-[#cd0000]">
-                    {cartCount}
-                  </div>
-                </div>
-              </Link>
-            </aside>
+              }}
+              placeholder={`Search ${searchItems[index]}`}
+            />
           </div>
 
-          {/* Hamburger */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="menu-btn ml-3 shrink-0"
-            aria-label="Menu"
-          >
-            <span className={`line line1 ${open ? "open" : ""}`} />
-            <span className={`line line2 ${open ? "open" : ""}`} />
-          </button>
-        </footer>
-      </section>
+          {/* SUGGESTIONS */}
+          {searchQuery && (
+            <div className="absolute left-0 right-0 mt-2 bg-white border rounded-lg shadow-sm z-50 max-h-72 overflow-auto">
+              {loadingSuggestions && (
+                <div className="px-4 py-2 text-sm text-gray-400">
+                  Searching…
+                </div>
+              )}
+
+              {!loadingSuggestions && suggestions.length === 0 && (
+                <div className="px-4 py-2 text-sm text-gray-400">
+                  No results found
+                </div>
+              )}
+
+              {suggestions.map((item) => (
+                <div
+                  key={item.productId}
+                  onClick={() => handleSelectSuggestion(item.productId)}
+                  className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-50"
+                >
+                  {item.name}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* CART */}
+        <Link href="/cart" className="relative text-gray-700 hover:text-[#cd0000]">
+          <IoCart size={22} />
+          {cartCount > 0 && (
+            <span className="absolute -top-1 -right-2 text-xs bg-[#cd0000] text-white rounded-full px-1.5">
+              {cartCount}
+            </span>
+          )}
+        </Link>
+
+        {/* HAMBURGER */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden flex flex-col gap-1"
+          aria-label="Menu"
+        >
+          <span className="w-5 h-0.5 bg-gray-700" />
+          <span className="w-5 h-0.5 bg-gray-700" />
+        </button>
+      </div>
+
+      {/* MOBILE MENU */}
+      {menuOpen && (
+        <div className="border-t bg-white px-4 py-4 space-y-4 text-sm">
+          {!authLoading && !isLogged && (
+            <Link href="/account/login" className="flex gap-2">
+              <RiAccountBoxLine /> Login / Register
+            </Link>
+          )}
+
+          {isLogged && (
+            <>
+              <Link href="/profile" className="flex gap-2">
+                <RiAccountBoxFill /> {user?.username}
+              </Link>
+
+              <Link href="/favorites" className="flex gap-2">
+                <FaRegHeart /> Favorites
+              </Link>
+
+              <Link href="/orders" className="flex gap-2">
+                <IoCart /> Orders
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="flex gap-2 text-red-600"
+              >
+                <LogOut size={16} /> Logout
+              </button>
+            </>
+          )}
+
+          <div className="flex gap-2">
+            <MdSupportAgent /> Contact Support
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

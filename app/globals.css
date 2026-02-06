@@ -89,10 +89,23 @@ body.scroll-lock {
   z-index: 50;
 }
 
+@keyframes category-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-category-scroll {
+  animation: category-scroll 30s linear infinite;
+}
+
 /* SLIDER */
 .slider {
   width: max-content;
-  animation: scroll 15s linear infinite;
+  animation: scroll 25s linear infinite;
 }
 
 #cards:hover .slider {

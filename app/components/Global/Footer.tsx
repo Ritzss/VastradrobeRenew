@@ -21,15 +21,12 @@ const Footer = ({ className }: { className: string }) => {
   const Category = [
     "Men",
     "Women",
-    "Boys",
-    "Girls",
-    "Western",
-    "Traditional",
-    "Offers",
+    "children",
+    "Winter",
+    "Summer",
   ];
   const Customer = [
     "Track",
-   
     "Returns & Refunds",
     "Shipping",
     "Information",
@@ -37,11 +34,11 @@ const Footer = ({ className }: { className: string }) => {
     "FAQs",
   ];
 
-  // const slugify = (text: string) =>
-  // text
-  //   .toLowerCase()
-  //   .replace(/&/g, "and")
-  //   .replace(/\s+/g, "-");
+  const slugify = (text: string) =>
+  text
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/\s+/g, "-");
 
   return (
     <footer
@@ -69,7 +66,7 @@ const Footer = ({ className }: { className: string }) => {
             {Category.map((items, index) => {
               return (
                 <div key={index} className={underline}>
-                  <Link href={`#`}>{items}</Link>
+                  <Link href={`/${slugify(items)}`}>{items}</Link>
                 </div>
               );
             })}

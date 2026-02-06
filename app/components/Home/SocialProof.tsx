@@ -7,7 +7,7 @@ const SocialProof = () => {
   return (
     <aside className="p-5 flex justify-between">
       {/* LEFT SIDE */}
-      <div className="flex flex-col gap-8 p-[10vh]">
+      <div className="flex flex-col gap-8 p-[5vh]">
         <h2 className="text-[3rem] font-semibold text-[#2B2B2B] leading-tight">
           Trusted by Thousands.
           <br />
@@ -55,7 +55,7 @@ const SocialProof = () => {
       </div>
 
       {/* RIGHT SIDE */}
-      <div style={{ height: "800px", position: "relative" }}>
+      <div style={{ height: "500px", position: "relative" }}>
         <Carousel
           baseWidth={500}
           autoplay

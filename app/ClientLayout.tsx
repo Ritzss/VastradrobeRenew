@@ -22,7 +22,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
         <Navbar />
       </header>
 
-      <main className="min-h-screen pt-[25vh]">
+      <main className="min-h-screen mt-16">
         {children}
       </main>
 

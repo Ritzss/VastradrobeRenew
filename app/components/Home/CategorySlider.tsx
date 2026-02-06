@@ -1,26 +1,33 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
 import { categoryData } from "@/Data/CategoryData";
 
 const CategorySlider = () => {
-  // duplicate data once for looping illusion
-  const items = [...categoryData, ...categoryData];
+  const [items, setItems] = useState(categoryData);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+
+    const updateItems = () => {
+      setItems(media.matches ? [...categoryData, ...categoryData] : categoryData);
+    };
+
+    updateItems();
+    media.addEventListener("change", updateItems);
+
+    return () => media.removeEventListener("change", updateItems);
+  }, []);
 
   return (
-    <main
-      id="cards"
-      className="w-full flex flex-col gap-5 overflow-x-hidden h-[30%] m-auto"
-    >
-      <div
-        id="cardsslider"
-        className="flex gap-2 py-1 shadow-[inset_0_0_30px_16px_#cd0000] slider"
-      >
+    <section className="w-full overflow-hidden">
+      <div className="flex w-max gap-4 animate-category-scroll hover:[animation-play-state:paused]">
         {items.map((item, index) => (
           <CategoryCard key={index} {...item} />
         ))}
       </div>
-    </main>
+    </section>
   );
 };
 

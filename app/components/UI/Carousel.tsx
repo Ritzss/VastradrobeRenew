@@ -320,7 +320,7 @@ export default function Carousel({
       className={`relative overflow-hidden p-4 ${
         round
           ? "rounded-full border border-white"
-          : "rounded-3xl h-[85%] "
+          : "rounded-4xl "
       }`}
       style={{
         width: `${baseWidth}px`,

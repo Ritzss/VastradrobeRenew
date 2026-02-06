@@ -83,7 +83,7 @@ const ProductCard = ({
           fill
           sizes="images"
           alt={name}
-          className="h-55 -z-2 group-hover:scale-105 object-contain duration-500 transition-all mx-auto"
+          className="-z-2 group-hover:scale-105 duration-500 transition-all"
         ></Image>
         {button && (
           <span

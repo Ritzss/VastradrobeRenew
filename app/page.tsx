@@ -1,7 +1,9 @@
 import Slider from "./components/Global/Header";
+import ScrollReveal from "./components/Global/ScrollReveal";
 // import CategoryBar from "./components/navbar/Categorybar";
 import CategorySlider from "./components/Home/CategorySlider";
 import LatestArrivals from "./components/Home/LatestProduct";
+import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
 import SocialProof from "./components/Home/SocialProof";
 import { IMSProduct } from "./Types/Product";
 
@@ -11,7 +13,23 @@ async function getLatestProducts(): Promise<IMSProduct[]> {
   try {
     const res = await fetch(
       `${process.env.IMS_BASE_URL}/api/ims/public/products/latest`,
-      { cache: "no-store" }
+      { cache: "no-store" },
+    );
+
+    if (!res.ok) return [];
+
+    const data = await res.json();
+    return data.products || [];
+  } catch (err) {
+    console.error("LATEST PRODUCTS FETCH ERROR:", err);
+    return [];
+  }
+}
+async function getProducts(): Promise<IMSProduct[]> {
+  try {
+    const res = await fetch(
+      `${process.env.IMS_BASE_URL}/api/ims/public/products`,
+      { cache: "no-store" },
     );
 
     if (!res.ok) return [];
@@ -26,18 +44,41 @@ async function getLatestProducts(): Promise<IMSProduct[]> {
 
 const Home = async () => {
   const latestProducts = await getLatestProducts();
+  const allProduct = await getProducts();
   return (
     <section className="w-full m-auto rounded-2xl">
-      <Slider />
       {/* <CategoryBar
         className={"bg-[#ffffff] rounded-xl text-[#cd0000] my-2"}
         drop={false}
         Img={false}
-      /> */}
+        /> */}
       <CategorySlider />
+      <Slider />
       {/* ✅ Latest Products (server-side) */}
-      <LatestArrivals products={latestProducts} />
-      <SocialProof />
+
+      <ScrollReveal>
+        <LatestArrivals products={latestProducts} />
+      </ScrollReveal>
+
+      <ScrollRevealProducts
+        products={allProduct}
+        category="women"
+        title="Women Co-ords You’ll Love"
+      />
+      <ScrollRevealProducts
+        products={allProduct}
+        category="girls"
+        title="Girls Co-ords You’ll Love"
+      />
+      <ScrollRevealProducts
+        products={allProduct}
+        category="Men"
+        title="Men Wear You’ll Like"
+      />
+
+      <ScrollReveal>
+        <SocialProof />
+      </ScrollReveal>
     </section>
   );
 };
