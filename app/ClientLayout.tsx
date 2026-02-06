@@ -26,7 +26,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
         {children}
       </main>
 
-      <Footer className="h-[40vh]"/>
+      <Footer className=""/>
     </AppProvider>
   );
 };

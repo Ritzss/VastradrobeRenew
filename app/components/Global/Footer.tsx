@@ -4,7 +4,7 @@ import {
   FaInstagram,
 } from "react-icons/fa6";
 
-const Footer = ({ className }: { className: string }) => {
+const Footer = ({ className }: { className?: string }) => {
   const underline =
     "cursor-pointer hover:scale-105 hover:text-shadow-[0_0_10px_#ffffff] duration-500 transition-all underline pl-2";
   const Address =
@@ -45,7 +45,7 @@ const Footer = ({ className }: { className: string }) => {
       id="foot"
       className={`relative bottom-0 flex flex-col bg-[#000000cf] text-[#dadada] mt-2 w-full ${className}`}
     >
-      <section id="footercontent" className="flex justify-around ">
+      <section id="footercontent" className="flex justify-around h-[40vh]">
         <div className="w-[23%] flex flex-col pt-7">
           <div className="text-4xl font-bold">Company</div>
           <div className="w-full flex flex-col pt-7 text-left h-[50vh]">
