@@ -98,11 +98,12 @@ const Navbar = () => {
         {/* LOGO */}
         <Link
           href="/"
-          className="relative h-11 w-35 rounded-xl bg-[#cd0000] shrink-0"
+          className="relative h-11 w-35 mr-[30%] md:mr-0 lg:mr-0 rounded-xl bg-[#cd0000] shrink-0"
         >
           <Image
             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1769775688/VaStraDrobe_vtulqu.png"
             fill
+            sizes="photo"
             alt="Vastradrobe"
             className="object-contain"
             priority
@@ -119,8 +120,8 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* SEARCH */}
-        <div className="flex-1 max-w-md relative">
+        {/* SEARCH on Desktop*/}
+        <div className="flex-1 max-w-md md:block lg:block hidden relative">
           <div className="flex items-center bg-gray-50 rounded-lg px-3 py-2 focus-within:bg-white focus-within:ring-1 focus-within:ring-gray-300">
             <IoSearch className="text-gray-400 text-sm" />
             <input
@@ -239,11 +240,63 @@ const Navbar = () => {
       {/* MOBILE MENU */}
       {menuOpen && (
         <div className="border-t bg-white px-4 py-4 space-y-4 text-sm">
+          {/* SEARCH on Mobile*/}
+          <div className="flex-1 max-w-md relative">
+            <div className="flex items-center bg-gray-50 rounded-lg px-3 py-2 focus-within:bg-white focus-within:ring-1 focus-within:ring-gray-300">
+              <IoSearch className="text-gray-400 text-sm" />
+              <input
+                className="ml-2 w-full bg-transparent outline-none text-sm placeholder:text-gray-400"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && searchQuery.trim()) {
+                    setSuggestions([]);
+                    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+                  }
+                }}
+                placeholder={`Search ${searchItems[index]}`}
+              />
+            </div>
+
+            {/* SUGGESTIONS */}
+            {searchQuery && (
+              <div className="absolute left-0 right-0 mt-2 bg-white border rounded-lg shadow-sm z-50 max-h-72 overflow-auto">
+                {loadingSuggestions && (
+                  <div className="px-4 py-2 text-sm text-gray-400">
+                    Searching…
+                  </div>
+                )}
+
+                {!loadingSuggestions && suggestions.length === 0 && (
+                  <div className="px-4 py-2 text-sm text-gray-400">
+                    No results found
+                  </div>
+                )}
+
+                {suggestions.map((item) => (
+                  <div
+                    key={item.productId}
+                    onClick={() => handleSelectSuggestion(item.productId)}
+                    className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-50"
+                  >
+                    {item.name}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           {!authLoading && !isLogged && (
             <Link href="/account/login" className="flex gap-2">
               <RiAccountBoxLine /> Login / Register
             </Link>
           )}
+          <Link href="/" className="flex gap-2">
+            Home
+          </Link>
+          <Link href="/product" className="flex gap-2">
+            Shop
+          </Link>
 
           {isLogged && (
             <>

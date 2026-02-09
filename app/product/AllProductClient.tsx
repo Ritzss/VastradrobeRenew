@@ -18,33 +18,33 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   const fetchMore = useCallback(async () => {
-  if (loading || !hasMore) return;
+    if (loading || !hasMore) return;
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=${page}&limit=${pageSize}`,
-      { cache: "no-store" }
-    );
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=${page}&limit=${pageSize}`,
+        { cache: "no-store" },
+      );
 
-    if (!res.ok) throw new Error("Fetch failed");
+      if (!res.ok) throw new Error("Fetch failed");
 
-    const data = await res.json();
-    const newProducts = data.products || [];
+      const data = await res.json();
+      const newProducts = data.products || [];
 
-    setProducts((prev) => [...prev, ...newProducts]);
-    setPage((prev) => prev + 1);
+      setProducts((prev) => [...prev, ...newProducts]);
+      setPage((prev) => prev + 1);
 
-    if (newProducts.length < pageSize) {
-      setHasMore(false);
+      if (newProducts.length < pageSize) {
+        setHasMore(false);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-}, [page, pageSize, loading, hasMore]);
+  }, [page, pageSize, loading, hasMore]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -53,7 +53,7 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
           fetchMore();
         }
       },
-      { threshold: 1 }
+      { threshold: 1 },
     );
 
     if (observerRef.current) {
@@ -65,14 +65,19 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
 
   return (
     <section className="w-full px-4">
+     
+
       <div className="m-4 text-xl text-gray-600">
         Showing {products.length} products
       </div>
 
       <div className="flex flex-wrap justify-evenly gap-3">
-        {products.map((item,index) => (
+        {products.map((item, index) => (
           <ProductCard
-            key={`${item.productId}-${index}`} product={item} className="product-card"/>
+            key={`${item.productId}-${index}`}
+            product={item}
+            className="product-card-all"
+          />
         ))}
       </div>
 

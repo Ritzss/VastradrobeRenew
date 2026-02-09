@@ -153,13 +153,13 @@ function CarouselItem({
       }}
       transition={transition}
     >
-     <div className="flex w-full h-full">
-       <div className={`${round ? "p-0 m-0" : "mb-4 p-5 w-[48%] h-[30%]"}`}>
+     <div className="flex sm:flex-row flex-col w-full h-full">
+       <div className={`${round ? "p-0 m-0" : "mb-4 p-5 w-full md:w-[48%] lg:w-[48%] lg:h-[30%]"}`}>
         <span className="flex h-[4vh] w-full items-center justify-center rounded-full bg-[#060010]">
           {item.icon}
         </span>
       </div>
-      <div className="relative mr-auto overflow-hidden m-2 rounded-4xl w-[48%] h-[30vh]">
+      <div className="relative mx-auto overflow-hidden m-2 rounded-4xl w-[80%] md:w-[48%] lg:w-[48%] h-[30vh]">
         <Image
           fill
           src={item.image}
@@ -167,7 +167,7 @@ function CarouselItem({
         />
       </div>
      </div>
-      <div className="p-10 h-[65%]">
+      <div className="md:p-10 lg:p-10 p-5 h-[65%]">
         <div className="mb-1 font-black text-lg text-white">{item.title}</div>
         <div className="text-sm text-white"><TypingEffect text={item.description} /> </div>
       </div>
@@ -317,7 +317,7 @@ export default function Carousel({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden p-4 ${
+      className={`relative overflow-hidden border h-120 p-4 ${
         round
           ? "rounded-full border border-white"
           : "rounded-4xl "
@@ -358,7 +358,7 @@ export default function Carousel({
         ))}
       </motion.div>
       <div
-        className={`flex w-full justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""}`}
+        className={`flex w-full  justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""}`}
       >
         <div className="mt-4 flex w-37.5 justify-between px-8">
           {items.map((_, index) => (

@@ -28,16 +28,17 @@ async function getLatestProducts(): Promise<IMSProduct[]> {
 async function getProducts(): Promise<IMSProduct[]> {
   try {
     const res = await fetch(
-      `${process.env.IMS_BASE_URL}/api/ims/public/products`,
+      `${process.env.IMS_BASE_URL}/api/ims/public/products?limit=50`,
       { cache: "no-store" },
     );
 
     if (!res.ok) return [];
 
     const data = await res.json();
+    
     return data.products || [];
   } catch (err) {
-    console.error("LATEST PRODUCTS FETCH ERROR:", err);
+    console.error("PRODUCTS FETCH ERROR:", err);
     return [];
   }
 }
@@ -52,8 +53,8 @@ const Home = async () => {
         drop={false}
         Img={false}
         /> */}
-      <CategorySlider />
       <Slider />
+      <CategorySlider />
       {/* ✅ Latest Products (server-side) */}
 
       <ScrollReveal>
@@ -63,17 +64,17 @@ const Home = async () => {
       <ScrollRevealProducts
         products={allProduct}
         category="women"
-        title="Women Co-ords You’ll Love"
+        title="Women Co-ords You&apos;ll Love"
       />
       <ScrollRevealProducts
         products={allProduct}
         category="girls"
-        title="Girls Co-ords You’ll Love"
+        title="Girls Co-ords You&apos;ll Love"
       />
       <ScrollRevealProducts
         products={allProduct}
-        category="Men"
-        title="Men Wear You’ll Like"
+        category="men"
+        title="Men Wear You&apos;ll Like"
       />
 
       <ScrollReveal>

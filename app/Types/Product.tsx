@@ -9,5 +9,9 @@ export type IMSProduct = {
   category: string;
   subcategory: string;
   sizes: string[];
+  color:string[];
   stock?: number;
+  material?: string
+  fit?: string
+  care?: string
 };

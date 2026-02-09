@@ -1,14 +1,10 @@
 "use client";
-// import Menbox from "./HoverBoxes/Menbox";
-// import Traditionalbox from "./HoverBoxes/Traditionalbox";
-// import Westernbox from "./HoverBoxes/WesternBox";
-// import Womenbox from "./HoverBoxes/Womenbox";
+
 import { usePathname } from "next/navigation";
 import NavItem from "./NavItem";
-// import ChildrenBox from "./HoverBoxes/ChildrenBox";
 
 const CategoryBar = (props: {
-  className: unknown;
+  className?: string;
   drop: boolean;
   Img: boolean;
 }) => {
@@ -19,78 +15,96 @@ const CategoryBar = (props: {
 
   return (
     <section
-      className={`flex overflow-hidden justify-evenly border-b text-xl w-full ${props.className}`}
+      className={`
+        w-full border-b
+        ${props.className ?? ""}
+      `}
     >
-      <NavItem
-        href="/men"
-        src="/Assets/Images/CateImg/mennew.png"
-        Img={props.Img}
-        label="Men"
-        active={isActive("/men")}
-        hover="hover:bg-[#00ffff] hover:border-[#00ffff] hover:border-b-2"
-        activeStyle="bg-[#00ffff] border-[#00ffff] border-b-2"
-        // dropdown={<Menbox />}
-        // drop={props.drop}
-      />
+      {/* MOBILE: horizontal scroll */}
+      <div
+        className=" flex md:hidden gap-2 px-2 overflow-x-auto no-scrollbar text-sm"
+      >
+        <CategoryItems isActive={isActive} Img={props.Img} />
+      </div>
 
-      <NavItem
-        href="/women"
-        src="/Assets/Images/CateImg/womennew.png"
-        Img={props.Img}
-        label="Women"
-        active={isActive("/women")}
-        hover="hover:bg-[#f04aff] hover:border-[#f04aff] hover:border-b-2"
-        activeStyle="bg-[#f04aff] border-[#f04aff] border-b-2"
-        // dropdown={<Womenbox />}
-        // drop={props.drop}
-      />
-
-      <NavItem
-        href="/children"
-        src={""}
-        Img={props.Img}
-        label="Children"
-        active={isActive("/children")}
-        hover="hover:bg-[#ffff00] hover:border-[#ffff00] hover:border-b-2"
-        activeStyle="bg-[#ffff00] border-[#ffff00] border-b-2"
-        // dropdown={<ChildrenBox />} // boys + girls inside
-        // drop={props.drop}
-      />
-
-      <NavItem
-        href="/winter"
-        Img={props.Img}
-        src="/Assets/Images/CateImg/offer.png"
-        label="Winter"
-        active={isActive("/winter")}
-        hover="hover:bg-[#ff6600] hover:border-[#ff6600] hover:border-b-2"
-        activeStyle="bg-[#ff6600] border-[#ff6600] border-b-2"
-      />
-      <NavItem
-        href="/western"
-        src="/Assets/Images/CateImg/western.png"
-        Img={props.Img}
-        label="Western"
-        active={isActive("/western")}
-        hover="hover:bg-[#a6ff00] hover:border-[#a6ff00] hover:border-b-2"
-        activeStyle="bg-[#a6ff00] border-[#a6ff00] border-b-2"
-        // dropdown={<Westernbox />}
-        // drop={props.drop}
-      />
-
-      <NavItem
-        href="/traditionals"
-        src="/Assets/Images/CateImg/traditional.png"
-        Img={props.Img}
-        label="Traditional"
-        active={isActive("/traditionals")}
-        hover="hover:bg-[#c50052] hover:border-[#c50052] hover:border-b-2"
-        activeStyle="bg-[#c50052] border-[#c50052] border-b-2"
-        // dropdown={<Traditionalbox />}
-        // drop={props.drop}
-      />
+      {/* DESKTOP: evenly spaced */}
+      <div
+        className=" hidden md:flex justify-evenly text-base lg:text-lg"
+      >
+        <CategoryItems isActive={isActive} Img={props.Img} />
+      </div>
     </section>
   );
 };
+
+const CategoryItems = ({
+  isActive,
+  Img,
+}: {
+  isActive: (path: string) => boolean;
+  Img: boolean;
+}) => (
+  <>
+    <NavItem
+      href="/men"
+      src="/Assets/Images/CateImg/mennew.png"
+      Img={Img}
+      label="Men"
+      active={isActive("/men")}
+      hover="hover:bg-[#00ffff] hover:border-[#00ffff] hover:border-b-2"
+      activeStyle="bg-[#00ffff] border-[#00ffff] border-b-2"
+    />
+
+    <NavItem
+      href="/women"
+      src="/Assets/Images/CateImg/womennew.png"
+      Img={Img}
+      label="Women"
+      active={isActive("/women")}
+      hover="hover:bg-[#f04aff] hover:border-[#f04aff] hover:border-b-2"
+      activeStyle="bg-[#f04aff] border-[#f04aff] border-b-2"
+    />
+
+    <NavItem
+      href="/children"
+      src=""
+      Img={Img}
+      label="Children"
+      active={isActive("/children")}
+      hover="hover:bg-[#ffff00] hover:border-[#ffff00] hover:border-b-2"
+      activeStyle="bg-[#ffff00] border-[#ffff00] border-b-2"
+    />
+
+    <NavItem
+      href="/winter"
+      src="/Assets/Images/CateImg/offer.png"
+      Img={Img}
+      label="Winter"
+      active={isActive("/winter")}
+      hover="hover:bg-[#ff6600] hover:border-[#ff6600] hover:border-b-2"
+      activeStyle="bg-[#ff6600] border-[#ff6600] border-b-2"
+    />
+
+    <NavItem
+      href="/summer"
+      src="/Assets/Images/CateImg/western.png"
+      Img={Img}
+      label="Summer"
+      active={isActive("/summer")}
+      hover="hover:bg-[#a6ff00] hover:border-[#a6ff00] hover:border-b-2"
+      activeStyle="bg-[#a6ff00] border-[#a6ff00] border-b-2"
+    />
+
+    <NavItem
+      href="/festive"
+      src="/Assets/Images/CateImg/traditional.png"
+      Img={Img}
+      label="Festive"
+      active={isActive("/festive")}
+      hover="hover:bg-[#c50052] hover:border-[#c50052] hover:border-b-2"
+      activeStyle="bg-[#c50052] border-[#c50052] border-b-2"
+    />
+  </>
+);
 
 export default CategoryBar;

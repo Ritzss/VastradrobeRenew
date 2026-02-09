@@ -39,16 +39,22 @@ const FavoritesClient = () => {
   }, [favCollections, setProducts]);
 
   return (
-    <div className="p-10 flex flex-col gap-10">
-      <h1 className="text-3xl font-bold">Your Favorites ❤️</h1>
-      CREATE COLLECTION
-      <div className="flex items-center gap-4 mb-6">
+    <section
+      className="w-full px-3 sm:px-4 md:px-6 lg:max-w-7xl lg:mx-auto py-6 md:py-10 flex flex-col gap-8"
+    >
+      {/* HEADER */}
+      <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold">
+        Your Favorites ❤️
+      </h1>
+
+      {/* CREATE COLLECTION */}
+      <div className="flex flex-wrap items-center gap-3">
         {!showInput ? (
           <button
             onClick={() => setShowInput(true)}
-            className="px-4 py-2 bg-black text-white rounded-md flex gap-2"
+            className="px-4 py-2 bg-black text-white rounded-md flex gap-2 text-sm"
           >
-            <Plus /> New Collection
+            <Plus size={16} /> New Collection
           </button>
         ) : (
           <>
@@ -56,7 +62,7 @@ const FavoritesClient = () => {
               value={newCollection}
               onChange={(e) => setNewCollection(e.target.value)}
               placeholder="Collection name"
-              className="border px-3 py-2 rounded-md outline-none"
+              className="border px-3 py-2 rounded-md outline-none text-sm w-full sm:w-auto"
             />
             <button
               onClick={() => {
@@ -65,7 +71,7 @@ const FavoritesClient = () => {
                 setNewCollection("");
                 setShowInput(false);
               }}
-              className="px-4 py-2 bg-green-600 text-white rounded-md"
+              className="px-4 py-2 bg-green-600 text-white rounded-md text-sm"
             >
               Create
             </button>
@@ -74,95 +80,65 @@ const FavoritesClient = () => {
                 setShowInput(false);
                 setNewCollection("");
               }}
-              className="px-4 py-2 bg-gray-300 rounded-md"
+              className="px-4 py-2 bg-gray-300 rounded-md text-sm"
             >
               Cancel
             </button>
           </>
         )}
       </div>
+
       {/* COLLECTIONS */}
       {Object.entries(favCollections).map(([collection, ids]) => {
         const favProducts = products.filter((p) => ids.has(p.productId));
 
         return (
-          <section key={collection}>
-            <h2 className="text-2xl font-semibold mb-4">{collection}</h2>
+          <section key={collection} className="flex flex-col gap-4">
+            <h2 className="text-lg sm:text-xl font-semibold">
+              {collection}
+            </h2>
 
             {favProducts.length === 0 ? (
-              <div className="text-gray-500 italic">
+              <div className="text-gray-500 italic text-sm">
                 No items in this collection yet
               </div>
             ) : (
-              <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap gap-4">
                 {favProducts.map((item) => (
-                  <ProductCard
+                  <div
                     key={item.productId}
-                    product={item}
-                    button={false}
-                    classNameInner="h-[55vh]"
+                    className=" w-full sm:w-[32%] md:w-[48%] lg:w-[30%]"
                   >
-                    <button
-                      onClick={() =>
-                        removeFromCollection(collection, item.productId)
-                      }
-                      className="p-2 rounded-lg hover:translate-y-1 hover:rounded-xl w-full bg-[#cd0000] duration-500 transition-all text-white flex justify-center items-center gap-2 "
-                    >
-                      Remove Item
-                    </button>
-                  </ProductCard>
-                  // <StarBorder
-                  //   key={item.productId}
-                  //   color="#cd0000"
-                  //   speed="5s"
-                  //   className="w-[23%] border"
-                  // >
-                  //   {/* <div className="relative w-[30vh] h-[40vh] overflow-hidden rounded-xl">
-                  //     <Image
-                  //     src={item.images?.[0] || "/Assets/Images/Newplaceholder.png"}
-                  //     fill
-                  //     sizes="photo"
-                  //     alt={String(item.name)}
-                  //     className="mx-auto h-45 object-contain"
-                  //   />
-                  //   </div>
-
-                  //   <div className="mt-3 font-bold text-center line-clamp-2">
-                  //     {item.name}
-                  //   </div>
-
-                  //   <div className="mt-2 font-semibold text-center">
-                  //     ₹{item.price}
-                  //   </div> */}
-
-                  //   <button
-
-                  //     className="mt-3 text-red-600 font-semibold"
-                  //   >
-                  //     Remove ❤️
-                  //   </button>
-                  // </StarBorder>
+                    <ProductCard product={item} button={false} className="sm:w-full md:w-full lg:w-[90%]">
+                      <button
+                        onClick={() =>
+                          removeFromCollection(collection, item.productId)
+                        }
+                        className="mt-2 px-3 py-2 w-full rounded-md bg-[#cd0000] text-white text-sm transition hover:opacity-9"
+                      >
+                        Remove
+                      </button>
+                    </ProductCard>
+                  </div>
                 ))}
               </div>
             )}
 
-            <hr className="border-2 mt-6" />
+            <hr className="border mt-6" />
           </section>
         );
       })}
+
       {/* CTA */}
-      <div>
-        <button className="text-xl w-full flex justify-center items-center gap-2">
-          Add New
-          <Link
-            href="/"
-            className="p-2 rounded bg-[#cd0000] transition-all hover:rounded-xl text-white"
-          >
-            Favorites
-          </Link>
-        </button>
+      <div className="flex justify-center">
+        <Link
+          href="/"
+          className=" flex items-center gap-2 px-4 py-2 rounded-md bg-[#cd0000] text-white text-sm hover:opacity-90"
+        >
+          Add more favorites
+        </Link>
       </div>
-    </div>
+    </section>
   );
 };
 

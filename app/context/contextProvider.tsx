@@ -26,8 +26,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [authLoading, setAuthLoading] = useState(true);
 
   /* 🛒 Cart */
-
  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+ /*Product Details */
+   const [showVariants, setShowVariants] = useState<boolean>(false);
+  const [showProductDeatils, setShowProductDeatils] = useState<boolean>(false);
 
   /* ❤️ Favorites (DB-backed) */
   const [favCollections, setFavCollections] = useState<
@@ -351,6 +354,8 @@ useEffect(() => {
 
         products,
         setProducts,
+        showVariants, setShowVariants,
+        showProductDeatils, setShowProductDeatils,
 
         loginForm,
         setLoginForm,

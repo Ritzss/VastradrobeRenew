@@ -29,6 +29,10 @@ export interface AppContextType {
   setSearchQuery: Dispatch<SetStateAction<string>>;
   subCategory: string;
   setSubCategory: Dispatch<SetStateAction<string>>;
+  showVariants: boolean;
+  setShowVariants: Dispatch<SetStateAction<boolean>>;
+  showProductDeatils: boolean;
+  setShowProductDeatils: Dispatch<SetStateAction<boolean>>;
 
   /* 🛒 Cart */
   cartItems: CartItem[];

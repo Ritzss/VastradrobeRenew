@@ -47,7 +47,6 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
             New
           </span>
         </Link>
-        <span className="text-sm text-gray-500">Drag to explore →</span>
       </div>
 
       {isVisible && (

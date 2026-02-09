@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-body{
+body {
   background-color: #ffffff;
 }
 
@@ -8,19 +8,58 @@ body.scroll-lock {
   overflow: hidden;
 }
 
-.cardBlock{
-  background-color: #cd000000;
-  color: white;
+.cardBlock {
+  position: relative;
+  background: white;
+  height: 57vh;
+  overflow: hidden;
 }
 
-.cardBlock:hover{
-  background-color: #cd0000;
+/* IMAGE AREA */
+.imageBlock {
+  position: relative;
+  height: 57vh;
+  overflow: hidden;
 }
+
+.detailsBox {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  transform: translateY(100%);
+  opacity: 0;
+
+  background-color: #3d3d3dab;
+
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease;
+}
+
+/* Desktop hover */
+@media (hover: hover) {
+  .cardBlock:hover .detailsBox {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Mobile tap */
+.cardBlock.is-open .detailsBox {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
+
+
+
 .no-caret {
   caret-color: transparent;
 }
-
-@media (max-width:320px) {
+/* @media (max-width:320px) {
   #navcontainer{
     display: none;
   }
@@ -44,7 +83,7 @@ body.scroll-lock {
   #footercontent{
     display: none;
   }
-}
+} */
 
 .menu-btn {
   width: 32px;
@@ -85,7 +124,7 @@ body.scroll-lock {
   flex-direction: column;
   gap: 12px;
   padding: 16px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   z-index: 50;
 }
 
@@ -178,23 +217,12 @@ body.scroll-lock {
   background: linear-gradient(to left, white, transparent);
 }
 
-
 @media (prefers-reduced-motion: reduce) {
   .slide,
   .boxfill {
     animation: none;
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 /* makeing responsiveness outoff thin air */
 
@@ -204,19 +232,35 @@ body.scroll-lock {
 
 /* Product listing cards */
 .product-card {
-  width: 80%;
+  width: 96%;
 }
-
-
+.product-card-all {
+  width: 85%;
+}
 
 @media (min-width: 768px) {
   .product-card {
     width: 45%;
   }
+  .product-card-all {
+    width: 45%;
+  }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 769px) and (max-width: 1024px) {
   .product-card {
+    width: 40%;
+  }
+  .product-card-all {
+    width: 32%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .product-card {
+    width: 32%;
+  }
+  .product-card-all {
     width: 24%;
   }
 }
