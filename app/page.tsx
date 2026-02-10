@@ -80,7 +80,7 @@ const Home = async () => {
       />
       
       <ScrollReveal>
-        <HomeVideos variant="carousel" />
+        <HomeVideos />
       </ScrollReveal>
 
       <ScrollReveal>

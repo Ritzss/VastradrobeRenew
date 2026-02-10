@@ -4,7 +4,7 @@ const HomeVideoSchema = new mongoose.Schema(
   {
     source: {
       type: String,
-      enum: ["youtube", "instagram", "facebook", "generic"],
+      enum: ["youtube", "instagram", "facebook", "generic","whatsapp"],
       required: true,
     },
     url: {

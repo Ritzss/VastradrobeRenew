@@ -1,77 +1,97 @@
+// components/Home/HomeVideos.tsx
 "use client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useEffect, useState } from "react";
-import VideoEmbed from "./HomeVideoEmbed";
-import Carousel from "../UI/Carousel";
+import VideoCarouselSection from "./VideoCarouselSection";
+import HorizontalScroll from "../Global/HorizontalScroll";
 
-type HomeVideosProps = {
-  variant?: "grid" | "carousel";
+type VideoItem = {
+  id: string;
+  videoUrl: string;
 };
 
-const HomeVideos = ({ variant = "grid" }: HomeVideosProps) => {
-  const [videos, setVideos] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+const HomeVideos = () => {
+  const [userVideos, setUserVideos] = useState<VideoItem[]>([]);
+  // const [instagramVideos, setInstagramVideos] = useState<VideoItem[]>([]);
+  // const [facebookVideos, setFacebookVideos] = useState<VideoItem[]>([]);
+  // const [youtubeVideos, setYoutubeVideos] = useState<VideoItem[]>([]);
+  // const [whatsappVideos, setWhatsappVideos] = useState<VideoItem[]>([]);
 
-  // 🔹 STATIC CAROUSEL VIDEO (WORKS INDEPENDENTLY)
-  // const carouselItems = [
-  //   {
-  //     id: 1,
-  //     video:
-  //       "https://res.cloudinary.com/dwhn5ec09/video/upload/v1770717472/VID-20260210-WA0015_xb50lo.mp4",
-  //   },
-  // ];
-
- useEffect(() => {
-  const loadVideos = async () => {
-    try {
+  useEffect(() => {
+    // USER UPLOADS (Cloudinary – already working)
+    const loadUserVideos = async () => {
       const res = await fetch("/api/home/cloudinary-videos");
       const data = await res.json();
-      setVideos(data.videos || []);
-    } catch (err) {
-      console.error("Failed to load Cloudinary videos", err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  loadVideos();
-}, []);
+      setUserVideos(
+        (data.videos || []).map((v: any) => ({
+          id: v.id,
+          videoUrl: v.url,
+        }))
+      );
+    };
 
-console.log(videos);
+    // STATIC / ADMIN-CONTROLLED (for now)
+    // setInstagramVideos([
+    //   {
+    //     id: "insta-1",
+    //     videoUrl: "https://res.cloudinary.com/dwhn5ec09/video/upload/v1770723515/vastraVideoss_yssu65.mp4",
+    //   },
+    // ]);
 
+    // setFacebookVideos([
+    //   {
+    //     id: "fb-1",
+    //     videoUrl: "https://res.cloudinary.com/dwhn5ec09/video/upload/v1770723515/vastraVideoss_yssu65.mp4",
+    //   },
+    // ]);
 
-const carouselItems = videos.map((v, index) => ({
-  id: index + 1,
-  video: v.url,
-}));
+    // setYoutubeVideos([
+    //   {
+    //     id: "yt-1",
+    //     videoUrl: "https://res.cloudinary.com/dwhn5ec09/video/upload/v1770723515/vastraVideoss_yssu65.mp4",
+    //   },
+    // ]);
 
+    // setWhatsappVideos([
+    //   {
+    //     id: "wa-1",
+    //     videoUrl: "https://res.cloudinary.com/dwhn5ec09/video/upload/v1770723515/vastraVideoss_yssu65.mp4",
+    //   },
+    // ]);
 
-  if (loading) return null;
-
-  // ⛔ only grid depends on API
-  if (variant === "grid" && !videos.length) return null;
+    loadUserVideos();
+  }, []);
 
   return (
-    <section className="px-6 py-10">
-      <h2 className="text-2xl font-bold mb-6">Watch Our Stories</h2>
+    <HorizontalScroll>
+      <VideoCarouselSection
+        title="Watch our Story"
+        videos={userVideos}
+      />
+{/* 
+      <VideoCarouselSection
+        title="Instagram Stories"
+        videos={instagramVideos}
+      />
 
-      {variant === "grid" ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {videos.map((v: any) => (
-            <VideoEmbed key={v._id} source={v.source} url={v.url} />
-          ))}
-        </div>
-      ) : (
-        <Carousel
-          items={carouselItems}
-          variant="media"
-          loop
-          baseWidth={360}
-        />
-      )}
-    </section>
+      <VideoCarouselSection
+        title="Facebook Reviews"
+        videos={facebookVideos}
+      />
+
+      <VideoCarouselSection
+        title="YouTube Highlights"
+        videos={youtubeVideos}
+      />
+
+      <VideoCarouselSection
+        title="WhatsApp Reviews"
+        videos={whatsappVideos}
+      /> */}
+    </HorizontalScroll>
   );
 };
 
