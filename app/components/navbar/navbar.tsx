@@ -10,7 +10,7 @@ import { IoSearch, IoCart } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa6";
 import { MdSupportAgent } from "react-icons/md";
 import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
-import { LogOut } from "lucide-react";
+import { Dock, Home, LogOut, ShoppingBag } from "lucide-react";
 
 import { useAppContext } from "@/hooks/useAppContext";
 import { FaRegListAlt } from "react-icons/fa";
@@ -117,6 +117,9 @@ const Navbar = () => {
           </Link>
           <Link href="/product" className="hover:text-[#cd0000]">
             Shop
+          </Link>
+          <Link href="/blog" className="hover:text-[#cd0000]">
+            Blog
           </Link>
         </div>
 
@@ -292,10 +295,13 @@ const Navbar = () => {
             </Link>
           )}
           <Link href="/" className="flex gap-2">
-            Home
+            <Home/> Home
           </Link>
           <Link href="/product" className="flex gap-2">
-            Shop
+            <ShoppingBag />Shop
+          </Link>
+          <Link href="/blog" className="flex gap-2">
+            <Dock/> Blog
           </Link>
 
           {isLogged && (

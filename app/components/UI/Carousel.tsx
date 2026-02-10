@@ -389,7 +389,7 @@ export default function Carousel({
       <div
         className={`flex w-full  justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""}`}
       >
-        {variant !=="media" && (<div className="mt-4 flex w-37.5 justify-between px-8">
+        <div className="mt-4 flex w-37.5 justify-between px-8">
           {items.map((_, index) => (
             <motion.div
               key={index}
@@ -409,7 +409,7 @@ export default function Carousel({
               transition={{ duration: 0.15 }}
             />
           ))}
-        </div>)}
+        </div>
       </div>
     </div>
   );
