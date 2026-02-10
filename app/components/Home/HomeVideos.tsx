@@ -22,14 +22,16 @@ const HomeVideos = () => {
   useEffect(() => {
     // USER UPLOADS (Cloudinary – already working)
     const loadUserVideos = async () => {
-      const res = await fetch("/api/home/cloudinary-videos");
+      const res = await fetch("/api/home/cloudinary-videos", {
+        cache: "no-store",
+      });
       const data = await res.json();
 
       setUserVideos(
         (data.videos || []).map((v: any) => ({
           id: v.id,
           videoUrl: v.url,
-        }))
+        })),
       );
     };
 
@@ -67,11 +69,8 @@ const HomeVideos = () => {
 
   return (
     <HorizontalScroll>
-      <VideoCarouselSection
-        title="Watch our Story"
-        videos={userVideos}
-      />
-{/* 
+      <VideoCarouselSection title="Watch our Story" videos={userVideos} />
+      {/* 
       <VideoCarouselSection
         title="Instagram Stories"
         videos={instagramVideos}
