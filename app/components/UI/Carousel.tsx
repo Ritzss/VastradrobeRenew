@@ -9,11 +9,12 @@ import Image from "next/image";
 import { AiFillStar } from "react-icons/ai";
 import TypingEffect from "./TypingEffect";
 export interface CarouselItem {
-  title: string;
-  description: string;
   id: number;
-  icon: React.ReactNode;
-  image:string;
+  title?: string;
+  description?: string;
+  icon?: React.ReactNode;
+  image?: string;
+  video?: string;
 }
 
 export interface CarouselProps {
@@ -24,7 +25,10 @@ export interface CarouselProps {
   pauseOnHover?: boolean;
   loop?: boolean;
   round?: boolean;
+  variant?: CarouselVariant;
 }
+
+type CarouselVariant = "review" | "media";
 
 const DEFAULT_ITEMS: CarouselItem[] = [
   {
@@ -41,13 +45,13 @@ const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image:"/Assets/Images/Profiles/profile.jpg",
+    image: "/Assets/Images/Profiles/profile.jpg",
   },
   {
     id: 2,
     title: "Rahul Verma",
     description: "Great designs and premium feel. Worth the price. ",
-    icon:  (
+    icon: (
       <div className="flex gap-5 w-full justify-center">
         <AiFillStar className="h-4 w-4 text-yellow-400" />
         <AiFillStar className="h-4 w-4 text-yellow-400" />
@@ -56,13 +60,13 @@ const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image:"/Assets/Images/Profiles/profile.jpg",
+    image: "/Assets/Images/Profiles/profile.jpg",
   },
   {
     id: 3,
     title: "Neha Gupta",
     description: "Customer support was very helpful. Will order again.",
-    icon:  (
+    icon: (
       <div className="flex gap-5 w-full justify-center">
         <AiFillStar className="h-4 w-4 text-yellow-400" />
         <AiFillStar className="h-4 w-4 text-yellow-400" />
@@ -71,13 +75,13 @@ const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image:"/Assets/Images/Profiles/profile.jpg",
+    image: "/Assets/Images/Profiles/profile.jpg",
   },
   {
     id: 4,
     title: "Arjun Singh",
     description: "Nice collection, especially the winter wear.",
-    icon:  (
+    icon: (
       <div className="flex gap-5 w-full justify-center">
         <AiFillStar className="h-4 w-4 text-yellow-400" />
         <AiFillStar className="h-4 w-4 text-yellow-400" />
@@ -86,13 +90,13 @@ const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image:"/Assets/Images/Profiles/profile.jpg",
+    image: "/Assets/Images/Profiles/profile.jpg",
   },
   {
     id: 5,
     title: "Sneha Patel",
     description: "Fabric quality exceeded my expectations.",
-    icon:  (
+    icon: (
       <div className="flex gap-5 w-full justify-center">
         <AiFillStar className="h-4 w-4 text-yellow-400" />
         <AiFillStar className="h-4 w-4 text-yellow-400" />
@@ -101,7 +105,7 @@ const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image:"/Assets/Images/Profiles/profile.jpg",
+    image: "/Assets/Images/Profiles/profile.jpg",
   },
 ];
 
@@ -118,6 +122,7 @@ interface CarouselItemProps {
   trackItemOffset: number;
   x: any;
   transition: any;
+  variant: CarouselVariant;
 }
 
 function CarouselItem({
@@ -128,6 +133,7 @@ function CarouselItem({
   trackItemOffset,
   x,
   transition,
+  variant,
 }: CarouselItemProps) {
   const range = [
     -(index + 1) * trackItemOffset,
@@ -153,24 +159,47 @@ function CarouselItem({
       }}
       transition={transition}
     >
-     <div className="flex sm:flex-row flex-col w-full h-full">
-       <div className={`${round ? "p-0 m-0" : "mb-4 p-5 w-full md:w-[48%] lg:w-[48%] lg:h-[30%]"}`}>
-        <span className="flex h-[4vh] w-full items-center justify-center rounded-full bg-[#060010]">
-          {item.icon}
-        </span>
+      <div className="flex sm:flex-row flex-col w-full h-full">
+        {variant === "review" && (
+          <div
+            className={`${round ? "p-0 m-0" : "mb-4 p-5 w-full md:w-[48%] lg:w-[48%] lg:h-[30%]"}`}
+          >
+            <span className="flex h-[4vh] w-full items-center justify-center rounded-full bg-[#060010]">
+              {item.icon}
+            </span>
+          </div>
+        )}
+        {variant === "media" && item.video ? (
+          <div className="relative overflow-hidden rounded-xl w-[80%] md:w-[48%] lg:w-full h-[75vh] bg-black">
+            <video
+              src={item.video}
+              className="w-full h-full "
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
+          </div>
+        ) : item.image ? (
+          <div className="relative mx-auto overflow-hidden m-2 rounded-4xl w-[80%] md:w-[48%] lg:w-[48%] h-[30vh] bg-black">
+            <Image
+              fill
+              src={item.image}
+              alt={item.title || "carousel item"}
+              className="object-cover"
+            />
+          </div>
+        ) : null}
       </div>
-      <div className="relative mx-auto overflow-hidden m-2 rounded-4xl w-[80%] md:w-[48%] lg:w-[48%] h-[30vh]">
-        <Image
-          fill
-          src={item.image}
-          alt="review image"
-        />
-      </div>
-     </div>
-      <div className="md:p-10 lg:p-10 p-5 h-[65%]">
-        <div className="mb-1 font-black text-lg text-white">{item.title}</div>
-        <div className="text-sm text-white"><TypingEffect text={item.description} /> </div>
-      </div>
+      {variant === "review" && (
+        <div className="md:p-10 lg:p-10 p-5 h-[65%]">
+          <div className="mb-1 font-black text-lg text-white">{item.title}</div>
+          <div className="text-sm text-white">
+            <TypingEffect text={item.description || ""} />
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
@@ -183,6 +212,7 @@ export default function Carousel({
   pauseOnHover = true,
   loop = false,
   round = false,
+  variant = "review",
 }: CarouselProps): JSX.Element {
   const containerPadding = 16;
   const itemWidth = baseWidth - containerPadding * 2;
@@ -317,10 +347,8 @@ export default function Carousel({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden border h-120 p-4 ${
-        round
-          ? "rounded-full border border-white"
-          : "rounded-4xl "
+      className={`relative overflow-hidden border ${variant !== "media" && "h-120"} p-4 ${
+        round ? "rounded-full border border-white" : "rounded-4xl "
       }`}
       style={{
         width: `${baseWidth}px`,
@@ -354,6 +382,7 @@ export default function Carousel({
             trackItemOffset={trackItemOffset}
             x={x}
             transition={effectiveTransition}
+            variant={variant}
           />
         ))}
       </motion.div>

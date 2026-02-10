@@ -8,8 +8,6 @@ import { useRouter } from "next/navigation";
 import { AuthUser } from "@/Types/AuthUser";
 import { toast } from "sonner";
 
-
-
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
@@ -26,10 +24,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [authLoading, setAuthLoading] = useState(true);
 
   /* 🛒 Cart */
- const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
- /*Product Details */
-   const [showVariants, setShowVariants] = useState<boolean>(false);
+  /*Product Details */
+  const [showVariants, setShowVariants] = useState<boolean>(false);
   const [showProductDeatils, setShowProductDeatils] = useState<boolean>(false);
 
   /* ❤️ Favorites (DB-backed) */
@@ -42,60 +40,55 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const clearCart = () => setCartItems([]);
 
   const addToCart = (productId: number, size: string) => {
-  setCartItems((prev) => {
-    const existing = prev.find(
-      (i) => i.productId === productId && i.size === size
-    );
+    setCartItems((prev) => {
+      const existing = prev.find(
+        (i) => i.productId === productId && i.size === size,
+      );
 
-    if (existing) {
-      return prev.map((i) =>
+      if (existing) {
+        return prev.map((i) =>
+          i.productId === productId && i.size === size
+            ? { ...i, qty: i.qty + 1 }
+            : i,
+        );
+      }
+
+      return [...prev, { productId, size, qty: 1 }];
+    });
+
+    toast.success(`Item Added to cart`);
+  };
+
+  const removeFromCart = (productId: number, size: string) => {
+    setCartItems((prev) =>
+      prev.filter((i) => !(i.productId === productId && i.size === size)),
+    );
+    toast.error(`Item Removed from cart`);
+  };
+
+  const incrementQty = (productId: number, size: string) => {
+    setCartItems((prev) =>
+      prev.map((i) =>
         i.productId === productId && i.size === size
           ? { ...i, qty: i.qty + 1 }
-          : i
-      );
-    }
+          : i,
+      ),
+    );
+  };
 
-    return [...prev, { productId, size, qty: 1 }];
-  });
+  const decrementQty = (productId: number, size: string) => {
+    setCartItems((prev) =>
+      prev
+        .map((i) =>
+          i.productId === productId && i.size === size
+            ? { ...i, qty: i.qty - 1 }
+            : i,
+        )
+        .filter((i) => i.qty > 0),
+    );
+  };
 
-  toast.success(`Item Added to cart`);
-};
-
- const removeFromCart = (productId: number, size: string) => {
-  setCartItems((prev) =>
-    prev.filter(
-      (i) => !(i.productId === productId && i.size === size)
-    )
-  );
-  toast.error(`Item Removed from cart`);
-};
-
-const incrementQty = (productId: number, size: string) => {
-  setCartItems((prev) =>
-    prev.map((i) =>
-      i.productId === productId && i.size === size
-        ? { ...i, qty: i.qty + 1 }
-        : i
-    )
-  );
-};
-
-const decrementQty = (productId: number, size: string) => {
-  setCartItems((prev) =>
-    prev
-      .map((i) =>
-        i.productId === productId && i.size === size
-          ? { ...i, qty: i.qty - 1 }
-          : i
-      )
-      .filter((i) => i.qty > 0)
-  );
-};
-
-const cartCount = cartItems.reduce(
-  (sum, item) => sum + item.qty,
-  0
-);
+  const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
 
   /* ---------------- FAVORITES (API) ---------------- */
 
@@ -260,8 +253,20 @@ const cartCount = cartItems.reduce(
     setFavCollections({});
     router.replace("/");
   };
+  /**-------------------Product Load---------------- */
 
-  
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?limit=50`);
+        const data = await res.json();
+        setProducts(data.products); // only if you have local state
+      } catch (err) {
+        toast.error(`Failed to load products ${err}`);
+      }
+    };
+    loadProducts();
+  }, []);
 
   /* ---------------- EFFECTS ---------------- */
 
@@ -269,58 +274,57 @@ const cartCount = cartItems.reduce(
     loadUser().finally(() => setAuthLoading(false));
   }, []);
 
- /* ---------------- CART HYDRATION ---------------- */
-useEffect(() => {
-  const hydrateCart = async () => {
-    // 🔐 Logged-in user → load from DB
-    if (user) {
-      try {
-        const res = await fetch("/api/cart", {
-          credentials: "include",
-        });
+  /* ---------------- CART HYDRATION ---------------- */
+  useEffect(() => {
+    const hydrateCart = async () => {
+      // 🔐 Logged-in user → load from DB
+      if (user) {
+        try {
+          const res = await fetch("/api/cart", {
+            credentials: "include",
+          });
 
-        if (!res.ok) return;
+          if (!res.ok) return;
 
-        const data = await res.json();
+          const data = await res.json();
 
-        // ✅ cart is ARRAY
-        setCartItems(Array.isArray(data.cart) ? data.cart : []);
-      } catch (err) {
-        console.error("Failed to load cart from DB", err);
+          // ✅ cart is ARRAY
+          setCartItems(Array.isArray(data.cart) ? data.cart : []);
+        } catch (err) {
+          console.error("Failed to load cart from DB", err);
+        }
       }
-    }
 
-    // 👤 Guest → load from localStorage
-    else {
-      const stored = localStorage.getItem("vastradrobe_cart");
-      if (!stored) return;
+      // 👤 Guest → load from localStorage
+      else {
+        const stored = localStorage.getItem("vastradrobe_cart");
+        if (!stored) return;
 
-      try {
-        const parsed = JSON.parse(stored);
-        setCartItems(Array.isArray(parsed) ? parsed : []);
-      } catch {
-        localStorage.removeItem("vastradrobe_cart");
+        try {
+          const parsed = JSON.parse(stored);
+          setCartItems(Array.isArray(parsed) ? parsed : []);
+        } catch {
+          localStorage.removeItem("vastradrobe_cart");
+        }
       }
-    }
-  };
+    };
 
-  hydrateCart();
-}, [user]);
-
+    hydrateCart();
+  }, [user]);
 
   /* ---------------- CART PERSISTENCE ---------------- */
   useEffect(() => {
-  if (!user) return;
+    if (!user) return;
 
-  fetch("/api/cart/update", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${document.cookie}`, // or however you pass token
-    },
-    body: JSON.stringify({ cart: cartItems }),
-  });
-}, [cartItems, user]);
+    fetch("/api/cart/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${document.cookie}`, // or however you pass token
+      },
+      body: JSON.stringify({ cart: cartItems }),
+    });
+  }, [cartItems, user]);
 
   useEffect(() => {
     if (!user) return;
@@ -354,8 +358,10 @@ useEffect(() => {
 
         products,
         setProducts,
-        showVariants, setShowVariants,
-        showProductDeatils, setShowProductDeatils,
+        showVariants,
+        setShowVariants,
+        showProductDeatils,
+        setShowProductDeatils,
 
         loginForm,
         setLoginForm,

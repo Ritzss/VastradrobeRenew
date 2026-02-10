@@ -18,7 +18,7 @@ const CategoryCard = ({ href, image, label, variant }: Props) => {
       as="button"
       color="#ffffff"
       speed="5s"
-      className="cardBlock w-65 h-85"
+      className="cardBlock-Category w-65"
     >
       <Link href={href}>
         <PixelCard variant={variant as any} className="border-0">

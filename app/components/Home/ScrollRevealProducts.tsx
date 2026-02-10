@@ -71,7 +71,7 @@ const ScrollRevealProducts = ({ products, category, title }: Props) => {
       {/* ---------- DESKTOP (wrap layout) ---------- */}
       <div className="hidden md:flex flex-wrap gap-3 justify-center">
         {filteredProducts.slice(0, 4).map((product) => (
-          <div key={product.productId} className="md:w-[48%] lg:w-[24%]">
+          <div key={product.productId} className="md:w-[48%] lg:w-[23vw]">
             <ProductCard product={product} className="w-full" button={false} />
           </div>
         ))}

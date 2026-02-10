@@ -2,6 +2,7 @@ import Slider from "./components/Global/Header";
 import ScrollReveal from "./components/Global/ScrollReveal";
 // import CategoryBar from "./components/navbar/Categorybar";
 import CategorySlider from "./components/Home/CategorySlider";
+import HomeVideos from "./components/Home/HomeVideos";
 import LatestArrivals from "./components/Home/LatestProduct";
 import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
 import SocialProof from "./components/Home/SocialProof";
@@ -35,7 +36,7 @@ async function getProducts(): Promise<IMSProduct[]> {
     if (!res.ok) return [];
 
     const data = await res.json();
-    
+
     return data.products || [];
   } catch (err) {
     console.error("PRODUCTS FETCH ERROR:", err);
@@ -64,18 +65,23 @@ const Home = async () => {
       <ScrollRevealProducts
         products={allProduct}
         category="women"
-        title="Women Co-ords You&apos;ll Love"
+        title="Women Co-ords You'll Love"
       />
       <ScrollRevealProducts
         products={allProduct}
         category="girls"
-        title="Girls Co-ords You&apos;ll Love"
+        title="Girls Co-ords You'll Love"
       />
+
       <ScrollRevealProducts
         products={allProduct}
         category="men"
-        title="Men Wear You&apos;ll Like"
+        title="Men Wear You'll Like"
       />
+      
+      <ScrollReveal>
+        <HomeVideos variant="carousel" />
+      </ScrollReveal>
 
       <ScrollReveal>
         <SocialProof />

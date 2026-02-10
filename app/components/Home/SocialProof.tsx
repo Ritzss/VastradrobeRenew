@@ -4,6 +4,7 @@ import { AiFillStar } from "react-icons/ai";
 import Carousel from "@/components/UI/Carousel";
 
 const SocialProof = () => {
+   
   return (
     <aside
       className=" max-w-7xl mx-auto px-4 md:px-8 py-16 flex flex-col md:flex-col lg:flex-row gap-12 md:gap-16 items-center md:items-start"

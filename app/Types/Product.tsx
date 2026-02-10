@@ -11,6 +11,7 @@ export type IMSProduct = {
   sizes: string[];
   color:string[];
   stock?: number;
+  brand?:string;
   material?: string
   fit?: string
   care?: string

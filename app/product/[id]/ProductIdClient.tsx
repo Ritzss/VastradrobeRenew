@@ -6,6 +6,11 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import ProductCard from "@/components/Global/ProductCard";
+import { IoExitOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
+import { MdOutlineRemoveShoppingCart } from "react-icons/md";
+import { FaCartArrowDown } from "react-icons/fa6";
+import ScrollReveal from "@/components/Global/ScrollReveal";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -18,9 +23,15 @@ export default function ProductPDPClient({
   colorVariants: IMSProduct[];
   similarProducts: IMSProduct[];
 }) {
-  const { addToCart } = useAppContext();
+  const router = useRouter();
+
+  const productId = Number(product.productId);
+
   const {
+    addToCart,
     showVariants,
+    cartItems,
+    removeFromCart,
     setShowVariants,
     showProductDeatils,
     setShowProductDeatils,
@@ -35,6 +46,23 @@ export default function ProductPDPClient({
   const sizes =
     product.sizes && product.sizes.length > 0 ? product.sizes : FALLBACK_SIZES;
 
+  const defaultSize = product.sizes?.[0] || "FREE";
+
+  const isInCart = cartItems.some(
+    (item) => item.productId === productId && item.size === defaultSize,
+  );
+
+  const handleCartToggle = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    isInCart
+      ? removeFromCart(productId, defaultSize)
+      : addToCart(productId, defaultSize);
+  };
+  const handleBuyNow = () => {
+    router.push(
+      `/checkout?buyNow=1&productId=${productId}&size=${defaultSize}&qty=1`,
+    );
+  };
   return (
     <div className="px-10 py-8 flex flex-col gap-16">
       {/* TOP SECTION */}
@@ -66,7 +94,7 @@ export default function ProductPDPClient({
         </div>
 
         {/* DETAILS */}
-        <div className="flex flex-col gap-6 lg:w-[40%]">
+        <div className={`flex flex-col gap-6 lg:w-[40%] overflow-hidden`}>
           <h1 className="text-3xl font-bold">{product.name}</h1>
           <p className="text-gray-600">{product.description}</p>
 
@@ -93,10 +121,10 @@ export default function ProductPDPClient({
           )}
 
           <div
-            className={`${showVariants ? "opacity-100" : "opacity-0"} relative transition-all duration-1000`}
+            className={`${showVariants ? "opacity-100" : "opacity-0"} relative transition-all duration-300`}
           >
             <div
-              className={`${showVariants ? "relative" : "absolute -z-5 -translate-y-200"} transition-all duration-2000`}
+              className={`${showVariants ? "relative" : "absolute -z-5 translate-x-200 overflow-hidden"} transition-all duration-2000`}
             >
               {/* COLORS */}
               {colorVariants.length > 1 && (
@@ -142,13 +170,32 @@ export default function ProductPDPClient({
             </div>
           </div>
 
-          {/* ADD TO CART */}
-          <button
-            onClick={() => addToCart(product.productId, selectedSize)}
-            className="mt-4 px-8 py-3 bg-black text-white rounded-lg hover:scale-[1.02] transition"
-          >
-            Add to Cart
-          </button>
+          {/* Buttons */}
+          <div className="flex duration-500 gap-1 transition-all ">
+            <button
+              type="button"
+              onClick={handleCartToggle}
+              className="mt-4 px-8 py-3 w-[60%] bg-black text-white rounded-lg hover:scale-[1.02] flex justify-center items-center"
+            >
+              {isInCart ? (
+                <>
+                  Remove Item
+                  <MdOutlineRemoveShoppingCart className="text-2xl " />
+                </>
+              ) : (
+                <>
+                  Add to Cart
+                  <FaCartArrowDown className="text-2xl" />
+                </>
+              )}
+            </button>
+            <button
+              onClick={handleBuyNow}
+              className="mt-4 px-8 py-3 w-[40%] bg-[#cd0000]  text-white rounded-lg hover:scale-[1.02] flex justify-center items-center gap-2 "
+            >
+              Buy Now <IoExitOutline className="text-2xl" />
+            </button>
+          </div>
 
           {/* PRODUCT DETAILS */}
           <button
@@ -183,7 +230,8 @@ export default function ProductPDPClient({
       </section>
 
       {/* SIMILAR PRODUCTS */}
-      {similarProducts.length > 0 && (
+      <ScrollReveal>
+        {similarProducts.length > 0 && (
         <section>
           <h2 className="text-2xl font-semibold mb-4">Similar Products</h2>
           <div className="flex gap-6 overflow-x-auto pb-4">
@@ -195,6 +243,7 @@ export default function ProductPDPClient({
           </div>
         </section>
       )}
+      </ScrollReveal>
     </div>
   );
 }

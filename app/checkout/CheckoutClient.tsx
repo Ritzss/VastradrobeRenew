@@ -9,11 +9,7 @@ import { useMemo, useState, useEffect } from "react";
 import { IMSProduct } from "@/Types/Product";
 import { toast } from "sonner";
 
-type Props = {
-  buyNowId: string | null;
-};
-
-const CheckoutClient = ({ buyNowId }: Props) => {
+const CheckoutClient = () => {
   const {
     products,
     cartItems, // ✅ CartItem[]
@@ -22,14 +18,14 @@ const CheckoutClient = ({ buyNowId }: Props) => {
     user,
   } = useAppContext();
 
-  
   const router = useRouter();
   const searchParams = useSearchParams();
   const buyNowSize = searchParams.get("size");
-  
+  const buyNowId = searchParams.get("buyNow");
+
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  
+
   /* PREFILL ADDRESS */
   useEffect(() => {
     if (user?.deliveryAddress) {
@@ -37,14 +33,13 @@ const CheckoutClient = ({ buyNowId }: Props) => {
       setPhone(user.deliveryAddress.phone ?? "");
     }
   }, [user]);
-  
+
   /* ---------------- PRODUCTS ---------------- */
   const checkoutProducts = useMemo(() => {
+      if (!products.length) return [];
     // BUY NOW FLOW
     if (buyNowId && buyNowSize) {
-      const product = products.find(
-        (p) => p.productId === Number(buyNowId)
-      );
+      const product = products.find((p) => p.productId === Number(buyNowId));
 
       if (!product) return [];
 
@@ -59,35 +54,33 @@ const CheckoutClient = ({ buyNowId }: Props) => {
 
     // NORMAL CART FLOW
     return cartItems
-    .map((item) => {
-      const product = products.find(
-        (p) => p.productId === item.productId
-      );
-      if (!product) return null;
-      
-      return {
+      .map((item) => {
+        const product = products.find((p) => p.productId === item.productId);
+        if (!product) return null;
+
+        return {
           ...product,
           size: item.size,
           qty: item.qty,
         };
       })
       .filter(Boolean) as (IMSProduct & {
-        size: string;
+      size: string;
       qty: number;
     })[];
+
+    
   }, [buyNowId, buyNowSize, cartItems, products]);
+  
+  if (!products.length) {
+    return <div className="p-10 text-xl">Loading checkout...</div>;
+  }
 
   if (!checkoutProducts.length) {
     return <div className="p-10 text-xl">Your cart is empty</div>;
   }
-  
-  const total = checkoutProducts.reduce(
-    (sum, p) => sum + p.price * p.qty,
-    0
-  );
-  
-  
-  
+
+  const total = checkoutProducts.reduce((sum, p) => sum + p.price * p.qty, 0);
 
   /* ---------------- PLACE ORDER ---------------- */
   const handlePlaceOrder = async () => {
@@ -102,7 +95,6 @@ const CheckoutClient = ({ buyNowId }: Props) => {
       body: JSON.stringify({ amount: total }),
     });
 
-    
     const order = await res.json();
 
     const options = {
@@ -136,21 +128,18 @@ const CheckoutClient = ({ buyNowId }: Props) => {
           price: p.price,
           qty: p.qty,
           size: p.size,
-          image: p.images?.[0]  || null,
+          image: p.images?.[0] || null,
         })),
       }),
     });
-
-   
 
     if (!res.ok) {
       toast.error("Payment verification failed");
       return;
     }
 
-     
-
     clearCart();
+
     await loadUser();
     router.push("/orders");
     toast.success("Payment successful 🎉");

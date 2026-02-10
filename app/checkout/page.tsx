@@ -1,15 +1,9 @@
 import CheckoutClient from "./CheckoutClient";
 
-type PageProps = {
-  searchParams: {
-    buyNow?: string;
-  };
-};
 
-const CheckoutPage = async ({ searchParams }: PageProps) => {
-  const params = await searchParams;
+const CheckoutPage = async () => {
 
-  return <CheckoutClient buyNowId={params.buyNow ?? null} />;
+  return <CheckoutClient />;
 };
 
 export default CheckoutPage;
