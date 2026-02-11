@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import ProductCard from "../Global/ProductCard";
 import HorizontalScroll from "@/components/Global/HorizontalScroll";
 import { IMSProduct } from "@/Types/Product";
+import EmptyState from "../Global/EmptyState";
 
 type Props = {
   products: IMSProduct[];
@@ -34,7 +35,15 @@ const ScrollRevealProducts = ({ products, category, title }: Props) => {
     return productCategory.toLowerCase() === category.toLowerCase();
   });
 
-  if (filteredProducts.length === 0) return null;
+  if (filteredProducts.length === 0) return (
+    <EmptyState
+      // label={`${category} Collection`}
+      title="We’re Still Stitching This One Together"
+      description="New pieces are being crafted with care. Stay tuned for thoughtfully designed additions."
+      buttonText="Browse All Products →"
+      buttonLink="/"
+    />
+  );
 
   return (
     <section

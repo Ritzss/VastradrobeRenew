@@ -1,48 +1,71 @@
 "use client";
 
+import EmptyState from "@/components/Global/EmptyState";
 import ProductCard from "@/components/Global/ProductCard";
 import { useAppContext } from "@/hooks/useAppContext";
 import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
 
-const ProductClient = ({
-  products,
-}: {
-  products: IMSProduct[];
-}) => {
+const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   const { searchQuery, subCategory } = useAppContext();
 
   const normalizedSub = normalize(subCategory);
   const normalizedSearch = searchQuery?.toLowerCase() || "";
 
   const filteredProducts = products.filter((p) => {
-  const subCategoryMatch =
-    !normalizedSub || normalize(p.subcategory) === normalizedSub;
+    const subCategoryMatch =
+      !normalizedSub || normalize(p.subcategory) === normalizedSub;
 
-  const searchMatch =
-    !normalizedSearch ||
-    p.name.toLowerCase().includes(normalizedSearch) ||
-    (p.description || "").toLowerCase().includes(normalizedSearch);
+    const searchMatch =
+      !normalizedSearch ||
+      p.name.toLowerCase().includes(normalizedSearch) ||
+      (p.description || "").toLowerCase().includes(normalizedSearch);
 
-  return subCategoryMatch && searchMatch;
-});
+    return subCategoryMatch && searchMatch;
+  });
 
+  const resultCount = filteredProducts.length;
 
   if (filteredProducts.length === 0) {
     return (
-      <div className="w-full py-24 text-center">
-        <h2 className="text-2xl font-bold">No products found</h2>
-        <p className="text-gray-500 mt-2">Try changing search or category</p>
-      </div>
+      <EmptyState
+        label={`Collection's Empty`}
+        title="We’re Still Stitching This One Together"
+        description="New pieces are being crafted with care. Stay tuned for thoughtfully designed additions."
+        buttonText="Browse All Products →"
+        buttonLink="/"
+      />
     );
   }
 
   return (
-    <div className="flex flex-wrap md:w-[76vw] lg:w-[76vw] justify-evenly text-black">
-      {filteredProducts.map((item) => (
-        <ProductCard
-          key={item.productId} product={item} className="product-card"/>
-      ))}
+    <div className="md:w-[76vw] lg:w-[76vw] mx-auto">
+      {/* RESULTS HEADER */}
+      <div className="flex items-center justify-between mt-10 px-4">
+        <p className="text-sm text-gray-500 uppercase tracking-[0.25em]">
+          {resultCount} {resultCount === 1 ? "Item" : "Items"}
+        </p>
+
+        {normalizedSub && (
+          <p className="text-sm text-gray-600">
+            Filtered by{" "}
+            <span className="font-medium capitalize">{subCategory}</span>
+          </p>
+        )}
+      </div>
+
+      <div className="h-px bg-gray-200 mb-12" />
+
+      {/* PRODUCT GRID */}
+      <div className="flex flex-wrap gap-5">
+        {filteredProducts.map((item) => (
+          <ProductCard
+            key={item.productId}
+            product={item}
+            className="product-card"
+          />
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { notFound } from "next/navigation";
 import ProductClient from "./ProductClient";
+import { toast } from "sonner";
 
 type PageProps = {
   params: Promise<{ category: string }>;
@@ -29,12 +30,7 @@ export default async function Page({ params }: PageProps) {
   );
 
   if (!res.ok) {
-    return (
-      <div style={{ color: "black", padding: 40 }}>
-        <h1>Fetch failed</h1>
-        <p>Status: {res.status}</p>
-      </div>
-    );
+    return toast.error("Fetch Failed");;
   }
 
   const data = await res.json();
