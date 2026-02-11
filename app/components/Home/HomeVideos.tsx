@@ -69,7 +69,7 @@ const HomeVideos = () => {
 
   return (
     <HorizontalScroll>
-      <VideoCarouselSection title="Watch our Story" videos={userVideos} />
+      <VideoCarouselSection title="" videos={userVideos} />
       {/* 
       <VideoCarouselSection
         title="Instagram Stories"

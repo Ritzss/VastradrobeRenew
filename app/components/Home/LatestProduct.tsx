@@ -3,7 +3,6 @@
 import { useRef, useEffect, useState } from "react";
 import ProductCard from "@/components/Global/ProductCard";
 import { IMSProduct } from "@/Types/Product";
-import Link from "next/link";
 import HorizontalScroll from "../Global/HorizontalScroll";
 
 type LatestArrivalsProps = {
@@ -37,17 +36,7 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
 
   return (
     <section ref={sectionRef} className="w-full px-4 md:px-8 mt-14">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <Link href="/product" className="flex items-center gap-3">
-          <h2 className="text-[2rem] text-[#2B2B2B] font-semibold">
-            Latest Arrivals
-          </h2>
-          <span className="text-md border px-2 py-1 rounded-full">
-            New
-          </span>
-        </Link>
-      </div>
+      
 
       {isVisible && (
         <HorizontalScroll>

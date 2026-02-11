@@ -22,15 +22,25 @@ const VideoCarouselSection = ({ title, videos }: Props) => {
   }));
 
   return (
-    <section className="px-6 py-10">
+    <section className="px-2 py-10">
       <h2 className="text-2xl font-bold mb-6">{title}</h2>
 
-      <Carousel
+      <div className="hidden md:block">
+        <Carousel
         items={carouselItems}
         variant="media"
         loop
         baseWidth={360}
-      />
+        />
+        </div>
+      <div className="block md:hidden">
+        <Carousel
+        items={carouselItems}
+        variant="media"
+        loop
+        baseWidth={300}
+        />
+        </div>
     </section>
   );
 };

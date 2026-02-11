@@ -170,7 +170,7 @@ function CarouselItem({
           </div>
         )}
         {variant === "media" && item.video ? (
-          <div className="relative overflow-hidden rounded-xl w-[80%] md:w-[48%] lg:w-full h-[75vh] bg-black">
+          <div className="relative overflow-hidden rounded-xl w-full h-[75vh] bg-black">
             <video
               src={item.video}
               className="w-full h-full "

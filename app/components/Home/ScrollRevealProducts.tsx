@@ -56,7 +56,7 @@ const ScrollRevealProducts = ({ products, category, title }: Props) => {
           {filteredProducts.slice(0, 6).map((product) => (
             <div
               key={product.productId}
-              className="w-[75%] sm:w-[60%] shrink-0"
+              className="w-full sm:w-[60%] shrink-0"
             >
               <ProductCard
                 product={product}

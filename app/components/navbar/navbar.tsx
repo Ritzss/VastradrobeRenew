@@ -295,27 +295,27 @@ const Navbar = () => {
             </Link>
           )}
           <Link href="/" className="flex gap-2">
-            <Home/> Home
+            <Home size={16} /> Home
           </Link>
           <Link href="/product" className="flex gap-2">
-            <ShoppingBag />Shop
+            <ShoppingBag size={16} />Shop
           </Link>
           <Link href="/blog" className="flex gap-2">
-            <Dock/> Blog
+            <Dock size={16} /> Blog
           </Link>
 
           {isLogged && (
             <>
               <Link href="/profile" className="flex gap-2">
-                <RiAccountBoxFill /> {user?.username}
+                <RiAccountBoxFill size={16} /> {user?.username}
               </Link>
 
               <Link href="/favorites" className="flex gap-2">
-                <FaRegHeart /> Favorites
+                <FaRegHeart size={16} /> Favorites
               </Link>
 
               <Link href="/orders" className="flex gap-2">
-                <FaRegListAlt /> Orders
+                <FaRegListAlt size={16}  /> Orders
               </Link>
 
               <button
