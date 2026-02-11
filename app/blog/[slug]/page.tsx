@@ -16,7 +16,7 @@ export default async function BlogDetailPage({
         <h1 className="text-4xl font-semibold mb-8">{blog?.title}</h1>
       </ScrollReveal>
 
-      <div className="flex gap-20 p-5 mb-10">
+      <div className="lg:flex gap-20 p-5 mb-10">
         <div>
           {blog?.content.map((section, index) => {
             if (section.type === "Intro") {
@@ -29,7 +29,7 @@ export default async function BlogDetailPage({
           })}
         </div>
         <ScrollReveal direction="up">
-          <div className="relative rounded-lg overflow-hidden w-100 h-90 border ">
+          <div className="relative rounded-lg overflow-hidden h-70 md:w-100 md:h-90 border m-5 lg:m-0">
             <Image
               src={`${blog?.coverImage}`}
               alt={`${blog?.title}`}
@@ -72,7 +72,7 @@ export default async function BlogDetailPage({
                 <div className="flex flex-col lg:flex-row items-start gap-16 my-16">
                   {/* IMAGE LEFT */}
                   <div className="lg:w-1/2 flex justify-center">
-                    <div className="relative w-125 h-87.5 rounded-2xl overflow-hidden border">
+                    <div className="relative md:w-125 w-100 h-87.5 rounded-2xl overflow-hidden border">
                       <Image
                         src={section.src}
                         alt="List visual"
@@ -194,7 +194,7 @@ export default async function BlogDetailPage({
                 )}
 
                 <div className="lg:w-1/2 flex justify-center">
-                  <div className="relative w-125 h-87.5 rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
+                  <div className="relative md:w-125 w-100 h-87.5 rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
                     <Image
                       src={section.src}
                       alt={blog?.title || "Blog image"}
