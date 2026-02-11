@@ -193,7 +193,7 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
   }, [selectedIndex, keyboardNav]);
 
   return (
-    <div className={`relative ${className} w-[90%] mx-auto rounded-lg`}>
+    <div className={`relative ${className} w-full md:w-[90%] mx-auto rounded-lg`}>
       <div
         ref={listRef}
         className={`max-h-145 overflow-y-auto p-4 ${
@@ -227,9 +227,9 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
                     alt={item.title}
                   />
                 </div>
-                <div className="w-[65%]">
+                <div className="lg:w-[65%] ">
                   <div className="text-white text-2xl font-semibold m-4">{item.title}</div>
-                  <div className="text-white text-lg font-extralight line-clamp-6 rounded-lg p-6 shadow-[inset_0_-21px_20px_-18px_#ffffff]">{item.excerpt}</div>
+                  <div className="text-white text-lg font-extralight line-clamp-5 leading-relaxed rounded-lg p-6 shadow-[inset_0_-21px_20px_-18px_#ffffff]">{item.excerpt}</div>
                 </div>
               </div>
             </Link>

@@ -85,7 +85,7 @@ const Home = async () => {
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Women
           </p>
-          <h2 className="text-4xl font-semibold">Co-ords You'll Love</h2>
+          <h2 className="text-4xl font-semibold">Co-ords You&apos;ll Love</h2>
         </div>
 
         <ScrollRevealProducts products={allProduct} category="women" title="" />

@@ -193,7 +193,7 @@ function CarouselItem({
         ) : null}
       </div>
       {variant === "review" && (
-        <div className="md:p-10 lg:p-10 p-5 h-[65%]">
+        <div className="md:p-10 lg:p-10 p-5 h-[65%] w-full text-start">
           <div className="mb-1 font-black text-lg text-white">{item.title}</div>
           <div className="text-sm text-white">
             <TypingEffect text={item.description || ""} />
