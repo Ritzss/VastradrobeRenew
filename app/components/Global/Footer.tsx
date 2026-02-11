@@ -17,7 +17,6 @@ const Footer = ({ className }: { className?: string }) => {
   ];
   const Category = ["Men", "Women", "children", "Winter", "Summer"];
   const Customer = [
-    "Track",
     "Returns & Refunds",
     "Shipping",
     "Information",
@@ -62,11 +61,11 @@ const Footer = ({ className }: { className?: string }) => {
         <div className="flex flex-col gap-6">
           <h3 className="text-xl md:text-2xl font-semibold">Customer Care</h3>
           <div className={underline}>
-            <Link href="/orders">Orders</Link>
+            <Link href="/orders">Orders & Track</Link>
           </div>
           {Customer.map((item, index) => (
             <div key={index} className={underline}>
-              <Link href="#">{item}</Link>
+              <Link href={`/policies/${slugify(item)}`}>{item}</Link>
             </div>
           ))}
         </div>

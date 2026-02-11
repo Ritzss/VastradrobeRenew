@@ -72,7 +72,7 @@ export default async function BlogDetailPage({
                 <div className="flex flex-col lg:flex-row items-start gap-16 my-16">
                   {/* IMAGE LEFT */}
                   <div className="lg:w-1/2 flex justify-center">
-                    <div className="relative md:w-125 w-100 h-87.5 rounded-2xl overflow-hidden border">
+                    <div className="relative md:w-125 w-100 h-87.5 rounded-2xl overflow-hidden border border-black">
                       <Image
                         src={section.src}
                         alt="List visual"
@@ -160,7 +160,7 @@ export default async function BlogDetailPage({
           return (
             <ul
               key={index}
-              className={`pl-16 text-lg space-y-3 mb-6 text-gray-700 ${listClass}`}
+              className={`pl-16 text-lg space-y-3 mb-6 text-gray-700  ${listClass}`}
             >
               {section.items.map((item, i) => {
                 const [boldPart, rest] = item.split(":");
@@ -194,7 +194,7 @@ export default async function BlogDetailPage({
                 )}
 
                 <div className="lg:w-1/2 flex justify-center">
-                  <div className="relative md:w-125 w-100 h-87.5 rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
+                  <div className="relative md:w-125 w-100 h-87.5 rounded-2xl overflow-hidden border border-black shadow-sm">
                     <Image
                       src={section.src}
                       alt={blog?.title || "Blog image"}
