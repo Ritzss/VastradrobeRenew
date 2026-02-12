@@ -42,6 +42,7 @@ export default function ProductPDPClient({
   const [selectedSize, setSelectedSize] = useState(
     product.sizes?.[0] || "FREE",
   );
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const sizes =
     product.sizes && product.sizes.length > 0 ? product.sizes : FALLBACK_SIZES;
@@ -67,27 +68,62 @@ export default function ProductPDPClient({
     <div className="px-10 py-8 flex flex-col gap-16">
       {/* TOP SECTION */}
       <section className="lg:flex md:block sm:block gap-7">
-        <div className="flex gap-14">
+        <div className="flex relative md:flex-row flex-col-reverse gap-14">
           {/* THUMBNAILS */}
-          <div className="flex flex-col gap-3 lg:w-[14%] w-[20%] ">
+          <div className="hidden md:flex flex-col gap-3 lg:w-[14%] w-[20%] ">
             {(product.images || []).map((img, i) => (
               <button
                 key={i}
                 onClick={() => setActiveImage(img)}
-                className="relative h-[14vh] rounded-lg overflow-hidden border"
+                className="relative h-[14vh] sm:m-1  rounded-lg overflow-hidden border"
               >
-                <Image src={img} fill alt="" />
+                <Image src={img} fill sizes="photo" alt={`${product.name}`} />
               </button>
+            ))}
+          </div>
+          {/* Phone Image */}
+          <div
+            className="flex md:hidden relative gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+            onScroll={(e) => {
+              const scrollLeft = e.currentTarget.scrollLeft;
+              const width = e.currentTarget.clientWidth;
+              const index = Math.round(scrollLeft / width);
+              setActiveIndex(index);
+            }}
+          >
+            {(product.images || []).map((img, i) => (
+              <div
+                key={i}
+                className="relative min-w-full h-[70vh] snap-center rounded-xl overflow-hidden border bg-neutral-100"
+              >
+                <Image
+                  src={img}
+                  fill
+                  alt={product.name}
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="lg:hidden absolute bottom-[2%] left-[37%] z-1 flex justify-center gap-2 mt-4">
+            {(product.images || []).map((_, i) => (
+              <div
+                key={i}
+                className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                  i === activeIndex ? "bg-[#cd0000] w-4" : "bg-gray-300"
+                }`}
+              />
             ))}
           </div>
 
           {/* MAIN IMAGE */}
-          <div className="relative lg:w-[69%] w-[90%] h-[87vh] aspect-4/4 bg-neutral-100 rounded-xl overflow-hidden">
+          <div className="relative hidden md:block border mb-5 lg:w-[69%] w-[90%] h-[87vh] aspect-4/4 bg-neutral-100 rounded-xl overflow-hidden">
             <Image
               src={activeImage}
               fill
               alt={product.name}
-              className="object-contain"
+              sizes="photo"
+              className=""
               priority
             />
           </div>
@@ -232,17 +268,17 @@ export default function ProductPDPClient({
       {/* SIMILAR PRODUCTS */}
       <ScrollReveal>
         {similarProducts.length > 0 && (
-        <section>
-          <h2 className="text-2xl font-semibold mb-4">Similar Products</h2>
-          <div className="flex gap-6 overflow-x-auto pb-4">
-            {similarProducts.slice(0, 8).map((p) => (
-              <div key={p.productId} className="min-w-80">
-                <ProductCard product={p} className="w-full" />
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">Similar Products</h2>
+            <div className="flex gap-6 overflow-x-auto pb-4">
+              {similarProducts.slice(0, 8).map((p) => (
+                <div key={p.productId} className="min-w-80">
+                  <ProductCard product={p} className="w-full" />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </ScrollReveal>
     </div>
   );

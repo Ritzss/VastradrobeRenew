@@ -36,7 +36,7 @@ const Login = () => {
     }));
   };
   return (
-    <div className="w-[65%] m-2 h-[70vh] flex">
+    <div className="w-[65%] m-2 overflow-hidden rounded-xl border h-[70vh] flex">
       <aside className="w-[40%] bg-[#ffffff] text-[#ffffff] shadow-[inset_0_0_20px_#cd0000] border-r-4 flex-col flex justify-between">
         <header className="flex-col flex gap-5">
           <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center hover:scale-115 hover:text-shadow-[0_0_10px] font-bold text-shadow-[0_0_20px] duration-500 transition-all">
