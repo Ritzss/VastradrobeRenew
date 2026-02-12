@@ -105,7 +105,7 @@ export default function ProductPDPClient({
               </div>
             ))}
           </div>
-          <div className="lg:hidden absolute bottom-[2%] left-[37%] z-1 flex justify-center gap-2 mt-4">
+          <div className="md:hidden absolute bottom-[2%] left-[37%] z-1 flex justify-center gap-2 mt-4">
             {(product.images || []).map((_, i) => (
               <div
                 key={i}
