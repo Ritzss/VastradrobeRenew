@@ -62,7 +62,7 @@ const ScrollRevealProducts = ({ products, category, title }: Props) => {
       {/* ---------- MOBILE (horizontal scroll) ---------- */}
       <div className="md:hidden">
         <HorizontalScroll>
-          {filteredProducts.slice(0, 6).map((product) => (
+          {filteredProducts.slice(0, 3).map((product) => (
             <div
               key={product.productId}
               className="w-full sm:w-[60%] shrink-0"
@@ -79,7 +79,7 @@ const ScrollRevealProducts = ({ products, category, title }: Props) => {
 
       {/* ---------- DESKTOP (wrap layout) ---------- */}
       <div className="hidden md:flex flex-wrap gap-3 justify-center">
-        {filteredProducts.slice(0, 4).map((product) => (
+        {filteredProducts.slice(0, 3).map((product) => (
           <div key={product.productId} className="md:w-[48%] lg:w-[23vw]">
             <ProductCard product={product} className="w-full" button={false} />
           </div>

@@ -10,10 +10,8 @@ type PageProps = {
 const CATEGORY_MAP: Record<string, string[]> = {
   men: ["men"],
   women: ["women"],
-  children: ["boys", "girls"],
-  summer: ["summer"],
-  festive: ["festive"],
-  winter: ["winter"],
+  kids: ["boys", "girls"],
+  ethnic: ["ethnic"],
 };
 
 export default async function Page({ params }: PageProps) {

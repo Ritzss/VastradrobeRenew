@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import ProductCard from "@/components/Global/ProductCard";
 import { IMSProduct } from "@/Types/Product";
-import HorizontalScroll from "../Global/HorizontalScroll";
+import InfiniteScroll from "./InfiniteScroll";
 
 type LatestArrivalsProps = {
   products: IMSProduct[];
@@ -35,24 +35,24 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
   if (!products || products.length === 0) return null;
 
   return (
-    <section ref={sectionRef} className="w-full px-4 md:px-8 mt-14">
-      
+  <section ref={sectionRef} className="w-full px-4 md:px-8 mt-14">
 
-      {isVisible && (
-        <HorizontalScroll>
-          {products.map((product) => (
-            <div key={product.productId} className="w-85 shrink-0">
-              <ProductCard
-                product={product}
-                className="w-[99%]"
-                button={false}
-              />
-            </div>
-          ))}
-        </HorizontalScroll>
-      )}
-    </section>
-  );
+    {isVisible && (
+      <InfiniteScroll>
+        {products.map((product) => (
+          <div key={product.productId} className="w-85 shrink-0">
+            <ProductCard
+              product={product}
+              className="w-[99%]"
+              classNameInner="h-[70vh]"
+              button={false}
+            />
+          </div>
+        ))}
+      </InfiniteScroll>
+    )}
+  </section>
+);
 };
 
 export default LatestArrivals;

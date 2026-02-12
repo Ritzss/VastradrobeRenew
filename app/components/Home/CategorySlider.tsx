@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
 import { categoryData } from "@/Data/CategoryData";
+import HorizontalScroll from "../Global/HorizontalScroll";
 
 const CategorySlider = () => {
   const [items, setItems] = useState(categoryData);
@@ -22,10 +23,12 @@ const CategorySlider = () => {
 
   return (
     <section className="w-full overflow-hidden">
-      <div className="flex w-max gap-4 animate-category-scroll hover:[animation-play-state:paused]">
+      <div className="flex w-max gap-4 animate-category-scroll">
+        <HorizontalScroll>
         {items.map((item, index) => (
           <CategoryCard key={index} {...item} />
         ))}
+        </HorizontalScroll>
       </div>
     </section>
   );

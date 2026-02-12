@@ -76,6 +76,7 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
           <ProductCard
             key={`${item.productId}-${index}`}
             product={item}
+            classNameInner="h-[45vh]"
             className="product-card-all"
           />
         ))}

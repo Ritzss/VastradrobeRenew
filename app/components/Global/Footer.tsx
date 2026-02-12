@@ -7,19 +7,13 @@ const Footer = ({ className }: { className?: string }) => {
   const Address =
     "http://google.com/maps/place/ADS247365+India+Private+Limited/@28.4437138,76.9476199,12z/data=!4m19!1m12!4m11!1m3!2m2!1d77.0999762!2d28.4434616!1m6!1m2!1s0x390d19bb11de70e7:0xb99f2f53e75a85f6!2sGF+11,+ADS247365+India+Private+Limited,+Augusta+Point,+Golf+Course+Rd,+Parsvnath+Exotica,+DLF+Phase+5,+Sector+53,+Gurugram,+Haryana+122011!2m2!1d77.1000625!2d28.4437181!3m5!1s0x390d19bb11de70e7:0xb99f2f53e75a85f6!8m2!3d28.4437181!4d77.1000625!16s%2Fg%2F11td39q2r6?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoASAFQAw%3D%3D";
 
-  const Company = [
-    "About Us",
-    "Careers",
-    "Contact Us",
-    "Privacy",
-    "Policy",
-    "Terms & Conditions",
-  ];
-  const Category = ["Men", "Women", "children", "Winter", "Summer"];
+  const Category = ["Men", "Women", "Kids", "Ethnic"];
   const Customer = [
     "Returns & Refunds",
     "Shipping",
     "Information",
+    "Privacy & Policy",
+    "Terms & Conditions",
     "Size Guide",
     "FAQs",
   ];
@@ -35,20 +29,11 @@ const Footer = ({ className }: { className?: string }) => {
       {/* MAIN CONTENT */}
       <section
         id="footercontent"
-        className="  max-w-7xl mx-auto  px-6 py-12  grid grid-cols-1  sm:grid-cols-2  md:grid-cols-4  gap-10"
+        className="  max-w-7xl mx-auto  px-6 py-12  flex justify-evenly  gap-10"
       >
-        {/* COMPANY */}
-        <div className="flex flex-col gap-6">
-          <h3 className="text-xl md:text-2xl font-semibold">Company</h3>
-          {Company.map((item, index) => (
-            <div key={index} className={underline}>
-              <Link href="#">{item}</Link>
-            </div>
-          ))}
-        </div>
 
         {/* SHOP */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 w-[33%]">
           <h3 className="text-xl md:text-2xl font-semibold">Shop</h3>
           {Category.map((item, index) => (
             <div key={index} className={underline}>
@@ -58,7 +43,7 @@ const Footer = ({ className }: { className?: string }) => {
         </div>
 
         {/* CUSTOMER CARE */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 w-[33%]">
           <h3 className="text-xl md:text-2xl font-semibold">Customer Care</h3>
           <div className={underline}>
             <Link href="/orders">Orders & Track</Link>
@@ -71,7 +56,7 @@ const Footer = ({ className }: { className?: string }) => {
         </div>
 
         {/* CONTACT */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 w-[33%]">
           <h3 className="text-xl md:text-2xl font-semibold">Contact Us</h3>
 
           <div className="text-sm leading-relaxed text-gray-300">

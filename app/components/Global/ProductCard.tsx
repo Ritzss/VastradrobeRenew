@@ -87,10 +87,10 @@ const ProductCard = ({
           }
         }}
         onDoubleClick={() => {}}
-        className={`group rounded-sm flex flex-col justify-start w-full p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
+        className={`group rounded-sm flex flex-col justify-start w-full ${classNameInner ? "p-2.5" : ""} p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
       >
         <div
-        className={`relative ${classNameInner ? classNameInner : "h-[40vh]"} border mx-auto rounded-md imageBlock overflow-hidden shrink-0 w-[95%]`}>
+        className={`relative ${classNameInner ? classNameInner : "imageBlock"} border mx-auto rounded-md overflow-hidden shrink-0 w-[95%]`}>
           <Image
           src={imageSrc}
           fill
@@ -143,7 +143,7 @@ const ProductCard = ({
         </div>
       )}
       <div className="detailsBox transition-all duration-700">
-        <Link target="_blank" href={`/product/${Number(productId)}`} className="">
+        {button && (<Link target="_blank" href={`/product/${Number(productId)}`} className="">
           <div className="flex-col duration-300 bg-transparent transition-all flex gap-2 flex-1">
             <div className="text-lg font-semibold line-clamp-1 ">
               {brand}
@@ -165,7 +165,7 @@ const ProductCard = ({
               <span className="bg-[#00ff00] relative left-3 bottom-2 p-[0.35rem] rounded-md text-lg">{Math.floor((price * 100) / mrp)}% OFF</span>
             </div>
           </div>
-        </Link>
+        </Link>)}
         {children}
         {button && (
           <div className="bg-transparent">

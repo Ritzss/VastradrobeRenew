@@ -60,7 +60,7 @@ const Home = async () => {
           Explore
         </p>
         <h2 className="text-4xl font-semibold mb-12">Shop by Category</h2>
-        <CategorySlider />
+          <CategorySlider />
       </section>
 
       {/* LATEST ARRIVALS */}

@@ -15,8 +15,7 @@ const CategoryBar = (props: {
 
   return (
     <section
-      className={`
-        w-full border-b
+      className={`w-full border-b
         ${props.className ?? ""}
       `}
     >
@@ -66,41 +65,21 @@ const CategoryItems = ({
     />
 
     <NavItem
-      href="/children"
+      href="/kids"
       src=""
       Img={Img}
-      label="Children"
-      active={isActive("/children")}
+      label="Kids"
+      active={isActive("/kids")}
       hover="hover:bg-[#ffff00] hover:border-[#ffff00] hover:border-b-2"
       activeStyle="bg-[#ffff00] border-[#ffff00] border-b-2"
     />
 
     <NavItem
-      href="/winter"
-      src="/Assets/Images/CateImg/offer.png"
-      Img={Img}
-      label="Winter"
-      active={isActive("/winter")}
-      hover="hover:bg-[#ff6600] hover:border-[#ff6600] hover:border-b-2"
-      activeStyle="bg-[#ff6600] border-[#ff6600] border-b-2"
-    />
-
-    <NavItem
-      href="/summer"
-      src="/Assets/Images/CateImg/western.png"
-      Img={Img}
-      label="Summer"
-      active={isActive("/summer")}
-      hover="hover:bg-[#a6ff00] hover:border-[#a6ff00] hover:border-b-2"
-      activeStyle="bg-[#a6ff00] border-[#a6ff00] border-b-2"
-    />
-
-    <NavItem
-      href="/festive"
+      href="/ethnic"
       src="/Assets/Images/CateImg/traditional.png"
       Img={Img}
-      label="Festive"
-      active={isActive("/festive")}
+      label="Ethnic"
+      active={isActive("/ethnic")}
       hover="hover:bg-[#c50052] hover:border-[#c50052] hover:border-b-2"
       activeStyle="bg-[#c50052] border-[#c50052] border-b-2"
     />

@@ -11,7 +11,7 @@ body.scroll-lock {
 .cardBlock {
   position: relative;
   background: white;
-  height: 77vh;
+  height: 74vh;
   overflow: hidden;
 }
 
@@ -24,7 +24,7 @@ body.scroll-lock {
 /* IMAGE AREA */
 .imageBlock {
   position: relative;
-  height: 45vh;
+  height: 70vh;
   overflow: hidden;
 }
 
@@ -139,6 +139,10 @@ body.scroll-lock {
 
 .animate-category-scroll {
   animation: category-scroll 30s linear infinite;
+}
+
+.animate-category-scroll:hover{
+  animation-play-state: paused;
 }
 
 /* SLIDER */

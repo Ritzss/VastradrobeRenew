@@ -63,6 +63,7 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
             key={item.productId}
             product={item}
             className="product-card"
+            classNameInner="h-[45vh]"
           />
         ))}
       </div>

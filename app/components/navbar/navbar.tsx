@@ -112,13 +112,13 @@ const Navbar = () => {
 
         {/* NAV */}
         <div className="hidden md:flex gap-6 text-sm font-medium text-gray-700">
-          <Link href="/" className="hover:text-[#cd0000]">
+          <Link href="/" className="hover:text-[#6a0f1f]">
             Home
           </Link>
-          <Link href="/product" className="hover:text-[#cd0000]">
-            Shop
+          <Link href="/product" className="hover:text-[#6a0f1f]">
+            Collection
           </Link>
-          <Link href="/blog" className="hover:text-[#cd0000]">
+          <Link href="/blog" className="hover:text-[#6a0f1f]">
             Blog
           </Link>
         </div>
@@ -172,11 +172,11 @@ const Navbar = () => {
         {/* CART */}
         <Link
           href="/cart"
-          className="relative text-gray-700 hover:text-[#cd0000]"
+          className="relative text-gray-700 hover:text-[#6a0f1f]"
         >
           <IoCart size={18} />
           {cartCount > 0 && (
-            <span className="absolute -top-1 -right-2 text-xs bg-[#cd0000] text-white rounded-full px-1.5">
+            <span className="absolute -top-1 -right-2 text-xs bg-[#6a0f1f] text-white rounded-full px-1.5">
               {cartCount}
             </span>
           )}
@@ -187,7 +187,7 @@ const Navbar = () => {
           {!authLoading && !isLogged && (
             <Link
               href="/account/login"
-              className="text-sm hover:text-[#cd0000] transition"
+              className="text-sm hover:text-[#6a0f1f] transition"
             >
               Login
             </Link>
@@ -197,7 +197,7 @@ const Navbar = () => {
             <>
               <Link
                 href="/favorites"
-                className="hover:text-[#cd0000] transition"
+                className="hover:text-[#6a0f1f] transition"
                 title="Favorites"
               >
                 <FaRegHeart size={18} />
@@ -205,7 +205,7 @@ const Navbar = () => {
 
               <Link
                 href="/orders"
-                className="hover:text-[#cd0000] transition"
+                className="hover:text-[#6a0f1f] transition"
                 title="Orders"
               >
                 <FaRegListAlt size={18} />
@@ -213,7 +213,7 @@ const Navbar = () => {
 
               <Link
                 href="/profile"
-                className="hover:text-[#cd0000] transition text-sm flex gap-2"
+                className="hover:text-[#6a0f1f] transition text-sm flex gap-2"
               >
                 <RiAccountBoxLine size={21} />
                 {user?.username}
@@ -298,7 +298,7 @@ const Navbar = () => {
             <Home size={16} /> Home
           </Link>
           <Link href="/product" className="flex gap-2">
-            <ShoppingBag size={16} />Shop
+            <ShoppingBag size={16} />Collection
           </Link>
           <Link href="/blog" className="flex gap-2">
             <Dock size={16} /> Blog
@@ -320,7 +320,7 @@ const Navbar = () => {
 
               <button
                 onClick={handleLogout}
-                className="flex gap-2 text-red-600"
+                className="flex gap-2 text-[#6a0f1f]"
               >
                 <LogOut size={16} /> Logout
               </button>
