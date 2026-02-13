@@ -27,7 +27,7 @@ export default async function SimilarProducts({
       <h2 className="text-2xl font-semibold mb-6">Similar Products</h2>
       <div className="flex gap-6 overflow-x-auto">
         {products.map((p: any) => (
-          <ProductCard key={p.productId} product={p} />
+          <ProductCard key={p.productId} classNameInner="h-[47vh]" product={p} />
         ))}
       </div>
     </section>

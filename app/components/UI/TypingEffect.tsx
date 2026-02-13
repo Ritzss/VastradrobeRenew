@@ -23,9 +23,9 @@ const TypingEffect = ({ text }: { text: string }) => {
             index = 0;
             setDisplayedText("");
             startTyping();
-          }, 500); // pause duration
+          }, 190); // pause duration
         }
-      }, 60);
+      }, 160);
     };
 
     startTyping();

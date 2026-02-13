@@ -44,7 +44,8 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
             <ProductCard
               product={product}
               className="w-[99%]"
-              classNameInner="h-[70vh]"
+              height="h-[50vh]"
+              classNameInner="h-[47vh] rounded-2xl"
               button={false}
             />
           </div>

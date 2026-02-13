@@ -1,8 +1,8 @@
 export const categoryData = [
   {
-    href: "/winter",
+    href: "/ethnic",
     image: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1770367186/winterHero_zx2uke.jpg",
-    label: "Winter Collections",
+    label: "Ethnic Collections",
     variant: "default",
   },
   {
@@ -18,15 +18,9 @@ export const categoryData = [
     variant: "pink",
   },
   {
-    href: "/children",
+    href: "/kids",
     image: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1770367185/childrenHero_nvg2ci.jpg",
-    label: "Children Collections",
+    label: "Kids Collections",
     variant: "yellow",
-  },
-  {
-    href: "/summer",
-    image: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1770367187/summmerHero_xto0zl.jpg",
-    label: "Summer Collections",
-    variant: "green",
   },
 ];

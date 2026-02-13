@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
 // import StarBorder from "../UI/StarBorder";
-import { CiHeart } from "react-icons/ci";
-import { FaCartArrowDown, FaHeart } from "react-icons/fa6";
+import { FaCartArrowDown } from "react-icons/fa6";
 import { useAppContext } from "@/hooks/useAppContext";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import { ReactNode, useEffect, useState } from "react";
@@ -13,6 +12,7 @@ type Props = {
   button?: boolean;
   product: IMSProduct;
   className?: string;
+  height?: string;
   classNameInner?: string;
   children?: ReactNode;
 };
@@ -21,6 +21,7 @@ const ProductCard = ({
   product,
   className,
   classNameInner,
+  height,
   button = true,
   children,
 }: Props) => {
@@ -59,7 +60,6 @@ const ProductCard = ({
       ? removeFromCart(productId, defaultSize)
       : addToCart(productId, defaultSize);
   };
-  
 
   useEffect(() => {
     if (!revealed) return;
@@ -71,7 +71,7 @@ const ProductCard = ({
   }, [revealed]);
   return (
     <div
-      className={`cardBlock border overflow-hidden flex flex-col justify-between rounded-sm my-2 ${className} w-[24%] ${revealed ? "is-open" : ""}`}
+      className={`cardBlock ${height ? height : "h-[78vh]"} overflow-hidden flex flex-col justify-between rounded-2xl my-2 ${className} w-[24%] ${revealed ? "is-open" : ""}`}
       onClick={() => {
         if (window.innerWidth < 768) {
           setRevealed((p) => !p);
@@ -90,42 +90,21 @@ const ProductCard = ({
         className={`group rounded-sm flex flex-col justify-start w-full ${classNameInner ? "p-2.5" : ""} p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
       >
         <div
-        className={`relative ${classNameInner ? classNameInner : "imageBlock"} border mx-auto rounded-md overflow-hidden shrink-0 w-[95%]`}>
+          className={`relative ${classNameInner} imageBlock border mx-auto overflow-hidden shrink-0 w-[95%]`}
+        >
           <Image
-          src={imageSrc}
-          fill
-          sizes="images"
-          alt={name}
-          className="group-hover:scale-105 duration-500 transition-all"
-        ></Image>
+            src={imageSrc}
+            fill
+            sizes="images"
+            alt={name}
+            className="group-hover:scale-105 duration-500 transition-all"
+          ></Image>
         </div>
       </Link>
-      {button && (
-        <span
-          className="cursor-pointer self-end text-3xl absolute top-2 right-2 bg-white p-1 rounded-full"
-          onClick={() => {
-            if (selectedCollection) {
-              // ❤️ already selected → remove
-              removeFromCollection(selectedCollection, productId);
-              setSelectedCollection(null);
-              setShowCollections(false);
-            } else {
-              // 🤍 not selected → open dropdown
-              setShowCollections((prev) => !prev);
-            }
-          }}
-        >
-          {selectedCollection ? (
-            <FaHeart size={18} className="text-[#ff0000]" />
-          ) : (
-            <CiHeart size={18} className="text-black" />
-          )}
-        </span>
-      )}
 
       {/* 📂 COLLECTION DROPDOWN */}
       {showCollections && !selectedCollection && (
-        <div className="absolute right-0 top-10 mt-2 bg-white text-black border rounded-lg shadow-lg z-50">
+        <div className="absolute bottom-16 flex left-1 mt-2 bg-white text-[#6a0f1f] border rounded-lg shadow-lg z-50">
           {Object.keys(favCollections).map((collection) => (
             <div
               key={collection}
@@ -142,37 +121,41 @@ const ProductCard = ({
           ))}
         </div>
       )}
-      <div className="detailsBox transition-all duration-700">
-        {button && (<Link target="_blank" href={`/product/${Number(productId)}`} className="">
-          <div className="flex-col duration-300 bg-transparent transition-all flex gap-2 flex-1">
-            <div className="text-lg font-semibold line-clamp-1 ">
-              {brand}
-            </div>
-            <div className="text-2xl font-bold line-clamp-1 ">
-              {name}
-            </div>
-            {/* <div>
+      <div
+        className={`${!button ? "p-0" : "p-[1.5%]"} detailsBox transition-all duration-700`}
+      >
+        {button && (
+          <Link
+            target="_blank"
+            href={`/product/${Number(productId)}`}
+            className=""
+          >
+            <div className="flex-col duration-300 bg-transparent transition-all flex gap-2 flex-1">
+              <div className="text-lg font-semibold line-clamp-1 ">{brand}</div>
+              <div className="text-2xl font-bold line-clamp-1 ">{name}</div>
+              {/* <div>
               <p className="line-clamp-1 hover:text-[#cd0000]">{description}</p>
             </div> */}
-            <div className="text-xl">
-               &#8377;{Number(price)}
+              <div className="text-xl">&#8377;{Number(price)}</div>
+              <div className="text-sm">
+                M.R.P:
+                <span className="line-through font-extralight text-[#7b7777]">
+                  &#8377;{Number(mrp)}
+                </span>
+                <span className="text-[#008000] relative left-0 bottom-3 p-[0.35rem] rounded-md text-lg">
+                  {Math.floor((price * 100) / mrp)}% OFF
+                </span>
+              </div>
             </div>
-            <div className="text-sm">
-               M.R.P:
-              <span className="line-through font-extralight text-[#7b7777]">
-               &#8377;{Number(mrp)}
-              </span>
-              <span className="bg-[#00ff00] relative left-3 bottom-2 p-[0.35rem] rounded-md text-lg">{Math.floor((price * 100) / mrp)}% OFF</span>
-            </div>
-          </div>
-        </Link>)}
+          </Link>
+        )}
         {children}
         {button && (
-          <div className="bg-transparent">
+          <div className="bg-transparent flex gap-1 flex-row-reverse">
             <button
               type="button"
               onClick={handleCartToggle}
-              className="bg-black gap-2 p-1 text-white w-[80%] mx-auto rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
+              className="bg-black cursor-pointer gap-2 p-1 text-white w-[61%] mx-auto rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
             >
               {isInCart ? (
                 <>
@@ -186,8 +169,34 @@ const ProductCard = ({
                 </>
               )}
             </button>
+            <span
+              className="cursor-pointer text-center w-[39%] mx-auto hover:translate-y-1 hover:rounded-xl duration-500 transition-all bg-[#EEDDC7] p-1 rounded-lg"
+              onClick={() => {
+                const collectionNames = Object.keys(favCollections);
 
-            
+                if (selectedCollection) {
+                  removeFromCollection(selectedCollection, productId);
+                  setSelectedCollection(null);
+                  setShowCollections(false);
+                  return;
+                }
+
+                // 🔥 If only one collection → auto add
+                if (collectionNames.length === 1) {
+                  const defaultCollection = collectionNames[0];
+                  addToCollection(defaultCollection, productId);
+                  setSelectedCollection(defaultCollection);
+                  return;
+                }
+
+                // 👇 If multiple collections → show dropdown
+                setShowCollections((prev) => !prev);
+              }}
+            >
+              {selectedCollection
+                ? "Remove from Favorites"
+                : "Add to Favorites"}
+            </span>
           </div>
         )}
       </div>

@@ -14,16 +14,17 @@ import { Dock, Home, LogOut, ShoppingBag } from "lucide-react";
 
 import { useAppContext } from "@/hooks/useAppContext";
 import { FaRegListAlt } from "react-icons/fa";
+import TypingEffect from "../UI/TypingEffect";
 
 const Navbar = () => {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-
-  const searchItems = ["Pants", "Tops", "Sandals", "Jackets"];
+  
+  const searchItems = ["Pants.....?", "Tops......?", "Sandals...?", "Jackets..?","Pants.....?", "Tops......?", "Sandals...?", "Jackets..?"];
   const [index, setIndex] = useState(0);
-
+  
   const {
     user,
     authLoading,
@@ -34,16 +35,17 @@ const Navbar = () => {
   } = useAppContext();
 
   const isLogged = !!user;
-
+  
   /* rotating placeholder */
   useEffect(() => {
     const id = setInterval(
       () => setIndex((p) => (p + 1) % searchItems.length),
-      3000,
+      2000,
     );
     return () => clearInterval(id);
   }, [searchItems.length]);
-
+  
+  const [value, setValue] = useState(searchQuery);
   useEffect(() => {
     const media = window.matchMedia("(min-width: 768px)");
 
@@ -93,7 +95,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b">
+    <nav className="sticky top-0 z-50 bg-white">
       <div className="max-w-7xl mx-auto h-14 px-4 flex justify-center items-center gap-6">
         {/* LOGO */}
         <Link
@@ -116,7 +118,7 @@ const Navbar = () => {
             Home
           </Link>
           <Link href="/product" className="hover:text-[#6a0f1f]">
-            Collection
+            All Collection
           </Link>
           <Link href="/blog" className="hover:text-[#6a0f1f]">
             Blog
@@ -127,18 +129,29 @@ const Navbar = () => {
         <div className="flex-1 max-w-md md:block lg:block hidden relative">
           <div className="flex items-center bg-gray-50 rounded-lg px-3 py-2 focus-within:bg-white focus-within:ring-1 focus-within:ring-gray-300">
             <IoSearch className="text-gray-400 text-sm" />
-            <input
-              className="ml-2 w-full bg-transparent outline-none text-sm placeholder:text-gray-400"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && searchQuery.trim()) {
-                  setSuggestions([]);
-                  router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-                }
-              }}
-              placeholder={`Search ${searchItems[index]}`}
-            />
+            <div className="relative  gap-1 ml-2 w-full">
+              <input
+                className="w-full bg-transparent outline-none text-sm placeholder:text-gray-400"
+                value={value}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                  setSearchQuery(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && value.trim()) {
+                    setSuggestions([]);
+                    router.push(`/search?q=${encodeURIComponent(value)}`);
+                  }
+                }}
+              />
+
+              {!value && (
+                <div className="absolute flex gap-1 left-0 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-sm">
+                  <span>Search </span>
+                  <TypingEffect text={`${searchItems[index]}`} />
+                </div>
+              )}
+            </div>
           </div>
 
           {/* SUGGESTIONS */}
@@ -298,7 +311,8 @@ const Navbar = () => {
             <Home size={16} /> Home
           </Link>
           <Link href="/product" className="flex gap-2">
-            <ShoppingBag size={16} />Collection
+            <ShoppingBag size={16} />
+            Collection
           </Link>
           <Link href="/blog" className="flex gap-2">
             <Dock size={16} /> Blog
@@ -315,7 +329,7 @@ const Navbar = () => {
               </Link>
 
               <Link href="/orders" className="flex gap-2">
-                <FaRegListAlt size={16}  /> Orders
+                <FaRegListAlt size={16} /> Orders
               </Link>
 
               <button

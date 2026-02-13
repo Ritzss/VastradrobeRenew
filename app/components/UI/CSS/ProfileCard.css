@@ -61,7 +61,7 @@
   height: 40svh;
   max-height: 540px;
   display: grid;
-  aspect-ratio: 0;
+  aspect-ratio: 4/4;
   border-radius: var(--card-radius);
   position: relative;
   background-blend-mode: color-dodge, normal, normal, normal;
@@ -274,6 +274,8 @@
 
 .pc-user-info {
   position: absolute;
+  width: 65%;
+  margin-left: 33%;
   --ui-inset: 20px;
   --ui-radius-bias: 6px;
   bottom: var(--ui-inset);
@@ -366,7 +368,7 @@
 }
 
 .pc-details {
-  width: 100%;
+  width: 65%;
   position: absolute;
   top: 3em;
   display: flex;

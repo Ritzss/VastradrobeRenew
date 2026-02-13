@@ -5,6 +5,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import ProductCard from "@/components/Global/ProductCard";
+import { motion } from "framer-motion";
 
 const FavoritesClient = () => {
   const {
@@ -17,6 +18,9 @@ const FavoritesClient = () => {
 
   const [newCollection, setNewCollection] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const categories = Array.from(new Set(products.map((p) => p.category)));
 
   useEffect(() => {
     const allIds = Array.from(
@@ -39,20 +43,23 @@ const FavoritesClient = () => {
   }, [favCollections, setProducts]);
 
   return (
-    <section
-      className="w-full px-3 sm:px-4 md:px-6 lg:max-w-7xl lg:mx-auto py-6 md:py-10 flex flex-col gap-8"
-    >
+    <section className="w-full px-4 sm:px-6 lg:max-w-7xl lg:mx-auto py-10 flex flex-col gap-10 ">
       {/* HEADER */}
-      <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold">
-        Your Favorites ❤️
-      </h1>
+      <motion.h1
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-3xl md:text-4xl font-semibold tracking-tight"
+      >
+        Your Favorites
+      </motion.h1>
 
       {/* CREATE COLLECTION */}
       <div className="flex flex-wrap items-center gap-3">
         {!showInput ? (
           <button
             onClick={() => setShowInput(true)}
-            className="px-4 py-2 bg-black text-white rounded-md flex gap-2 text-sm"
+            className="px-4 py-2 bg-black text-white rounded-md flex gap-2 text-sm hover:opacity-90 transition"
           >
             <Plus size={16} /> New Collection
           </button>
@@ -71,7 +78,7 @@ const FavoritesClient = () => {
                 setNewCollection("");
                 setShowInput(false);
               }}
-              className="px-4 py-2 bg-green-600 text-white rounded-md text-sm"
+              className="px-4 py-2 bg-green-600 text-white rounded-md text-sm hover:opacity-90 transition"
             >
               Create
             </button>
@@ -88,55 +95,100 @@ const FavoritesClient = () => {
         )}
       </div>
 
+      <div className="flex gap-3 flex-wrap">
+        <button
+          onClick={() => setSelectedCategory(null)}
+          className={`px-3 py-1 rounded-md text-sm border ${
+            !selectedCategory ? "bg-black text-white" : ""
+          }`}
+        >
+          All
+        </button>
+
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setSelectedCategory(cat)}
+            className={`px-3 py-1 rounded-md text-sm border capitalize ${
+              selectedCategory === cat ? "bg-black text-white" : ""
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       {/* COLLECTIONS */}
-      {Object.entries(favCollections).map(([collection, ids]) => {
-        const favProducts = products.filter((p) => ids.has(p.productId));
+      {Object.entries(favCollections).map(([collection, ids], index) => {
+        const favProducts = products.filter(
+          (p) =>
+            ids.has(p.productId) &&
+            (!selectedCategory || p.category === selectedCategory),
+        );
 
         return (
-          <section key={collection} className="flex flex-col gap-4">
-            <h2 className="text-lg sm:text-xl font-semibold">
-              {collection}
-            </h2>
+          <motion.section
+            key={collection}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.4 }}
+            className="flex flex-col gap-6"
+          >
+            <h2 className="text-xl font-semibold">{collection}</h2>
 
             {favProducts.length === 0 ? (
-              <div className="text-gray-500 italic text-sm">
-                No items in this collection yet
-              </div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-gray-400 italic text-sm p-4 rounded-lg border"
+              >
+                Nothing saved here yet. Start curating your style.
+              </motion.div>
             ) : (
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-5">
                 {favProducts.map((item) => (
-                  <div
+                  <motion.div
                     key={item.productId}
-                    className=" w-full sm:w-[32%] md:w-[48%] lg:w-[30%]"
+                    whileHover={{ y: -6 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                    className="w-full sm:w-[48%] lg:w-[30%]"
                   >
-                    <ProductCard product={item} button={false} className="sm:w-full md:w-full lg:w-[90%]">
+                    <ProductCard
+                      product={item}
+                      button={false}
+                      height="h-[55vh]"
+                      classNameInner="h-[47vh]"
+                      className="w-full"
+                    >
                       <button
                         onClick={() =>
                           removeFromCollection(collection, item.productId)
                         }
-                        className="mt-2 px-3 py-2 w-full rounded-md bg-[#cd0000] text-white text-sm transition hover:opacity-9"
+                        className="mt-3 px-3 py-2 w-full rounded-md bg-[#cd0000] text-white text-sm transition hover:opacity-90"
                       >
                         Remove
                       </button>
                     </ProductCard>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             )}
 
             <hr className="border mt-6" />
-          </section>
+          </motion.section>
         );
       })}
 
       {/* CTA */}
-      <div className="flex justify-center">
-        <Link
-          href="/"
-          className=" flex items-center gap-2 px-4 py-2 rounded-md bg-[#cd0000] text-white text-sm hover:opacity-90"
-        >
-          Add more favorites
-        </Link>
+      <div className="flex justify-center pt-6">
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Link
+            href="/"
+            className="px-6 py-3 rounded-full bg-black text-white text-sm transition-all duration-300 hover:bg-white hover:text-black border border-black"
+          >
+            Explore More Products →
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

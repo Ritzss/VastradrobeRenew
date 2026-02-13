@@ -27,7 +27,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   /*Product Details */
-  const [showVariants, setShowVariants] = useState<boolean>(false);
+  const [showVariants, setShowVariants] = useState<boolean>(true);
   const [showProductDeatils, setShowProductDeatils] = useState<boolean>(false);
 
   /* ❤️ Favorites (DB-backed) */
@@ -258,7 +258,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?limit=50`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=1&limit=20`);
         const data = await res.json();
         setProducts(data.products); // only if you have local state
       } catch (err) {

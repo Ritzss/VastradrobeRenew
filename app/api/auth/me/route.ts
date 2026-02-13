@@ -18,7 +18,7 @@ export async function GET(req: Request) {
     await connectDB();
 
     const user = await User.findById(decoded.id).select(
-      "email username deliveryAddress"
+      "email username deliveryAddress avatar"
     );
 
     if (!user) {
@@ -32,6 +32,7 @@ export async function GET(req: Request) {
           email: user.email,
           username: user.username,
           deliveryAddress: user.deliveryAddress || null,
+          avatar: user.avatar,
         },
       },
       { status: 200 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import CategoryCard from "./CategoryCard";
 import { categoryData } from "@/Data/CategoryData";
-import HorizontalScroll from "../Global/HorizontalScroll";
+import InfiniteScroll from "./InfiniteScroll";
 
 const CategorySlider = () => {
   const [items, setItems] = useState(categoryData);
@@ -24,11 +24,11 @@ const CategorySlider = () => {
   return (
     <section className="w-full overflow-hidden">
       <div className="flex w-max gap-4 animate-category-scroll">
-        <HorizontalScroll>
+        <InfiniteScroll>
         {items.map((item, index) => (
           <CategoryCard key={index} {...item} />
         ))}
-        </HorizontalScroll>
+        </InfiniteScroll>
       </div>
     </section>
   );

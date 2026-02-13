@@ -22,7 +22,7 @@ const EmptyState = ({
         {label}
       </p>
 
-      <h2 className="text-4xl font-semibold mb-6">
+      <h2 className="text-4xl text-[#6a0f1f] font-semibold mb-6">
         {title}
       </h2>
 
@@ -34,7 +34,7 @@ const EmptyState = ({
 
       <Link
         href={buttonLink}
-        className="inline-block border border-black px-8 py-3 rounded-full hover:bg-black hover:text-white transition-all duration-300"
+        className="inline-block border border-black px-8 py-3 rounded-full hover:bg-[#6a0f1f] hover:text-white transition-all duration-300"
       >
         {buttonText}
       </Link>

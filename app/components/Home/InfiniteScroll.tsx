@@ -1,46 +1,41 @@
 "use client";
 
-import { motion, useAnimation } from "framer-motion";
-import { ReactNode, useEffect } from "react";
+import { motion, useMotionValue, useAnimationFrame } from "framer-motion";
+import { ReactNode, useRef, useState } from "react";
+
+const SPEED = 40; // lower = slower (luxury vibe)
 
 const InfiniteScroll = ({ children }: { children: ReactNode }) => {
-  const controls = useAnimation();
+  const x = useMotionValue(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
-  useEffect(() => {
-    controls.start({
-      x: ["0%", "-50%"],
-      transition: {
-        x: {
-          repeat: Infinity,
-          repeatType: "loop",
-          duration: 30,
-          ease: "linear",
-        },
-      },
-    });
-  }, [controls]);
+  useAnimationFrame((_, delta) => {
+    if (isDragging) return;
+
+    const moveBy = (delta / 1000) * SPEED;
+    x.set(x.get() - moveBy);
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const width = container.scrollWidth / 2;
+
+    if (Math.abs(x.get()) >= width) {
+      x.set(0);
+    }
+  });
 
   return (
     <div className="overflow-hidden w-full">
       <motion.div
+        ref={containerRef}
         className="flex gap-6 w-max cursor-grab active:cursor-grabbing"
-        animate={controls}
+        style={{ x }}
         drag="x"
-        dragConstraints={{ left: -1000, right: 0 }}
-        onDragStart={() => controls.stop()}
-        onDragEnd={() => {
-          controls.start({
-            x: ["0%", "-50%"],
-            transition: {
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 30,
-                ease: "linear",
-              },
-            },
-          });
-        }}
+        dragConstraints={{ left: -10000, right: 10000 }}
+        onDragStart={() => setIsDragging(true)}
+        onDragEnd={() => setIsDragging(false)}
       >
         {children}
         {children}

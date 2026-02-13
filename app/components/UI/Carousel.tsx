@@ -7,7 +7,7 @@ import React, { JSX } from "react";
 // replace icons with your own if needed
 import Image from "next/image";
 import { AiFillStar } from "react-icons/ai";
-import TypingEffect from "./TypingEffect";
+//! import TypingEffect from "./TypingEffect";
 export interface CarouselItem {
   id: number;
   title?: string;
@@ -196,7 +196,7 @@ function CarouselItem({
         <div className="md:p-10 lg:p-10 p-5 h-[65%] w-full text-start">
           <div className="mb-1 font-black text-lg text-white">{item.title}</div>
           <div className="text-sm text-white">
-            <TypingEffect text={item.description || ""} />
+            {item.description || ""}
           </div>
         </div>
       )}
@@ -347,7 +347,7 @@ export default function Carousel({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden border ${variant !== "media" && "h-120"} p-4 ${
+      className={`relative overflow-hidden bg-[#6a0f1f] border ${variant !== "media" && "h-120"} p-4 ${
         round ? "rounded-full border border-white" : "rounded-4xl "
       }`}
       style={{
@@ -356,7 +356,7 @@ export default function Carousel({
       }}
     >
       <motion.div
-        className="flex h-[95%]"
+        className="flex h-[95%] "
         drag={isAnimating ? false : "x"}
         {...dragProps}
         style={{
@@ -387,7 +387,7 @@ export default function Carousel({
         ))}
       </motion.div>
       <div
-        className={`flex w-full  justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""}`}
+        className={`flex w-full justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""}`}
       >
         <div className="mt-4 flex w-37.5 justify-between px-8">
           {items.map((_, index) => (

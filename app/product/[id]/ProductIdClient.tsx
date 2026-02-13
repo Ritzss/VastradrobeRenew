@@ -32,7 +32,6 @@ export default function ProductPDPClient({
     showVariants,
     cartItems,
     removeFromCart,
-    setShowVariants,
     showProductDeatils,
     setShowProductDeatils,
   } = useAppContext();
@@ -143,19 +142,6 @@ export default function ProductPDPClient({
             )}
           </div>
 
-          {colorVariants.length > 1 && sizes.length > 1 && (
-            <button
-              onClick={() => setShowVariants((prev) => !prev)}
-              className="text-sm font-medium flex items-center gap-2 underline w-fit bg-[#2b2b2b6c] p-3 rounded-lg hover:bg-[#2b2b2b88]"
-            >
-              {showVariants ? "Hide Variants" : "View Variants"}
-              <IoIosArrowDown
-                size={22}
-                className={`${showVariants ? "rotate-0" : "rotate-180"} transition-all duration-700`}
-              />
-            </button>
-          )}
-
           <div
             className={`${showVariants ? "opacity-100" : "opacity-0"} relative transition-all duration-300`}
           >
@@ -173,8 +159,8 @@ export default function ProductPDPClient({
                         href={`/product/${v.productId}`}
                         className={`  rounded-lg px-3 py-2 text-sm capitalize ${
                           v.productId === product.productId
-                            ? "text-black"
-                            : "text-gray-300"
+                            ? "text-[#6a0f1f]"
+                            : "text-gray-500"
                         }`}
                       >
                         {v.color?.[0] || `variant`}

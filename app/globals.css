@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  background-color: #ffffff;
+  background-color: #EEDDC7;
 }
 
 body.scroll-lock {
@@ -10,8 +10,6 @@ body.scroll-lock {
 
 .cardBlock {
   position: relative;
-  background: white;
-  height: 74vh;
   overflow: hidden;
 }
 
@@ -21,21 +19,28 @@ body.scroll-lock {
   overflow: hidden;
 }
 
+.profileBox{
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 12px 14px;
+}
+
 /* IMAGE AREA */
 .imageBlock {
   position: relative;
-  height: 70vh;
   overflow: hidden;
 }
 
 .detailsBox {
-  background-color: #ffffffab;
+  color: #6a0f1f;
   width: 100%;
   transition:
     transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.4s;
   position: absolute;
-  bottom: 1%;
+  bottom: 0%;
   left: 0%;
   transform: translateY(0%);
   padding: 1.5%;

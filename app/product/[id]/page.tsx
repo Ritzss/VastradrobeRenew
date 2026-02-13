@@ -40,14 +40,14 @@ export default async function ProductPage({
 
   const allProducts = await getAllProducts();
 
-  // same-name = color variants
+  const normalize = (str?: string) => str?.trim().toLowerCase() || "";
+
   const colorVariants = allProducts.filter(
-  (p) =>
-    // p.isActive &&
-    p.name === product.name &&
-    p.category === product.category &&
-    p.subcategory === product.subcategory
-);
+    (p) =>
+      normalize(p.name) === normalize(product.name) &&
+      normalize(p.category) === normalize(product.category) &&
+      normalize(p.subcategory) === normalize(product.subcategory),
+  );
   // similar products = same category, exclude itself
   const similarProducts = allProducts.filter(
     (p) => p.category === product.category && p.productId !== product.productId,

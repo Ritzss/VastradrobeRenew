@@ -131,6 +131,236 @@ export const policies: PolicyItem[] = [
     ],
   },
   {
+    title: "Terms & Conditions",
+    slug: "terms-and-conditions",
+    description:
+      "The rules and guidelines for using VastraDrobe and placing orders.",
+    content: [
+      {
+        type: "heading",
+        value: "Acceptance of Terms",
+      },
+      {
+        type: "paragraph",
+        value:
+          "By accessing and using the VastraDrobe website, you agree to comply with and be bound by these Terms & Conditions. If you do not agree with any part of these terms, please do not use our website.",
+      },
+      {
+        type: "heading",
+        value: "Eligibility",
+      },
+      {
+        type: "paragraph",
+        value:
+          "By placing an order, you confirm that you are at least 18 years old or are using the website under the supervision of a parent or legal guardian.",
+      },
+      {
+        type: "heading",
+        value: "Product Information",
+      },
+      {
+        type: "paragraph",
+        value:
+          "We strive to ensure that product descriptions, pricing, and availability are accurate. However, errors may occur. We reserve the right to correct any errors and cancel or refuse orders placed based on incorrect information.",
+      },
+      {
+        type: "heading",
+        value: "Pricing & Payments",
+      },
+      {
+        type: "list",
+        items: [
+          "All prices are listed in INR unless stated otherwise.",
+          "Prices may change without prior notice.",
+          "Payments must be completed before order processing.",
+          "We reserve the right to cancel suspicious or fraudulent transactions.",
+        ],
+      },
+      {
+        type: "heading",
+        value: "Order Confirmation",
+      },
+      {
+        type: "paragraph",
+        value:
+          "An order confirmation email does not guarantee acceptance of your order. We reserve the right to cancel or limit quantities at our discretion.",
+      },
+      {
+        type: "heading",
+        value: "Shipping & Delivery",
+      },
+      {
+        type: "paragraph",
+        value:
+          "Delivery timelines are estimates and may vary due to unforeseen circumstances. VastraDrobe is not liable for delays caused by third-party logistics providers.",
+      },
+      {
+        type: "heading",
+        value: "Returns & Refunds",
+      },
+      {
+        type: "paragraph",
+        value:
+          "Returns and refunds are governed by our Returns & Refund Policy. Please review that section for detailed information regarding eligibility and timelines.",
+      },
+      {
+        type: "heading",
+        value: "Intellectual Property",
+      },
+      {
+        type: "paragraph",
+        value:
+          "All content on this website, including images, designs, text, and branding, is the property of VastraDrobe and may not be copied, reproduced, or used without prior written permission.",
+      },
+      {
+        type: "heading",
+        value: "Limitation of Liability",
+      },
+      {
+        type: "paragraph",
+        value:
+          "VastraDrobe shall not be liable for any indirect, incidental, or consequential damages arising from the use or inability to use our website or products.",
+      },
+      {
+        type: "heading",
+        value: "User Conduct",
+      },
+      {
+        type: "list",
+        items: [
+          "You agree not to misuse the website.",
+          "You will not attempt to interfere with website security.",
+          "You will not use the website for fraudulent or unlawful purposes.",
+        ],
+      },
+      {
+        type: "heading",
+        value: "Termination",
+      },
+      {
+        type: "paragraph",
+        value:
+          "We reserve the right to suspend or terminate user accounts that violate these Terms & Conditions.",
+      },
+      {
+        type: "heading",
+        value: "Governing Law",
+      },
+      {
+        type: "paragraph",
+        value:
+          "These Terms & Conditions are governed by the laws of India. Any disputes shall be subject to the jurisdiction of courts located in Gurugram, Haryana.",
+      },
+      {
+        type: "heading",
+        value: "Contact Information",
+      },
+      {
+        type: "paragraph",
+        value:
+          "For any questions regarding these Terms & Conditions, please contact us at support@vastradrobe.com.",
+      },
+    ],
+  },
+  {
+    title: "Privacy Policy",
+    slug: "privacy-and-policy",
+    description:
+      "How we collect, use, and protect your personal information at VastraDrobe.",
+    content: [
+      {
+        type: "heading",
+        value: "Information We Collect",
+      },
+      {
+        type: "paragraph",
+        value:
+          "When you use VastraDrobe, we may collect personal information such as your name, email address, phone number, shipping address, and payment details. We also collect technical data like IP address, browser type, and device information to improve your shopping experience.",
+      },
+      {
+        type: "heading",
+        value: "How We Use Your Information",
+      },
+      {
+        type: "list",
+        items: [
+          "To process and deliver your orders",
+          "To send order confirmations and updates",
+          "To improve our website and services",
+          "To provide customer support",
+          "To send promotional offers (only if you opt in)",
+        ],
+      },
+      {
+        type: "heading",
+        value: "Payment Information",
+      },
+      {
+        type: "paragraph",
+        value:
+          "We do not store your card or UPI details on our servers. All payments are processed securely through trusted third-party payment gateways.",
+      },
+      {
+        type: "heading",
+        value: "Cookies & Tracking",
+      },
+      {
+        type: "paragraph",
+        value:
+          "We use cookies and similar technologies to enhance site functionality, analyze traffic, and personalize your shopping experience. You can disable cookies through your browser settings, though some features may not function properly.",
+      },
+      {
+        type: "heading",
+        value: "Data Security",
+      },
+      {
+        type: "paragraph",
+        value:
+          "We implement appropriate security measures to protect your personal information from unauthorized access, misuse, or disclosure. However, no online transmission is completely secure, and we cannot guarantee absolute security.",
+      },
+      {
+        type: "heading",
+        value: "Sharing of Information",
+      },
+      {
+        type: "paragraph",
+        value:
+          "We do not sell or rent your personal information. Your data may be shared with logistics partners, payment providers, and service providers only as necessary to fulfill your order and operate our services.",
+      },
+      {
+        type: "heading",
+        value: "Your Rights",
+      },
+      {
+        type: "list",
+        items: [
+          "You may request access to your personal data",
+          "You may request correction of inaccurate information",
+          "You may request deletion of your account",
+          "You may opt out of marketing communications at any time",
+        ],
+      },
+      {
+        type: "heading",
+        value: "Policy Updates",
+      },
+      {
+        type: "paragraph",
+        value:
+          "We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. Continued use of our website after updates constitutes acceptance of the revised policy.",
+      },
+      {
+        type: "heading",
+        value: "Contact Us",
+      },
+      {
+        type: "paragraph",
+        value:
+          "If you have any questions regarding this Privacy Policy or how your data is handled, please contact us at support@vastradrobe.com.",
+      },
+    ],
+  },
+  {
     title: "FAQs",
     slug: "faqs",
     description: "Common questions about orders, products, and policies.",
@@ -184,7 +414,7 @@ export const policies: PolicyItem[] = [
       {
         type: "paragraph",
         value:
-        "VastraDrobe is built around breathable fabrics, thoughtful silhouettes, and everyday comfort. We focus on quality craftsmanship and modern essentials designed for real life. From fabric selection to finishing details, every piece is designed to balance structure, softness, and durability.",
+          "VastraDrobe is built around breathable fabrics, thoughtful silhouettes, and everyday comfort. We focus on quality craftsmanship and modern essentials designed for real life. From fabric selection to finishing details, every piece is designed to balance structure, softness, and durability.",
       },
       {
         type: "images",

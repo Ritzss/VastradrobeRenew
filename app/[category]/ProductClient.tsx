@@ -24,9 +24,19 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
     return subCategoryMatch && searchMatch;
   });
 
+  const groupedProducts = Object.values(
+  filteredProducts.reduce((acc, product) => {
+    const key = product.name.trim().toLowerCase();
+    if (!acc[key]) {
+      acc[key] = product;
+    }
+    return acc;
+  }, {} as Record<string, IMSProduct>)
+);
+
   const resultCount = filteredProducts.length;
 
-  if (filteredProducts.length === 0) {
+  if (groupedProducts.length === 0) {
     return (
       <EmptyState
         label={`Collection's Empty`}
@@ -58,12 +68,12 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
 
       {/* PRODUCT GRID */}
       <div className="flex flex-wrap gap-5">
-        {filteredProducts.map((item) => (
+        {groupedProducts.map((item) => (
           <ProductCard
             key={item.productId}
             product={item}
-            className="product-card"
-            classNameInner="h-[45vh]"
+            className="product-card border bg-white"
+            classNameInner="h-[45vh] rounded-sm"
           />
         ))}
       </div>

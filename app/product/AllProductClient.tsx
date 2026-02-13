@@ -63,21 +63,34 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
     return () => observer.disconnect();
   }, [fetchMore]);
 
+  const groupedProducts = Object.values(
+  products.reduce((acc, product) => {
+    const key = product.name.trim().toLowerCase();
+
+    if (!acc[key]) {
+      acc[key] = product; // keep first occurrence
+    }
+
+    return acc;
+  }, {} as Record<string, IMSProduct>)
+);
+  
+  
   return (
     <section className="w-full px-4">
      
 
       <div className="m-4 text-xl text-gray-600">
-        Showing {products.length} products
+        Showing {groupedProducts.length} products
       </div>
 
       <div className="flex flex-wrap justify-evenly gap-3">
-        {products.map((item, index) => (
+        {groupedProducts.map((item, index) => (
           <ProductCard
             key={`${item.productId}-${index}`}
             product={item}
-            classNameInner="h-[45vh]"
-            className="product-card-all"
+            classNameInner="h-[45vh] rounded-sm"
+            className="product-card-all bg-white border"
           />
         ))}
       </div>
