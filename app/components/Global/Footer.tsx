@@ -23,7 +23,7 @@ const Footer = ({ className }: { className?: string }) => {
   return (
     <footer
       id="foot"
-      className={`bg-[#6a0f1f] text-[#EEDDC7] mt-6 w-full ${className ?? ""}`}
+      className={`bg-[#000000] text-[#EEDDC7] mt-6 w-full ${className ?? ""}`}
     >
       {/* MAIN CONTENT */}
       <section
@@ -82,35 +82,35 @@ const Footer = ({ className }: { className?: string }) => {
             <a
               href="https://www.facebook.com/people/Vastradrobe/61579704217653/"
               target="_blank"
-              className="text-gray-400 hover:text-[#1877F2] border p-2 rounded-lg transition"
+              className="text-gray-400 hover:text-[#1877F2] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaFacebookF size={20} />
             </a>
             <a
               href="https://www.instagram.com/vastradrobe/"
               target="_blank"
-              className="text-gray-400 hover:text-[#d10a5d] border p-2 rounded-lg transition"
+              className="text-gray-400 hover:text-[#d10a5d] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaInstagram size={20} />
             </a>
             <a
               href="https://www.amazon.in/stores/VASTRADROBE/page/30369E04-11CD-44B1-80D6-FCF332FBA59E?lp_asin=B0FRZ85JJF&ref_=ast_bln&store_ref=bl_ast_dp_brandLogo_sto"
               target="_blank"
-              className="text-gray-400 hover:text-[#d10a5d] border p-2 rounded-lg transition"
+              className="text-gray-400 hover:text-[#FF6200] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaAmazon size={20} />
             </a>
             <a
               href="https://chat.whatsapp.com/EvtOGkMPxx59bJZuQWZc4b"
               target="_blank"
-              className="text-gray-400 hover:text-[#d10a5d] border p-2 rounded-lg transition"
+              className="text-gray-400 hover:text-[#50b300] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaWhatsapp size={20} />
             </a>
             <a
               href="https://www.youtube.com/@vastradrobe"
               target="_blank"
-              className="text-gray-400 hover:text-[#d10a5d] border p-2 rounded-lg transition"
+              className="text-gray-400 hover:text-[#ca0000] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaYoutube size={20} />
             </a>
@@ -120,7 +120,7 @@ const Footer = ({ className }: { className?: string }) => {
 
       {/* BOTTOM BAR */}
       <section className="border-t border-white/10 py-4 text-center text-sm text-gray-400">
-        © 2025 VastraDrobe. All rights reserved. Crafted with ❤️ for everyday
+        © 2026 VastraDrobe. All rights reserved. Crafted with love for everyday
         fashion.
       </section>
     </footer>

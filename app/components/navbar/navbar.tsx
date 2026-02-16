@@ -22,7 +22,7 @@ const Navbar = () => {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   
-  const searchItems = ["Pants.....?", "Tops......?", "Sandals...?", "Jackets..?","Pants.....?", "Tops......?", "Sandals...?", "Jackets..?"];
+  const searchItems = ["Pants......", "Tops.......", "Sandals....", "Jackets...","Pants......", "Tops.......", "Sandals....", "Jackets..."];
   const [index, setIndex] = useState(0);
   
   const {
@@ -118,7 +118,7 @@ const Navbar = () => {
             Home
           </Link>
           <Link href="/product" className="hover:text-[#6a0f1f]">
-            All Collection
+            Our Collection
           </Link>
           <Link href="/blog" className="hover:text-[#6a0f1f]">
             Blog

@@ -49,7 +49,7 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   }
 
   return (
-    <div className="md:w-[76vw] lg:w-[76vw] mx-auto">
+    <div className="md:w-[76vw] lg:w-[76vw] w-[95vw] mx-auto">
       {/* RESULTS HEADER */}
       <div className="flex items-center justify-between mt-10 px-4">
         <p className="text-sm text-gray-500 uppercase tracking-[0.25em]">

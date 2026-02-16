@@ -1,32 +1,26 @@
 "use client";
+
 import { useAppContext } from "@/hooks/useAppContext";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import OtpInput from "./OtpInput";
+import { toast } from "sonner";
 
 const Login = () => {
   const { loginForm, setLoginForm, handleLogin } = useAppContext();
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState(false);
+  const [useOtp, setUseOtp] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [otpDigits, setOtpDigits] = useState<string[]>(Array(6).fill(""));
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const redirectTo = searchParams.get("redirect") || "/";
   const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
-
-  const onSubmit = async (e: React.FormEvent) => {
-    const success = await handleLogin(e);
-    
-    if (success){
-      setLoginForm((prev)=>({
-        ...prev,
-        password:"",
-        email:""
-      }))
-    router.replace(safeRedirect);
-  }
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,98 +29,176 @@ const Login = () => {
       [name]: value,
     }));
   };
+
+  const handlePasswordLogin = async (e: React.FormEvent) => {
+    const success = await handleLogin(e);
+    if (success) router.replace(safeRedirect);
+  };
+
+  const sendOtp = async () => {
+    if (!loginForm.email) return;
+
+    setLoading(true);
+    await fetch("/api/auth/login-otp-send", {
+      method: "POST",
+      body: JSON.stringify({ email: loginForm.email }),
+    });
+    setLoading(false);
+  };
+
+  const verifyOtp = async (otpParam?: string) => {
+    const otp = otpParam || otpDigits.join("");
+
+    if (otp.length !== 6) return;
+
+    setLoading(true);
+    const res = await fetch("/api/auth/login-otp-verify", {
+      method: "POST",
+      body: JSON.stringify({
+        email: loginForm.email,
+        otp,
+      }),
+    });
+
+    setLoading(false);
+
+    if (res.ok) {
+      toast.success("Otp Validated")
+      router.replace(safeRedirect);
+    }
+    else{
+      toast.error("Otp is Invalid")
+    }
+  };
+
+  const toggleMode = () => {
+    setUseOtp((prev) => !prev);
+    setOtpDigits(Array(6).fill(""));
+    setLoginForm((prev) => ({ ...prev, password: "" }));
+  };
+
   return (
-    <div className="w-[65%] m-2 overflow-hidden rounded-xl border h-[70vh] flex">
-      <aside className="w-[40%] bg-[#ffffff] text-[#ffffff] shadow-[inset_0_0_20px_#cd0000] border-r-4 flex-col flex justify-between">
+    <div className="md:w-[80%] text-white m-2 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
+
+      {/* LEFT PANEL */}
+      <aside className="md:w-[40%] h-110 md:h-auto bg-[#DFC9AC] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 flex-col flex justify-between">
         <header className="flex-col flex gap-5">
-          <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center hover:scale-115 hover:text-shadow-[0_0_10px] font-bold text-shadow-[0_0_20px] duration-500 transition-all">
+          <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center font-bold">
             Login
           </div>
-          <div className="text-[#cd0000] p-2.5 text-xl font-great flex justify-start">
-            It&apos;s look like you locked yourself out.
-            <br />
-            Login to access all your belongings.
+          <div className="text-[#cd0000] p-2.5 text-xl">
+            Access your wardrobe universe.
           </div>
         </header>
         <div className="overflow-hidden self-end">
           <Image
             src={"/Assets/Images/authimg.png"}
             width={300}
-            height={2}
+            height={200}
             alt=""
             className="w-83 h-50"
           />
         </div>
       </aside>
-      <aside className="w-[60%] font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-around items-center ">
-        <header className="h-[50%] w-full p-4">
-          <form
-            onSubmit={onSubmit}
-            className="flex flex-col justify-between h-full p-4 "
-          >
-            <label className="flex justify-between" htmlFor="LoginID">
-              <div className=" w-[40%] text-xl">EmailID:</div>
-              <div className="border-b w-[65%]">
-                <input
-                  type="text"
-                  name="email"
-                  value={loginForm.email}
-                  onChange={handleInputChange}
-                  placeholder="Email"
-                  id="LoginID"
-                  className="outline-0 flex items-center w-full"
-                />
-              </div>
-            </label>
-            <label className="flex justify-between" htmlFor="LoginPassword">
-              <div className="w-[40%] text-xl">Password:</div>
-              <div className="border-b flex w-[65%]">
+
+      {/* RIGHT PANEL */}
+      <aside className="md:w-[60%] h-110 md:h-auto font-sans bg-[#cd0000] shadow-[inset_0_0_20px_#DFC9AC] flex flex-col justify-center items-center p-8">
+
+        <div className="w-full max-w-sm flex flex-col gap-4">
+
+          {/* EMAIL */}
+          <input
+            type="email"
+            name="email"
+            value={loginForm.email}
+            onChange={handleInputChange}
+            placeholder="Email"
+            className="bg-transparent border-b outline-none p-2"
+          />
+
+          {!useOtp && (
+            <>
+              {/* PASSWORD */}
+              <div className="flex border-b">
                 <input
                   type={visible ? "text" : "password"}
                   name="password"
                   value={loginForm.password}
                   onChange={handleInputChange}
                   placeholder="Password"
-                  id="LoginPassword"
-                  className="outline-0 flex items-center w-[90%]"
+                  className="bg-transparent outline-none flex-1 p-2"
                 />
                 <div
-                  className={`w-[10%] flex justify-center rounded-r `}
+                  className="cursor-pointer"
                   onClick={() => setVisible(!visible)}
                 >
-                  {visible ? (
-                    <EyeIcon className="w-[50%] " />
-                  ) : (
-                    <EyeClosedIcon className="w-[50%] " />
-                  )}
+                  {visible ? <EyeIcon /> : <EyeClosedIcon />}
                 </div>
               </div>
-            </label>
-            <div className="flex justify-evenly">
+
               <button
-                type="submit"
-                className="text-2xl hover:-translate-y-1 hover:text-shadow-[0_16px_5px_rgba(0,0,0,0.34),0_0_7px_#FFFFFF] hover:scale-120 duration-500 transition-all"
+                onClick={handlePasswordLogin}
+                className="bg-white text-[#cd0000] py-2 rounded mt-4 hover:bg-[#DFC9AC] transition"
               >
                 Login
               </button>
+            </>
+          )}
+
+          {useOtp && (
+            <>
               <button
-                type="reset"
-                className="text-2xl hover:-translate-y-1 hover:text-shadow-[0_16px_5px_rgba(0,0,0,0.34),0_0_7px_#FFFFFF] hover:scale-120 duration-500 transition-all"
+                onClick={sendOtp}
+                disabled={loading}
+                className="bg-white text-[#cd0000] py-2 rounded mt-2"
               >
-                Reset Password
+                {loading ? "Sending..." : "Send OTP"}
               </button>
-            </div>
-          </form>
-        </header>
-        <footer className="">
-          Here for the first time?{" "}
-          <Link
-            href={"register"}
-            className="hover:underline hover:text-[#0092d6] duration-500 transition-all"
+
+              <OtpInput
+                value={otpDigits}
+                setValue={setOtpDigits}
+                length={6}
+                onComplete={(otp) => verifyOtp(otp)}
+              />
+
+              <button
+                onClick={() => verifyOtp()}
+                disabled={loading}
+                className="bg-white text-[#cd0000] py-2 rounded mt-4"
+              >
+                {loading ? "Verifying..." : "Login with OTP"}
+              </button>
+            </>
+          )}
+
+          <div
+            onClick={toggleMode}
+            className="text-center underline cursor-pointer mt-4 hover:text-[#DFC9AC]"
           >
-            Register Here
-          </Link>
-        </footer>
+            {useOtp ? "Login with Password Instead" : "Login with OTP Instead"}
+          </div>
+
+          <div className="text-center mt-4 flex flex-col gap-2">
+            <Link
+              href="reset_password"
+              className="underline hover:text-[#DFC9AC]"
+            >
+              Forgot Password
+            </Link>
+
+            <div>
+              New here?{" "}
+              <Link
+                href="register"
+                className="underline hover:text-[#DFC9AC]"
+              >
+                Create Account
+              </Link>
+            </div>
+          </div>
+
+        </div>
       </aside>
     </div>
   );

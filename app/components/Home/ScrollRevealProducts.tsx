@@ -82,7 +82,7 @@ const filteredProducts = products.filter((product) =>
                 product={product}
                 className="w-full"
                 height="h-[50vh]"
-                classNameInner="h-[47vh]"
+                classNameInner="h-[47vh] rounded-2xl"
                 button={false}
               />
             </div>
@@ -105,14 +105,14 @@ const filteredProducts = products.filter((product) =>
       </div>
 
       {/* ---------- DESKTOP (wrap layout) ---------- */}
-      <div className="hidden md:flex flex-wrap gap-3 justify-center">
+      <div className="hidden md:flex flex-wrap justify-center">
         {filteredProducts.slice(0, 3).map((product) => (
           <div key={product.productId} className="md:w-[48%] lg:w-[23vw]">
             <ProductCard
               product={product}
               height="h-[50vh]"
               classNameInner="h-[47vh] rounded-2xl"
-              className="w-full"
+              className="md:w-[95%] w-[85%]"
               button={false}
             />
           </div>

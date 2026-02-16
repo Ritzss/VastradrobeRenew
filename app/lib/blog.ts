@@ -20,7 +20,7 @@ export const blogs: BlogItem[] = [
     title: "Cotton Flex Hemp: The Summer Fabric You Didn’t Know You Needed",
     slug: "cotton-flex-hemp-summer-fabric",
     excerpt:
-      "When summer arrives, fabric choices matter as much as style. Enter Cotton Flex hemp — a lightweight, breathable hybrid that’s quickly becoming a favorite for warm-weather wardrobes. Combining the softness and drape of cotton with the strength, breathability, and eco-credentials of hemp, Cotton Flex hemp offers a practical, comfortable, and stylish solution for everything from everyday tees to tailored summer trousers.",
+      "When summer arrives, fabric choices matter as much as style. Enter Cotton Flex hemp — a lightweight, breathable hybrid that’s quickly becoming a favorite for warm-weather wardrobes. Combining the softness and drape of cotton with the strength, breathability, and eco-credentials of hemp, Cotton Flex hemp offers a practical, comfortable, and stylish solution for everything from everyday tees to tailored summer trousers......See More",
     coverImage: "/Assets/Blog/cotton-flex-hemp/stack.jpg",
     content: [
       {

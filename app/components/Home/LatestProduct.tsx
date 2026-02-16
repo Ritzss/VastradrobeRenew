@@ -40,12 +40,12 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
     {isVisible && (
       <InfiniteScroll>
         {products.map((product) => (
-          <div key={product.productId} className="w-85 shrink-0">
+          <div key={product.productId} className="w-75 shrink-0">
             <ProductCard
               product={product}
               className="w-[99%]"
               height="h-[50vh]"
-              classNameInner="h-[47vh] rounded-2xl"
+              classNameInner="h-[47vh] w-full rounded-2xl"
               button={false}
             />
           </div>

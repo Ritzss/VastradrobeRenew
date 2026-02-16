@@ -229,7 +229,7 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
                 </div>
                 <div className="lg:w-[65%] ">
                   <div className="text-white text-2xl font-semibold m-4">{item.title}</div>
-                  <div className="text-white text-lg font-extralight line-clamp-5 leading-relaxed rounded-lg p-6 shadow-[inset_0_-21px_20px_-18px_#ffffff]">{item.excerpt}</div>
+                  <div className="text-white text-lg font-extralight line-clamp-6 leading-relaxed rounded-lg p-6 shadow-[inset_0_-21px_20px_-18px_#ffffff]">{item.excerpt}</div>
                 </div>
               </div>
             </Link>

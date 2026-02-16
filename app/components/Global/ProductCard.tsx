@@ -87,7 +87,7 @@ const ProductCard = ({
           }
         }}
         onDoubleClick={() => {}}
-        className={`group rounded-sm flex flex-col justify-start w-full ${classNameInner ? "p-2.5" : ""} p-2.5 text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
+        className={`group rounded-sm flex flex-col justify-start w-full ${classNameInner ? "p-2.5" : ""} text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
       >
         <div
           className={`relative ${classNameInner} imageBlock border mx-auto overflow-hidden shrink-0 w-[95%]`}
@@ -97,6 +97,7 @@ const ProductCard = ({
             fill
             sizes="images"
             alt={name}
+            priority
             className="group-hover:scale-105 duration-500 transition-all"
           ></Image>
         </div>

@@ -45,7 +45,39 @@ const UserSchema = new mongoose.Schema(
         Favorites: [],
       },
     },
+    /*Authentication For reset */
+    resetOtp: {
+      type: String,
+    },
+
+    resetVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    resetOtpExpiry: {
+      type: Date,
+    },
+
+    resetOtpAttempts: {
+      type: Number,
+      default: 0,
+    },
+
+    loginOtp: {
+      type: String,
+    },
+
+    loginOtpExpiry: {
+      type: Date,
+    },
+
+    loginOtpAttempts: {
+      type: Number,
+      default: 0,
+    },
   },
+
   { timestamps: true },
 );
 
