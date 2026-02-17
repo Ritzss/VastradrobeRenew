@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { FaAmazon, FaFacebookF, FaInstagram, FaWhatsapp, FaYoutube } from "react-icons/fa6";
+import {
+  FaAmazon,
+  FaFacebookF,
+  FaInstagram,
+  FaWhatsapp,
+  FaYoutube,
+} from "react-icons/fa6";
 
 const Footer = ({ className }: { className?: string }) => {
   const underline =
@@ -76,41 +82,54 @@ const Footer = ({ className }: { className?: string }) => {
             </p>
           </div>
 
-          <div className="text-sm">Phone: 080539 43352</div>
+          <a href="tel:+919910953926" className="text-sm ">
+            Phone :{" "}
+            <span className="hover-underline-center">+91 9910953926</span>{" "}
+          </a>
+
+          <a
+            href="mailto:support@vastradrobe.com?subject=Help&body=I need assistance"
+            className="text-sm"
+          >
+            Email :{" "}
+            <span className="hover-underline-center">
+              support@vastradrobe.com
+            </span>
+          </a>
 
           <div className="flex gap-4 items-center">
             <a
               href="https://www.facebook.com/people/Vastradrobe/61579704217653/"
               target="_blank"
-              className="text-gray-400 hover:text-[#1877F2] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
+              className="text-gray-400 hover:text-[#1877F2] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaFacebookF size={20} />
             </a>
             <a
               href="https://www.instagram.com/vastradrobe/"
               target="_blank"
-              className="text-gray-400 hover:text-[#d10a5d] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
+              className="text-gray-400 hover:text-[#d10a5d] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaInstagram size={20} />
             </a>
             <a
               href="https://www.amazon.in/stores/VASTRADROBE/page/30369E04-11CD-44B1-80D6-FCF332FBA59E?lp_asin=B0FRZ85JJF&ref_=ast_bln&store_ref=bl_ast_dp_brandLogo_sto"
               target="_blank"
-              className="text-gray-400 hover:text-[#FF6200] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
+              className="text-gray-400 hover:text-[#FF6200] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaAmazon size={20} />
             </a>
             <a
               href="https://chat.whatsapp.com/EvtOGkMPxx59bJZuQWZc4b"
               target="_blank"
-              className="text-gray-400 hover:text-[#50b300] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
+              className="text-gray-400 hover:text-[#50b300] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaWhatsapp size={20} />
             </a>
             <a
               href="https://www.youtube.com/@vastradrobe"
               target="_blank"
-              className="text-gray-400 hover:text-[#ca0000] hover:translate-y-5 border p-2 rounded-lg duration-300 transition-all"
+              className="text-gray-400 hover:text-[#ca0000] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
             >
               <FaYoutube size={20} />
             </a>

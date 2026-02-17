@@ -378,7 +378,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             </div>
           </div>
         </section>
-         <div className="pc-details right-0">
+         <div className="hidden md:block pc-details right-0">
           <h3>{name}</h3>
           <p>{title}</p>
           <Link href={"/orders"}>
@@ -431,6 +431,15 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             />
           </div>
         )}
+        <div className="block md:hidden pc-details right-0">
+          <h3>{name}</h3>
+          <p>{title}</p>
+          <Link href={"/orders"}>
+          <div className="profileBox w-[20%] text-center">
+            My Orders
+          </div>
+          </Link>
+         </div>
       </div>
     </div>
   );

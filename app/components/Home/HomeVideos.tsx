@@ -1,4 +1,3 @@
-// components/Home/HomeVideos.tsx
 "use client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -14,82 +13,41 @@ type VideoItem = {
 
 const HomeVideos = () => {
   const [userVideos, setUserVideos] = useState<VideoItem[]>([]);
-  // const [instagramVideos, setInstagramVideos] = useState<VideoItem[]>([]);
-  // const [facebookVideos, setFacebookVideos] = useState<VideoItem[]>([]);
-  // const [youtubeVideos, setYoutubeVideos] = useState<VideoItem[]>([]);
-  // const [whatsappVideos, setWhatsappVideos] = useState<VideoItem[]>([]);
 
   useEffect(() => {
-    // USER UPLOADS (Cloudinary – already working)
     const loadUserVideos = async () => {
-      const res = await fetch("/api/home/cloudinary-videos", {
-        cache: "no-store",
-      });
-      const data = await res.json();
+      try {
+        const res = await fetch("/api/home/cloudinary-videos", {
+          cache: "no-store",
+        });
 
-      setUserVideos(
-        (data.videos || []).map((v: any) => ({
-          id: v.id,
-          videoUrl: v.url,
-        })),
-      );
+        const data = await res.json();
+
+        setUserVideos(
+          (data.videos || []).map((v: any) => ({
+            id: v.id,
+            videoUrl: v.url,
+          }))
+        );
+      } catch (err) {
+        console.error("Failed to fetch videos:", err);
+      }
     };
-
-    // STATIC / ADMIN-CONTROLLED (for now)
-    // setInstagramVideos([
-    //   {
-    //     id: "insta-1",
-    //     videoUrl: "https://res.cloudinary.com/dwhn5ec09/video/upload/v1770723515/vastraVideoss_yssu65.mp4",
-    //   },
-    // ]);
-
-    // setFacebookVideos([
-    //   {
-    //     id: "fb-1",
-    //     videoUrl: "https://res.cloudinary.com/dwhn5ec09/video/upload/v1770723515/vastraVideoss_yssu65.mp4",
-    //   },
-    // ]);
-
-    // setYoutubeVideos([
-    //   {
-    //     id: "yt-1",
-    //     videoUrl: "https://res.cloudinary.com/dwhn5ec09/video/upload/v1770723515/vastraVideoss_yssu65.mp4",
-    //   },
-    // ]);
-
-    // setWhatsappVideos([
-    //   {
-    //     id: "wa-1",
-    //     videoUrl: "https://res.cloudinary.com/dwhn5ec09/video/upload/v1770723515/vastraVideoss_yssu65.mp4",
-    //   },
-    // ]);
 
     loadUserVideos();
   }, []);
 
+  if (!userVideos.length) return null;
+
   return (
-    <HorizontalScroll>
-      <VideoCarouselSection title="" videos={userVideos} />
-      {/* 
-      <VideoCarouselSection
-        title="Instagram Stories"
-        videos={instagramVideos}
-      />
-
-      <VideoCarouselSection
-        title="Facebook Reviews"
-        videos={facebookVideos}
-      />
-
-      <VideoCarouselSection
-        title="YouTube Highlights"
-        videos={youtubeVideos}
-      />
-
-      <VideoCarouselSection
-        title="WhatsApp Reviews"
-        videos={whatsappVideos}
-      /> */}
+    <HorizontalScroll color="#DFC9AC">
+      {userVideos.map((video) => (
+        <VideoCarouselSection
+          key={video.id}
+          title=""
+          videos={[video]} // 👈 each section gets ONE video
+        />
+      ))}
     </HorizontalScroll>
   );
 };

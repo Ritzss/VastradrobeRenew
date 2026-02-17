@@ -43,11 +43,15 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
           <div key={product.productId} className="w-75 shrink-0">
             <ProductCard
               product={product}
-              className="w-[99%]"
-              height="h-[50vh]"
+              className="w-[99%] hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
+              height="h-[55vh]"
               classNameInner="h-[47vh] w-full rounded-2xl"
               button={false}
-            />
+            >
+              <div className="uppercase text-center m-2 w-full ">
+                {product.name}
+              </div>
+            </ProductCard>
           </div>
         ))}
       </InfiniteScroll>

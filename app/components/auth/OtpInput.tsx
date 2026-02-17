@@ -80,7 +80,7 @@ export default function OtpInput({
       {Array.from({ length }).map((_, index) => (
         <input
           key={index}
-          ref={(el) => (inputsRef.current[index] = el)}
+          ref={(el) => { inputsRef.current[index] = el; }}
           type="text"
           maxLength={1}
           value={value[index] || ""}

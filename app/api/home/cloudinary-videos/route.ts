@@ -7,17 +7,22 @@ cloudinary.config({
 });
 
 export async function GET() {
-  const result = await cloudinary.api.resources({
-    resource_type: "video",
-    type: "upload",
-    max_results: 10,
-  });
+  try {
+    const result = await cloudinary.api.resources_by_tag("featured", {
+      resource_type: "video",
+      type: "upload",
+      max_results: 20,
+      direction: "desc",
+    });
 
-  const videos = result.resources.map((v: any) => ({
-    id: v.asset_id,
-    url: v.secure_url,
-    publicId: v.public_id,
-  }));
+    const videos = result.resources.map((v: any) => ({
+      id: v.public_id,
+      url: v.secure_url,
+      publicId: v.public_id,
+    }));
 
-  return Response.json({ videos });
+    return Response.json({ videos });
+  } catch (error) {
+    return Response.json({ error: "Failed to fetch videos" }, { status: 500 });
+  }
 }

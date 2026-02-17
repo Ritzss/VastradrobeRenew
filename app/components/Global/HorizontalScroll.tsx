@@ -5,9 +5,10 @@ import { useRef, useEffect, useState } from "react";
 type HorizontalScrollProps = {
   children: React.ReactNode;
   className?: string;
+  color?:string;
 };
 
-const HorizontalScroll = ({ children, className }: HorizontalScrollProps) => {
+const HorizontalScroll = ({ children, className, color }: HorizontalScrollProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -71,7 +72,7 @@ const HorizontalScroll = ({ children, className }: HorizontalScrollProps) => {
   };
 
   return (
-    <div ref={wrapperRef} className="latest-slider-wrapper relative">
+    <div ref={wrapperRef} className={`latest-slider-wrapper relative`} style={{color:`${color}`}}>
       <div
         ref={sliderRef}
         onScroll={updateFades}
@@ -79,7 +80,7 @@ const HorizontalScroll = ({ children, className }: HorizontalScrollProps) => {
         onMouseUp={stopDragging}
         onMouseLeave={stopDragging}
         onMouseMove={onMouseMove}
-        className={`flex gap-4 overflow-x-auto select-none ${
+        className={`flex gap-0 overflow-x-auto select-none ${
           isDragging ? "cursor-grabbing" : "cursor-grab"
         } ${className ?? ""}`}
         style={{ scrollbarWidth: "none" }}

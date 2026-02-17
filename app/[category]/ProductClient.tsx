@@ -7,10 +7,13 @@ import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
 
 const ProductClient = ({ products }: { products: IMSProduct[] }) => {
-  const { searchQuery, subCategory } = useAppContext();
+  const { searchQuery, subCategory, priceRange, sizes } = useAppContext();
 
   const normalizedSub = normalize(subCategory);
+  const normalizeSize = (size: string) =>
+  size.replace(/\s+/g, " ").trim().toLowerCase();
   const normalizedSearch = searchQuery?.toLowerCase() || "";
+  const normalizedSelectedSizes = sizes.map(normalizeSize);
 
   const filteredProducts = products.filter((p) => {
     const subCategoryMatch =
@@ -21,20 +24,33 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
       p.name.toLowerCase().includes(normalizedSearch) ||
       (p.description || "").toLowerCase().includes(normalizedSearch);
 
-    return subCategoryMatch && searchMatch;
+    const priceMatch =
+      (priceRange.min === "" || p.price >= priceRange.min) &&
+      (priceRange.max === "" || p.price <= priceRange.max);
+
+    const sizeMatch =
+      normalizedSelectedSizes.length === 0 ||
+      p.sizes?.some((productSize: string) =>
+        normalizedSelectedSizes.includes(normalizeSize(productSize)),
+      );
+
+    return subCategoryMatch && searchMatch && priceMatch && sizeMatch;
   });
 
   const groupedProducts = Object.values(
-  filteredProducts.reduce((acc, product) => {
-    const key = product.name.trim().toLowerCase();
-    if (!acc[key]) {
-      acc[key] = product;
-    }
-    return acc;
-  }, {} as Record<string, IMSProduct>)
-);
+    filteredProducts.reduce(
+      (acc, product) => {
+        const key = product.name.trim().toLowerCase();
+        if (!acc[key]) {
+          acc[key] = product;
+        }
+        return acc;
+      },
+      {} as Record<string, IMSProduct>,
+    ),
+  );
 
-  const resultCount = filteredProducts.length;
+  const resultCount = groupedProducts.length;
 
   if (groupedProducts.length === 0) {
     return (

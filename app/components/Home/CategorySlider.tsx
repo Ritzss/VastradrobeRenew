@@ -12,7 +12,7 @@ const CategorySlider = () => {
     const media = window.matchMedia("(min-width: 768px)");
 
     const updateItems = () => {
-      setItems(media.matches ? [...categoryData, ...categoryData] : categoryData);
+      setItems(media.matches ? [...categoryData] : categoryData);
     };
 
     updateItems();
@@ -25,6 +25,9 @@ const CategorySlider = () => {
     <section className="w-full overflow-hidden">
       <div className="flex w-max gap-4 animate-category-scroll">
         <InfiniteScroll>
+        {items.map((item, index) => (
+          <CategoryCard key={index} {...item} />
+        ))}
         {items.map((item, index) => (
           <CategoryCard key={index} {...item} />
         ))}

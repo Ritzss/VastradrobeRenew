@@ -55,11 +55,11 @@ const Home = async () => {
       <Slider />
 
       {/* CATEGORY */}
-      <section className="py-20 bg-[#dfc9ac] text-center">
+      <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
         <p className="uppercase tracking-[0.35em]  text-sm text-gray-500 mb-4">
           Explore
         </p>
-        <h2 className="text-4xl text-[#cd0000] font-semibold mb-12">
+        <h2 className="text-4xl text-[#6a0f1f] font-semibold mb-12">
           Shop by Category
         </h2>
         <CategorySlider />
@@ -71,7 +71,7 @@ const Home = async () => {
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             New This Season
           </p>
-          <h2 className="text-5xl  text-[#cd0000] font-semibold mb-6">
+          <h2 className="text-5xl  text-[#6a0f1f] font-semibold mb-6">
             Latest Arrivals
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto mb-16 text-lg">
@@ -89,12 +89,17 @@ const Home = async () => {
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Women
           </p>
-          <h2 className="text-4xl text-[#cd0000] font-semibold">
+          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
             Co-ords You&apos;ll Love
           </h2>
         </div>
 
-        <ScrollRevealProducts products={allProduct} category="women" title="" />
+        <ScrollRevealProducts
+          products={allProduct}
+          category="women"
+          title=""
+          color="#dfc9ac"
+        />
       </section>
 
       {/* Kids */}
@@ -103,12 +108,17 @@ const Home = async () => {
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Kids
           </p>
-          <h2 className="text-4xl text-[#cd0000] font-semibold">
+          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
             Playful & Comfortable
           </h2>
         </div>
 
-        <ScrollRevealProducts products={allProduct} category="kids" title="" />
+        <ScrollRevealProducts
+          products={allProduct}
+          category="kids"
+          title=""
+          color="#eeddc7"
+        />
       </section>
 
       {/* MEN */}
@@ -117,12 +127,17 @@ const Home = async () => {
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Men
           </p>
-          <h2 className="text-4xl text-[#cd0000] font-semibold">
+          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
             Modern Everyday Wear
           </h2>
         </div>
 
-        <ScrollRevealProducts products={allProduct} category="men" title="" />
+        <ScrollRevealProducts
+          products={allProduct}
+          category="men"
+          title=""
+          color="#dfc9ac"
+        />
       </section>
 
       {/* ETHNIC */}
@@ -131,7 +146,7 @@ const Home = async () => {
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Ethnic
           </p>
-          <h2 className="text-4xl text-[#cd0000] font-semibold">
+          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
             Timeless Ethnic Wear
           </h2>
         </div>
@@ -140,6 +155,7 @@ const Home = async () => {
           products={allProduct}
           category="ethnic"
           title=""
+          color="#eeddc7"
         />
       </section>
 
@@ -149,7 +165,7 @@ const Home = async () => {
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Craftsmanship
           </p>
-          <h2 className="text-4xl  text-[#cd0000] font-semibold mb-12">
+          <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">
             See Vastra in Motion
           </h2>
 
@@ -159,12 +175,12 @@ const Home = async () => {
 
       {/* BLOG */}
       <ScrollReveal>
-        <section className=" mx-auto px-6 py-32 text-center">
+        <section className=" mx-auto md:px-6 py-32 text-center">
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Vastra Journal
           </p>
 
-          <h2 className="text-5xl  text-[#cd0000] font-semibold mb-6">
+          <h2 className="text-5xl  text-[#6a0f1f] font-semibold mb-6">
             Beyond Fabric. Into Thought.
           </h2>
 
@@ -178,7 +194,7 @@ const Home = async () => {
           <div className="mt-20">
             <Link
               href="/blog"
-              className="inline-block border border-black px-10 py-4 rounded-full hover:bg-[#cd0000] hover:text-white transition-all duration-300 text-lg"
+              className="inline-block border border-black px-10 py-4 rounded-full hover:bg-[#6a0f1f] hover:text-white transition-all duration-300 text-lg"
             >
               Explore All Articles →
             </Link>
@@ -193,7 +209,7 @@ const Home = async () => {
             <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
               Community
             </p>
-            <h2 className="text-4xl  text-[#cd0000] font-semibold mb-12">
+            <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">
               Loved by Thousands
             </h2>
             <SocialProof />

@@ -21,6 +21,12 @@ export type CartItem = {
   qty: number;
 };
 
+export type PriceRange = {
+  min: number | "";
+  max: number | "";
+};
+
+
 export interface AppContextType {
   /* 🔍 Search & Filter */
   selectGender: string;
@@ -29,6 +35,10 @@ export interface AppContextType {
   setSearchQuery: Dispatch<SetStateAction<string>>;
   subCategory: string;
   setSubCategory: Dispatch<SetStateAction<string>>;
+  sizes: string[];
+  setSizes: Dispatch<SetStateAction<string[]>>;
+  priceRange: PriceRange;
+  setPriceRange: Dispatch<SetStateAction<PriceRange>>;
   showVariants: boolean;
   setShowVariants: Dispatch<SetStateAction<boolean>>;
   showProductDeatils: boolean;

@@ -357,7 +357,7 @@ export default function Carousel({
     >
       <motion.div
         className="flex h-[95%] "
-        drag={isAnimating ? false : "x"}
+        drag={isAnimating ? false : variant === "media" ? false : "x"}
         {...dragProps}
         style={{
           width: itemWidth,
@@ -386,7 +386,7 @@ export default function Carousel({
           />
         ))}
       </motion.div>
-      <div
+      {variant === "review" && (<div
         className={`flex w-full justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""}`}
       >
         <div className="mt-4 flex w-37.5 justify-between px-8">
@@ -410,7 +410,7 @@ export default function Carousel({
             />
           ))}
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }

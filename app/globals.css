@@ -47,6 +47,29 @@ body.scroll-lock {
   border-radius: 3%;
 }
 
+
+.hover-underline-center {
+  position: relative;
+  /* display: inline-block; */
+  cursor: pointer;
+}
+
+.hover-underline-center::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background-color: currentColor;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.hover-underline-center:hover::after {
+  width: 100%;
+}
+
 /* Desktop hover */
 @media (hover: hover) {
   .cardBlock:hover .detailsBox {
@@ -216,14 +239,14 @@ body.scroll-lock {
 .latest-slider-wrapper.show-left::before {
   left: 0;
   opacity: 1;
-  background: linear-gradient(to right, white, transparent);
+  background: linear-gradient(to right, currentColor, transparent);
 }
 
 /* RIGHT fade */
 .latest-slider-wrapper.show-right::after {
   right: 0;
   opacity: 1;
-  background: linear-gradient(to left, white, transparent);
+  background: linear-gradient(to left, currentColor, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -244,7 +267,7 @@ body.scroll-lock {
   width: 96%;
 }
 .product-card-all {
-  width: 85%;
+  width: 95%;
 }
 
 @media (min-width: 768px) {

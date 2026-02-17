@@ -2,7 +2,7 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { AppContext, CartItem, LoginData, RegisterData } from "./AppContext";
+import { AppContext, CartItem, LoginData, PriceRange, RegisterData } from "./AppContext";
 import { IMSProduct } from "@/Types/Product";
 import { useRouter } from "next/navigation";
 import { AuthUser } from "@/Types/AuthUser";
@@ -15,6 +15,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectGender, setSelectGender] = useState("");
   const [subCategory, setSubCategory] = useState("");
+  const [priceRange, setPriceRange] = useState<PriceRange>({
+    min: "",
+    max: "",
+  });
+  const [sizes, setSizes] = useState<string[]>([]);
 
   /* 📦 Products */
   const [products, setProducts] = useState<IMSProduct[]>([]);
@@ -258,7 +263,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=1&limit=20`);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=1&limit=20`,
+        );
         const data = await res.json();
         setProducts(data.products); // only if you have local state
       } catch (err) {
@@ -342,6 +349,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setSelectGender,
         subCategory,
         setSubCategory,
+        priceRange,
+        setPriceRange,
+        sizes,
+        setSizes,
 
         cartItems,
         cartCount,
