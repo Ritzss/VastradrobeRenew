@@ -1,5 +1,6 @@
 import Login from '@/components/auth/Login';
 import Register from '@/components/auth/Register';
+import ResetPasswordPage from '@/components/auth/resetPassword';
 import { notFound } from 'next/navigation';
 
 type PageProps = {
@@ -13,6 +14,7 @@ const page = async ({params}:PageProps) => {
     const allowed = [
     "login",
     "register",
+    "reset_password"
   ];
   if (!allowed.includes(auth)) {
       notFound();
@@ -25,6 +27,11 @@ const page = async ({params}:PageProps) => {
   else if (auth==="register"){
    return (
      <Register />
+   )
+  }
+  else if (auth==="reset_password"){
+   return (
+     <ResetPasswordPage />
    )
   }
 }

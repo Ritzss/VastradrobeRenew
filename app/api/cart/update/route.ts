@@ -23,10 +23,15 @@ export async function POST(req: Request) {
     const { cart } = await req.json();
 
     await connectDB();
-    await User.findByIdAndUpdate(decoded.id, { cart });
+
+    await User.findByIdAndUpdate(
+      decoded.id,
+      { $set: { cart } },
+      { new: true }
+    );
 
     return NextResponse.json({ message: "Cart updated" });
-  } catch {
+  } catch (err) {
     return NextResponse.json(
       { message: "Unauthorized" },
       { status: 401 }

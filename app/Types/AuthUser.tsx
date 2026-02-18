@@ -3,6 +3,8 @@ export interface AuthUser {
   email: string;
   username: string;
 
+  avatar?: string;   // 👈 ADD THIS
+
   deliveryAddress?: {
     address?: string;
     phone?: string;

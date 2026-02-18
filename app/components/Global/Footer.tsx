@@ -1,127 +1,145 @@
 import Link from "next/link";
 import {
+  FaAmazon,
   FaFacebookF,
   FaInstagram,
+  FaWhatsapp,
+  FaYoutube,
 } from "react-icons/fa6";
 
-const Footer = ({ className }: { className: string }) => {
+const Footer = ({ className }: { className?: string }) => {
   const underline =
     "cursor-pointer hover:scale-105 hover:text-shadow-[0_0_10px_#ffffff] duration-500 transition-all underline pl-2";
-  const Address =
-    "http://google.com/maps/place/ADS247365+India+Private+Limited/@28.4437138,76.9476199,12z/data=!4m19!1m12!4m11!1m3!2m2!1d77.0999762!2d28.4434616!1m6!1m2!1s0x390d19bb11de70e7:0xb99f2f53e75a85f6!2sGF+11,+ADS247365+India+Private+Limited,+Augusta+Point,+Golf+Course+Rd,+Parsvnath+Exotica,+DLF+Phase+5,+Sector+53,+Gurugram,+Haryana+122011!2m2!1d77.1000625!2d28.4437181!3m5!1s0x390d19bb11de70e7:0xb99f2f53e75a85f6!8m2!3d28.4437181!4d77.1000625!16s%2Fg%2F11td39q2r6?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoASAFQAw%3D%3D";
+  const Address = "https://maps.app.goo.gl/PukzZvvqVvtfiHRD7";
 
-  const Company = [
-    "About Us",
-    "Careers",
-    "Contact Us",
-    "Privacy",
-    "Policy",
-    "Terms & Conditions",
-  ];
-  const Category = [
-    "Men",
-    "Women",
-    "Boys",
-    "Girls",
-    "Western",
-    "Traditional",
-    "Offers",
-  ];
+  const Category = ["Men", "Women", "Kids", "Ethnic"];
   const Customer = [
-    "Track",
-   
     "Returns & Refunds",
     "Shipping",
     "Information",
+    "Privacy & Policy",
+    "Terms & Conditions",
     "Size Guide",
     "FAQs",
   ];
 
-  // const slugify = (text: string) =>
-  // text
-  //   .toLowerCase()
-  //   .replace(/&/g, "and")
-  //   .replace(/\s+/g, "-");
+  const slugify = (text: string) =>
+    text.toLowerCase().replace(/&/g, "and").replace(/\s+/g, "-");
 
   return (
     <footer
       id="foot"
-      className={`relative bottom-0 flex flex-col bg-black text-[#dadada] mt-2 w-full ${className}`}
+      className={`bg-[#000000] text-[#EEDDC7] mt-6 w-full ${className ?? ""}`}
     >
-      <section id="footercontent" className="flex justify-around ">
-        <div className="w-[23%] flex flex-col pt-7">
-          <div className="text-4xl font-bold">Company</div>
-          <div className="w-full flex flex-col pt-7 text-left h-[50vh]">
-            {Company.map((items, index) => {
-              return (
-                <div key={index} className={underline}>
-                  <Link href={`#`}>
-                    {items}
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="w-[23%] flex flex-col pt-7">
-          <div className="text-4xl font-bold">Shop</div>
-          <div className="w-full flex flex-col pt-7 text-left h-[50vh]">
-            {Category.map((items, index) => {
-              return (
-                <div key={index} className={underline}>
-                  <Link href={`#`}>{items}</Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="w-[23%] flex flex-col  pt-7">
-          <div className="text-4xl font-bold">Customer Care</div>
-          <div className="w-full flex flex-col pt-7 text-left h-[50vh]">
-            <div className={underline}>
-              <Link href={"/orders"}>Orders</Link>
+      {/* MAIN CONTENT */}
+      <section
+        id="footercontent"
+        className="max-w-7xl md:text-start text-center mx-auto px-6 py-12 md:flex justify-evenly gap-10"
+      >
+        {/* SHOP */}
+        <div className="flex flex-col gap-6 md:w-[33%]">
+          <h3 className="text-xl md:text-2xl font-semibold">Shop</h3>
+          {Category.map((item, index) => (
+            <div key={index} className={underline}>
+              <Link href={`/${slugify(item)}`}>{item}</Link>
             </div>
-            {Customer.map((items, index) => {
-              return (
-                <div key={index} className={underline}>
-                  <Link href={`#`}>{items}</Link>
-                </div>
-                
-              );
-            })}
-          </div>
+          ))}
         </div>
-        <div className="w-[23%] flex flex-col pt-7">
-          <div className="text-4xl font-bold">Contact Us</div>
-          <div className="w-full flex flex-col pt-7 gap-5 text-left h-[50vh]">
-            <div className="">
-              <Link href={Address} target="_blank">
-                Address
-              </Link>{" "}
-              : GF 43, Augusta Point, Golf Course Rd, Parsvnath Exotica, DLF
-              Phase 5, Sector 53, Gurugram, Haryana 122011
+
+        {/* CUSTOMER CARE */}
+        <div className="flex flex-col gap-6 md:w-[33%]">
+          <h3 className="text-xl md:text-2xl font-semibold">Customer Care</h3>
+          <div className={underline}>
+            <Link href="/orders">Orders & Track</Link>
+          </div>
+          {Customer.map((item, index) => (
+            <div key={index} className={underline}>
+              <Link href={`/policies/${slugify(item)}`}>{item}</Link>
             </div>
-            <div>Phone: 080539 43352</div>
-            <div className="text-xl">
-              Social Media:
-              <div className="flex gap-4 items-center">
-                <div className="cursor-pointer text-gray-400 hover:text-[#1877F2] border p-2  rounded-xl duration-300">
-                  <a href="https://facebook.com" target="_blank">
-                    <FaFacebookF size={23} />
-                  </a>
-                </div>
-                <div className="cursor-pointer text-gray-400 hover:text-[#d10a5d] border p-2  rounded-xl duration-300">
-                  <a href="https://instagram.com" target="_blank">
-                    <FaInstagram size={23} />
-                  </a>
-                </div>
-              </div>
-            </div>
+          ))}
+        </div>
+
+        {/* CONTACT */}
+        <div className="flex flex-col gap-6 md:w-[33%]">
+          <h3 className="text-xl md:text-2xl font-semibold">Contact Us</h3>
+
+          <div className="text-sm leading-relaxed">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3508.188857139117!2d77.09748757545684!3d28.44372279262982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19053c00df5f%3A0x190bb5aedb9410d1!2sVastradrobe%20India%20Private%20Limited!5e0!3m2!1sen!2sin!4v1770965132563!5m2!1sen!2sin"
+              className="border-0 mx-auto lg:w-85 md:w-60 md:h-55 w-68 h-35 mb-2 rounded-xl"
+              loading="lazy"
+            ></iframe>
+            <Link
+              href={Address}
+              target="_blank"
+              className="underline hover:text-white"
+            >
+              Address
+            </Link>
+            <p className="mt-2">
+              GF 43, Augusta Point, Golf Course Rd, Parsvnath Exotica, DLF Phase
+              5, Sector 53, Gurugram, Haryana 122011
+            </p>
+          </div>
+
+          <a href="tel:+919910953926" className="text-sm ">
+            Phone :{" "}
+            <span className="hover-underline-center">+91 9910953926</span>{" "}
+          </a>
+
+          <a
+            href="mailto:support@vastradrobe.com?subject=Help&body=I need assistance"
+            className="text-sm"
+          >
+            Email :{" "}
+            <span className="hover-underline-center">
+              support@vastradrobe.com
+            </span>
+          </a>
+
+          <div className="flex gap-4 items-center">
+            <a
+              href="https://www.facebook.com/people/Vastradrobe/61579704217653/"
+              target="_blank"
+              className="text-gray-400 hover:text-[#1877F2] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
+            >
+              <FaFacebookF size={20} />
+            </a>
+            <a
+              href="https://www.instagram.com/vastradrobe/"
+              target="_blank"
+              className="text-gray-400 hover:text-[#d10a5d] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
+            >
+              <FaInstagram size={20} />
+            </a>
+            <a
+              href="https://www.amazon.in/stores/VASTRADROBE/page/30369E04-11CD-44B1-80D6-FCF332FBA59E?lp_asin=B0FRZ85JJF&ref_=ast_bln&store_ref=bl_ast_dp_brandLogo_sto"
+              target="_blank"
+              className="text-gray-400 hover:text-[#FF6200] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
+            >
+              <FaAmazon size={20} />
+            </a>
+            <a
+              href="https://chat.whatsapp.com/EvtOGkMPxx59bJZuQWZc4b"
+              target="_blank"
+              className="text-gray-400 hover:text-[#50b300] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
+            >
+              <FaWhatsapp size={20} />
+            </a>
+            <a
+              href="https://www.youtube.com/@vastradrobe"
+              target="_blank"
+              className="text-gray-400 hover:text-[#ca0000] hover:translate-y-3 border p-2 rounded-lg duration-300 transition-all"
+            >
+              <FaYoutube size={20} />
+            </a>
           </div>
         </div>
       </section>
-      <section className="w-full text-center ">
-        © 2025 VastraDrobe. All rights reserved. Crafted with ❤️ for everyday
+
+      {/* BOTTOM BAR */}
+      <section className="border-t border-white/10 py-4 text-center text-sm text-gray-400">
+        © 2026 VastraDrobe. All rights reserved. Crafted with love for everyday
         fashion.
       </section>
     </footer>

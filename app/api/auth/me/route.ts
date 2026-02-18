@@ -3,14 +3,11 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/db";
 import User from "@/model/User";
+import { cookies } from "next/headers";
 
 export async function GET(req: Request) {
   try {
-    const token = req.headers
-      .get("cookie")
-      ?.split("; ")
-      .find((c) => c.startsWith("token="))
-      ?.split("=")[1];
+    const token = (await cookies()).get("token")?.value;
 
     if (!token) {
       return NextResponse.json({ user: null }, { status: 401 });
@@ -21,11 +18,11 @@ export async function GET(req: Request) {
     await connectDB();
 
     const user = await User.findById(decoded.id).select(
-      "email username deliveryAddress"
+      "email username deliveryAddress avatar"
     );
 
     if (!user) {
-      return NextResponse.json({ user: null }, { status: 401 });
+      throw new Error("User not found");
     }
 
     return NextResponse.json(
@@ -35,11 +32,26 @@ export async function GET(req: Request) {
           email: user.email,
           username: user.username,
           deliveryAddress: user.deliveryAddress || null,
+          avatar: user.avatar,
         },
       },
       { status: 200 }
     );
-  } catch (error) {
-    return NextResponse.json({ user: null }, { status: 401 });
+  } catch (err) {
+    // 🔥 delete expired / invalid JWT
+    const response = NextResponse.json(
+      { user: null },
+      { status: 401 }
+    );
+
+    response.cookies.set({
+      name: "token",
+      value: "",
+      path: "/",
+      httpOnly: true,
+      maxAge: 0,
+    });
+
+    return response;
   }
 }

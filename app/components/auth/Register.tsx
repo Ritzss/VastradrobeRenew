@@ -3,6 +3,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
 const Register = () => {
@@ -15,10 +16,25 @@ const Register = () => {
     setRegisterForm((prev: any) => ({ ...prev, [name]: value }));
   };
 
+   const router = useRouter();
+    const searchParams = useSearchParams();
+  
+    const redirectTo = searchParams.get("redirect") || "/";
+    const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
+  
+    const onSubmit = async (e: React.FormEvent) => {
+      const success = await handleRegister(e);
+      
+      if (success){
+      router.replace(safeRedirect);
+    }
+    };
+
+
  
   return (
-    <section className=" w-[65%] m-2 h-[70vh] flex">
-      <aside className="w-[40%] bg-[#ffffff] text-[#ffffff] shadow-[inset_0_0_20px_#cd0000] border-r-4 h-full flex-col flex justify-between">
+    <section className="md:w-[80%] overflow-hidden rounded-xl border m-2 md:h-[70vh] md:flex">
+      <aside className="md:w-[40%] h-150 md:h-auto bg-[#ffffff] text-[#ffffff] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 flex-col flex justify-between">
         <header className="flex-col flex gap-5">
           <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center hover:scale-115 hover:text-shadow-[0_0_10px] font-bold text-shadow-[0_0_20px] duration-500 transition-all">
             Register
@@ -40,9 +56,9 @@ const Register = () => {
           />
         </div>
       </aside>
-      <aside className="w-[60%] font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-center items-center ">
+      <aside className="md:w-[60%] h-150 md:h-auto font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-center items-center ">
         <form
-        onSubmit={handleRegister}
+        onSubmit={onSubmit}
           className="flex flex-col justify-evenly w-full h-full p-4 "
         >
           <label className="flex justify-between" htmlFor="LoginID">
@@ -98,12 +114,12 @@ const Register = () => {
             </div>
           </label>
           <div className="flex justify-evenly">
-            <button type="submit" className="text-2xl hover:scale-110 hover:-translate-y-1 hover:text-[#ffffff] duration-500 transition-all hover:text-shadow-[0px_16px_5px_rgba(0,0,0,0.34)]">
+            <button type="submit" className="text-2xl hover:text-[#ffffff] duration-500 transition-all hover:text-shadow-[0px_16px_5px_rgba(0,0,0,0.34)]">
               Register
             </button>
           </div>
         </form>
-        <footer className="h-[40%] flex justify-between w-full p-1 gap-1">
+        <footer className="h-[40%] flex md:flex-row flex-col md:justify-between justify-center items-center w-full p-1 gap-1">
           <div>Havn&apos;t we met before? <Link href={"login"} className="hover:underline hover:text-[#0092d6] duration-500 transition-all">Login</Link></div>
           <div className=""><Link href={"reset_password"} className="hover:underline hover:text-[#0092d6] duration-500 transition-all">Forgot Password</Link>?Don&apos;t restart</div>
         </footer>

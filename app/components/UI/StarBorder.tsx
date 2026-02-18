@@ -16,7 +16,7 @@ const StarBorder = <T extends React.ElementType = 'div'>({
   className = '',
   color = 'white',
   speed = '6s',
-  thickness = 3,
+  thickness = 1,
   children,
   ...rest
 }: StarBorderProps<T>) => {

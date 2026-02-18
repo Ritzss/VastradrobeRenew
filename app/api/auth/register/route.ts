@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/db";
 import User from "@/model/User";
-import { toast } from "sonner";
 
 export async function POST(req: Request) {
   try {
@@ -26,12 +25,19 @@ export async function POST(req: Request) {
     });
 
     if (existingUser) {
-      toast.error("user already have")
       return NextResponse.json(
         { message: "Username or email already exists" },
         { status: 409 }
       );
     }
+
+    if (!password || password.length < 8) {
+          return NextResponse.json(
+            { error: "Password must be at least 8 characters" },
+            { status: 400 }
+          );
+        }
+    
 
     // 4️⃣ Hash password
     const hashedPassword = await bcrypt.hash(password, 10);

@@ -1,24 +1,32 @@
 "use client";
 
-import React, { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { AppProvider } from "./context/contextProvider";
 import Navbar from "./components/navbar/navbar";
 import { Toaster } from "sonner";
+import Footer from "./components/Global/Footer";
 
 const ClientLayout = ({ children }: { children: ReactNode }) => {
-
   useEffect(() => {
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
   }, []);
+
   return (
     <AppProvider>
-      <Toaster position="top-right" richColors/>
-      <div className="sticky top-0 z-99">
+      <Toaster position="top-right" richColors />
+
+      {/* Sticky navbar must be OUTSIDE scroll containers */}
+      <header className="fixed top-0 left-0 w-full z-50 transition-all duration-1000">
         <Navbar />
-      </div>
-      <div className="">{children}</div>
+      </header>
+
+      <main className="min-h-[85vh] mt-16">
+        {children}
+      </main>
+
+      <Footer />
     </AppProvider>
   );
 };

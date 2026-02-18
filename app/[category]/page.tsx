@@ -1,55 +1,46 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { notFound } from "next/navigation";
 import ProductClient from "./ProductClient";
+import { toast } from "sonner";
 
 type PageProps = {
-  params: Promise<{
-    category: string;
-  }>;
+  params: Promise<{ category: string }>;
 };
 
-const allowed = [
-  "men",
-  "women",
-  "boys",
-  "girls",
-  "western",
-  "traditionals",
-  "offers",
-  "electronics",
-];
+const CATEGORY_MAP: Record<string, string[]> = {
+  men: ["men"],
+  women: ["women"],
+  kids: ["boys", "girls"],
+  ethnic: ["ethnic"],
+};
 
 export default async function Page({ params }: PageProps) {
   const { category } = await params;
-
   const normalizedCategory = category.toLowerCase().replace(/\/$/, "");
 
-  if (!allowed.includes(normalizedCategory)) {
+  if (!CATEGORY_MAP[normalizedCategory]) {
     notFound();
   }
 
- const res = await fetch(
-  `${process.env.IMS_BASE_URL}/api/ims/public/products`,
-  { cache: "no-store" }
-);
-
-const data = await res.json();
+  const res = await fetch(
+    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&limit=20`,
+    { next: { revalidate: 120 } }
+  );
 
   if (!res.ok) {
-    return (
-      <div style={{ color: "black", padding: 40 }}>
-        <h1>Fetch failed</h1>
-        <p>Status: {res.status}</p>
-      </div>
-    );
+    return toast.error("Fetch Failed");;
   }
 
-  // ✅ THIS IS THE FIX
+  const data = await res.json();
+  const categoryFilters = CATEGORY_MAP[normalizedCategory];
 
-const products = data.products;
+  const products = data.products.filter((p: any) =>
+    categoryFilters.includes(p.category)
+  );
+
   return (
     <ProductClient
       products={products}
-      category={normalizedCategory}
     />
   );
 }

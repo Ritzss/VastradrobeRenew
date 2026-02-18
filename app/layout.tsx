@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { geistMono, geistSans } from "./font";
 import ClientLayout from "./ClientLayout";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "VastraDrobe",
@@ -23,7 +24,11 @@ export default function RootLayout({
       ].join(" ")}
     >
       <body cz-shortcut-listen="true" className="bg-[#f9fafb]">
-        <ClientLayout>{children}</ClientLayout>
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="afterInteractive"
+        />
+        <ClientLayout >{children}</ClientLayout>
       </body>
     </html>
   );

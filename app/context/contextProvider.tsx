@@ -2,9 +2,9 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { AppContext, LoginData, RegisterData } from "./AppContext";
+import { AppContext, CartItem, LoginData, PriceRange, RegisterData } from "./AppContext";
 import { IMSProduct } from "@/Types/Product";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { AuthUser } from "@/Types/AuthUser";
 import { toast } from "sonner";
 
@@ -15,6 +15,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectGender, setSelectGender] = useState("");
   const [subCategory, setSubCategory] = useState("");
+  const [priceRange, setPriceRange] = useState<PriceRange>({
+    min: "",
+    max: "",
+  });
+  const [sizes, setSizes] = useState<string[]>([]);
 
   /* 📦 Products */
   const [products, setProducts] = useState<IMSProduct[]>([]);
@@ -22,12 +27,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   /* 🔐 Auth */
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/";
-  const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
 
   /* 🛒 Cart */
-  const [cartItems, setCartItems] = useState<Map<number, number>>(new Map());
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  /*Product Details */
+  const [showVariants, setShowVariants] = useState<boolean>(true);
+  const [showProductDeatils, setShowProductDeatils] = useState<boolean>(false);
 
   /* ❤️ Favorites (DB-backed) */
   const [favCollections, setFavCollections] = useState<
@@ -36,72 +42,80 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   /* ---------------- CART ---------------- */
 
-  const clearCart = () => setCartItems(new Map());
+  const clearCart = () => setCartItems([]);
 
-  const addToCart = (id: number) => {
+  const addToCart = (productId: number, size: string) => {
     setCartItems((prev) => {
-      const next = new Map(prev);
-      next.set(id, (next.get(id) || 0) + 1);
-      return next;
+      const existing = prev.find(
+        (i) => i.productId === productId && i.size === size,
+      );
+
+      if (existing) {
+        return prev.map((i) =>
+          i.productId === productId && i.size === size
+            ? { ...i, qty: i.qty + 1 }
+            : i,
+        );
+      }
+
+      return [...prev, { productId, size, qty: 1 }];
     });
-    toast.success(`item is added to cart`)
+
+    toast.success(`Item Added to cart`);
   };
 
-  const removeFromCart = (id: number) => {
-    setCartItems((prev) => {
-      const next = new Map(prev);
-      next.delete(id);
-      return next;
-    });
-    toast.error(`item is removed to cart`)
+  const removeFromCart = (productId: number, size: string) => {
+    setCartItems((prev) =>
+      prev.filter((i) => !(i.productId === productId && i.size === size)),
+    );
+    toast.error(`Item Removed from cart`);
   };
 
-  const incrementQty = (id: number) => {
-    setCartItems((prev) => {
-      const next = new Map(prev);
-      next.set(id, (next.get(id) || 1) + 1);
-      return next;
-    });
+  const incrementQty = (productId: number, size: string) => {
+    setCartItems((prev) =>
+      prev.map((i) =>
+        i.productId === productId && i.size === size
+          ? { ...i, qty: i.qty + 1 }
+          : i,
+      ),
+    );
   };
 
-  const decrementQty = (id: number) => {
-    setCartItems((prev) => {
-      const next = new Map(prev);
-      const current = next.get(id) || 1;
-      if (current > 1) next.set(id, current - 1);
-      return next;
-    });
+  const decrementQty = (productId: number, size: string) => {
+    setCartItems((prev) =>
+      prev
+        .map((i) =>
+          i.productId === productId && i.size === size
+            ? { ...i, qty: i.qty - 1 }
+            : i,
+        )
+        .filter((i) => i.qty > 0),
+    );
   };
 
-  const cartCount = Array.from(cartItems.values()).reduce(
-    (sum, qty) => sum + qty,
-    0
-  );
+  const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
 
   /* ---------------- FAVORITES (API) ---------------- */
 
   const loadFavorites = async () => {
-  const res = await fetch("/api/favorites", {
-    credentials: "include",
-  });
+    const res = await fetch("/api/favorites", {
+      credentials: "include",
+    });
 
-  const parsed: Record<string, Set<number>> = {
-    Favorites: new Set(), // 👈 DEFAULT
-  };
+    const parsed: Record<string, Set<number>> = {
+      Favorites: new Set(), // 👈 DEFAULT
+    };
 
-  if (res.ok) {
-    const data = await res.json();
+    if (res.ok) {
+      const data = await res.json();
 
-    Object.entries(data.favorites || {}).forEach(
-      ([collection, ids]: any) => {
+      Object.entries(data.favorites || {}).forEach(([collection, ids]: any) => {
         parsed[collection] = new Set(ids);
-      }
-    );
-  }
+      });
+    }
 
-  setFavCollections(parsed);
-};
-
+    setFavCollections(parsed);
+  };
 
   const createCollection = async (collection: string) => {
     // no API needed yet, collection auto-created on add
@@ -109,7 +123,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       ...prev,
       [collection]: new Set(),
     }));
-    toast.success(`New Collection ${collection} Cretated`)
+    toast.success(`New Collection ${collection} Cretated`);
   };
 
   const addToCollection = async (collection: string, id: number) => {
@@ -118,7 +132,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ collection, productId: id }),
     });
-
+    await loadFavorites();
     setFavCollections((prev) => {
       const next = { ...prev };
       next[collection] = new Set(next[collection] || []).add(id);
@@ -132,7 +146,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ collection, productId: id }),
     });
-
+    await loadFavorites();
     setFavCollections((prev) => {
       const next = { ...prev };
       const set = new Set(next[collection]);
@@ -168,33 +182,43 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
- const handleRegister = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleRegister = async (e: React.FormEvent): Promise<boolean> => {
+    e.preventDefault();
 
-  const res = await fetch("/api/auth/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(registerForm),
-  });
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registerForm),
+      });
 
-  if (!res.ok) {
-    const data = await res.json();
-    toast.error(data.message || "Registration failed");
-    return;
-  }
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch {
+        // backend failed before JSON
+      }
 
-  setRegisterForm({ username: "", email: "", password: "" });
-  toast.success("Account created");
+      if (!res.ok) {
+        toast.error(data?.message || "Registration failed");
+        return false;
+      }
 
-  router.replace("/");
+      toast.success("Account created");
 
-  setTimeout(() => {
-    loadUser();
-  }, 0);
-};
+      setRegisterForm({ username: "", email: "", password: "" });
 
+      // hydrate auth state FIRST
+      await loadUser();
 
-  const handleLogin = async (e: React.FormEvent) => {
+      return true;
+    } catch {
+      toast.error("Server error. Please try again.");
+      return false;
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent): Promise<boolean> => {
     e.preventDefault();
 
     try {
@@ -204,45 +228,110 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         body: JSON.stringify(loginForm),
       });
 
-      // ⬇️ THIS is the critical part
       let data: any = null;
       try {
         data = await res.json();
       } catch {
-        // backend crashed before sending JSON
+        // backend died before JSON, fine
       }
 
       if (!res.ok) {
         toast.error(data?.message || "Login failed");
-        return;
+        return false;
       }
 
       toast.success("Logged in successfully");
 
-      router.replace(safeRedirect);
+      // ensure auth state updates BEFORE redirect
+      await loadUser();
 
-      // hydrate user AFTER navigation
-      setTimeout(() => {
-        loadUser();
-      }, 0);
+      return true;
     } catch {
       toast.error("Server error. Please try again.");
+      return false;
     }
   };
-
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     setUser(null);
     setFavCollections({});
-     router.replace("/");
+    router.replace("/");
   };
+  /**-------------------Product Load---------------- */
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=1&limit=20`,
+        );
+        const data = await res.json();
+        setProducts(data.products); // only if you have local state
+      } catch (err) {
+        toast.error(`Failed to load products ${err}`);
+      }
+    };
+    loadProducts();
+  }, []);
 
   /* ---------------- EFFECTS ---------------- */
 
   useEffect(() => {
     loadUser().finally(() => setAuthLoading(false));
   }, []);
+
+  /* ---------------- CART HYDRATION ---------------- */
+  useEffect(() => {
+    const hydrateCart = async () => {
+      // 🔐 Logged-in user → load from DB
+      if (user) {
+        try {
+          const res = await fetch("/api/cart", {
+            credentials: "include",
+          });
+
+          if (!res.ok) return;
+
+          const data = await res.json();
+
+          // ✅ cart is ARRAY
+          setCartItems(Array.isArray(data.cart) ? data.cart : []);
+        } catch (err) {
+          console.error("Failed to load cart from DB", err);
+        }
+      }
+
+      // 👤 Guest → load from localStorage
+      else {
+        const stored = localStorage.getItem("vastradrobe_cart");
+        if (!stored) return;
+
+        try {
+          const parsed = JSON.parse(stored);
+          setCartItems(Array.isArray(parsed) ? parsed : []);
+        } catch {
+          localStorage.removeItem("vastradrobe_cart");
+        }
+      }
+    };
+
+    hydrateCart();
+  }, [user]);
+
+  /* ---------------- CART PERSISTENCE ---------------- */
+  useEffect(() => {
+    if (!user) return;
+
+    fetch("/api/cart/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${document.cookie}`, // or however you pass token
+      },
+      body: JSON.stringify({ cart: cartItems }),
+    });
+  }, [cartItems, user]);
 
   useEffect(() => {
     if (!user) return;
@@ -260,6 +349,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setSelectGender,
         subCategory,
         setSubCategory,
+        priceRange,
+        setPriceRange,
+        sizes,
+        setSizes,
 
         cartItems,
         cartCount,
@@ -276,6 +369,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
         products,
         setProducts,
+        showVariants,
+        setShowVariants,
+        showProductDeatils,
+        setShowProductDeatils,
 
         loginForm,
         setLoginForm,

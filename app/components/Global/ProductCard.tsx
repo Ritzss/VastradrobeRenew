@@ -1,24 +1,32 @@
 "use client";
 import Image from "next/image";
-import StarBorder from "../UI/StarBorder";
-import { CiHeart } from "react-icons/ci";
-import { FaCartArrowDown, FaHeart } from "react-icons/fa6";
-import { IoExitOutline } from "react-icons/io5";
+// import StarBorder from "../UI/StarBorder";
+import { FaCartArrowDown } from "react-icons/fa6";
 import { useAppContext } from "@/hooks/useAppContext";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
+import { IMSProduct } from "@/Types/Product";
 
 type Props = {
-  Pid: number;
-  title: string;
-  src: string;
-  description: string;
-  price: number;
+  button?: boolean;
+  product: IMSProduct;
+  className?: string;
+  height?: string;
+  classNameInner?: string;
+  children?: ReactNode;
 };
 
-const ProductCard = ({ Pid, title, src, description, price }: Props) => {
+const ProductCard = ({
+  product,
+  className,
+  classNameInner,
+  height,
+  button = true,
+  children,
+}: Props) => {
+  const { name, images, price, mrp, brand } = product;
+  const productId = Number(product.productId);
   const {
     cartItems,
     addToCart,
@@ -29,123 +37,171 @@ const ProductCard = ({ Pid, title, src, description, price }: Props) => {
   } = useAppContext();
   const [showCollections, setShowCollections] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
-    null
+    null,
   );
-  const router = useRouter();
+  const [revealed, setRevealed] = useState(false);
+
+  const hasImage = Array.isArray(images) && images.length > 0;
+
+  const imageSrc = hasImage
+    ? product.images[0]
+    : "/Assets/Images/Newplaceholder.png";
 
   // ✅ derive cart state from global context
-  const isInCart = cartItems.has(Pid);
+  const defaultSize = product.sizes?.[0] || "FREE";
+
+  const isInCart = cartItems.some(
+    (item) => item.productId === productId && item.size === defaultSize,
+  );
 
   const handleCartToggle = () => {
-    if (isInCart) {
-      removeFromCart(Pid);
-    } else {
-      addToCart(Pid);
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    isInCart
+      ? removeFromCart(productId, defaultSize)
+      : addToCart(productId, defaultSize);
   };
 
-  const handleBuyNow = () => {
-    if (!cartItems.has(Pid)) {
-      addToCart(Pid); // adds with qty = 1
-    }
+  useEffect(() => {
+    if (!revealed) return;
 
-    router.push(`/checkout?buyNow=${Pid}`);
-  };
+    const close = () => setRevealed(false);
+    document.addEventListener("touchstart", close);
+
+    return () => document.removeEventListener("touchstart", close);
+  }, [revealed]);
   return (
-    <StarBorder
-      color="#ffffff"
-      speed="5s"
-      className="cardBlock flex flex-col justify-between rounded-2xl my-2 w-[24%]"
+    <div
+      className={`cardBlock ${height ? height : "h-[78vh]"} overflow-hidden flex flex-col justify-between rounded-2xl my-2 ${className} w-[24%] ${revealed ? "is-open" : ""}`}
+      onClick={() => {
+        if (window.innerWidth < 768) {
+          setRevealed((p) => !p);
+        }
+      }}
     >
-      <div className="flex flex-col justify-between text-left h-full">
-        <span
-          className="cursor-pointer self-end text-3xl"
-          onClick={() => {
-            if (selectedCollection) {
-              // ❤️ already selected → remove
-              removeFromCollection(selectedCollection, Pid);
-              setSelectedCollection(null);
-              setShowCollections(false);
-            } else {
-              // 🤍 not selected → open dropdown
-              setShowCollections((prev) => !prev);
-            }
-          }}
+      <Link
+        target="_blank"
+        href={`/product/${Number(productId)}`}
+        onClick={(e) => {
+          if (window.innerWidth < 768) {
+            e.preventDefault();
+          }
+        }}
+        onDoubleClick={() => {}}
+        className={`group rounded-sm flex flex-col justify-start w-full ${classNameInner ? "p-2.5" : ""} text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
+      >
+        <div
+          className={`relative ${classNameInner} imageBlock border mx-auto overflow-hidden shrink-0 w-[95%]`}
         >
-          {selectedCollection ? (
-            <FaHeart className="text-[#ff0000]" />
-          ) : (
-            <CiHeart />
-          )}
-        </span>
+          <Image
+            src={imageSrc}
+            fill
+            sizes="images"
+            alt={name}
+            priority
+            className="group-hover:scale-105 duration-500 transition-all"
+          ></Image>
+        </div>
+      </Link>
 
-        {/* 📂 COLLECTION DROPDOWN */}
-        {showCollections && !selectedCollection && (
-          <div className="absolute right-0 mt-2 bg-white border rounded-lg shadow-lg z-50">
-            {Object.keys(favCollections).map((collection) => (
-              <div
-                key={collection}
-                onClick={(e) => {
-                  e.stopPropagation(); // 🚫 prevent heart click
-                  addToCollection(collection, Pid);
-                  setSelectedCollection(collection);
-                  setShowCollections(false);
-                }}
-                className="px-4 py-2 text-sm hover:bg-gray-100 hover:rounded-xl cursor-pointer whitespace-nowrap"
-              >
-                {collection}
+      {/* 📂 COLLECTION DROPDOWN */}
+      {showCollections && !selectedCollection && (
+        <div className="absolute bottom-16 flex left-1 mt-2 bg-white text-[#6a0f1f] border rounded-lg shadow-lg z-50">
+          {Object.keys(favCollections).map((collection) => (
+            <div
+              key={collection}
+              onClick={(e) => {
+                e.stopPropagation(); // 🚫 prevent heart click
+                addToCollection(collection, productId);
+                setSelectedCollection(collection);
+                setShowCollections(false);
+              }}
+              className="px-4 py-2 text-sm hover:bg-gray-100 hover:rounded-xl cursor-pointer whitespace-nowrap"
+            >
+              {collection}
+            </div>
+          ))}
+        </div>
+      )}
+      <div
+        className={`${!button ? "p-0" : "p-[1.5%]"} detailsBox transition-all duration-700`}
+      >
+        {button && (
+          <Link
+            target="_blank"
+            href={`/product/${Number(productId)}`}
+            className=""
+          >
+            <div className="flex-col duration-300 bg-transparent transition-all flex gap-2 flex-1">
+              <div className="text-lg font-semibold line-clamp-1 ">{brand}</div>
+              <div className="text-2xl font-bold line-clamp-1 ">{name}</div>
+              {/* <div>
+              <p className="line-clamp-1 hover:text-[#cd0000]">{description}</p>
+            </div> */}
+              <div className="text-xl">&#8377;{Number(price)}</div>
+              <div className="text-sm">
+                M.R.P:
+                <span className="line-through font-extralight text-[#7b7777]">
+                  &#8377;{Number(mrp)}
+                </span>
+                <span className="text-[#008000] relative left-0 bottom-3 p-[0.35rem] rounded-md text-lg">
+                  {Math.floor((price * 100) / mrp)}% OFF
+                </span>
               </div>
-            ))}
+            </div>
+          </Link>
+        )}
+        {children}
+        {button && (
+          <div className="bg-transparent flex gap-1 flex-row-reverse">
+            <button
+              type="button"
+              onClick={handleCartToggle}
+              className="bg-black cursor-pointer gap-2 p-1 text-white w-[61%] mx-auto rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
+            >
+              {isInCart ? (
+                <>
+                  Remove Item
+                  <MdOutlineRemoveShoppingCart className="text-2xl " />
+                </>
+              ) : (
+                <>
+                  Add to Cart
+                  <FaCartArrowDown className="text-2xl" />
+                </>
+              )}
+            </button>
+            <span
+              className="cursor-pointer text-center w-[39%] mx-auto hover:translate-y-1 hover:rounded-xl duration-500 transition-all bg-[#EEDDC7] p-1 rounded-lg"
+              onClick={() => {
+                const collectionNames = Object.keys(favCollections);
+
+                if (selectedCollection) {
+                  removeFromCollection(selectedCollection, productId);
+                  setSelectedCollection(null);
+                  setShowCollections(false);
+                  return;
+                }
+
+                // 🔥 If only one collection → auto add
+                if (collectionNames.length === 1) {
+                  const defaultCollection = collectionNames[0];
+                  addToCollection(defaultCollection, productId);
+                  setSelectedCollection(defaultCollection);
+                  return;
+                }
+
+                // 👇 If multiple collections → show dropdown
+                setShowCollections((prev) => !prev);
+              }}
+            >
+              {selectedCollection
+                ? "Remove from Favorites"
+                : "Add to Favorites"}
+            </span>
           </div>
         )}
-        <Link target="_blank" href={`/product/${Pid}`}>
-          <div>
-            <Image
-              src={src}
-              width={150}
-              height={2}
-              alt="image"
-              className="h-55 object-contain hover:scale-110 duration-300 transition-all mx-auto"
-            ></Image>
-          </div>
-          <div className="flex-col hover:-translate-y-4 duration-300 transition-all flex gap-5 flex-1">
-            <div className="text-2xl font-bold line-clamp-1">{title}</div>
-            <div>
-              <p className="line-clamp-1">{description}</p>
-            </div>
-            <div className="font-bold text-lg ">
-              &#8377;{Number(price)}
-            </div>
-          </div>
-        </Link>
-        <div className="flex  gap-2 justify-between">
-          <button
-            type="button"
-            onClick={handleCartToggle}
-            className="bg-black gap-2 text-white w-[75%] rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
-          >
-            {isInCart ? (
-              <>
-                Remove Item
-                <MdOutlineRemoveShoppingCart className="text-2xl " />
-              </>
-            ) : (
-              <>
-                Add to Cart
-                <FaCartArrowDown className="text-2xl" />
-              </>
-            )}
-          </button>
-
-          <button
-            onClick={handleBuyNow}
-            className="p-2 rounded-lg hover:translate-y-1 hover:rounded-xl w-[50%] bg-[#cd0000] duration-500 transition-all text-white flex justify-center items-center gap-2 "
-          >
-            Buy Now <IoExitOutline className="text-2xl" />
-          </button>
-        </div>
       </div>
-    </StarBorder>
+    </div>
   );
 };
 

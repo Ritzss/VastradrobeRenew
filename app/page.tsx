@@ -1,444 +1,254 @@
-"use client";
-import Image from "next/image";
-import StarBorder from "./components/UI/StarBorder";
-import Footer from "./components/Global/Footer";
-import { IoIosArrowForward } from "react-icons/io";
+import Link from "next/link";
+// import BlogClient from "./blog/BlogsClient";
 import Slider from "./components/Global/Header";
-import CategoryBar from "./components/navbar/Categorybar";
+import ScrollReveal from "./components/Global/ScrollReveal";
+// import CategoryBar from "./components/navbar/Categorybar";
+import CategorySlider from "./components/Home/CategorySlider";
 
-const Home = () => {
+// import HomeVideos from "./components/Home/HomeVideos";
+import LatestArrivals from "./components/Home/LatestProduct";
+import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
+// import SocialProof from "./components/Home/SocialProof";
+import { IMSProduct } from "./Types/Product";
+import dynamic from "next/dynamic";
 
+const BlogClient = dynamic(() => import("./blog/BlogsClient"));
+const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"));
+const SocialProof = dynamic(() => import("./components/Home/SocialProof"));
+
+const CATEGORY_MAP: Record<string, string[]> = {
+  men: ["men"],
+  women: ["women"],
+  kids: ["boys", "girls"],
+  ethnic: ["ethnic"],
+};
+
+// export const dynamic = "force-dynamic";
+
+async function getProductsByMainCategory(
+  mainCategory: string,
+  limit = 8
+): Promise<IMSProduct[]> {
+  try {
+    const categories = CATEGORY_MAP[mainCategory.toLowerCase()] || [];
+
+    if (categories.length === 0) return [];
+
+    const responses = await Promise.all(
+      categories.map((cat) =>
+        fetch(
+          `${process.env.IMS_BASE_URL}/api/ims/public/products?category=${cat}&limit=${limit}`,
+          { next: { revalidate: 120 } }
+        )
+      )
+    );
+
+    const results = await Promise.all(
+      responses.map((res) =>
+        res.ok ? res.json() : Promise.resolve({ products: [] })
+      )
+    );
+
+    return results.flatMap((r) => r.products || []);
+  } catch (err) {
+    console.error(`${mainCategory.toUpperCase()} FETCH ERROR:`, err);
+    return [];
+  }
+}
+
+
+async function getLatestProducts(): Promise<IMSProduct[]> {
+  try {
+    const res = await fetch(
+      `${process.env.IMS_BASE_URL}/api/ims/public/products/latest`,
+      { next: { revalidate: 60 } },
+    );
+
+    if (!res.ok) return [];
+
+    const data = await res.json();
+    return data.products || [];
+  } catch (err) {
+    console.error("LATEST PRODUCTS FETCH ERROR:", err);
+    return [];
+  }
+}
+
+const Home = async () => {
+  const latestProducts = await getLatestProducts();
+
+const womenProducts = await getProductsByMainCategory("women");
+const kidsProducts = await getProductsByMainCategory("kids");
+const menProducts = await getProductsByMainCategory("men");
+const ethnicProducts = await getProductsByMainCategory("ethnic");
 
   return (
-    <section className="w-full m-auto rounded-2xl">
-      {/* <header id="slider" className=" my-2 h-[60vh] overflow-hidden">
-        <div className={`flex slide h-full`}>
-          <div className="relative  min-w-full h-full">
-            <Image
-              src={"/Assets/Images/slider2.png"}
-              fill
-              className=" object-cover"
-              alt=""
-            />
-          </div>
-          <div className="relative min-w-full h-full">
-            <Image
-              src={"/Assets/Images/slider3.png"}
-              fill
-              className=" object-cover"
-              alt=""
-            />
-          </div>
-          <div className="relative min-w-full h-full">
-            <Image
-              src={"/Assets/Images/slider4.png"}
-              fill
-              className=" object-cover"
-              alt=""
-            />
-          </div>
-        </div>
-      </header> */}
+    <section className="w-full bg-[#EEDDC7] text-black">
+      {/* HERO */}
       <Slider />
-      <CategoryBar className={"bg-[#ffffff] rounded-xl text-[#cd0000] my-2"} drop={false} Img={true}  />
-      <main
-        id="cards"
-        className="w-full flex flex-col justify-center flex-wrap h-[30%] m-auto"
-      >
-        <div className="div w-full flex justify-center flex-wrap gap-3">
-          <StarBorder
-            as="button"
-            color="#ffffff"
-            speed="5s"
-            className=" cardBlock w-[38%] "
-          >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Winter Collections
-              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard3.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Sweat-Shirts
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min 60-70% Off
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard3.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Caps & Gloves
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Flat 30% Off on Trending
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard3.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Jackets
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  🌟 New Arrivals 🌟
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/vastra7.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Sweater&apos;s
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Fresh Drops
-                </div>
-              </div>
-            </div>
-          </StarBorder>
-          <StarBorder
-            as="button"
-            color="#ffffff"
-            speed="5s"
-            className=" cardBlock w-[38%]"
-          >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Men Collections
-              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Pants
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min 40-50% Off
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Party
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  50% Discount on Top Brands
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Formals
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Top Deals
-                </div>
-              </div>
-              <div className="w-[43%] m-2 ">
-                <Image
-                  src={"/Assets/Images/CardPics/jcard2.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Shirts
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min. 70% Off
-                </div>
-              </div>
-            </div>
-          </StarBorder>
-          <StarBorder
-            as="button"
-            color="#ffffff"
-            speed="5s"
-            className=" cardBlock w-[20%] "
-          >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Traditonal
-              <div className="w-[10%] m-1 text-xl rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-col flex-wrap">
-              <div className="w-full">
-                <Image
-                  src={"/Assets/Images/CardPics/lcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Ethic Wear
-                </div>
-                <div className=" font-bold text-green-600 m-2 text-xl text-left">
-                  Flat 30% Off on Top Brands
-                </div>
-              </div>
-              <div className="w-full">
-                <Image
-                  src={"/Assets/Images/CardPics/vastra1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Festive Wear
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Best Deals
-                </div>
-              </div>
-            </div>
-          </StarBorder>
-          <StarBorder
-            as="button"
-            color="#ffffff"
-            speed="5s"
-            className=" cardBlock w-[20%] "
-          >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Offers
-              <div className="w-[10%] m-1 text-xl rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-col flex-wrap">
-              <div className="w-full">
-                <Image
-                  src={"/Assets/Images/top_offer/offer11.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Flat 50% Off
-                  <div className="text-red-500 font-medium">
-                    Limited Period Offer
-                  </div>
-                </div>
-              </div>
-              <div className="w-full">
-                <Image
-                  src={"/Assets/Images/top_offer/offer33.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Kids Sweat-Shirts
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min 40% Off
-                </div>
-              </div>
-            </div>
-          </StarBorder>
-          <StarBorder
-            as="button"
-            color="#ffffff"
-            speed="5s"
-            className=" cardBlock w-[38%] "
-          >
-            <div className="text-left flex justify-between text-2xl font-bold">
-              Women Collections
-              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/CardPics/lcard1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Jeans
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min. 70-80% Off
-                </div>
-              </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/top_offer/offer11.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Western
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Latest Arrivals
-                </div>
-              </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/top_offer/offer11.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Suits
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Special Offers
-                </div>
-              </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/CardPics/vastra1.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Saree
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Trending
-                </div>
-              </div>
-            </div>
-          </StarBorder>
-          <StarBorder
-            as="button"
-            color="#ffffff"
-            speed="5s"
-            className=" cardBlock w-[38%] "
-          >
-            <div className="text-left  flex justify-between text-2xl font-bold">
-              Children Collections
-              <div className=" w-[5%] text-xl m-1 rounded-full flex justify-center items-center bg-[#0084ff] text-white">
-                <IoIosArrowForward />
-              </div>
-            </div>
-            <div className="flex flex-wrap">
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/CardPics/lcard2.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Dresses
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Top Deals
-                </div>
-              </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/top_offer/offer33.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Shirts
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Fresh Arrivals
-                </div>
-              </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/top_offer/offer33.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-99999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Casuals
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Top Deals
-                </div>
-              </div>
-              <div className="w-[43%] m-2">
-                <Image
-                  src={"/Assets/Images/CardPics/vastra6.png"}
-                  width={300}
-                  height={400}
-                  alt="img"
-                  className="hover:scale-105 hover:z-9999 ease-in-out transition-all duration-400"
-                ></Image>
-                <div className="m-2 font-semibold text-[20px] text-left">
-                  Tops
-                </div>
-                <div className="m-2 font-bold text-green-600 text-xl text-left">
-                  Min. 60% Off
-                </div>
-              </div>
-            </div>
-          </StarBorder>
+
+      {/* CATEGORY */}
+      <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
+        <p className="uppercase tracking-[0.35em]  text-sm text-gray-500 mb-4">
+          Explore
+        </p>
+        <h2 className="text-4xl text-[#6a0f1f] font-semibold mb-12">
+          Shop by Category
+        </h2>
+        <CategorySlider />
+      </section>
+
+      {/* LATEST ARRIVALS */}
+      <ScrollReveal>
+        <section className="max-w-7xl mx-auto px-6 py-28 text-center">
+          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+            New This Season
+          </p>
+          <h2 className="text-5xl  text-[#6a0f1f] font-semibold mb-6">
+            Latest Arrivals
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto mb-16 text-lg">
+            Fresh silhouettes, breathable fabrics, and elevated everyday
+            essentials.
+          </p>
+
+          <LatestArrivals products={latestProducts} />
+        </section>
+      </ScrollReveal>
+
+      {/* WOMEN */}
+      <section className="bg-[#dfc9ac] py-28">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
+          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+            Women
+          </p>
+          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
+            Co-ords You&apos;ll Love
+          </h2>
         </div>
-      </main>
-      <Footer className="" />
+
+        <ScrollRevealProducts
+          products={womenProducts}
+          category="women"
+          title=""
+          color="#dfc9ac"
+        />
+      </section>
+
+      {/* Kids */}
+      <section className=" . py-28">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
+          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+            Kids
+          </p>
+          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
+            Playful & Comfortable
+          </h2>
+        </div>
+
+        <ScrollRevealProducts
+          products={kidsProducts}
+          category="kids"
+          title=""
+          color="#eeddc7"
+        />
+      </section>
+
+      {/* MEN */}
+      <section className=". bg-[#dfc9ac] py-28">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
+          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+            Men
+          </p>
+          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
+            Modern Everyday Wear
+          </h2>
+        </div>
+
+        <ScrollRevealProducts
+          products={menProducts}
+          category="men"
+          title=""
+          color="#dfc9ac"
+        />
+      </section>
+
+      {/* ETHNIC */}
+      <section className=". py-28">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
+          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+            Ethnic
+          </p>
+          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
+            Timeless Ethnic Wear
+          </h2>
+        </div>
+
+        <ScrollRevealProducts
+          products={ethnicProducts}
+          category="ethnic"
+          title=""
+          color="#eeddc7"
+        />
+      </section>
+
+      {/* VIDEO SECTION */}
+      <ScrollReveal>
+        <section className="py-28 bg-[#dfc9ac] text-center">
+          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+            Craftsmanship
+          </p>
+          <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">
+            See Vastra in Motion
+          </h2>
+
+          <HomeVideos />
+        </section>
+      </ScrollReveal>
+
+      {/* BLOG */}
+      <ScrollReveal>
+        <section className=" mx-auto md:px-6 py-32 text-center">
+          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+            Vastra Journal
+          </p>
+
+          <h2 className="text-5xl  text-[#6a0f1f] font-semibold mb-6">
+            Beyond Fabric. Into Thought.
+          </h2>
+
+          <p className="text-gray-600 max-w-2xl mx-auto text-lg mb-20">
+            Stories on sustainability, craftsmanship, and the materials shaping
+            modern wardrobes.
+          </p>
+
+          <BlogClient limit={3} showTitle={false} />
+
+          <div className="mt-20">
+            <Link
+              href="/blog"
+              className="inline-block border border-black px-10 py-4 rounded-full hover:bg-[#6a0f1f] hover:text-white transition-all duration-300 text-lg"
+            >
+              Explore All Articles →
+            </Link>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      {/* SOCIAL PROOF */}
+      <section className="bg-[#dfc9ac] py-28">
+        <ScrollReveal>
+          <div className="max-w-6xl mx-auto px-6 text-center">
+            <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+              Community
+            </p>
+            <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">
+              Loved by Thousands
+            </h2>
+            <SocialProof />
+          </div>
+        </ScrollReveal>
+      </section>
     </section>
   );
 };

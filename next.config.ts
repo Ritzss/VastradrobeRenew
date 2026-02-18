@@ -4,14 +4,15 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-     domains: ["res.cloudinary.com"],
-    remotePatterns: [
+      remotePatterns: [
       {
         protocol: "https",
-        hostname: "fakestoreapi.com",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
       },
     ],
   },
+ 
 };
 
 export default nextConfig;

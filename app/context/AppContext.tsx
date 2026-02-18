@@ -15,6 +15,18 @@ export type RegisterData = {
   password: string;
 };
 
+export type CartItem = {
+  productId: number;
+  size: string;
+  qty: number;
+};
+
+export type PriceRange = {
+  min: number | "";
+  max: number | "";
+};
+
+
 export interface AppContextType {
   /* 🔍 Search & Filter */
   selectGender: string;
@@ -23,15 +35,23 @@ export interface AppContextType {
   setSearchQuery: Dispatch<SetStateAction<string>>;
   subCategory: string;
   setSubCategory: Dispatch<SetStateAction<string>>;
+  sizes: string[];
+  setSizes: Dispatch<SetStateAction<string[]>>;
+  priceRange: PriceRange;
+  setPriceRange: Dispatch<SetStateAction<PriceRange>>;
+  showVariants: boolean;
+  setShowVariants: Dispatch<SetStateAction<boolean>>;
+  showProductDeatils: boolean;
+  setShowProductDeatils: Dispatch<SetStateAction<boolean>>;
 
   /* 🛒 Cart */
-  cartItems: Map<number, number>;
+  cartItems: CartItem[];
   cartCount: number;
   clearCart: () => void;
-  addToCart: (id: number) => void;
-  removeFromCart: (id: number) => void;
-  incrementQty: (id: number) => void;
-  decrementQty: (id: number) => void;
+  addToCart: (productId: number, size: string) => void;
+  removeFromCart: (productId: number, size: string) => void;
+  incrementQty: (productId: number, size: string) => void;
+  decrementQty: (productId: number, size: string) => void;
 
   /* ❤️ Favorites (DB-backed) */
   favCollections: Record<string, Set<number>>;
@@ -48,8 +68,8 @@ export interface AppContextType {
   setLoginForm: Dispatch<SetStateAction<LoginData>>;
   registerForm: RegisterData;
   setRegisterForm: Dispatch<SetStateAction<RegisterData>>;
-  handleRegister: (e: React.FormEvent) => void;
-  handleLogin: (e: React.FormEvent) => void;
+  handleRegister: (e: React.FormEvent) => Promise<boolean>;
+  handleLogin: (e: React.FormEvent) => Promise<boolean>;
   handleLogout: () => void;
   loadUser: () => Promise<void>;
   authLoading: boolean;

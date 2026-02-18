@@ -1,81 +1,98 @@
 "use client";
 
+import EmptyState from "@/components/Global/EmptyState";
 import ProductCard from "@/components/Global/ProductCard";
 import { useAppContext } from "@/hooks/useAppContext";
+import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
-import { useEffect } from "react";
 
-const ProductClient = ({
-  products,
-  category,
-}: {
-  products: IMSProduct[];
-  category: string;
-}) => {
-  const { searchQuery, selectGender, subCategory, setProducts } =
-    useAppContext();
+const ProductClient = ({ products }: { products: IMSProduct[] }) => {
+  const { searchQuery, subCategory, priceRange, sizes } = useAppContext();
 
-  useEffect(() => {
-    setProducts(products);
-  }, [products, setProducts]);
+  const normalizedSub = normalize(subCategory);
+  const normalizeSize = (size: string) =>
+  size.replace(/\s+/g, " ").trim().toLowerCase();
+  const normalizedSearch = searchQuery?.toLowerCase() || "";
+  const normalizedSelectedSizes = sizes.map(normalizeSize);
 
-  const normalizedCategory = category.trim().toLowerCase();
-  const normalizedGender = selectGender?.trim().toLowerCase();
-  const normalizedSub =
-    subCategory?.replace(/-/g, " ").trim().toLowerCase() || "";
-  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const filteredProducts = products.filter((p) => {
+    const subCategoryMatch =
+      !normalizedSub || normalize(p.subcategory) === normalizedSub;
 
- const filteredProducts = products.filter((p) => {
-  const productCategory =
-    p.category?.trim().toLowerCase() || "";
+    const searchMatch =
+      !normalizedSearch ||
+      p.name.toLowerCase().includes(normalizedSearch) ||
+      (p.description || "").toLowerCase().includes(normalizedSearch);
 
-  const categoryMatch =
-    productCategory.split(" ").includes(normalizedCategory);
+    const priceMatch =
+      (priceRange.min === "" || p.price >= priceRange.min) &&
+      (priceRange.max === "" || p.price <= priceRange.max);
 
-  const genderMatch =
-    !normalizedGender || productCategory.includes(normalizedGender);
+    const sizeMatch =
+      normalizedSelectedSizes.length === 0 ||
+      p.sizes?.some((productSize: string) =>
+        normalizedSelectedSizes.includes(normalizeSize(productSize)),
+      );
 
-  const productSub =
-    (p.subcategory || p.subcategory || "")
-      .trim()
-      .toLowerCase();
+    return subCategoryMatch && searchMatch && priceMatch && sizeMatch;
+  });
 
-  const subCategoryMatch =
-    !normalizedSub || productSub === normalizedSub;
+  const groupedProducts = Object.values(
+    filteredProducts.reduce(
+      (acc, product) => {
+        const key = product.name.trim().toLowerCase();
+        if (!acc[key]) {
+          acc[key] = product;
+        }
+        return acc;
+      },
+      {} as Record<string, IMSProduct>,
+    ),
+  );
 
-  const searchMatch =
-    !normalizedSearch ||
-    p.name.toLowerCase().includes(normalizedSearch) ||
-    (p.description || "")
-      .toLowerCase()
-      .includes(normalizedSearch);
+  const resultCount = groupedProducts.length;
 
-  return categoryMatch && genderMatch && subCategoryMatch && searchMatch;
-});
-
-  if (filteredProducts.length === 0) {
+  if (groupedProducts.length === 0) {
     return (
-      <div className="w-full py-24 text-center">
-        <h2 className="text-2xl font-bold">No products found</h2>
-        <p className="text-gray-500 mt-2">
-          Try selecting a different category
-        </p>
-      </div>
+      <EmptyState
+        label={`Collection's Empty`}
+        title="We’re Still Stitching This One Together"
+        description="New pieces are being crafted with care. Stay tuned for thoughtfully designed additions."
+        buttonText="Browse All Products →"
+        buttonLink="/"
+      />
     );
   }
 
   return (
-    <div className="flex flex-wrap justify-evenly text-black">
-      {filteredProducts.map((item) => (
-        <ProductCard
-          key={item.productId}
-          Pid={item.productId}
-          title={item.name}
-          src={item.images?.[0] || "/Assets/Images/placeholder.png"}
-          description={item.description || ""}
-          price={item.price}
-        />
-      ))}
+    <div className="md:w-[76vw] lg:w-[76vw] w-[95vw] mx-auto">
+      {/* RESULTS HEADER */}
+      <div className="flex items-center justify-between mt-10 px-4">
+        <p className="text-sm text-gray-500 uppercase tracking-[0.25em]">
+          {resultCount} {resultCount === 1 ? "Item" : "Items"}
+        </p>
+
+        {normalizedSub && (
+          <p className="text-sm text-gray-600">
+            Filtered by{" "}
+            <span className="font-medium capitalize">{subCategory}</span>
+          </p>
+        )}
+      </div>
+
+      <div className="h-px bg-gray-200 mb-12" />
+
+      {/* PRODUCT GRID */}
+      <div className="flex flex-wrap gap-5">
+        {groupedProducts.map((item) => (
+          <ProductCard
+            key={item.productId}
+            product={item}
+            className="product-card border bg-white"
+            classNameInner="h-[45vh] rounded-sm"
+          />
+        ))}
+      </div>
     </div>
   );
 };
