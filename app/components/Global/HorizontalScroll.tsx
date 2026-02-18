@@ -72,7 +72,7 @@ const HorizontalScroll = ({ children, className, color }: HorizontalScrollProps)
   };
 
   return (
-    <div ref={wrapperRef} className={`latest-slider-wrapper relative mx-auto w-[20rem]`} style={{color:`${color}`}}>
+    <div ref={wrapperRef} className={`latest-slider-wrapper relative mx-auto md:w-full w-[20rem]`} style={{color:`${color}`}}>
       <div
         ref={sliderRef}
         onScroll={updateFades}
