@@ -1,22 +1,67 @@
 import Link from "next/link";
-import BlogClient from "./blog/BlogsClient";
+// import BlogClient from "./blog/BlogsClient";
 import Slider from "./components/Global/Header";
 import ScrollReveal from "./components/Global/ScrollReveal";
 // import CategoryBar from "./components/navbar/Categorybar";
 import CategorySlider from "./components/Home/CategorySlider";
-import HomeVideos from "./components/Home/HomeVideos";
+
+// import HomeVideos from "./components/Home/HomeVideos";
 import LatestArrivals from "./components/Home/LatestProduct";
 import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
-import SocialProof from "./components/Home/SocialProof";
+// import SocialProof from "./components/Home/SocialProof";
 import { IMSProduct } from "./Types/Product";
+import dynamic from "next/dynamic";
 
-export const dynamic = "force-dynamic";
+const BlogClient = dynamic(() => import("./blog/BlogsClient"));
+const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"));
+const SocialProof = dynamic(() => import("./components/Home/SocialProof"));
+
+const CATEGORY_MAP: Record<string, string[]> = {
+  men: ["men"],
+  women: ["women"],
+  kids: ["boys", "girls"],
+  ethnic: ["ethnic"],
+};
+
+// export const dynamic = "force-dynamic";
+
+async function getProductsByMainCategory(
+  mainCategory: string,
+  limit = 8
+): Promise<IMSProduct[]> {
+  try {
+    const categories = CATEGORY_MAP[mainCategory.toLowerCase()] || [];
+
+    if (categories.length === 0) return [];
+
+    const responses = await Promise.all(
+      categories.map((cat) =>
+        fetch(
+          `${process.env.IMS_BASE_URL}/api/ims/public/products?category=${cat}&limit=${limit}`,
+          { next: { revalidate: 120 } }
+        )
+      )
+    );
+
+    const results = await Promise.all(
+      responses.map((res) =>
+        res.ok ? res.json() : Promise.resolve({ products: [] })
+      )
+    );
+
+    return results.flatMap((r) => r.products || []);
+  } catch (err) {
+    console.error(`${mainCategory.toUpperCase()} FETCH ERROR:`, err);
+    return [];
+  }
+}
+
 
 async function getLatestProducts(): Promise<IMSProduct[]> {
   try {
     const res = await fetch(
       `${process.env.IMS_BASE_URL}/api/ims/public/products/latest`,
-      { cache: "no-store" },
+      { next: { revalidate: 60 } },
     );
 
     if (!res.ok) return [];
@@ -28,27 +73,15 @@ async function getLatestProducts(): Promise<IMSProduct[]> {
     return [];
   }
 }
-async function getProducts(): Promise<IMSProduct[]> {
-  try {
-    const res = await fetch(
-      `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&limit=20`,
-      { cache: "no-store" },
-    );
-
-    if (!res.ok) return [];
-
-    const data = await res.json();
-
-    return data.products || [];
-  } catch (err) {
-    console.error("PRODUCTS FETCH ERROR:", err);
-    return [];
-  }
-}
 
 const Home = async () => {
   const latestProducts = await getLatestProducts();
-  const allProduct = await getProducts();
+
+const womenProducts = await getProductsByMainCategory("women");
+const kidsProducts = await getProductsByMainCategory("kids");
+const menProducts = await getProductsByMainCategory("men");
+const ethnicProducts = await getProductsByMainCategory("ethnic");
+
   return (
     <section className="w-full bg-[#EEDDC7] text-black">
       {/* HERO */}
@@ -95,7 +128,7 @@ const Home = async () => {
         </div>
 
         <ScrollRevealProducts
-          products={allProduct}
+          products={womenProducts}
           category="women"
           title=""
           color="#dfc9ac"
@@ -114,7 +147,7 @@ const Home = async () => {
         </div>
 
         <ScrollRevealProducts
-          products={allProduct}
+          products={kidsProducts}
           category="kids"
           title=""
           color="#eeddc7"
@@ -133,7 +166,7 @@ const Home = async () => {
         </div>
 
         <ScrollRevealProducts
-          products={allProduct}
+          products={menProducts}
           category="men"
           title=""
           color="#dfc9ac"
@@ -152,7 +185,7 @@ const Home = async () => {
         </div>
 
         <ScrollRevealProducts
-          products={allProduct}
+          products={ethnicProducts}
           category="ethnic"
           title=""
           color="#eeddc7"

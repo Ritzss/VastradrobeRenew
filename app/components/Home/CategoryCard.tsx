@@ -24,7 +24,7 @@ const CategoryCard = ({ href, image, label, variant }: Props) => {
         <PixelCard variant={variant as any} className="border-0">
           <div className="absolute w-[81%] h-full">
             <div className="group relative w-65 h-85 transition-all duration-500">
-              <Image fill sizes="image" src={image} alt={label} className="group-hover:scale-105 transition-all duration-500 -z-1" />
+              <Image fill sizes="image" src={image} alt={label} priority className="group-hover:scale-105 transition-all duration-500 -z-1" />
               <div className="h-[10%] text-2xl absolute bottom-0 text-white group-hover:text-[#6a0f1f] group-hover:font-bold group-hover:scale-105 w-full group-hover:opacity-100">
                 {label}
               </div>

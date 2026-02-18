@@ -99,6 +99,7 @@ export default function Slider() {
               <Image
                 src={src.image}
                 fill
+                priority
                 loading="eager"
                 className="object-fill scale-105 transition-transform duration-4000 group-hover:scale-110"
                 alt=""

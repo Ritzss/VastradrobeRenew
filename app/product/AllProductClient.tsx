@@ -25,7 +25,7 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=${page}&limit=${pageSize}`,
-        { cache: "no-store" },
+        { next: { revalidate: 120 } },
       );
 
       if (!res.ok) throw new Error("Fetch failed");

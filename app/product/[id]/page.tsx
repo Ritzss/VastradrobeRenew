@@ -5,7 +5,7 @@ import { IMSProduct } from "@/Types/Product";
 async function getProduct(id: number): Promise<IMSProduct | null> {
   const res = await fetch(
     `${process.env.IMS_BASE_URL}/api/ims/public/products/${id}`,
-    { cache: "no-store" },
+    { next: { revalidate: 120 } },
   );
   if (!res.ok) return null;
   const data = await res.json();
@@ -14,8 +14,8 @@ async function getProduct(id: number): Promise<IMSProduct | null> {
 
 async function getAllProducts(): Promise<IMSProduct[]> {
   const res = await fetch(
-    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&&limit=20`,
-    { cache: "no-store" },
+    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&&limit=8`,
+    { next: { revalidate: 120 } },
   );
   if (!res.ok) return [];
   const data = await res.json();

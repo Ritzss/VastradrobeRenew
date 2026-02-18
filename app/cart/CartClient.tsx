@@ -37,7 +37,7 @@ const CartClient = () => {
           missingIds.map(async (id) => {
             const res = await fetch(
               `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products/${id}`,
-              { cache: "no-store" }
+              { next: { revalidate: 120 } }
             );
 
             if (!res.ok) throw new Error("Fetch failed");

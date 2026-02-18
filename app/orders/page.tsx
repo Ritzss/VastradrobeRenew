@@ -59,7 +59,9 @@ const OrdersPage = () => {
     for (const item of order.items) {
       if (detailedProduct[item.productId]) continue;
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products/${item.productId}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products/${item.productId}`,
+        { next: { revalidate: 120 } }
+      );
       if (!res.ok) continue;
 
       const data = await res.json();

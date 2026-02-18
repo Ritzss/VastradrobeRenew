@@ -5,7 +5,7 @@ export default async function SearchPage() {
 
   const res = await fetch(
     `${process.env.IMS_BASE_URL}/api/ims/public/products`,
-    { cache: "no-store" }
+    { next: { revalidate: 120 } }
   );
 
   const data = await res.json();
