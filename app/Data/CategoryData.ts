@@ -1,7 +1,7 @@
 export const categoryData = [
   {
     href: "/ethnic",
-    image: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1770367186/winterHero_zx2uke.jpg",
+    image: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1770367187/summmerHero_xto0zl.jpg",
     label: "Ethnic Collections",
     variant: "default",
   },

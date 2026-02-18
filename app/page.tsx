@@ -15,6 +15,7 @@ import dynamic from "next/dynamic";
 const BlogClient = dynamic(() => import("./blog/BlogsClient"));
 const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"));
 const SocialProof = dynamic(() => import("./components/Home/SocialProof"));
+const SocialSection = dynamic(() => import("./components/Home/SocialSection"));
 
 const CATEGORY_MAP: Record<string, string[]> = {
   men: ["men"],
@@ -27,7 +28,7 @@ const CATEGORY_MAP: Record<string, string[]> = {
 
 async function getProductsByMainCategory(
   mainCategory: string,
-  limit = 8
+  limit = 8,
 ): Promise<IMSProduct[]> {
   try {
     const categories = CATEGORY_MAP[mainCategory.toLowerCase()] || [];
@@ -38,15 +39,15 @@ async function getProductsByMainCategory(
       categories.map((cat) =>
         fetch(
           `${process.env.IMS_BASE_URL}/api/ims/public/products?category=${cat}&limit=${limit}`,
-          { next: { revalidate: 120 } }
-        )
-      )
+          { next: { revalidate: 120 } },
+        ),
+      ),
     );
 
     const results = await Promise.all(
       responses.map((res) =>
-        res.ok ? res.json() : Promise.resolve({ products: [] })
-      )
+        res.ok ? res.json() : Promise.resolve({ products: [] }),
+      ),
     );
 
     return results.flatMap((r) => r.products || []);
@@ -55,7 +56,6 @@ async function getProductsByMainCategory(
     return [];
   }
 }
-
 
 async function getLatestProducts(): Promise<IMSProduct[]> {
   try {
@@ -77,10 +77,10 @@ async function getLatestProducts(): Promise<IMSProduct[]> {
 const Home = async () => {
   const latestProducts = await getLatestProducts();
 
-const womenProducts = await getProductsByMainCategory("women");
-const kidsProducts = await getProductsByMainCategory("kids");
-const menProducts = await getProductsByMainCategory("men");
-const ethnicProducts = await getProductsByMainCategory("ethnic");
+  const womenProducts = await getProductsByMainCategory("women");
+  const kidsProducts = await getProductsByMainCategory("kids");
+  const menProducts = await getProductsByMainCategory("men");
+  const ethnicProducts = await getProductsByMainCategory("ethnic");
 
   return (
     <section className="w-full bg-[#EEDDC7] text-black">
@@ -235,8 +235,11 @@ const ethnicProducts = await getProductsByMainCategory("ethnic");
         </section>
       </ScrollReveal>
 
+      {/* Social Media */}
+      <SocialSection />
+
       {/* SOCIAL PROOF */}
-      <section className="bg-[#dfc9ac] py-28">
+      <section className="bg-[#eeddc7] py-28">
         <ScrollReveal>
           <div className="max-w-6xl mx-auto px-6 text-center">
             <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
