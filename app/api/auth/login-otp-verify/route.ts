@@ -3,6 +3,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/db";
+import jwt from "jsonwebtoken";
 import User from "@/model/User";
 
 export async function POST(req: Request) {
@@ -35,5 +36,31 @@ export async function POST(req: Request) {
   user.loginOtpAttempts = 0;
   await user.save();
 
-  return NextResponse.json({ success: true });
+  // 🔥 Create JWT
+const token = jwt.sign(
+  {
+    id: user._id,
+    email: user.email,
+    username: user.username,
+  },
+  process.env.JWT_SECRET!,
+  { expiresIn: "7d" }
+);
+
+const response = NextResponse.json(
+  { message: "Login successful" },
+  { status: 200 }
+);
+
+response.cookies.set({
+  name: "token",
+  value: token,
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  path: "/",
+  maxAge: 60 * 60 * 24 * 7,
+});
+
+return response;
 }

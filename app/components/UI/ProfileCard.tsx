@@ -378,7 +378,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             </div>
           </div>
         </section>
-         <div className="hidden md:block pc-details right-0">
+        {/* <div className="hidden md:block pc-details right-0">
           <h3>{name}</h3>
           <p>{title}</p>
           <Link href={"/orders"}>
@@ -386,7 +386,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             My Orders
           </div>
           </Link>
-         </div>
+         </div> */}
         {showUserInfo && (
           <div className="pc-user-info">
             <div className="pc-user-details">
@@ -431,15 +431,27 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             />
           </div>
         )}
-        <div className="block md:hidden pc-details right-0">
+        <div className="hidden md:block pc-details right-0">
           <h3>{name}</h3>
           <p>{title}</p>
-          <Link href={"/orders"}>
-          <div className="profileBox w-[20%] text-center">
-            My Orders
+          <div className="flex gap-3 md:w-full lg:w-[75%%]">
+            <Link href={"/orders"}>
+              <div className="hidden md:block profileBox text-center">
+                My Orders
+              </div>
+            </Link>
+            <Link href={"/favorites"}>
+              <div className="hidden md:block profileBox text-center">
+                My Favorites
+              </div>
+            </Link>
+            <Link href={"reset_password"}>
+              <div className="hidden md:block profileBox text-center">
+                Password Reset
+              </div>
+            </Link>
           </div>
-          </Link>
-         </div>
+        </div>
       </div>
     </div>
   );

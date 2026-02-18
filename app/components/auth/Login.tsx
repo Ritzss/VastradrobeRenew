@@ -10,7 +10,7 @@ import OtpInput from "./OtpInput";
 import { toast } from "sonner";
 
 const Login = () => {
-  const { loginForm, setLoginForm, handleLogin } = useAppContext();
+  const { loginForm, setLoginForm, handleLogin, loadUser } = useAppContext();
   const [visible, setVisible] = useState(false);
   const [useOtp, setUseOtp] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,11 +36,14 @@ const Login = () => {
   };
 
   const sendOtp = async () => {
-    if (!loginForm.email) return;
+    if (!loginForm.email) return toast.error("Email Required");
 
     setLoading(true);
     await fetch("/api/auth/login-otp-send", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ email: loginForm.email }),
     });
     setLoading(false);
@@ -63,11 +66,11 @@ const Login = () => {
     setLoading(false);
 
     if (res.ok) {
-      toast.success("Otp Validated")
+      toast.success("Otp Validated");
+      await loadUser();
       router.replace(safeRedirect);
-    }
-    else{
-      toast.error("Otp is Invalid")
+    } else {
+      toast.error("Otp is Invalid");
     }
   };
 
@@ -79,7 +82,6 @@ const Login = () => {
 
   return (
     <div className="md:w-[80%] text-white m-2 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
-
       {/* LEFT PANEL */}
       <aside className="md:w-[40%] h-110 md:h-auto bg-[#DFC9AC] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 flex-col flex justify-between">
         <header className="flex-col flex gap-5">
@@ -103,9 +105,7 @@ const Login = () => {
 
       {/* RIGHT PANEL */}
       <aside className="md:w-[60%] h-110 md:h-auto font-sans bg-[#cd0000] shadow-[inset_0_0_20px_#DFC9AC] flex flex-col justify-center items-center p-8">
-
         <div className="w-full max-w-sm flex flex-col gap-4">
-
           {/* EMAIL */}
           <input
             type="email"
@@ -189,15 +189,11 @@ const Login = () => {
 
             <div>
               New here?{" "}
-              <Link
-                href="register"
-                className="underline hover:text-[#DFC9AC]"
-              >
+              <Link href="register" className="underline hover:text-[#DFC9AC]">
                 Create Account
               </Link>
             </div>
           </div>
-
         </div>
       </aside>
     </div>

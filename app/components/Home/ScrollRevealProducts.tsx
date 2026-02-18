@@ -63,7 +63,7 @@ const filteredProducts = products.filter((product) =>
   return (
     <section
       ref={ref}
-      className={`max-w-8xl mx-auto my-18 px-2 transition-all duration-700 ease-out
+      className={`mx-auto my-18 px-2 transition-all duration-700 ease-out
         ${
           visible
             ? "opacity-100 translate-y-0 pointer-events-auto"
@@ -112,7 +112,7 @@ const filteredProducts = products.filter((product) =>
       {/* ---------- DESKTOP (wrap layout) ---------- */}
       <div className="hidden md:flex flex-wrap justify-center">
         {filteredProducts.slice(0, 3).map((product) => (
-          <div key={product.productId} className="md:w-[48%] lg:w-[23vw]">
+          <div key={product.productId} className="md:w-[48%] lg:w-[28vw]">
             <ProductCard
               product={product}
               height="h-[60vh]"

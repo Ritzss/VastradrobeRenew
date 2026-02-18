@@ -327,3 +327,15 @@ body.scroll-lock {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+
+.texts-edit {
+    color: transparent;
+    background-image: linear-gradient(#fff, #6f6fbe);
+    background-size: 1em 1.5em;
+    background-clip: text;
+    background-clip: text;
+    margin: 0;
+    font-size: min(3svh, 3em);
+    font-weight: 600;
+}

@@ -132,10 +132,10 @@ const Navbar = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, [menuOpen]);
 
@@ -147,7 +147,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 bg-white">
-      <div className="max-w-7xl mx-auto h-16 px-4 flex justify-center items-center gap-6">
+      <div className="max-w-7xl mx-auto h-16 lg:px-4 flex justify-center items-center gap-6">
         {/* LOGO */}
         <Link
           href="/"
@@ -310,7 +310,7 @@ const Navbar = () => {
               >
                 <FaRegHeart size={21} />
               </Link>
-              
+
               {/* Support */}
               <Link
                 href="/support"
@@ -344,9 +344,11 @@ const Navbar = () => {
             </>
           )}
         </div>
-        <div ref={menuRef} className="relative">
-          {/* HAMBURGER */}
+
+        {/* HAMBURGER */}
+        <div className="relative">
           <button
+         
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden flex flex-col gap-1"
             aria-label="Menu"
@@ -358,7 +360,11 @@ const Navbar = () => {
 
         {/* MOBILE MENU */}
         {menuOpen && (
-          <div className="absolute top-15 left-0 right-0 border bg-white px-4 py-4 space-y-4 text-sm">
+          <div
+           ref={menuRef}
+            className="absolute top-15 left-0 z-10 right-0 border bg-white px-4 py-4 space-y-4 text-sm"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* SEARCH on Mobile*/}
             <div className="flex-1 max-w-md relative">
               <div className="flex items-center bg-gray-50 rounded-lg px-3 py-2 focus-within:bg-white focus-within:ring-1 focus-within:ring-gray-300">

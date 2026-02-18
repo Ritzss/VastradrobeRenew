@@ -103,7 +103,7 @@ const Home = async () => {
       </section>
 
       {/* Kids */}
-      <section className="py-28">
+      <section className=" . py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Kids
@@ -122,7 +122,7 @@ const Home = async () => {
       </section>
 
       {/* MEN */}
-      <section className="bg-[#dfc9ac] py-28">
+      <section className=". bg-[#dfc9ac] py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Men
@@ -141,7 +141,7 @@ const Home = async () => {
       </section>
 
       {/* ETHNIC */}
-      <section className=" py-28">
+      <section className=". py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
             Ethnic
