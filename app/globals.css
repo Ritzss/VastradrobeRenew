@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  background-color: #EEDDC7;
+  background-color: #eeddc7;
 }
 
 body.scroll-lock {
@@ -19,7 +19,7 @@ body.scroll-lock {
   overflow: hidden;
 }
 
-.profileBox{
+.profileBox {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -46,7 +46,6 @@ body.scroll-lock {
   padding: 1.5%;
   border-radius: 3%;
 }
-
 
 .hover-underline-center {
   position: relative;
@@ -169,7 +168,7 @@ body.scroll-lock {
   animation: category-scroll 30s linear infinite;
 }
 
-.animate-category-scroll:hover{
+.animate-category-scroll:hover {
   animation-play-state: paused;
 }
 
@@ -319,7 +318,6 @@ body.scroll-lock {
   }
 }
 
-
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -328,14 +326,19 @@ body.scroll-lock {
   scrollbar-width: none;
 }
 
-
 .texts-edit {
-    color: transparent;
-    background-image: linear-gradient(#fff, #6f6fbe);
-    background-size: 1em 1.5em;
-    background-clip: text;
-    background-clip: text;
-    margin: 0;
-    font-size: min(3svh, 3em);
-    font-weight: 600;
+  color: transparent;
+  background-image: linear-gradient(#fff, #6f6fbe);
+  background-size: 1em 1.5em;
+  background-clip: text;
+  background-clip: text;
+  margin: 0;
+  font-size: min(3svh, 3em);
+  font-weight: 600;
+}
+
+@media (min-width: 1025px) {
+  .cardWidth {
+    width: 23vw;
+  }
 }
