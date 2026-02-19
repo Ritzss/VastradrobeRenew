@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import OtpInput from "./OtpInput";
+import { toast } from "sonner";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -18,26 +19,36 @@ export default function ResetPasswordPage() {
   const [message, setMessage] = useState("");
 
   const sendOtp = async () => {
-    if (!email) return;
+  if (!email) return toast.error("Enter Email First");
 
-    setLoading(true);
-    setMessage("");
+  setLoading(true);
 
+  try {
     const res = await fetch("/api/auth/send-otp", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ email }),
     });
 
-    setLoading(false);
+    const data = await res.json();
 
-    if (res.ok) {
-      setStep("otp");
-      setMessage("OTP sent to your email.");
-    } else {
-      const data = await res.json();
-      setMessage(data.error || "Something went wrong");
+    if (!data.success) {
+      toast.error("Invalid email address");
+      setLoading(false);
+      return; // 🚫 stops next step
     }
-  };
+
+    setStep("otp");
+    toast.success("OTP sent to your email.");
+  } catch (err) {
+    toast.error("Something went wrong");
+  }
+
+  setLoading(false);
+};
+
 
   const verifyOtp = async (otpParam?: string) => {
     const otp = otpParam || otpDigits.join("");
@@ -81,7 +92,7 @@ export default function ResetPasswordPage() {
 
     if (res.ok) {
       setMessage("Password updated successfully!");
-      setTimeout(() => router.push("/login"), 1500);
+      setTimeout(() => router.push("login"), 1500);
     } else {
       const data = await res.json();
       setMessage(data.error || "Failed to reset password");
