@@ -17,9 +17,9 @@ const HomeVideos = () => {
   useEffect(() => {
     const loadUserVideos = async () => {
       try {
-        const res = await fetch("/api/home/cloudinary-videos", {
-          cache: "no-store",
-        });
+        const res = await fetch("/api/home/cloudinary-videos", 
+          { next: { revalidate: 60 } }
+        );
 
         const data = await res.json();
 
