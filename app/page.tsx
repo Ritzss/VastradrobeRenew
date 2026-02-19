@@ -89,7 +89,7 @@ const Home = async () => {
 
       {/* CATEGORY */}
       <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
-        <p className="uppercase tracking-[0.35em]  text-sm text-gray-500 mb-4">
+        <p className="uppercase tracking-[0.35em]  text-sm text-[#25272D] mb-4">
           Explore
         </p>
         <h2 className="text-4xl text-[#6a0f1f] font-semibold mb-12">
@@ -101,7 +101,7 @@ const Home = async () => {
       {/* LATEST ARRIVALS */}
       <ScrollReveal>
         <section className="max-w-7xl mx-auto px-6 py-28 text-center">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             New This Season
           </p>
           <h2 className="text-5xl  text-[#6a0f1f] font-semibold mb-6">
@@ -119,7 +119,7 @@ const Home = async () => {
       {/* WOMEN */}
       <section className="bg-[#dfc9ac] py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Women
           </p>
           <h2 className="text-4xl text-[#6a0f1f] font-semibold">
@@ -138,7 +138,7 @@ const Home = async () => {
       {/* Kids */}
       <section className=" . py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Kids
           </p>
           <h2 className="text-4xl text-[#6a0f1f] font-semibold">
@@ -157,7 +157,7 @@ const Home = async () => {
       {/* MEN */}
       <section className=". bg-[#dfc9ac] py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Men
           </p>
           <h2 className="text-4xl text-[#6a0f1f] font-semibold">
@@ -176,7 +176,7 @@ const Home = async () => {
       {/* ETHNIC */}
       <section className=". py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Ethnic
           </p>
           <h2 className="text-4xl text-[#6a0f1f] font-semibold">
@@ -195,7 +195,7 @@ const Home = async () => {
       {/* VIDEO SECTION */}
       <ScrollReveal>
         <section className="py-28 bg-[#dfc9ac] text-center">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Craftsmanship
           </p>
           <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">
@@ -209,7 +209,7 @@ const Home = async () => {
       {/* BLOG */}
       <ScrollReveal>
         <section className=" mx-auto md:px-6 py-32 text-center">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Vastra Journal
           </p>
 
@@ -242,7 +242,7 @@ const Home = async () => {
       <section className="bg-[#eeddc7] py-28">
         <ScrollReveal>
           <div className="max-w-6xl mx-auto px-6 text-center">
-            <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+            <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
               Community
             </p>
             <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">
