@@ -43,7 +43,7 @@ const LatestArrivals = ({ products }: LatestArrivalsProps) => {
           <div key={product.productId} className="w-75 shrink-0">
             <ProductCard
               product={product}
-              className="w-[99%] hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
+              className="w-[99%] md:hover:scale-102 md:hover:shadow-[0_0_10px] active:scale-102 active:shadow-[0_0_10px] duration-700 transition-all"
               height="h-[55vh]"
               classNameInner="h-[47vh] w-full rounded-2xl"
               button={false}
