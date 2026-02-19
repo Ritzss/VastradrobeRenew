@@ -29,7 +29,7 @@ const Footer = ({ className }: { className?: string }) => {
   return (
     <footer
       id="foot"
-      className={`bg-[#000000] text-[#EEDDC7] mt-6 w-full ${className ?? ""}`}
+      className={`bg-[#000000] text-[#EEDDC7] w-full ${className ?? ""}`}
     >
       {/* MAIN CONTENT */}
       <section

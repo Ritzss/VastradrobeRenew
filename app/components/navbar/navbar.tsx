@@ -23,6 +23,7 @@ const Navbar = () => {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -348,7 +349,6 @@ const Navbar = () => {
         {/* HAMBURGER */}
         <div className="relative">
           <button
-         
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden flex flex-col gap-1"
             aria-label="Menu"
@@ -361,7 +361,7 @@ const Navbar = () => {
         {/* MOBILE MENU */}
         {menuOpen && (
           <div
-           ref={menuRef}
+            ref={menuRef}
             className="absolute top-15 left-0 z-10 right-0 border bg-white px-4 py-4 space-y-4 text-sm"
             onClick={(e) => e.stopPropagation()}
           >
@@ -424,10 +424,52 @@ const Navbar = () => {
             <Link href="/" className="flex gap-2 hover-underline-center">
               <Home size={16} /> Home
             </Link>
-            <Link href="/product" className="flex gap-2 hover-underline-center">
-              <ShoppingBag size={16} />
-              Collection
-            </Link>
+            <div className="relative">
+              <button
+                onClick={() => setOpen(!open)}
+                className="flex items-center gap-2"
+              >
+                <ShoppingBag size={16} />
+                Collection
+              </button>
+
+              {open && (
+                <div className="mt-2 w-100 bg-white shadow-md rounded-md">
+                  <Link
+                    href="/women"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => setOpen(false)}
+                  >
+                    Women
+                  </Link>
+
+                  <Link
+                    href="/men"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => setOpen(false)}
+                  >
+                    Men
+                  </Link>
+
+                  <Link
+                    href="/kids"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => setOpen(false)}
+                  >
+                    Kids
+                  </Link>
+
+                  <Link
+                    href="/ethnic"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => setOpen(false)}
+                  >
+                    Ethnic
+                  </Link>
+                </div>
+              )}
+            </div>
+
             <Link href="/blog" className="flex gap-2 hover-underline-center">
               <Dock size={16} /> Blog
             </Link>

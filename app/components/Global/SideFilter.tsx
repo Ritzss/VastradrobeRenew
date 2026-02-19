@@ -15,7 +15,7 @@ kids: ["boys", "girls"],
 ethnic: ["ethnic"],
 };
 
-const SideFilter = ({ onClose }: { onClose?: () => void }) => {
+const SideFilter = ({ onClose, className }: { className?:string; onClose?: () => void; }) => {
   const pathname = usePathname();
   const categoryFromRoute = pathname.split("/")[1];
 
@@ -80,9 +80,10 @@ const availableSizes = useMemo(() => {
 
     <aside
       className={`
+        ${className ? className : ''}
         fixed md:static top-0 right-0 h-full w-80 z-50
         transform transition-transform duration-300 ease-in-out
-        md:w-64 md:h-auto md:translate-x-0
+        md:w-64 md:translate-x-0
         ${onClose ? "translate-x-0" : ""}
         md:border-r
         p-5 overflow-y-auto

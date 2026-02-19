@@ -20,7 +20,7 @@ const ClientCatLayout = ({ children }: { children: ReactNode }) => {
           Filters
         </button>
         <div className="md:block w-64">
-          {showFilter && <SideFilter onClose={() => setShowFilter(false)} />}
+          {showFilter && <SideFilter className="bg-white " onClose={() => setShowFilter(false)} />}
         </div>
         <div className="flex-wrap flex justify-center w-full">{children}</div>
       </div>
