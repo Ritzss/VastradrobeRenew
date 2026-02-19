@@ -123,7 +123,7 @@ export default function Slider() {
         </p>
 
         <Link
-          href="products"
+          href="product"
           className="relative overflow-hidden border border-white px-8 py-3 rounded-full text-sm sm:text-base transition-all duration-300 hover:bg-white hover:text-[#6a0f1f]"
         >
           Shop Now
