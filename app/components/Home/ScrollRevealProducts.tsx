@@ -81,13 +81,13 @@ const filteredProducts = products.filter((product) =>
             <div key={product.productId} className="w-full sm:w-[60%] shrink-0">
               <ProductCard
                 product={product}
-                className="md:w-[95%] group w-full hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
-                height="h-[55vh]"
+                className="md:w-[95%] group w-full active:scale-102 active:shadow-[0_0_10px_#000] duration-700 transition-all"
+                height="h-[60vh]"
                 classNameInner="h-[47vh] rounded-2xl"
                 button={false}
               >
               <div className="uppercase text-center m-2 w-full ">
-                {product.name} <span className="hidden group-hover:block">{` (${product.color})`}</span>
+                {product.name} <span className="hidden group-active:block">{` (${product.color})`}</span>
               </div>
             </ProductCard>
             </div>
