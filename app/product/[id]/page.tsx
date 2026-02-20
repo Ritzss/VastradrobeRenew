@@ -25,7 +25,7 @@ async function getAllProducts(): Promise<IMSProduct[]> {
 async function getInventory(productId: number) {
   const res = await fetch(
     `${process.env.IMS_BASE_URL}/api/ims/public/inventory/list?productId=${productId}`,
-    { cache: "no-store" }
+    { cache: "no-store" },
   );
 
   if (!res.ok) return [];
@@ -67,12 +67,56 @@ export default async function ProductPage({
 
   const inventory = await getInventory(productId);
 
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://vastradrobe.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: product.category,
+        item: `https://vastradrobe.com/${product.category?.toLowerCase()}`,
+      },
+      ...(product.subcategory
+        ? [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: product.subcategory,
+              item: `https://vastradrobe.com/${product.category?.toLowerCase()}?subcategory=${product.subcategory}`,
+            },
+          ]
+        : []),
+      {
+        "@type": "ListItem",
+        position: product.subcategory ? 4 : 3,
+        name: product.name,
+        item: `https://vastradrobe.com/product/${product.productId}`,
+      },
+    ],
+  };
+
   return (
-    <ProductPDPClient
-      product={product}
-      colorVariants={colorVariants}
-      similarProducts={similarProducts}
-      inventory={inventory}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbStructuredData),
+        }}
+      />
+
+      <ProductPDPClient
+        product={product}
+        colorVariants={colorVariants}
+        similarProducts={similarProducts}
+        inventory={inventory}
+      />
+    </>
   );
 }

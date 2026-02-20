@@ -80,7 +80,6 @@ const Home = async () => {
   const womenProducts = await getProductsByMainCategory("women");
   const kidsProducts = await getProductsByMainCategory("kids");
   const menProducts = await getProductsByMainCategory("men");
-  const ethnicProducts = await getProductsByMainCategory("ethnic");
 
   return (
     <section className="w-full bg-[#EEDDC7] text-black">
@@ -175,7 +174,7 @@ const Home = async () => {
 
       {/* VIDEO SECTION */}
       <ScrollReveal>
-        <section className="py-28 bg-[#dfc9ac] text-center">
+        <section className="py-28 text-center">
           <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Craftsmanship
           </p>
@@ -189,7 +188,7 @@ const Home = async () => {
 
       {/* BLOG */}
       <ScrollReveal>
-        <section className=" mx-auto md:px-6 py-32 text-center">
+        <section className="mx-auto bg-[#dfc9ac] md:px-6 py-32 text-center">
           <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Vastra Journal
           </p>
@@ -217,7 +216,7 @@ const Home = async () => {
       </ScrollReveal>
 
       {/* Social Media */}
-      <SocialSection />
+      {/* <SocialSection /> */}
 
       {/* SOCIAL PROOF */}
       <section className="bg-[#eeddc7] py-28">

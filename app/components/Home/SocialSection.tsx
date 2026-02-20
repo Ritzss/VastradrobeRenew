@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import Link from "next/link";
 import Script from "next/script";
 import { useEffect } from "react";
 import { FaInstagram, FaFacebookF } from "react-icons/fa";
@@ -19,7 +20,7 @@ const SocialSection = () => {
   }
 }, []);
   return (
-    <section className="py-32 bg-[#dfc9ac] text-center relative overflow-hidden">
+    <section className="py-32 bg-[#EEDDC7] text-center relative overflow-hidden">
       {/* Subtle decorative background */}
       {/* <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="w-125 h-125 bg-[#6a0f1f] rounded-full blur-3xl absolute -top-40 -left-40"></div>
@@ -42,11 +43,11 @@ const SocialSection = () => {
 
         <div className="grid md:grid-cols-2 gap-16 items-start">
           {/* Instagram Card */}
-          <div className="bg-[#eeddc7] rounded-2xl shadow-lg p-6 hover:shadow-2xl transition duration-500">
-            <div className="flex items-center justify-center gap-2 mb-6 text-[#6a0f1f]">
+          <div className="bg-[#DFC9AC] rounded-2xl shadow-lg p-6 hover:shadow-2xl transition duration-500">
+            <Link href={"https://www.instagram.com/vastradrobe/"} className="flex items-center justify-center gap-2 mb-6 text-[#6a0f1f]">
               <FaInstagram size={20} />
               <span className="font-medium tracking-wide">Instagram</span>
-            </div>
+            </Link>
 
             <blockquote
               className="instagram-media"
@@ -57,11 +58,11 @@ const SocialSection = () => {
           </div>
 
           {/* Facebook Card */}
-          <div className="bg-[#eeddc7] rounded-2xl shadow-lg p-6 hover:shadow-2xl transition duration-500">
-            <div className="flex items-center justify-center gap-2 mb-6 text-[#6a0f1f]">
+          <div className="bg-[#DFC9AC] rounded-2xl shadow-lg p-6 hover:shadow-2xl transition duration-500">
+            <Link href={"https://www.facebook.com/profile.php?id=61580027001519"} className="flex items-center justify-center gap-2 mb-6 text-[#6a0f1f]">
               <FaFacebookF size={18} />
               <span className="font-medium tracking-wide">Facebook</span>
-            </div>
+            </Link>
 
             <iframe
               src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fpermalink.php%3Fstory_fbid%3D122126200479000900%26id%3D61580027001519%26substory_index%3D1348672567304427&show_text=true&width=500"

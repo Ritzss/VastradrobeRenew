@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import { FaCartArrowDown } from "react-icons/fa6";
 import ScrollReveal from "@/components/Global/ScrollReveal";
+import Link from "next/link";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -49,7 +50,6 @@ export default function ProductPDPClient({
   const sizes =
     product.sizes && product.sizes.length > 0 ? product.sizes : FALLBACK_SIZES;
 
-
   const isInCart = cartItems.some(
     (item) => item.productId === productId && item.size === selectedSize,
   );
@@ -64,11 +64,12 @@ export default function ProductPDPClient({
 
     const availableSize = sizes.find((size) => stockMap[size] > 0) || sizes[0];
 
-    setSelectedSize((prevSize) => prevSize === availableSize ? prevSize : availableSize);
+    setSelectedSize((prevSize) =>
+      prevSize === availableSize ? prevSize : availableSize,
+    );
   }, [inventory, sizes, stockMap]);
 
   const getStock = (size: string) => stockMap[size] ?? null;
-  
 
   const handleCartToggle = () => {
     if (!selectedSize) return;
@@ -84,6 +85,46 @@ export default function ProductPDPClient({
   };
   return (
     <div className="px-10 py-8 flex flex-col gap-16">
+      <nav className="text-sm mb-4">
+        <ol className="flex flex-wrap items-center gap-2 text-gray-500">
+          <li>
+            <Link href="/" className="hover:text-black transition">
+              Home
+            </Link>
+          </li>
+
+          <li className="text-gray-400">{">"}</li>
+
+          <li>
+            <Link
+              href={`/${product.category?.toLowerCase()}`}
+              className="hover:text-black transition capitalize"
+            >
+              {product.category}
+            </Link>
+          </li>
+
+          {product.subcategory && (
+            <>
+              <li className="text-gray-400">{">"}</li>
+              <li>
+                <Link
+                  href={`/${product.category?.toLowerCase()}?subcategory=${product.subcategory}`}
+                  className="hover:text-black transition capitalize"
+                >
+                  {product.subcategory}
+                </Link>
+              </li>
+            </>
+          )}
+
+          <li className="text-gray-400">{">"}</li>
+
+          <li className="text-black font-medium line-clamp-1">
+            {product.name}
+          </li>
+        </ol>
+      </nav>
       {/* TOP SECTION */}
       <section className="lg:flex md:block sm:block gap-7">
         <div className="flex relative md:flex-row flex-col-reverse gap-14">
@@ -199,35 +240,34 @@ export default function ProductPDPClient({
                   {sizes.map((size) => {
                     const qty = getStock(size);
                     return (
-                    
-                    <button
-                      key={size}
-                      disabled={qty === 0}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 rounded-lg border ${
-                        selectedSize === size
-                          ? "bg-black text-white"
-                          : "hover:bg-black hover:text-white"
-                      } 
+                      <button
+                        key={size}
+                        disabled={qty === 0}
+                        onClick={() => setSelectedSize(size)}
+                        className={`px-4 py-2 rounded-lg border ${
+                          selectedSize === size
+                            ? "bg-black text-white"
+                            : "hover:bg-black hover:text-white"
+                        } 
                           ${qty === 0 ? "opacity-40 cursor-not-allowed" : ""}`}
-                    >
-                      {size}
-                      {stockMap[size] !== undefined && stockMap[size] < 15 && (
-                        <span className="ml-2 text-xs text-gray-500">
-                          ({stockMap[size]})
-                        </span>
-                      )}
-                    </button>
-                  )})}
+                      >
+                        {size}
+                        {stockMap[size] !== undefined &&
+                          stockMap[size] < 15 && (
+                            <span className="ml-2 text-xs text-gray-500">
+                              ({stockMap[size]})
+                            </span>
+                          )}
+                      </button>
+                    );
+                  })}
                 </div>
-                  {selectedSize &&
-                    (stockMap[selectedSize] > 0 ? (
-                      <p className="mt-3 text-green-600 text-sm">
-                        In Stock 
-                      </p>
-                    ) : (
-                      <p className="mt-3 text-red-600 text-sm">Out of Stock</p>
-                    ))}
+                {selectedSize &&
+                  (stockMap[selectedSize] > 0 ? (
+                    <p className="mt-3 text-green-600 text-sm">In Stock</p>
+                  ) : (
+                    <p className="mt-3 text-red-600 text-sm">Out of Stock</p>
+                  ))}
               </div>
             </div>
           </div>
