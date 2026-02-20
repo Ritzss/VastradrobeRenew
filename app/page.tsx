@@ -173,25 +173,6 @@ const Home = async () => {
         />
       </section>
 
-      {/* ETHNIC */}
-      <section className=". py-28">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
-            Ethnic
-          </p>
-          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
-            Timeless Ethnic Wear
-          </h2>
-        </div>
-
-        <ScrollRevealProducts
-          products={ethnicProducts}
-          category="ethnic"
-          title=""
-          color="#eeddc7"
-        />
-      </section>
-
       {/* VIDEO SECTION */}
       <ScrollReveal>
         <section className="py-28 bg-[#dfc9ac] text-center">
