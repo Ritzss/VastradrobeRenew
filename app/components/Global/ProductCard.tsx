@@ -143,9 +143,11 @@ const ProductCard = ({
                 <span className="line-through font-extralight text-[#7b7777]">
                   &#8377;{Number(mrp)}
                 </span>
-                <span className="text-[#008000] relative left-0 bottom-3 p-[0.35rem] rounded-md text-lg">
-                  {Math.floor((price * 100) / mrp)}% OFF
-                </span>
+                {mrp && mrp > price && (
+                  <span className="text-[#008000] relative left-0 bottom-3 p-[0.35rem] rounded-md text-lg">
+                    {Math.floor(((mrp - price) / mrp) * 100)}% OFF
+                  </span>
+                )}
               </div>
             </div>
           </Link>

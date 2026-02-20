@@ -14,6 +14,8 @@ import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import { FaCartArrowDown } from "react-icons/fa6";
 import ScrollReveal from "@/components/Global/ScrollReveal";
 import Link from "next/link";
+import SizeGuideModal from "@/components/products/SizeGuideModal";
+import { sizeGuide } from "@/lib/sizeGuide";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -44,6 +46,7 @@ export default function ProductPDPClient({
     product.images?.[0] || "/Assets/Images/Newplaceholder.png",
   );
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -68,6 +71,12 @@ export default function ProductPDPClient({
       prevSize === availableSize ? prevSize : availableSize,
     );
   }, [inventory, sizes, stockMap]);
+
+  const guide = product.sizeChartType
+    ? sizeGuide[product.sizeChartType] || []
+    : [];
+
+  const selectedSizeData = guide.find((row) => row.size === selectedSize);
 
   const getStock = (size: string) => stockMap[size] ?? null;
 
@@ -195,9 +204,11 @@ export default function ProductPDPClient({
 
           <div className="text-2xl font-semibold">
             ₹{product.price}
-            <span className="text-[#008000] relative left-0 bottom-3 p-[0.35rem] rounded-md text-lg">
-              {Math.floor((product?.price * 100) / product?.mrp)}% OFF
-            </span>
+            {product.mrp && (
+              <span className="text-[#008000] relative left-0 bottom-3 p-[0.35rem] rounded-md text-lg">
+                {Math.floor((product.price * 100) / product.mrp)}% OFF
+              </span>
+            )}
             {product.mrp && (
               <span className="ml-3 text-sm line-through text-gray-400">
                 ₹{product.mrp}
@@ -268,6 +279,32 @@ export default function ProductPDPClient({
                   ) : (
                     <p className="mt-3 text-red-600 text-sm">Out of Stock</p>
                   ))}
+                {selectedSizeData && (
+                  <div className="mt-4 border rounded-xl p-4 bg-gray-50 text-sm space-y-2">
+                    <h4 className="font-medium">
+                      Size {selectedSize} Measurements
+                    </h4>
+
+                    {Object.entries(selectedSizeData).map(([key, value]) => {
+                      if (key === "size") return null;
+
+                      return (
+                        <div key={key} className="flex justify-between">
+                          <span className="capitalize text-gray-600">
+                            {key.replace(/([A-Z])/g, " $1")}
+                          </span>
+                          <span className="font-medium">{value}</span>
+                        </div>
+                      );
+                    })}
+                    <button
+                      onClick={() => setShowSizeGuide(true)}
+                      className="text-sm underline text-[#6a0f1f]"
+                    >
+                      View Full Size Guide
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -276,58 +313,185 @@ export default function ProductPDPClient({
           <div className="flex duration-500 gap-1 transition-all ">
             <button
               type="button"
+              disabled={!selectedSize || stockMap[selectedSize] === 0}
               onClick={handleCartToggle}
-              className="mt-4 px-8 py-3 w-[60%] bg-black text-white rounded-lg hover:scale-[1.02] flex justify-center items-center"
+              className="mt-4 px-8 py-3 w-[60%] bg-black text-white rounded-lg hover:scale-[1.02] transition-all duration-200 flex justify-center items-center disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              {isInCart ? (
+              {selectedSize && stockMap[selectedSize] === 0 ? (
+                "Out of Stock"
+              ) : isInCart ? (
                 <>
                   Remove Item
-                  <MdOutlineRemoveShoppingCart className="text-2xl " />
+                  <MdOutlineRemoveShoppingCart className="text-2xl ml-2" />
                 </>
               ) : (
                 <>
                   Add to Cart
-                  <FaCartArrowDown className="text-2xl" />
+                  <FaCartArrowDown className="text-2xl ml-2" />
                 </>
               )}
             </button>
             <button
+              disabled={!selectedSize || stockMap[selectedSize] === 0}
               onClick={handleBuyNow}
-              className="mt-4 px-8 py-3 w-[40%] bg-[#cd0000]  text-white rounded-lg hover:scale-[1.02] flex justify-center items-center gap-2 "
+              className="mt-4 px-8 py-3 w-[40%] bg-[#cd0000] text-white rounded-lg hover:scale-[1.02] transition-all duration-200 flex justify-center items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Buy Now <IoExitOutline className="text-2xl" />
             </button>
           </div>
 
-          {/* PRODUCT DETAILS */}
-          <button
-            onClick={() => setShowProductDeatils((prev) => !prev)}
-            className="text-sm font-medium flex items-center gap-2 underline w-fit bg-[#2b2b2b6c] p-3 rounded-lg hover:bg-[#2b2b2b88]"
-          >
-            {showProductDeatils
-              ? "Hide Product Details"
-              : "View Product Details"}
-            <IoIosArrowDown
-              size={22}
-              className={`${showProductDeatils ? "rotate-0" : "rotate-180"} transition-all duration-700`}
-            />
-          </button>
-          <div
-            className={`${showProductDeatils ? "opacity-100" : "opacity-0"} transition-all duration-700 mt-6 border-t pt-4 text-sm text-gray-700 space-y-2`}
-          >
-            <p>
-              <strong>Material:</strong> {product.material || "Cotton Blend"}
-            </p>
-            <p>
-              <strong>Fit:</strong> Regular Fit
-            </p>
-            <p>
-              <strong>Care:</strong> Machine wash cold
-            </p>
-            <p>
-              <strong>Country of Origin:</strong> India
-            </p>
+          <div className="mt-6 border-t pt-4 text-sm text-gray-600 space-y-2">
+            <div className="flex items-center gap-2">
+              <span>🚚</span>
+              <p>Free shipping on orders above ₹999</p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span>🔄</span>
+              <p>7-day easy returns</p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span>🔒</span>
+              <p>100% secure checkout</p>
+            </div>
           </div>
+
+          {/* PRODUCT DETAILS */}
+          <div className="mt-6 border-t pt-6">
+            <button
+              onClick={() => setShowProductDeatils((prev) => !prev)}
+              className="w-full flex items-center justify-between text-sm font-medium 
+               bg-[#2b2b2b10] px-4 py-3 rounded-xl hover:bg-[#2b2b2b20] 
+               transition-all duration-300"
+            >
+              <span>
+                {showProductDeatils
+                  ? "Hide Product Details"
+                  : "View Product Details"}
+              </span>
+
+              <IoIosArrowDown
+                size={20}
+                className={`transition-transform duration-300 ${
+                  showProductDeatils ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </button>
+
+            <div
+              className={`overflow-hidden transition-all duration-500 ${
+                showProductDeatils
+                  ? "max-h-150 opacity-100 mt-6"
+                  : "max-h-0 opacity-0"
+              }`}
+            >
+              <div className="bg-gray-50 rounded-xl p-5 text-sm space-y-3">
+                {/* TOP HIGHLIGHTS */}
+                <h3 className="font-semibold text-base mb-2">Top Highlights</h3>
+
+                <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-gray-700">
+                  {product.productDetails?.material && (
+                    <>
+                      <span className="text-gray-500">Material</span>
+                      <span className="font-medium">
+                        {product.productDetails.material}
+                      </span>
+                    </>
+                  )}
+
+                  {product.productDetails?.closureType && (
+                    <>
+                      <span className="text-gray-500">Closure Type</span>
+                      <span className="font-medium">
+                        {product.productDetails.closureType}
+                      </span>
+                    </>
+                  )}
+
+                  {product.productDetails?.careInstructions && (
+                    <>
+                      <span className="text-gray-500">Care Instructions</span>
+                      <span className="font-medium">
+                        {product.productDetails.careInstructions}
+                      </span>
+                    </>
+                  )}
+
+                  {product.productDetails?.style && (
+                    <>
+                      <span className="text-gray-500">Style</span>
+                      <span className="font-medium">
+                        {product.productDetails.style}
+                      </span>
+                    </>
+                  )}
+
+                  {product.productDetails?.pattern && (
+                    <>
+                      <span className="text-gray-500">Pattern</span>
+                      <span className="font-medium">
+                        {product.productDetails.pattern}
+                      </span>
+                    </>
+                  )}
+
+                  {product.productDetails?.countryOfOrigin && (
+                    <>
+                      <span className="text-gray-500">Country of Origin</span>
+                      <span className="font-medium">
+                        {product.productDetails.countryOfOrigin}
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                {/* ADDITIONAL INFO */}
+                {(product.productDetails?.manufacturer ||
+                  product.productDetails?.unitCount) && (
+                  <>
+                    <h3 className="font-semibold text-base mt-6 mb-2">
+                      Additional Information
+                    </h3>
+
+                    <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-gray-700">
+                      {product.productDetails?.manufacturer && (
+                        <>
+                          <span className="text-gray-500">Manufacturer</span>
+                          <span className="font-medium">
+                            {product.productDetails.manufacturer}
+                          </span>
+                        </>
+                      )}
+
+                      {product.productDetails?.unitCount && (
+                        <>
+                          <span className="text-gray-500">Unit Count</span>
+                          <span className="font-medium">
+                            {product.productDetails.unitCount}
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+          {showSizeGuide && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="bg-white p-6 rounded-xl max-w-3xl w-full relative">
+                <button
+                  onClick={() => setShowSizeGuide(false)}
+                  className="absolute top-3 right-3"
+                >
+                  ✕
+                </button>
+
+                <SizeGuideModal product={product} />
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
