@@ -204,12 +204,7 @@ const Navbar = () => {
                 >
                   Kids
                 </Link>
-                <Link
-                  href="/ethnic"
-                  className="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[#6a0f1f] hover-underline-center"
-                >
-                  Ethnic
-                </Link>
+                
               </div>
             )}
           </div>
@@ -459,13 +454,7 @@ const Navbar = () => {
                     Kids
                   </Link>
 
-                  <Link
-                    href="/ethnic"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100"
-                    onClick={() => setOpen(false)}
-                  >
-                    Ethnic
-                  </Link>
+                  
                 </div>
               )}
             </div>

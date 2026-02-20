@@ -14,12 +14,24 @@ async function getProduct(id: number): Promise<IMSProduct | null> {
 
 async function getAllProducts(): Promise<IMSProduct[]> {
   const res = await fetch(
-    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&&limit=8`,
+    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&&limit=20`,
     { next: { revalidate: 120 } },
   );
   if (!res.ok) return [];
   const data = await res.json();
   return data.products ?? [];
+}
+
+async function getInventory(productId: number) {
+  const res = await fetch(
+    `${process.env.IMS_BASE_URL}/api/ims/public/inventory/list?productId=${productId}`,
+    { cache: "no-store" }
+  );
+
+  if (!res.ok) return [];
+
+  const data = await res.json();
+  return data.inventory ?? [];
 }
 
 export default async function ProductPage({
@@ -53,11 +65,14 @@ export default async function ProductPage({
     (p) => p.category === product.category && p.productId !== product.productId,
   );
 
+  const inventory = await getInventory(productId);
+
   return (
     <ProductPDPClient
       product={product}
       colorVariants={colorVariants}
       similarProducts={similarProducts}
+      inventory={inventory}
     />
   );
 }

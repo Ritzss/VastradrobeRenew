@@ -152,7 +152,7 @@ const ProductCard = ({
         )}
         {children}
         {button && (
-          <div className="bg-transparent flex gap-1 flex-row-reverse">
+          <div className="bg-transparent flex gap-3 flex-row-reverse">
             <button
               type="button"
               onClick={handleCartToggle}

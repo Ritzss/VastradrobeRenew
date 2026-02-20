@@ -74,15 +74,7 @@ const CategoryItems = ({
       activeStyle="bg-[#ffff00] border-[#ffff00] border-b-2"
     />
 
-    <NavItem
-      href="/ethnic"
-      src="/Assets/Images/CateImg/traditional.png"
-      Img={Img}
-      label="Ethnic"
-      active={isActive("/ethnic")}
-      hover="hover:bg-[#c50052] hover:border-[#c50052] hover:border-b-2"
-      activeStyle="bg-[#c50052] border-[#c50052] border-b-2"
-    />
+    
   </>
 );
 

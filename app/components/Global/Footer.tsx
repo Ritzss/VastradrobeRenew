@@ -82,9 +82,9 @@ const Footer = ({ className }: { className?: string }) => {
             </p>
           </div>
 
-          <a href="tel:+919910953926" className="text-sm ">
+          <a href="tel:+918800513926" className="text-sm ">
             Phone :{" "}
-            <span className="hover-underline-center">+91 9910953926</span>{" "}
+            <span className="hover-underline-center">+91 8800513926</span>{" "}
           </a>
 
           <a

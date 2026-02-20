@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Image from "next/image";
 import { IMSProduct } from "@/Types/Product";
 import { useAppContext } from "@/hooks/useAppContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import ProductCard from "@/components/Global/ProductCard";
 import { IoExitOutline } from "react-icons/io5";
@@ -18,10 +20,12 @@ export default function ProductPDPClient({
   product,
   colorVariants,
   similarProducts,
+  inventory,
 }: {
   product: IMSProduct;
   colorVariants: IMSProduct[];
   similarProducts: IMSProduct[];
+  inventory: any[];
 }) {
   const router = useRouter();
 
@@ -38,29 +42,44 @@ export default function ProductPDPClient({
   const [activeImage, setActiveImage] = useState(
     product.images?.[0] || "/Assets/Images/Newplaceholder.png",
   );
-  const [selectedSize, setSelectedSize] = useState(
-    product.sizes?.[0] || "FREE",
-  );
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   const sizes =
     product.sizes && product.sizes.length > 0 ? product.sizes : FALLBACK_SIZES;
 
-  const defaultSize = product.sizes?.[0] || "FREE";
 
   const isInCart = cartItems.some(
-    (item) => item.productId === productId && item.size === defaultSize,
+    (item) => item.productId === productId && item.size === selectedSize,
   );
 
+  const stockMap = inventory.reduce((acc: any, item: any) => {
+    acc[item.size] = item.quantity;
+    return acc;
+  }, {});
+
+  useEffect(() => {
+    if (!inventory.length) return;
+
+    const availableSize = sizes.find((size) => stockMap[size] > 0) || sizes[0];
+
+    setSelectedSize((prevSize) => prevSize === availableSize ? prevSize : availableSize);
+  }, [inventory, sizes, stockMap]);
+
+  const getStock = (size: string) => stockMap[size] ?? null;
+  
+
   const handleCartToggle = () => {
+    if (!selectedSize) return;
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     isInCart
-      ? removeFromCart(productId, defaultSize)
-      : addToCart(productId, defaultSize);
+      ? removeFromCart(productId, selectedSize)
+      : addToCart(productId, selectedSize);
   };
   const handleBuyNow = () => {
     router.push(
-      `/checkout?buyNow=1&productId=${productId}&size=${defaultSize}&qty=1`,
+      `/checkout?buyNow=1&productId=${productId}&size=${selectedSize}&qty=1`,
     );
   };
   return (
@@ -135,6 +154,9 @@ export default function ProductPDPClient({
 
           <div className="text-2xl font-semibold">
             ₹{product.price}
+            <span className="text-[#008000] relative left-0 bottom-3 p-[0.35rem] rounded-md text-lg">
+              {Math.floor((product?.price * 100) / product?.mrp)}% OFF
+            </span>
             {product.mrp && (
               <span className="ml-3 text-sm line-through text-gray-400">
                 ₹{product.mrp}
@@ -174,20 +196,38 @@ export default function ProductPDPClient({
               <div>
                 <p className="font-medium mb-2">Size</p>
                 <div className="flex gap-3 flex-wrap">
-                  {sizes.map((size) => (
+                  {sizes.map((size) => {
+                    const qty = getStock(size);
+                    return (
+                    
                     <button
                       key={size}
+                      disabled={qty === 0}
                       onClick={() => setSelectedSize(size)}
                       className={`px-4 py-2 rounded-lg border ${
                         selectedSize === size
                           ? "bg-black text-white"
                           : "hover:bg-black hover:text-white"
-                      }`}
+                      } 
+                          ${qty === 0 ? "opacity-40 cursor-not-allowed" : ""}`}
                     >
                       {size}
+                      {stockMap[size] !== undefined && stockMap[size] < 15 && (
+                        <span className="ml-2 text-xs text-gray-500">
+                          ({stockMap[size]})
+                        </span>
+                      )}
                     </button>
-                  ))}
+                  )})}
                 </div>
+                  {selectedSize &&
+                    (stockMap[selectedSize] > 0 ? (
+                      <p className="mt-3 text-green-600 text-sm">
+                        In Stock 
+                      </p>
+                    ) : (
+                      <p className="mt-3 text-red-600 text-sm">Out of Stock</p>
+                    ))}
               </div>
             </div>
           </div>
@@ -259,7 +299,11 @@ export default function ProductPDPClient({
             <div className="flex gap-6 overflow-x-auto pb-4">
               {similarProducts.slice(0, 8).map((p) => (
                 <div key={p.productId} className="min-w-80">
-                  <ProductCard product={p} className="w-full" />
+                  <ProductCard
+                    product={p}
+                    className="w-full bg-white border"
+                    classNameInner="h-[45vh] rounded-sm"
+                  />
                 </div>
               ))}
             </div>

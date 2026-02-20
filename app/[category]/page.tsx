@@ -11,7 +11,6 @@ const CATEGORY_MAP: Record<string, string[]> = {
   men: ["men"],
   women: ["women"],
   kids: ["boys", "girls"],
-  ethnic: ["ethnic"],
 };
 
 export default async function Page({ params }: PageProps) {
