@@ -361,9 +361,7 @@ export default function ProductPDPClient({
           <div className="mt-6 border-t pt-6">
             <button
               onClick={() => setShowProductDeatils((prev) => !prev)}
-              className="w-full flex items-center justify-between text-sm font-medium 
-               bg-[#2b2b2b10] px-4 py-3 rounded-xl hover:bg-[#2b2b2b20] 
-               transition-all duration-300"
+              className="w-full flex items-center justify-between text-sm font-medium bg-[#2b2b2b10] px-4 py-3 rounded-xl hover:bg-[#2b2b2b20] transition-all duration-300"
             >
               <span>
                 {showProductDeatils
