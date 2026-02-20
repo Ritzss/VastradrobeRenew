@@ -118,7 +118,7 @@ const filteredProducts = products.filter((product) =>
               product={product}
               height="h-[60vh]"
               classNameInner="h-[47vh] rounded-2xl"
-              className="md:w-full group w-[85%] hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
+              className="md:w-full py-1.5 group w-[85%] hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
               button={false}
             >
               <div className="uppercase text-center m-2 w-full ">
