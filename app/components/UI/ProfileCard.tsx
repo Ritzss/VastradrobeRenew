@@ -445,6 +445,11 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 My Favorites
               </div>
             </Link>
+            <Link href={"/support"}>
+              <div className="hidden md:block profileBox text-center">
+               Customer Support
+              </div>
+            </Link>
             <Link href={"reset_password"}>
               <div className="hidden md:block profileBox text-center">
                 Password Reset

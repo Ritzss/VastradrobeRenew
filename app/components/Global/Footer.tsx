@@ -12,7 +12,7 @@ const Footer = ({ className }: { className?: string }) => {
     "cursor-pointer hover:scale-105 hover:text-shadow-[0_0_10px_#ffffff] duration-500 transition-all underline pl-2";
   const Address = "https://maps.app.goo.gl/PukzZvvqVvtfiHRD7";
 
-  const Category = ["Men", "Women", "Kids", "Ethnic"];
+  const Category = ["Men", "Women", "Kids"];
   const Customer = [
     "Returns & Refunds",
     "Shipping",

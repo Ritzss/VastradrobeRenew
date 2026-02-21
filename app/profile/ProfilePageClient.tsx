@@ -252,6 +252,11 @@ const ProfilePageClient = () => {
                 Password Reset
               </div>
             </Link>
+            <Link href={"/support"}>
+              <div className="profileBox text-center">
+                Customer Support
+              </div>
+            </Link>
         </div>
       </div>
     </div>

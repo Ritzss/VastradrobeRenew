@@ -15,7 +15,7 @@ const CategoryBar = (props: {
 
   return (
     <section
-      className={`w-full border-b
+      className={`w-full 
         ${props.className ?? ""}
       `}
     >
@@ -28,7 +28,7 @@ const CategoryBar = (props: {
 
       {/* DESKTOP: evenly spaced */}
       <div
-        className=" hidden md:flex justify-evenly text-base lg:text-lg"
+        className=" hidden md:flex flex-col w-[15vw] h-[85vh] justify-evenly text-base lg:text-lg"
       >
         <CategoryItems isActive={isActive} Img={props.Img} />
       </div>

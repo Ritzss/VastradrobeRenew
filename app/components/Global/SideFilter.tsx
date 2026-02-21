@@ -85,7 +85,6 @@ const availableSizes = useMemo(() => {
         transform transition-transform duration-300 ease-in-out
         md:w-64 md:translate-x-0
         ${onClose ? "translate-x-0" : ""}
-        md:border-r
         p-5 overflow-y-auto
       `}
     >

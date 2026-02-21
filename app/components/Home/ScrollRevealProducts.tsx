@@ -116,8 +116,8 @@ const filteredProducts = products.filter((product) =>
           style={{}}>
             <ProductCard
               product={product}
-              height="h-[60vh]"
-              classNameInner="h-[47vh] rounded-2xl"
+              height="h-[63vh]"
+              classNameInner="h-[53vh] rounded-2xl"
               className="md:w-full py-1.5 group w-[85%] hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
               button={false}
             >

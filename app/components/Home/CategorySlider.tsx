@@ -31,6 +31,12 @@ const CategorySlider = () => {
         {items.map((item, index) => (
           <CategoryCard key={index} {...item} />
         ))}
+        {items.map((item, index) => (
+          <CategoryCard key={index} {...item} />
+        ))}
+        {items.map((item, index) => (
+          <CategoryCard key={index} {...item} />
+        ))}
         </InfiniteScroll>
       </div>
     </section>

@@ -258,15 +258,27 @@ body.scroll-lock {
 /* makeing responsiveness outoff thin air */
 
 /* ===========================
-   RESPONSIVE LAYOUT UTILITIES
-   =========================== */
+RESPONSIVE LAYOUT UTILITIES
+=========================== */
 
+/* Generic responsive container */
+.page-container {
+  width: 100%;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
 /* Product listing cards */
 .product-card {
   width: 96%;
 }
 .product-card-all {
   width: 95%;
+}
+@media (min-width: 640px) {
+  .page-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -275,6 +287,11 @@ body.scroll-lock {
   }
   .product-card-all {
     width: 45%;
+  }
+  .page-container {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -285,6 +302,9 @@ body.scroll-lock {
   .product-card-all {
     width: 32%;
   }
+  .nav-logo{
+    left: -2%;
+  }
 }
 
 @media (min-width: 1025px) {
@@ -294,29 +314,16 @@ body.scroll-lock {
   .product-card-all {
     width: 24%;
   }
-}
-
-/* Generic responsive container */
-.page-container {
-  width: 100%;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
-@media (min-width: 640px) {
-  .page-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
+  .cardWidth {
+    width: 23vw;
+  }
+  .nav-logo{
+    left: -8%;
   }
 }
 
-@media (min-width: 768px) {
-  .page-container {
-    max-width: 80rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
+
+
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
@@ -337,8 +344,3 @@ body.scroll-lock {
   font-weight: 600;
 }
 
-@media (min-width: 1025px) {
-  .cardWidth {
-    width: 23vw;
-  }
-}
