@@ -372,7 +372,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 fill
                 sizes="photo"
                 alt={`${name || "User"} avatar`}
-                loading="lazy"
+                loading="eager"
 
                 onError={(e) => {
                   const t = e.target as HTMLImageElement;
