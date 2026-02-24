@@ -372,7 +372,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 alt={`${name || "User"} avatar`}
                 fill
                 sizes="(max-width: 768px) 100vw, 400px"
-                loading="lazy"
+                priority={false}
+                loading="eager"
                 onError={(e) => {
                   const t = e.target as HTMLImageElement;
                   t.style.display = "none";
@@ -399,7 +400,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                   alt={`${name || "User"} mini avatar`}
                   fill
                   sizes="80px"
-                  loading="lazy"
+                  priority={false}
+                  loading="eager"
                   onError={(e) => {
                     const t = e.target as HTMLImageElement;
                     t.style.opacity = "0.5";

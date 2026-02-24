@@ -560,6 +560,7 @@
   }
 
   .pc-mini-avatar {
+    position: relative;
     width: 20px;
     height: 20px;
   }
