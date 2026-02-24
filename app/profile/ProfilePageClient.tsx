@@ -75,7 +75,7 @@ const ProfilePageClient = () => {
         <ProfileCard
           name={user?.username}
           handle={user?.username}
-          avatarUrl={user?.avatar || "/Assets/Images/Profiles/profile.svg"}
+          avatarUrl={user?.avatar || "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771932441/profile_etqzif.svg"}
           contactText="Change Photo"
           showUserInfo={true}
           enableTilt={false}
@@ -102,7 +102,7 @@ const ProfilePageClient = () => {
         <ProfileCard
           name={user?.username}
           handle={user?.username}
-          avatarUrl={user?.avatar || "/Assets/Images/Profiles/profile.svg"}
+          avatarUrl={user?.avatar || "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771932441/profile_etqzif.svg"}
           contactText="Change Photo"
           showUserInfo={true}
           enableTilt={false}
@@ -129,7 +129,7 @@ const ProfilePageClient = () => {
         <ProfileCard
           name={user?.username}
           handle={user?.username}
-          avatarUrl={user?.avatar || "/Assets/Images/Profiles/profile.svg"}
+          avatarUrl={user?.avatar || "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771932441/profile_etqzif.svg"}
           contactText="Change Photo"
           showUserInfo={true}
           enableTilt={false}
