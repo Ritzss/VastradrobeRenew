@@ -309,7 +309,7 @@ RESPONSIVE LAYOUT UTILITIES
 
 @media (min-width: 1025px) {
   .product-card {
-    width: 32%;
+    width: 31%;
   }
   .product-card-all {
     width: 24%;
@@ -322,8 +322,27 @@ RESPONSIVE LAYOUT UTILITIES
   }
 }
 
+/* Scrollbar width */
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+}
 
+/* Track */
+.custom-scroll::-webkit-scrollbar-track {
+  background: #f3f3f3;
+  border-radius: 10px;
+}
 
+/* Thumb */
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #6a0f1f;
+  border-radius: 10px;
+}
+
+/* Hover */
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #8b1c2e;
+}
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
@@ -344,3 +363,24 @@ RESPONSIVE LAYOUT UTILITIES
   font-weight: 600;
 }
 
+.bubble {
+  width: 110px;
+  /* height: 200px; */
+  background: #dfc9ac;
+  border-radius: 20px;
+  /* position: relative; */
+}
+
+.bubble::before {
+      content: "";
+    border-top: 20px solid #0000;
+    border-bottom: 20px solid #0000;
+    border-left: 38px solid #dfc9ac;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -5px;
+    right: -13px;
+    transform: rotate(-35deg);
+    z-index: -10;
+}

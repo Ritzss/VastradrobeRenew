@@ -65,7 +65,7 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   }
 
   return (
-    <div className="md:w-[66vw] w-[95vw] h-[85vh] overflow-scroll mx-auto">
+    <div className="md:w-[66vw] w-[95vw] h-[85vh] custom-scroll scrollbar-hide overflow-y-scroll mx-auto">
       {/* RESULTS HEADER */}
       <div className="flex items-center justify-between mt-10 px-4">
         <p className="text-sm text-gray-500 uppercase tracking-[0.25em]">
@@ -83,14 +83,14 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
       <div className="h-px bg-gray-200 mb-12" />
 
       {/* PRODUCT GRID */}
-      <div className="flex flex-wrap gap-5 overflow-y-scroll">
+      <div className="flex flex-wrap gap-5">
         {groupedProducts.map((item) => (
           <ProductCard
             key={item.productId}
             product={item}
-            height="h-[72vh] md:h-[58vh]"
+            height="h-[72vh] md:h-[54vh]"
             className="product-card border bg-white"
-            classNameInner="h-[60vh] md:h-[47vh] rounded-sm"
+            classNameInner="h-[60vh] md:h-[43vh] rounded-sm"
           />
         ))}
       </div>

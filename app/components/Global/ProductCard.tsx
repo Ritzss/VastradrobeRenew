@@ -27,7 +27,7 @@ const ProductCard = ({
   button = true,
   children,
 }: Props) => {
-  const { name, images, price, mrp, brand } = product;
+  const { name, images, brand } = product;
   const productId = Number(product.productId);
   const {
     cartItems,
@@ -107,7 +107,7 @@ const ProductCard = ({
 
       {/* 📂 COLLECTION DROPDOWN */}
       {showCollections && !selectedCollection && (
-        <div className="absolute bottom-16 flex left-1 mt-2 bg-white text-[#6a0f1f] border rounded-lg shadow-lg z-50">
+        <div className="absolute bubble top-3 flex flex-col z-50 right-8 mt-2 bg-white text-[#6a0f1f] border rounded-lg shadow-lg">
           {Object.keys(favCollections).map((collection) => (
             <div
               key={collection}
@@ -117,7 +117,7 @@ const ProductCard = ({
                 setSelectedCollection(collection);
                 setShowCollections(false);
               }}
-              className="px-4 py-2 text-sm hover:bg-gray-100 hover:rounded-xl cursor-pointer whitespace-nowrap"
+              className="px-4 py-2  text-sm hover:bg-[#6a0f1f] hover:text-white hover:rounded-xl cursor-pointer whitespace-nowrap"
             >
               {collection}
             </div>
@@ -134,7 +134,6 @@ const ProductCard = ({
             className=""
           >
             <div className="flex-col duration-300 bg-transparent transition-all flex gap-2 flex-1">
-              
               {/* <div>
               <p className="line-clamp-1 hover:text-[#cd0000]">{description}</p>
             </div> */}
@@ -156,23 +155,21 @@ const ProductCard = ({
         {children}
         {button && (
           <div className="bg-transparent flex gap-1 px-1">
-            <div className="bg-[#eeddc7] p-1 rounded-lg w-full">
+            <Link href={`/product/${Number(productId)}`} className="bg-[#eeddc7] px-1 rounded-lg w-full">
               <div className="font-semibold line-clamp-1 ">{brand}</div>
-            <div className="font-bold line-clamp-1 ">{name}</div>
-            </div>
+              <div className="font-bold line-clamp-1 ">{name}</div>
+            </Link>
             <button
               type="button"
               onClick={handleCartToggle}
-              className="bg-black cursor-pointer gap-2 p-1 text-white w-[21%] mx-auto rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
+              className="bg-black cursor-pointer gap-2 px-1 text-white w-[21%] mx-auto rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
             >
               {isInCart ? (
                 <>
-                  
                   <MdOutlineRemoveShoppingCart className="text-2xl " />
                 </>
               ) : (
                 <>
-                  
                   <FaCartArrowDown className="text-2xl" />
                 </>
               )}
@@ -180,34 +177,36 @@ const ProductCard = ({
           </div>
         )}
       </div>
-            <span
-              className="absolute top-1.5 right-1 cursor-pointer text-center mx-auto hover:translate-y-1 rounded-full duration-500 transition-all bg-[#EEDDC7] p-1"
-              onClick={() => {
-                const collectionNames = Object.keys(favCollections);
+      <span
+        className="absolute top-1.5 right-1 cursor-pointer text-center mx-auto hover:translate-y-1 rounded-full duration-500 transition-all bg-[#EEDDC7] p-1"
+        onClick={() => {
+          const collectionNames = Object.keys(favCollections);
 
-                if (selectedCollection) {
-                  removeFromCollection(selectedCollection, productId);
-                  setSelectedCollection(null);
-                  setShowCollections(false);
-                  return;
-                }
+          if (selectedCollection) {
+            removeFromCollection(selectedCollection, productId);
+            setSelectedCollection(null);
+            setShowCollections(false);
+            return;
+          }
 
-                // 🔥 If only one collection → auto add
-                if (collectionNames.length === 1) {
-                  const defaultCollection = collectionNames[0];
-                  addToCollection(defaultCollection, productId);
-                  setSelectedCollection(defaultCollection);
-                  return;
-                }
+          // 🔥 If only one collection → auto add
+          if (collectionNames.length === 1) {
+            const defaultCollection = collectionNames[0];
+            addToCollection(defaultCollection, productId);
+            setSelectedCollection(defaultCollection);
+            return;
+          }
 
-                // 👇 If multiple collections → show dropdown
-                setShowCollections((prev) => !prev);
-              }}
-            >
-              {selectedCollection
-                ? <RiHeartFill size={22} className="text-[#ff0000]"/>
-                : <Heart size={22} />}
-            </span>
+          // 👇 If multiple collections → show dropdown
+          setShowCollections((prev) => !prev);
+        }}
+      >
+        {selectedCollection ? (
+          <RiHeartFill size={22} className="text-[#ff0000]" />
+        ) : (
+          <Heart size={22} />
+        )}
+      </span>
     </div>
   );
 };

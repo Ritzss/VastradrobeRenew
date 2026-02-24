@@ -100,10 +100,10 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="md:w-[80%] m-2 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
+    <div className="md:w-[80%] w-full m-20 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
 
       {/* LEFT PANEL */}
-      <aside className="md:w-[40%] h-110 md:h-auto bg-[#ffffff] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 border-white flex-col flex justify-between">
+      <aside className="md:w-[40%] h-auto bg-[#dfc9ac] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 border-white flex-col flex justify-between">
         <header className="flex-col flex gap-5">
           <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center font-bold">
             Reset Password
@@ -127,9 +127,9 @@ export default function ResetPasswordPage() {
       </aside>
 
       {/* RIGHT PANEL */}
-      <aside className="md:w-[60%] h-110 md:h-auto font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-center items-center p-8">
+      <aside className="md:w-[60%] bg-[#dfc9ac] h-auto font-sans shadow-[inset_0_0_150px_28px_#cd0000] text-white flex flex-col justify-center items-center">
 
-        <div className="w-full max-w-sm flex flex-col gap-4">
+        <div className="w-full max-w-lg  flex flex-col gap-4">
 
           {step === "email" && (
             <>

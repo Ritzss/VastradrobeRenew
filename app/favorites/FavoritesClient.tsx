@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import ProductCard from "@/components/Global/ProductCard";
 import { motion } from "framer-motion";
+import HorizontalScroll from "@/components/Global/HorizontalScroll";
 
 const FavoritesClient = () => {
   const {
@@ -55,7 +56,7 @@ const FavoritesClient = () => {
       </motion.h1>
 
       {/* CREATE COLLECTION */}
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap justify-end items-center gap-3">
         {!showInput ? (
           <button
             onClick={() => setShowInput(true)}
@@ -95,6 +96,14 @@ const FavoritesClient = () => {
         )}
       </div>
 
+      <div className="hidden absolute right-5 rounded-lg w-[20%] md:flex flex-col gap-3 bg-[#dfc9ac] p-5 top-60">
+        {Object.entries(favCollections).map(([collection, ids], index) => {
+          return <a href={`#${collection}`} key={index} className="bg-[#6a0f1f] text-white border-[#6a0f1f] font-semibold p-2 text-center rounded-full">
+            {collection}
+            </a>;
+        })}
+      </div>
+
       <div className="flex gap-3 flex-wrap">
         <button
           onClick={() => setSelectedCategory(null)}
@@ -117,6 +126,16 @@ const FavoritesClient = () => {
           </button>
         ))}
       </div>
+      <div className="block md:hidden rounded-lg w-full bg-[#dfc9ac] p-5 top-60">
+        <HorizontalScroll>
+          {Object.entries(favCollections).map(([collection, ids], index) => {
+          return <a href={`#${collection}`} key={index} className="bg-[#6a0f1f] text-white border-[#6a0f1f] font-semibold p-2 mx-2 text-center rounded-md">
+            {collection}
+            
+            </a>;
+        })}
+        </HorizontalScroll>
+      </div>
 
       {/* COLLECTIONS */}
       {Object.entries(favCollections).map(([collection, ids], index) => {
@@ -128,11 +147,12 @@ const FavoritesClient = () => {
 
         return (
           <motion.section
+          id={`${collection}`}
             key={collection}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.4 }}
-            className="flex flex-col gap-6"
+            className="flex flex-col mx-auto md:mx-0 gap-6 w-[85%]"
           >
             <h2 className="text-xl font-semibold">{collection}</h2>
 
@@ -178,6 +198,8 @@ const FavoritesClient = () => {
           </motion.section>
         );
       })}
+
+      
 
       {/* CTA */}
       <div className="flex justify-center pt-6">

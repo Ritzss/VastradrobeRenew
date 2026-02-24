@@ -110,7 +110,7 @@ const filteredProducts = products.filter((product) =>
       </div>
 
       {/* ---------- DESKTOP (wrap layout) ---------- */}
-      <div className="hidden md:flex flex-wrap justify-center">
+      <div className="hidden md:flex flex-wrap justify-evenly">
         {filteredProducts.slice(0, 3).map((product) => (
           <div key={product.productId} className="md:w-[48%] lg:w-[28vw] cardWidth"
           style={{}}>

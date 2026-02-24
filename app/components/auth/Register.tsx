@@ -33,8 +33,8 @@ const Register = () => {
 
  
   return (
-    <section className="md:w-[80%] overflow-hidden rounded-xl border m-2 md:h-[70vh] md:flex">
-      <aside className="md:w-[40%] h-150 md:h-auto bg-[#ffffff] text-[#ffffff] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 flex-col flex justify-between">
+    <section className="md:w-[80%] my-4 w-full md:m-20 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
+      <aside className="md:w-[40%] h-auto text-[#ffffff] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 flex-col flex justify-between">
         <header className="flex-col flex gap-5">
           <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center hover:scale-115 hover:text-shadow-[0_0_10px] font-bold text-shadow-[0_0_20px] duration-500 transition-all">
             Register
@@ -56,10 +56,10 @@ const Register = () => {
           />
         </div>
       </aside>
-      <aside className="md:w-[60%] h-150 md:h-auto font-sans bg-[#cd0000] text-white shadow-[inset_0_0_20px_#ffffff] flex flex-col justify-center items-center ">
+      <aside className="md:w-[60%] h-auto font-sans text-white shadow-[inset_0_0_150px_28px_#cd0000] flex flex-col justify-center items-center ">
         <form
         onSubmit={onSubmit}
-          className="flex flex-col justify-evenly w-full h-full p-4 "
+          className="flex flex-col justify-evenly w-full h-90 p-4 "
         >
           <label className="flex justify-between" htmlFor="LoginID">
             <div className=" w-[40%] text-xl">UserName:</div>

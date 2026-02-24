@@ -50,8 +50,8 @@ const CategoryItems = ({
       Img={Img}
       label="Men"
       active={isActive("/men")}
-      hover="hover:bg-[#00ffff] hover:border-[#00ffff] hover:border-b-2"
-      activeStyle="bg-[#00ffff] border-[#00ffff] border-b-2"
+      hover="hover:bg-[#6a1f0f] hover:border-[#6a1f0f] hover:border-b-2"
+      activeStyle="bg-[#6a1f0f] border-[#6a1f0f] border-b-2"
     />
 
     <NavItem
@@ -60,8 +60,8 @@ const CategoryItems = ({
       Img={Img}
       label="Women"
       active={isActive("/women")}
-      hover="hover:bg-[#f04aff] hover:border-[#f04aff] hover:border-b-2"
-      activeStyle="bg-[#f04aff] border-[#f04aff] border-b-2"
+      hover="hover:bg-[#6a1f0f] hover:border-[#6a1f0f] hover:border-b-2"
+      activeStyle="bg-[#6a1f0f] border-[#6a1f0f] border-b-2"
     />
 
     <NavItem
@@ -70,8 +70,8 @@ const CategoryItems = ({
       Img={Img}
       label="Kids"
       active={isActive("/kids")}
-      hover="hover:bg-[#ffff00] hover:border-[#ffff00] hover:border-b-2"
-      activeStyle="bg-[#ffff00] border-[#ffff00] border-b-2"
+      hover="hover:bg-[#6a1f0f] hover:border-[#6a1f0f] hover:border-b-2"
+      activeStyle="bg-[#6a1f0f] border-[#6a1f0f] border-b-2"
     />
 
     
