@@ -418,7 +418,7 @@ export const policies: PolicyItem[] = [
       },
       {
         type: "images",
-        src: "/Assets/Images/HQImages/VastraDrobeHQ.jpg",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933730/VastraDrobeHQ_nrxzqz.jpg",
       },
       {
         type: "heading",

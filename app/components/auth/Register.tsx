@@ -52,6 +52,7 @@ const Register = () => {
             width={300}
             height={2}
             alt=""
+            priority
             className="w-83 h-50"
           />
         </div>

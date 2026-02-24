@@ -120,6 +120,7 @@ export default function ResetPasswordPage() {
             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"
             width={300}
             height={200}
+            priority
             alt="reset"
             className="w-83 h-50"
           />
