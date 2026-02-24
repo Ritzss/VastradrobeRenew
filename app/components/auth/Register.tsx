@@ -48,7 +48,7 @@ const Register = () => {
         </header>
         <div className="overflow-hidden self-end">
           <Image
-            src={"/Assets/Images/authimg.png"}
+            src={"https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"}
             width={300}
             height={2}
             alt=""
