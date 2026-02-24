@@ -365,12 +365,15 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
           <div className="pc-inside">
             <div className="pc-shine" />
             <div className="pc-glare" />
-            <div className="pc-content pc-avatar-content">
+            <div className="pc-content relative pc-avatar-content">
               <Image
                 className="avatar"
                 src={avatarUrl}
+                fill
+                sizes="photo"
                 alt={`${name || "User"} avatar`}
                 loading="lazy"
+
                 onError={(e) => {
                   const t = e.target as HTMLImageElement;
                   t.style.display = "none";
@@ -396,6 +399,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                   src={miniAvatarUrl || avatarUrl}
                   alt={`${name || "User"} mini avatar`}
                   loading="lazy"
+                  fill
+                  sizes="photo"
                   onError={(e) => {
                     const t = e.target as HTMLImageElement;
                     t.style.opacity = "0.5";
