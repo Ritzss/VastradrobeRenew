@@ -119,7 +119,7 @@
   mix-blend-mode: color-dodge;
 }
 
-/* .pc-shine,
+.pc-shine,
 .pc-shine::after {
   --space: 5%;
   --angle: -45deg;
@@ -165,8 +165,8 @@
     300% 300%,
     200% 200%;
   background-repeat: repeat;
-} */
-/* 
+}
+
 .pc-shine::before,
 .pc-shine::after {
   content: "";
@@ -175,9 +175,9 @@
   grid-area: 1/1;
   opacity: 0;
   transition: opacity 0.8s ease;
-} */
+}
 
-/* .pc-card:hover .pc-shine,
+.pc-card:hover .pc-shine,
 .pc-card.active .pc-shine {
   filter: brightness(0.4) contrast(1.5) saturate(0.5);
   animation-play-state: paused;
@@ -233,7 +233,7 @@
     100% 100%;
   mix-blend-mode: difference;
   filter: brightness(0.8) contrast(1.5);
-} */
+}
 
 .pc-glare {
   transform: translate3d(0, 0, 1.1px);
