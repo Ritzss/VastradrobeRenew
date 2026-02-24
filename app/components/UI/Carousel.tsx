@@ -30,7 +30,7 @@ export interface CarouselProps {
 
 type CarouselVariant = "review" | "media";
 
-const DEFAULT_ITEMS: CarouselItem[] = [
+export const DEFAULT_ITEMS: CarouselItem[] = [
   {
     id: 1,
     title: "Aditi Sharma",
@@ -347,7 +347,7 @@ export default function Carousel({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden bg-[#6a0f1f] border ${variant !== "media" && "h-120"} p-4 ${
+      className={`relative overflow-hidden ${variant !== "media" && "h-120"} p-4 ${
         round ? "rounded-full border border-white" : "rounded-4xl "
       }`}
       style={{

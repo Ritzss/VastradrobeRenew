@@ -8,10 +8,7 @@ const ClientCatLayout = ({ children }: { children: ReactNode }) => {
   const [showFilter, setShowFilter] = useState(false);
 
   return (
-    <section className="">
-      <article className="group">
-        <CategoryBar className={" text-[#cd0000]"} drop={false} Img={false} />
-      </article>
+    <section className="h-[85vh]">
       <div className="md:hidden flex justify-between">
         <button
           onClick={() => setShowFilter(true)}
@@ -20,15 +17,18 @@ const ClientCatLayout = ({ children }: { children: ReactNode }) => {
           Filters
         </button>
         <div className="md:block w-64">
-          {showFilter && <SideFilter onClose={() => setShowFilter(false)} />}
+          {showFilter && <SideFilter className="bg-white " onClose={() => setShowFilter(false)} />}
         </div>
         <div className="flex-wrap flex justify-center w-full">{children}</div>
       </div>
-      <div className="hidden md:flex justify-between">
+      <div className="hidden h-full md:flex justify-between">
         <div className="hidden md:block w-64">
           <SideFilter />
         </div>
         <div className="flex-wrap flex justify-center w-full">{children}</div>
+        <div>
+        <CategoryBar className={""} drop={false} Img={false} />
+        </div>        
       </div>
     </section>
   );

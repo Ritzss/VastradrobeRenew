@@ -1,8 +1,4 @@
-"use client";
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { useEffect, useState } from "react";
+import { headers } from "next/headers";
 import VideoCarouselSection from "./VideoCarouselSection";
 import HorizontalScroll from "../Global/HorizontalScroll";
 
@@ -11,42 +7,39 @@ type VideoItem = {
   videoUrl: string;
 };
 
-const HomeVideos = () => {
-  const [userVideos, setUserVideos] = useState<VideoItem[]>([]);
+async function getVideos(): Promise<VideoItem[]> {
+  const headersList = headers();
+  const host = (await headersList).get("host");
+  const protocol =
+    process.env.NODE_ENV === "development" ? "http" : "https";
 
-  useEffect(() => {
-    const loadUserVideos = async () => {
-      try {
-        const res = await fetch("/api/home/cloudinary-videos", {
-          cache: "no-store",
-        });
+  const res = await fetch(
+    `${protocol}://${host}/api/home/cloudinary-videos`,
+    { next: { revalidate: 60 } }
+  );
 
-        const data = await res.json();
+  if (!res.ok) {
+    console.error("Video fetch failed:", res.status);
+    return [];
+  }
 
-        setUserVideos(
-          (data.videos || []).map((v: any) => ({
-            id: v.id,
-            videoUrl: v.url,
-          }))
-        );
-      } catch (err) {
-        console.error("Failed to fetch videos:", err);
-      }
-    };
+  const data = await res.json();
 
-    loadUserVideos();
-  }, []);
+  return (data.videos || []).map((v: any) => ({
+    id: v.id,
+    videoUrl: v.url,
+  }));
+}
+
+const HomeVideos = async () => {
+  const userVideos = await getVideos();
 
   if (!userVideos.length) return null;
 
   return (
     <HorizontalScroll color="#DFC9AC">
       {userVideos.map((video) => (
-        <VideoCarouselSection
-          key={video.id}
-          title=""
-          videos={[video]} // 👈 each section gets ONE video
-        />
+        <VideoCarouselSection key={video.id} title="" videos={[video]} />
       ))}
     </HorizontalScroll>
   );

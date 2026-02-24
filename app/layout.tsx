@@ -3,6 +3,7 @@ import "./globals.css";
 import { geistMono, geistSans } from "./font";
 import ClientLayout from "./ClientLayout";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: "VastraDrobe",
@@ -29,6 +30,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         <ClientLayout >{children}</ClientLayout>
+        <SpeedInsights />
       </body>
     </html>
   );

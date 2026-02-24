@@ -7,6 +7,8 @@ import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
 import { IMSProduct } from "@/Types/Product";
+import { Heart } from "lucide-react";
+import { RiHeartFill } from "react-icons/ri";
 
 type Props = {
   button?: boolean;
@@ -25,7 +27,7 @@ const ProductCard = ({
   button = true,
   children,
 }: Props) => {
-  const { name, images, price, mrp, brand } = product;
+  const { name, images, brand } = product;
   const productId = Number(product.productId);
   const {
     cartItems,
@@ -87,7 +89,7 @@ const ProductCard = ({
           }
         }}
         onDoubleClick={() => {}}
-        className={`group rounded-sm flex flex-col justify-start w-full ${classNameInner ? "p-2.5" : ""} text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
+        className={`group rounded-sm flex flex-col justify-start w-full ${button ? "p-2.5" : ""} text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
       >
         <div
           className={`relative ${classNameInner} imageBlock border mx-auto overflow-hidden shrink-0 w-[95%]`}
@@ -105,7 +107,7 @@ const ProductCard = ({
 
       {/* 📂 COLLECTION DROPDOWN */}
       {showCollections && !selectedCollection && (
-        <div className="absolute bottom-16 flex left-1 mt-2 bg-white text-[#6a0f1f] border rounded-lg shadow-lg z-50">
+        <div className="absolute bubble top-3 flex flex-col z-50 right-8 mt-2 bg-white text-[#6a0f1f] border rounded-lg shadow-lg">
           {Object.keys(favCollections).map((collection) => (
             <div
               key={collection}
@@ -115,7 +117,7 @@ const ProductCard = ({
                 setSelectedCollection(collection);
                 setShowCollections(false);
               }}
-              className="px-4 py-2 text-sm hover:bg-gray-100 hover:rounded-xl cursor-pointer whitespace-nowrap"
+              className="px-4 py-2  text-sm hover:bg-[#6a0f1f] hover:text-white hover:rounded-xl cursor-pointer whitespace-nowrap"
             >
               {collection}
             </div>
@@ -132,75 +134,79 @@ const ProductCard = ({
             className=""
           >
             <div className="flex-col duration-300 bg-transparent transition-all flex gap-2 flex-1">
-              <div className="text-lg font-semibold line-clamp-1 ">{brand}</div>
-              <div className="text-2xl font-bold line-clamp-1 ">{name}</div>
               {/* <div>
               <p className="line-clamp-1 hover:text-[#cd0000]">{description}</p>
             </div> */}
-              <div className="text-xl">&#8377;{Number(price)}</div>
+              {/* <div className="text-xl">&#8377;{Number(price)}</div>
               <div className="text-sm">
                 M.R.P:
                 <span className="line-through font-extralight text-[#7b7777]">
                   &#8377;{Number(mrp)}
                 </span>
-                <span className="text-[#008000] relative left-0 bottom-3 p-[0.35rem] rounded-md text-lg">
-                  {Math.floor((price * 100) / mrp)}% OFF
-                </span>
-              </div>
+                {mrp && mrp > price && (
+                  <span className="text-[#008000] relative left-0 bottom-3 p-[0.35rem] rounded-md text-lg">
+                    {Math.floor(((mrp - price) / mrp) * 100)}% OFF
+                  </span>
+                )}
+              </div> */}
             </div>
           </Link>
         )}
         {children}
         {button && (
-          <div className="bg-transparent flex gap-1 flex-row-reverse">
+          <div className="bg-transparent flex gap-1 px-1">
+            <Link href={`/product/${Number(productId)}`} className="bg-[#eeddc7] px-1 rounded-lg w-full">
+              <div className="font-semibold line-clamp-1 ">{brand}</div>
+              <div className="font-bold line-clamp-1 ">{name}</div>
+            </Link>
             <button
               type="button"
               onClick={handleCartToggle}
-              className="bg-black cursor-pointer gap-2 p-1 text-white w-[61%] mx-auto rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
+              className="bg-black cursor-pointer gap-2 px-1 text-white w-[21%] mx-auto rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
             >
               {isInCart ? (
                 <>
-                  Remove Item
                   <MdOutlineRemoveShoppingCart className="text-2xl " />
                 </>
               ) : (
                 <>
-                  Add to Cart
                   <FaCartArrowDown className="text-2xl" />
                 </>
               )}
             </button>
-            <span
-              className="cursor-pointer text-center w-[39%] mx-auto hover:translate-y-1 hover:rounded-xl duration-500 transition-all bg-[#EEDDC7] p-1 rounded-lg"
-              onClick={() => {
-                const collectionNames = Object.keys(favCollections);
-
-                if (selectedCollection) {
-                  removeFromCollection(selectedCollection, productId);
-                  setSelectedCollection(null);
-                  setShowCollections(false);
-                  return;
-                }
-
-                // 🔥 If only one collection → auto add
-                if (collectionNames.length === 1) {
-                  const defaultCollection = collectionNames[0];
-                  addToCollection(defaultCollection, productId);
-                  setSelectedCollection(defaultCollection);
-                  return;
-                }
-
-                // 👇 If multiple collections → show dropdown
-                setShowCollections((prev) => !prev);
-              }}
-            >
-              {selectedCollection
-                ? "Remove from Favorites"
-                : "Add to Favorites"}
-            </span>
           </div>
         )}
       </div>
+      <span
+        className="absolute top-1.5 right-1 cursor-pointer text-center mx-auto hover:translate-y-1 rounded-full duration-500 transition-all bg-[#EEDDC7] p-1"
+        onClick={() => {
+          const collectionNames = Object.keys(favCollections);
+
+          if (selectedCollection) {
+            removeFromCollection(selectedCollection, productId);
+            setSelectedCollection(null);
+            setShowCollections(false);
+            return;
+          }
+
+          // 🔥 If only one collection → auto add
+          if (collectionNames.length === 1) {
+            const defaultCollection = collectionNames[0];
+            addToCollection(defaultCollection, productId);
+            setSelectedCollection(defaultCollection);
+            return;
+          }
+
+          // 👇 If multiple collections → show dropdown
+          setShowCollections((prev) => !prev);
+        }}
+      >
+        {selectedCollection ? (
+          <RiHeartFill size={22} className="text-[#ff0000]" />
+        ) : (
+          <Heart size={22} />
+        )}
+      </span>
     </div>
   );
 };

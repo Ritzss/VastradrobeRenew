@@ -21,7 +21,7 @@ export const blogs: BlogItem[] = [
     slug: "cotton-flex-hemp-summer-fabric",
     excerpt:
       "When summer arrives, fabric choices matter as much as style. Enter Cotton Flex hemp — a lightweight, breathable hybrid that’s quickly becoming a favorite for warm-weather wardrobes. Combining the softness and drape of cotton with the strength, breathability, and eco-credentials of hemp, Cotton Flex hemp offers a practical, comfortable, and stylish solution for everything from everyday tees to tailored summer trousers......See More",
-    coverImage: "/Assets/Blog/cotton-flex-hemp/stack.jpg",
+    coverImage: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933749/stack_bossoz.jpg",
     content: [
       {
         type: "Intro",
@@ -34,7 +34,7 @@ export const blogs: BlogItem[] = [
       },
       {
         type: "image",
-        src: "/Assets/Blog/cotton-flex-hemp/swatches.jpg",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933747/swatches_eqipaf.jpg",
         value:
           "Cotton Flex hemp is a blended textile made by weaving or knitting cotton fibers with hemp fibers and treating the yarn or finished fabric so it stretches slightly — hence the “Flex.” This stretch might come from a small percentage of elastane, a mechanical finishing process that softens the fabric, or by using a knit construction that provides natural give. The result is a fabric that keeps the cooling, moisture-managing benefits of natural fibers while adding modern comfort and movement for daily life.",
       },
@@ -63,7 +63,7 @@ export const blogs: BlogItem[] = [
       },
       {
         type: "image",
-        src: "/Assets/Blog/cotton-flex-hemp/twist.jpg",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933747/swatches_eqipaf.jpg",
         value:
           "The subtle stretch in Cotton Flex hemp changes how the fabric moves with your body. It reduces resistance in fitted garments and improves recovery (so clothes don’t bag out at elbows or knees). That makes the fabric especially good for active summer pieces — casual trousers, shift dresses, utility shirts, and lightweight blazers that look polished but don’t restrict movement. Because stretch can be minimal (often 2–5%), the fabric still feels natural and breathable, unlike heavier stretch blends.",
       },
@@ -122,7 +122,7 @@ export const blogs: BlogItem[] = [
         type: "list",
         style: "disc",
         layout: "side-left",
-        src: "/Assets/Blog/cotton-flex-hemp/closeup.webp",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933746/closeup_mwipyg.webp",
         items: [
           "Check the fiber content: A typical summer-grade Cotton Flex hemp might be in the range of 55–70% cotton and 30–45% hemp, with up to 3–5% elastane if stretch is desired. Higher hemp content boosts durability and breathability.",
           "Feel the fabric: Look for a soft hand with a slightly textured surface — smoothness indicates heavy processing or chemical treatments that can reduce the natural benefits.",

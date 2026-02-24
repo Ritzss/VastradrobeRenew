@@ -12,7 +12,7 @@ const Footer = ({ className }: { className?: string }) => {
     "cursor-pointer hover:scale-105 hover:text-shadow-[0_0_10px_#ffffff] duration-500 transition-all underline pl-2";
   const Address = "https://maps.app.goo.gl/PukzZvvqVvtfiHRD7";
 
-  const Category = ["Men", "Women", "Kids", "Ethnic"];
+  const Category = ["Men", "Women", "Kids"];
   const Customer = [
     "Returns & Refunds",
     "Shipping",
@@ -29,7 +29,7 @@ const Footer = ({ className }: { className?: string }) => {
   return (
     <footer
       id="foot"
-      className={`bg-[#000000] text-[#EEDDC7] mt-6 w-full ${className ?? ""}`}
+      className={`bg-[#000000] text-[#EEDDC7] w-full ${className ?? ""}`}
     >
       {/* MAIN CONTENT */}
       <section
@@ -82,9 +82,9 @@ const Footer = ({ className }: { className?: string }) => {
             </p>
           </div>
 
-          <a href="tel:+919910953926" className="text-sm ">
+          <a href="tel:+918800513926" className="text-sm ">
             Phone :{" "}
-            <span className="hover-underline-center">+91 9910953926</span>{" "}
+            <span className="hover-underline-center">+91 8800513926</span>{" "}
           </a>
 
           <a

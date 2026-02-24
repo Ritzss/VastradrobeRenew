@@ -1,14 +1,13 @@
 "use client";
 
 import { AiFillStar } from "react-icons/ai";
-import Carousel from "@/components/UI/Carousel";
+import { DEFAULT_ITEMS } from "@/components/UI/Carousel";
+import Stack from "../UI/Stack";
+import { ReviewCard } from "../Global/ReviewCard";
 
 const SocialProof = () => {
-   
   return (
-    <aside
-      className=" max-w-7xl mx-auto px-4 md:px-8 py-16 flex flex-col md:flex-col lg:flex-row gap-12 md:gap-16 items-center md:items-start"
-    >
+    <aside className=" max-w-7xl mx-auto px-4 md:px-8 py-16 flex flex-col md:flex-col lg:flex-row gap-12 md:gap-16 items-center md:items-start">
       {/* LEFT SIDE */}
       <div className="flex flex-col gap-8 md:gap-10 w-full md:w-3/4">
         <h2 className="text-2xl sm:text-3xl md:text-[3rem] font-semibold text-[#2B2B2B] leading-tight">
@@ -58,20 +57,37 @@ const SocialProof = () => {
       </div>
 
       <div className="w-full flex justify-center">
+        <div style={{ width: 350, height: 300 }}>
+          <Stack
+            randomRotation
+            sensitivity={250}
+            sendToBackOnClick
+            autoplay
+            autoplayDelay={4000}
+            pauseOnHover
+            cards={DEFAULT_ITEMS.map((item) => (
+              <ReviewCard
+                key={item.id}
+                title={item.title || ""}
+                description={item.description || ""}
+                icon={item.icon}
+                image={item.image || ""}
+              />
+            ))}
+          />
+        </div>
         {/* Mobile */}
-        <div className="block sm:hidden">
+        {/* <div className="block sm:hidden">
           <Carousel
-          
             baseWidth={300}
             autoplay
             autoplayDelay={4000}
             pauseOnHover
             loop
           />
-        </div>
-
+        </div> */}
         {/* Tablet */}
-        <div className="hidden sm:block md:hidden">
+        {/* <div className="hidden sm:block md:hidden">
           <Carousel
             baseWidth={400}
             autoplay
@@ -79,10 +95,9 @@ const SocialProof = () => {
             pauseOnHover
             loop
           />
-        </div>
-
+        </div> */}
         {/* Desktop */}
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <Carousel
             baseWidth={500}
             autoplay
@@ -90,7 +105,7 @@ const SocialProof = () => {
             pauseOnHover
             loop
           />
-        </div>
+        </div> */}
       </div>
     </aside>
   );

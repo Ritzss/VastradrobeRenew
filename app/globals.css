@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  background-color: #EEDDC7;
+  background-color: #eeddc7;
 }
 
 body.scroll-lock {
@@ -19,7 +19,7 @@ body.scroll-lock {
   overflow: hidden;
 }
 
-.profileBox{
+.profileBox {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -46,7 +46,6 @@ body.scroll-lock {
   padding: 1.5%;
   border-radius: 3%;
 }
-
 
 .hover-underline-center {
   position: relative;
@@ -169,7 +168,7 @@ body.scroll-lock {
   animation: category-scroll 30s linear infinite;
 }
 
-.animate-category-scroll:hover{
+.animate-category-scroll:hover {
   animation-play-state: paused;
 }
 
@@ -259,15 +258,27 @@ body.scroll-lock {
 /* makeing responsiveness outoff thin air */
 
 /* ===========================
-   RESPONSIVE LAYOUT UTILITIES
-   =========================== */
+RESPONSIVE LAYOUT UTILITIES
+=========================== */
 
+/* Generic responsive container */
+.page-container {
+  width: 100%;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
 /* Product listing cards */
 .product-card {
   width: 96%;
 }
 .product-card-all {
   width: 95%;
+}
+@media (min-width: 640px) {
+  .page-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -276,6 +287,11 @@ body.scroll-lock {
   }
   .product-card-all {
     width: 45%;
+  }
+  .page-container {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -286,39 +302,47 @@ body.scroll-lock {
   .product-card-all {
     width: 32%;
   }
+  .nav-logo{
+    left: -2%;
+  }
 }
 
 @media (min-width: 1025px) {
   .product-card {
-    width: 32%;
+    width: 31%;
   }
   .product-card-all {
     width: 24%;
   }
-}
-
-/* Generic responsive container */
-.page-container {
-  width: 100%;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
-@media (min-width: 640px) {
-  .page-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
+  .cardWidth {
+    width: 23vw;
+  }
+  .nav-logo{
+    left: -8%;
   }
 }
 
-@media (min-width: 768px) {
-  .page-container {
-    max-width: 80rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
+/* Scrollbar width */
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
 }
 
+/* Track */
+.custom-scroll::-webkit-scrollbar-track {
+  background: #f3f3f3;
+  border-radius: 10px;
+}
+
+/* Thumb */
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #6a0f1f;
+  border-radius: 10px;
+}
+
+/* Hover */
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: #8b1c2e;
+}
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
@@ -328,14 +352,35 @@ body.scroll-lock {
   scrollbar-width: none;
 }
 
-
 .texts-edit {
-    color: transparent;
-    background-image: linear-gradient(#fff, #6f6fbe);
-    background-size: 1em 1.5em;
-    background-clip: text;
-    background-clip: text;
-    margin: 0;
-    font-size: min(3svh, 3em);
-    font-weight: 600;
+  color: transparent;
+  background-image: linear-gradient(#fff, #6f6fbe);
+  background-size: 1em 1.5em;
+  background-clip: text;
+  background-clip: text;
+  margin: 0;
+  font-size: min(3svh, 3em);
+  font-weight: 600;
+}
+
+.bubble {
+  width: 110px;
+  /* height: 200px; */
+  background: #dfc9ac;
+  border-radius: 20px;
+  /* position: relative; */
+}
+
+.bubble::before {
+      content: "";
+    border-top: 20px solid #0000;
+    border-bottom: 20px solid #0000;
+    border-left: 38px solid #dfc9ac;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -5px;
+    right: -13px;
+    transform: rotate(-35deg);
+    z-index: -10;
 }

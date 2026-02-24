@@ -13,9 +13,9 @@ const BlogClient = ({ limit, showTitle = true }: BlogClientProps) => {
   const items = limit ? blogs.slice(0, limit) : blogs;
 
   return (
-    <div className="mx-auto py-3">
+    <div className="mx-auto py-5">
       {showTitle && (
-        <h1 className="text-4xl font-bold mb-10">
+        <h1 className="text-5xl text-[#6a0f1f] text-center font-bold mb-10">
           Vastra Journal
         </h1>
       )}

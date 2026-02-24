@@ -82,8 +82,6 @@ const ProfilePageClient = () => {
 
 
 
-
-
 };
 
 export default ProfilePageClient;
