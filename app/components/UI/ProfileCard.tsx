@@ -58,7 +58,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   behindGlowColor,
   behindGlowSize,
   className = "",
-  enableTilt = true,
+  enableTilt = false,
   enableMobileTilt = false,
   mobileTiltSensitivity = 5,
   miniAvatarUrl,
@@ -369,11 +369,10 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
               <Image
                 className="avatar"
                 src={avatarUrl}
-                fill
-                sizes="photo"
                 alt={`${name || "User"} avatar`}
-                loading="eager"
-
+                fill
+                sizes="(max-width: 768px) 100vw, 400px"
+                loading="lazy"
                 onError={(e) => {
                   const t = e.target as HTMLImageElement;
                   t.style.display = "none";
@@ -398,13 +397,12 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 <Image
                   src={miniAvatarUrl || avatarUrl}
                   alt={`${name || "User"} mini avatar`}
-                  loading="lazy"
                   fill
-                  sizes="photo"
+                  sizes="80px"
+                  loading="lazy"
                   onError={(e) => {
                     const t = e.target as HTMLImageElement;
                     t.style.opacity = "0.5";
-                    t.src = avatarUrl;
                   }}
                 />
               </div>
@@ -440,7 +438,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         <div className="hidden md:block pc-details right-0">
           <h3>{name}</h3>
           <p>{title}</p>
-          <div className="flex gap-3 md:w-full lg:w-[75%%]">
+          <div className="flex gap-3 md:w-full lg:w-[75%]">
             <Link href={"/orders"}>
               <div className="hidden md:block profileBox text-center">
                 My Orders
@@ -453,7 +451,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             </Link>
             <Link href={"/support"}>
               <div className="hidden md:block profileBox text-center">
-               Customer Support
+                Customer Support
               </div>
             </Link>
             <Link href={"account/reset_password"}>
