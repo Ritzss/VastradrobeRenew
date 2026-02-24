@@ -75,12 +75,12 @@ const ProfilePageClient = () => {
         <ProfileCard
           name={user?.username}
           handle={user?.username}
-          avatarUrl={user?.avatar || "/Assets/Images/Profiles/profile.svg"}
+          avatarUrl={user?.avatar || "https://res.cloudinary.com/dwhn5ec09/image/upload/w_400,q_auto,f_auto/v1771932441/profile_etqzif.svg"}
           contactText="Change Photo"
           showUserInfo={true}
           enableTilt={false}
           enableMobileTilt={false}
-          className="hidden lg:block"
+          className=""
           onAvatarChange={async (file) => {
             const formData = new FormData();
             formData.append("file", file);
@@ -99,10 +99,10 @@ const ProfilePageClient = () => {
           }}
         />
         {/* PROFILE CARD TAB*/}
-        <ProfileCard
+        {/* <ProfileCard
           name={user?.username}
           handle={user?.username}
-          avatarUrl={user?.avatar || "/Assets/Images/Profiles/profile.svg"}
+          avatarUrl={user?.avatar || "https://res.cloudinary.com/dwhn5ec09/image/upload/w_400,q_auto,f_auto/v1771932441/profile_etqzif.svg"}
           contactText="Change Photo"
           showUserInfo={true}
           enableTilt={false}
@@ -124,12 +124,12 @@ const ProfilePageClient = () => {
               toast.error("Upload failed");
             }
           }}
-        />
+        /> */}
         {/* PROFILE CARD MOBILE*/}
-        <ProfileCard
+        {/* <ProfileCard
           name={user?.username}
           handle={user?.username}
-          avatarUrl={user?.avatar || "/Assets/Images/Profiles/profile.svg"}
+          avatarUrl={user?.avatar || "https://res.cloudinary.com/dwhn5ec09/image/upload/w_400,q_auto,f_auto/v1771932441/profile_etqzif.svg"}
           contactText="Change Photo"
           showUserInfo={true}
           enableTilt={false}
@@ -151,7 +151,7 @@ const ProfilePageClient = () => {
               toast.error("Upload failed");
             }
           }}
-        />
+        /> */}
 
         <div className="flex justify-between md:hidden">
           <button
@@ -247,9 +247,14 @@ const ProfilePageClient = () => {
                 My Favorites
               </div>
             </Link>
-            <Link href={"reset_password"}>
+            <Link href={"/account/reset_password"}>
               <div className="profileBox text-center">
                 Password Reset
+              </div>
+            </Link>
+            <Link href={"/support"}>
+              <div className="profileBox text-center">
+                Customer Support
               </div>
             </Link>
         </div>

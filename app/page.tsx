@@ -3,8 +3,7 @@ import Link from "next/link";
 import Slider from "./components/Global/Header";
 import ScrollReveal from "./components/Global/ScrollReveal";
 // import CategoryBar from "./components/navbar/Categorybar";
-import CategorySlider from "./components/Home/CategorySlider";
-
+// import CategorySlider from "./components/Home/CategorySlider";
 // import HomeVideos from "./components/Home/HomeVideos";
 import LatestArrivals from "./components/Home/LatestProduct";
 import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
@@ -15,7 +14,7 @@ import dynamic from "next/dynamic";
 const BlogClient = dynamic(() => import("./blog/BlogsClient"));
 const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"));
 const SocialProof = dynamic(() => import("./components/Home/SocialProof"));
-const SocialSection = dynamic(() => import("./components/Home/SocialSection"));
+// const SocialSection = dynamic(() => import("./components/Home/SocialSection"));
 
 const CATEGORY_MAP: Record<string, string[]> = {
   men: ["men"],
@@ -80,7 +79,6 @@ const Home = async () => {
   const womenProducts = await getProductsByMainCategory("women");
   const kidsProducts = await getProductsByMainCategory("kids");
   const menProducts = await getProductsByMainCategory("men");
-  const ethnicProducts = await getProductsByMainCategory("ethnic");
 
   return (
     <section className="w-full bg-[#EEDDC7] text-black">
@@ -88,20 +86,20 @@ const Home = async () => {
       <Slider />
 
       {/* CATEGORY */}
-      <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
-        <p className="uppercase tracking-[0.35em]  text-sm text-gray-500 mb-4">
+      {/* <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
+        <p className="uppercase tracking-[0.35em]  text-sm text-[#25272D] mb-4">
           Explore
         </p>
         <h2 className="text-4xl text-[#6a0f1f] font-semibold mb-12">
           Shop by Category
         </h2>
         <CategorySlider />
-      </section>
+      </section> */}
 
       {/* LATEST ARRIVALS */}
       <ScrollReveal>
-        <section className="max-w-7xl mx-auto px-6 py-28 text-center">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+        <section className=" mx-auto px-6 py-28 text-center">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             New This Season
           </p>
           <h2 className="text-5xl  text-[#6a0f1f] font-semibold mb-6">
@@ -119,7 +117,7 @@ const Home = async () => {
       {/* WOMEN */}
       <section className="bg-[#dfc9ac] py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Women
           </p>
           <h2 className="text-4xl text-[#6a0f1f] font-semibold">
@@ -138,7 +136,7 @@ const Home = async () => {
       {/* Kids */}
       <section className=" . py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Kids
           </p>
           <h2 className="text-4xl text-[#6a0f1f] font-semibold">
@@ -157,7 +155,7 @@ const Home = async () => {
       {/* MEN */}
       <section className=". bg-[#dfc9ac] py-28">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Men
           </p>
           <h2 className="text-4xl text-[#6a0f1f] font-semibold">
@@ -173,29 +171,10 @@ const Home = async () => {
         />
       </section>
 
-      {/* ETHNIC */}
-      <section className=". py-28">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
-            Ethnic
-          </p>
-          <h2 className="text-4xl text-[#6a0f1f] font-semibold">
-            Timeless Ethnic Wear
-          </h2>
-        </div>
-
-        <ScrollRevealProducts
-          products={ethnicProducts}
-          category="ethnic"
-          title=""
-          color="#eeddc7"
-        />
-      </section>
-
       {/* VIDEO SECTION */}
       <ScrollReveal>
-        <section className="py-28 bg-[#dfc9ac] text-center">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+        <section className="py-28 text-center">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Craftsmanship
           </p>
           <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">
@@ -208,8 +187,8 @@ const Home = async () => {
 
       {/* BLOG */}
       <ScrollReveal>
-        <section className=" mx-auto md:px-6 py-32 text-center">
-          <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+        <section className="mx-auto bg-[#dfc9ac] md:px-6 py-32 text-center">
+          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Vastra Journal
           </p>
 
@@ -217,14 +196,12 @@ const Home = async () => {
             Beyond Fabric. Into Thought.
           </h2>
 
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg mb-20">
+          <p className="text-gray-600 max-w-2xl mx-auto text-lg mb-5">
             Stories on sustainability, craftsmanship, and the materials shaping
             modern wardrobes.
           </p>
 
-          <BlogClient limit={3} showTitle={false} />
-
-          <div className="mt-20">
+          <div className="">
             <Link
               href="/blog"
               className="inline-block border border-black px-10 py-4 rounded-full hover:bg-[#6a0f1f] hover:text-white transition-all duration-300 text-lg"
@@ -232,17 +209,19 @@ const Home = async () => {
               Explore All Articles →
             </Link>
           </div>
+          <BlogClient limit={3} showTitle={false} />
+
         </section>
       </ScrollReveal>
 
       {/* Social Media */}
-      <SocialSection />
+      {/* <SocialSection /> */}
 
       {/* SOCIAL PROOF */}
       <section className="bg-[#eeddc7] py-28">
         <ScrollReveal>
           <div className="max-w-6xl mx-auto px-6 text-center">
-            <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
+            <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
               Community
             </p>
             <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">

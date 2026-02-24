@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback, useMemo } from "react";
 import "./CSS/ProfileCard.css";
 import Link from "next/link";
+import Image from "next/image";
 
 interface ProfileCardProps {
   avatarUrl: string;
@@ -57,7 +58,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   behindGlowColor,
   behindGlowSize,
   className = "",
-  enableTilt = true,
+  enableTilt = false,
   enableMobileTilt = false,
   mobileTiltSensitivity = 5,
   miniAvatarUrl,
@@ -67,7 +68,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   status = "Online",
   contactText = "Contact",
   showUserInfo = true,
-  onContactClick,
+  // onContactClick,
   onAvatarChange,
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -348,9 +349,9 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     [iconUrl, grainUrl, innerGradient, behindGlowColor, behindGlowSize],
   );
 
-  const handleContactClick = useCallback(() => {
-    onContactClick?.();
-  }, [onContactClick]);
+  // const handleContactClick = useCallback(() => {
+  //   onContactClick?.();
+  // }, [onContactClick]);
 
   return (
     <div
@@ -364,12 +365,15 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
           <div className="pc-inside">
             <div className="pc-shine" />
             <div className="pc-glare" />
-            <div className="pc-content pc-avatar-content">
-              <img
+            <div className="pc-content relative pc-avatar-content">
+              <Image
                 className="avatar"
                 src={avatarUrl}
                 alt={`${name || "User"} avatar`}
-                loading="lazy"
+                fill
+                sizes="(max-width: 768px) 100vw, 400px"
+                priority={false}
+                loading="eager"
                 onError={(e) => {
                   const t = e.target as HTMLImageElement;
                   t.style.display = "none";
@@ -391,14 +395,16 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
           <div className="pc-user-info">
             <div className="pc-user-details">
               <div className="pc-mini-avatar">
-                <img
+                <Image
                   src={miniAvatarUrl || avatarUrl}
                   alt={`${name || "User"} mini avatar`}
-                  loading="lazy"
+                  fill
+                  sizes="80px"
+                  priority={false}
+                  loading="eager"
                   onError={(e) => {
                     const t = e.target as HTMLImageElement;
                     t.style.opacity = "0.5";
-                    t.src = avatarUrl;
                   }}
                 />
               </div>
@@ -434,7 +440,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         <div className="hidden md:block pc-details right-0">
           <h3>{name}</h3>
           <p>{title}</p>
-          <div className="flex gap-3 md:w-full lg:w-[75%%]">
+          <div className="flex gap-3 md:w-full lg:w-[75%]">
             <Link href={"/orders"}>
               <div className="hidden md:block profileBox text-center">
                 My Orders
@@ -445,7 +451,12 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 My Favorites
               </div>
             </Link>
-            <Link href={"reset_password"}>
+            <Link href={"/support"}>
+              <div className="hidden md:block profileBox text-center">
+                Customer Support
+              </div>
+            </Link>
+            <Link href={"account/reset_password"}>
               <div className="hidden md:block profileBox text-center">
                 Password Reset
               </div>

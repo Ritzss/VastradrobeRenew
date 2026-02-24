@@ -81,9 +81,9 @@ const Login = () => {
   };
 
   return (
-    <div className="md:w-[80%] text-white m-2 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
+    <div className="md:w-[80%] w-full text-black border-white mt-4 md:m-20 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
       {/* LEFT PANEL */}
-      <aside className="md:w-[40%] h-110 md:h-auto bg-[#DFC9AC] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 flex-col flex justify-between">
+      <aside className="md:w-[40%] h-auto bg-[#DFC9AC] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 border-white flex-col flex justify-between">
         <header className="flex-col flex gap-5">
           <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center font-bold">
             Login
@@ -94,18 +94,19 @@ const Login = () => {
         </header>
         <div className="overflow-hidden self-end">
           <Image
-            src={"/Assets/Images/authimg.png"}
+            src={"https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"}
             width={300}
             height={200}
             alt=""
+            priority
             className="w-83 h-50"
           />
         </div>
       </aside>
 
       {/* RIGHT PANEL */}
-      <aside className="md:w-[60%] h-110 md:h-auto font-sans bg-[#cd0000] shadow-[inset_0_0_20px_#DFC9AC] flex flex-col justify-center items-center p-8">
-        <div className="w-full max-w-sm flex flex-col gap-4">
+      <aside className="md:w-[60%] h-auto bg-[#DFC9AC] font-sans shadow-[inset_0_0_150px_28px_#cd0000] flex flex-col justify-center items-center p-8">
+        <div className="w-full text-white max-w-lg flex flex-col gap-4">
           {/* EMAIL */}
           <input
             type="email"
@@ -136,12 +137,20 @@ const Login = () => {
                 </div>
               </div>
 
-              <button
-                onClick={handlePasswordLogin}
-                className="bg-white text-[#cd0000] py-2 rounded mt-4 hover:bg-[#DFC9AC] transition"
-              >
-                Login
-              </button>
+              <div className="w-full flex justify-between items-center">
+                <button
+                  onClick={handlePasswordLogin}
+                  className="bg-white cursor-pointer text-[#cd0000] py-2 hover:text-white rounded mt-4 lg:w-[60%] w-full hover:bg-[#6a0f1f] transition"
+                >
+                  Login
+                </button>
+                <Link
+                  href="reset_password"
+                  className="hidden lg:block text-[#cd0000] bg-white cursor-pointer  py-2 rounded mt-4 px-1 hover:text-white hover:bg-[#6a0f1f] transition"
+                >
+                  Forgot Password
+                </Link>
+              </div>
             </>
           )}
 
@@ -150,7 +159,7 @@ const Login = () => {
               <button
                 onClick={sendOtp}
                 disabled={loading}
-                className="bg-white text-[#cd0000] py-2 rounded mt-2"
+                className="bg-white  hover:text-white hover:bg-[#6a0f1f] text-[#cd0000] py-2 rounded mt-2"
               >
                 {loading ? "Sending..." : "Send OTP"}
               </button>
@@ -165,34 +174,36 @@ const Login = () => {
               <button
                 onClick={() => verifyOtp()}
                 disabled={loading}
-                className="bg-white text-[#cd0000] py-2 rounded mt-4"
+                className="bg-white  hover:text-white hover:bg-[#6a0f1f] text-[#cd0000] py-2 rounded mt-4"
               >
                 {loading ? "Verifying..." : "Login with OTP"}
               </button>
             </>
           )}
 
-          <div
-            onClick={toggleMode}
-            className="text-center underline cursor-pointer mt-4 hover:text-[#DFC9AC]"
-          >
-            {useOtp ? "Login with Password Instead" : "Login with OTP Instead"}
-          </div>
-
-          <div className="text-center mt-4 flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <Link
               href="reset_password"
-              className="underline hover:text-[#DFC9AC]"
+              className="block lg:hidden underline lg:w-[33%] hover:text-[#DFC9AC]"
             >
               Forgot Password
             </Link>
 
-            <div>
+            <div className=" mt-15 w-[80%] lg:w-[60%] mx-auto text-[#6a0f1f] py-2 rounded transition text-center cursor-pointer">
               New here?{" "}
-              <Link href="register" className="underline hover:text-[#DFC9AC]">
+              <Link href="register" className="hover:text-[#cd0000] underline">
                 Create Account
               </Link>
             </div>
+
+            <button
+              onClick={toggleMode}
+              className="bg-white  hover:bg-[#6a0f1f] text-[#cd0000] hover:text-white py-3 rounded mt-4  transition text-center cursor-pointer"
+            >
+              {useOtp
+                ? "Login with Password Instead"
+                : "Login with OTP Instead"}
+            </button>
           </div>
         </div>
       </aside>

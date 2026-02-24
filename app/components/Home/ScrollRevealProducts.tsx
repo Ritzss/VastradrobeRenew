@@ -110,14 +110,15 @@ const filteredProducts = products.filter((product) =>
       </div>
 
       {/* ---------- DESKTOP (wrap layout) ---------- */}
-      <div className="hidden md:flex flex-wrap justify-center">
+      <div className="hidden md:flex flex-wrap justify-evenly">
         {filteredProducts.slice(0, 3).map((product) => (
-          <div key={product.productId} className="md:w-[48%] lg:w-[28vw]">
+          <div key={product.productId} className="md:w-[48%] lg:w-[28vw] cardWidth"
+          style={{}}>
             <ProductCard
               product={product}
-              height="h-[60vh]"
-              classNameInner="h-[47vh] rounded-2xl"
-              className="md:w-[95%] group w-[85%] hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
+              height="h-[63vh]"
+              classNameInner="h-[53vh] rounded-2xl"
+              className="md:w-full py-1.5 group w-[85%] hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
               button={false}
             >
               <div className="uppercase text-center m-2 w-full ">

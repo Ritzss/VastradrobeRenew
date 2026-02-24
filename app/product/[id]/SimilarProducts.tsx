@@ -10,14 +10,14 @@ export default async function SimilarProducts({
 }) {
   const res = await fetch(
     `${process.env.IMS_BASE_URL}/api/ims/public/products?category=${category}&limit=10`,
-    { cache: "no-store" }
+    { cache: "no-store" },
   );
 
   if (!res.ok) return null;
 
   const data = await res.json();
   const products = (data.products || []).filter(
-    (p: any) => p.productId !== currentId
+    (p: any) => p.productId !== currentId,
   );
 
   if (products.length === 0) return null;
@@ -27,7 +27,11 @@ export default async function SimilarProducts({
       <h2 className="text-2xl font-semibold mb-6">Similar Products</h2>
       <div className="flex gap-6 overflow-x-auto">
         {products.map((p: any) => (
-          <ProductCard key={p.productId} classNameInner="h-[47vh]" product={p} />
+          <ProductCard
+            key={p.productId}
+            className="product-card border bg-white"
+            product={p}
+          />
         ))}
       </div>
     </section>

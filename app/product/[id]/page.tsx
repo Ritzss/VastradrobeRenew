@@ -14,12 +14,24 @@ async function getProduct(id: number): Promise<IMSProduct | null> {
 
 async function getAllProducts(): Promise<IMSProduct[]> {
   const res = await fetch(
-    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&&limit=8`,
+    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&&limit=20`,
     { next: { revalidate: 120 } },
   );
   if (!res.ok) return [];
   const data = await res.json();
   return data.products ?? [];
+}
+
+async function getInventory(productId: number) {
+  const res = await fetch(
+    `${process.env.IMS_BASE_URL}/api/ims/public/inventory/list?productId=${productId}`,
+    { cache: "no-store" },
+  );
+
+  if (!res.ok) return [];
+
+  const data = await res.json();
+  return data.inventory ?? [];
 }
 
 export default async function ProductPage({
@@ -53,11 +65,58 @@ export default async function ProductPage({
     (p) => p.category === product.category && p.productId !== product.productId,
   );
 
+  const inventory = await getInventory(productId);
+
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://vastradrobe.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: product.category,
+        item: `https://vastradrobe.com/${product.category?.toLowerCase()}`,
+      },
+      ...(product.subcategory
+        ? [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: product.subcategory,
+              item: `https://vastradrobe.com/${product.category?.toLowerCase()}?subcategory=${product.subcategory}`,
+            },
+          ]
+        : []),
+      {
+        "@type": "ListItem",
+        position: product.subcategory ? 4 : 3,
+        name: product.name,
+        item: `https://vastradrobe.com/product/${product.productId}`,
+      },
+    ],
+  };
+
   return (
-    <ProductPDPClient
-      product={product}
-      colorVariants={colorVariants}
-      similarProducts={similarProducts}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbStructuredData),
+        }}
+      />
+
+      <ProductPDPClient
+        product={product}
+        colorVariants={colorVariants}
+        similarProducts={similarProducts}
+        inventory={inventory}
+      />
+    </>
   );
 }
