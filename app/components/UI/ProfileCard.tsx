@@ -450,7 +450,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                Customer Support
               </div>
             </Link>
-            <Link href={"reset_password"}>
+            <Link href={"account/reset_password"}>
               <div className="hidden md:block profileBox text-center">
                 Password Reset
               </div>

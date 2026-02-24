@@ -247,7 +247,7 @@ const ProfilePageClient = () => {
                 My Favorites
               </div>
             </Link>
-            <Link href={"account/reset_password"}>
+            <Link href={"/account/reset_password"}>
               <div className="profileBox text-center">
                 Password Reset
               </div>
