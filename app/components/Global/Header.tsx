@@ -79,7 +79,7 @@ export default function Slider() {
 
   return (
     <header
-      className="relative my-10 overflow-hidden h-[35vh] sm:h-[55vh] md:h-screen w-full m-auto mt-[13vh] group"
+      className="relative my-10 overflow-hidden h-[35vh] sm:h-[55vh] md:h-screen w-full m-auto group"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={onTouchStart}
