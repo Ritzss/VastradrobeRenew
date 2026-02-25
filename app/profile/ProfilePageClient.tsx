@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { IoIosArrowDown } from "react-icons/io";
 import Link from "next/link";
 
-const ProfilePageClient = ({defaultImage}: {defaultImage?: string;}) => {
+const ProfilePageClient = () => {
   const { user, setUser , authLoading, loadUser } = useAppContext();
   const router = useRouter();
 
@@ -77,8 +77,7 @@ const ProfilePageClient = ({defaultImage}: {defaultImage?: string;}) => {
           handle={user?.username}
           avatarUrl={
             user?.avatar ||
-           defaultImage || 
-           ""
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/w_400,q_auto,f_auto/v1771932441/profile_etqzif.svg"
           }
           contactText="Change Photo"
           showUserInfo={true}
