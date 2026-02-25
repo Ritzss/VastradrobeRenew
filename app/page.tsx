@@ -9,12 +9,21 @@ import LatestArrivals from "./components/Home/LatestProduct";
 import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
 // import SocialProof from "./components/Home/SocialProof";
 import { IMSProduct } from "./Types/Product";
+// import HomeVideosWrapper from "./components/Global/HomeVideosWrapper";
+import BlogClientWrapper from "./components/Global/BlogClientWrapper";
+import SocialProofClient from "./components/Global/SocialProofClient";
 import dynamic from "next/dynamic";
 
-const BlogClient = dynamic(() => import("./blog/BlogsClient"));
+// const BlogClient = dynamic(() => import("./blog/BlogsClient"));
 const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"));
-const SocialProof = dynamic(() => import("./components/Home/SocialProof"));
+// const SocialProof = dynamic(() => import("./components/Home/SocialProof"),
+//   { ssr: false }
+// );
 // const SocialSection = dynamic(() => import("./components/Home/SocialSection"));
+
+
+
+
 
 const CATEGORY_MAP: Record<string, string[]> = {
   men: ["men"],
@@ -208,7 +217,7 @@ const Home = async () => {
             Explore All Articles →
           </Link>
         </div>
-        <BlogClient limit={3} showTitle={false} />
+        <BlogClientWrapper limit={3} showTitle={false} />
       </section>
 
       {/* Social Media */}
@@ -225,7 +234,7 @@ const Home = async () => {
               Loved by Thousands
             </h2>
           </ScrollReveal>
-          <SocialProof />
+          <SocialProofClient />
         </div>
       </section>
     </section>
