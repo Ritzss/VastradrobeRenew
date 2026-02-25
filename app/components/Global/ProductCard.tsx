@@ -27,7 +27,7 @@ const ProductCard = ({
   button = true,
   children,
 }: Props) => {
-  const { name, images, brand } = product;
+  const { name, images } = product;
   const productId = Number(product.productId);
   const {
     cartItems,
@@ -89,10 +89,10 @@ const ProductCard = ({
           }
         }}
         onDoubleClick={() => {}}
-        className={`group rounded-sm flex flex-col justify-start w-full ${button ? "p-2.5" : ""} text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
+        className={`group rounded-sm flex flex-col justify-start w-full ${button ? "p-1.5" : ""} text-left ${!hasImage ? "bg-[#0000006b]" : ""}`}
       >
         <div
-          className={`relative ${classNameInner} imageBlock border mx-auto overflow-hidden shrink-0 w-[95%]`}
+          className={`relative ${classNameInner} imageBlock border mx-auto overflow-hidden shrink-0 w-full`}
         >
           <Image
             src={imageSrc}
@@ -154,15 +154,15 @@ const ProductCard = ({
         )}
         {children}
         {button && (
-          <div className="bg-transparent flex gap-1 px-1">
+          <div className="bg-transparent h-[6vh] px-3 flex gap-1">
             <Link href={`/product/${Number(productId)}`} className="bg-[#eeddc7] px-1 rounded-lg w-full">
-              <div className="font-semibold line-clamp-1 ">{brand}</div>
-              <div className="font-bold line-clamp-1 ">{name}</div>
+              {/* <div className="font-semibold line-clamp-1 ">{brand}</div> */}
+              <div className="font-bold line-clamp-2 h-full ">{name}</div>
             </Link>
             <button
               type="button"
               onClick={handleCartToggle}
-              className="bg-black cursor-pointer gap-2 px-1 text-white w-[21%] mx-auto rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
+              className="bg-black cursor-pointer gap-2 px-1 text-white w-[41%] mx-auto rounded-lg hover:translate-y-1 hover:rounded-xl duration-500 transition-all flex justify-center items-center"
             >
               {isInCart ? (
                 <>
@@ -177,7 +177,7 @@ const ProductCard = ({
           </div>
         )}
       </div>
-      <span
+      {button && <span
         className="absolute top-1.5 right-1 cursor-pointer text-center mx-auto hover:translate-y-1 rounded-full duration-500 transition-all bg-[#EEDDC7] p-1"
         onClick={() => {
           const collectionNames = Object.keys(favCollections);
@@ -206,7 +206,7 @@ const ProductCard = ({
         ) : (
           <Heart size={22} />
         )}
-      </span>
+      </span>}
     </div>
   );
 };

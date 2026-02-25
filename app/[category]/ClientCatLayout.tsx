@@ -22,12 +22,12 @@ const ClientCatLayout = ({ children }: { children: ReactNode }) => {
         <div className="flex-wrap flex justify-center w-full">{children}</div>
       </div>
       <div className="hidden h-full md:flex justify-between">
-        <div className="hidden md:block w-64">
+        <div className="hidden md:block border-r-4 border-[#6a0f1f] w-64">
           <SideFilter />
         </div>
-        <div className="flex-wrap flex justify-center w-full">{children}</div>
+        <div className="flex-wrap flex justify-center overflow-y-scroll scrollbar-hide w-full">{children}</div>
         <div>
-        <CategoryBar className={""} drop={false} Img={false} />
+        <CategoryBar className={"border-l-4 border-[#6a0f1f]"} drop={false} Img={false} />
         </div>        
       </div>
     </section>

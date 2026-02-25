@@ -26,6 +26,9 @@ export default async function Page({ params }: PageProps) {
     { next: { revalidate: 120 } }
   );
 
+
+  await new Promise(res => setTimeout(res, 2000));
+
   if (!res.ok) {
     return toast.error("Fetch Failed");;
   }

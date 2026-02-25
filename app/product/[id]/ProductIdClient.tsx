@@ -504,7 +504,8 @@ export default function ProductPDPClient({
                   <ProductCard
                     product={p}
                     className="w-full bg-white border"
-                    classNameInner="h-[45vh] rounded-sm"
+                    height="h-[72vh] md:h-[60vh]"
+                    classNameInner="h-[60vh] md:h-[49vh] mt-4 rounded-lg"
                   />
                 </div>
               ))}

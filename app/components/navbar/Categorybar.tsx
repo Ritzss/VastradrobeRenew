@@ -28,7 +28,7 @@ const CategoryBar = (props: {
 
       {/* DESKTOP: evenly spaced */}
       <div
-        className=" hidden md:flex flex-col w-[15vw] h-[85vh] justify-evenly text-base lg:text-lg"
+        className=" hidden md:flex flex-col w-[10vw] h-[85vh] justify-evenly text-base lg:text-lg"
       >
         <CategoryItems isActive={isActive} Img={props.Img} />
       </div>
@@ -44,15 +44,7 @@ const CategoryItems = ({
   Img: boolean;
 }) => (
   <>
-    <NavItem
-      href="/men"
-      src="/Assets/Images/CateImg/mennew.png"
-      Img={Img}
-      label="Men"
-      active={isActive("/men")}
-      hover="hover:bg-[#6a1f0f] hover:border-[#6a1f0f] hover:border-b-2"
-      activeStyle="bg-[#6a1f0f] border-[#6a1f0f] border-b-2"
-    />
+    
 
     <NavItem
       href="/women"
@@ -74,6 +66,15 @@ const CategoryItems = ({
       activeStyle="bg-[#6a1f0f] border-[#6a1f0f] border-b-2"
     />
 
+    <NavItem
+      href="/men"
+      src="/Assets/Images/CateImg/mennew.png"
+      Img={Img}
+      label="Men"
+      active={isActive("/men")}
+      hover="hover:bg-[#6a1f0f] hover:border-[#6a1f0f] hover:border-b-2"
+      activeStyle="bg-[#6a1f0f] border-[#6a1f0f] border-b-2"
+    />
     
   </>
 );
