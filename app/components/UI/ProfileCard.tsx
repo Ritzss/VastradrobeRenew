@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useCallback, useMemo } from "react";
+// import React, { useEffect, useRef, useCallback, useMemo } from "react";
+import React, { useRef } from "react";
 import "./CSS/ProfileCard.css";
 import Link from "next/link";
 import Image from "next/image";
