@@ -9,7 +9,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import Link from "next/link";
 
 const ProfilePageClient = () => {
-  const { user, authLoading, loadUser } = useAppContext();
+  const { user, setUser , authLoading, loadUser } = useAppContext();
   const router = useRouter();
 
   const [address, setAddress] = useState(user?.deliveryAddress?.address || "");
@@ -75,7 +75,10 @@ const ProfilePageClient = () => {
         <ProfileCard
           name={user?.username}
           handle={user?.username}
-          avatarUrl={user?.avatar || "https://res.cloudinary.com/dwhn5ec09/image/upload/w_400,q_auto,f_auto/v1771932441/profile_etqzif.svg"}
+          avatarUrl={
+            user?.avatar ||
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/w_400,q_auto,f_auto/v1771932441/profile_etqzif.svg"
+          }
           contactText="Change Photo"
           showUserInfo={true}
           enableTilt={false}
@@ -91,7 +94,8 @@ const ProfilePageClient = () => {
             });
 
             if (res.ok) {
-              await loadUser();
+              const data = await res.json();
+              setUser((prev) => prev ? { ...prev, avatar: data.avatar } : null);
               toast.success("Avatar updated");
             } else {
               toast.error("Upload failed");
@@ -237,26 +241,18 @@ const ProfilePageClient = () => {
         <div
           className={`${showActions ? "opacity-100" : "opacity-0 h-0"} grid grid-cols-1 md:grid-cols-2 gap-6`}
         >
-           <Link href={"/orders"}>
-              <div className="profileBox text-center">
-                My Orders
-              </div>
-            </Link>
-            <Link href={"/favorites"}>
-              <div className="profileBox text-center">
-                My Favorites
-              </div>
-            </Link>
-            <Link href={"/account/reset_password"}>
-              <div className="profileBox text-center">
-                Password Reset
-              </div>
-            </Link>
-            <Link href={"/support"}>
-              <div className="profileBox text-center">
-                Customer Support
-              </div>
-            </Link>
+          <Link href={"/orders"}>
+            <div className="profileBox text-center">My Orders</div>
+          </Link>
+          <Link href={"/favorites"}>
+            <div className="profileBox text-center">My Favorites</div>
+          </Link>
+          <Link href={"/account/reset_password"}>
+            <div className="profileBox text-center">Password Reset</div>
+          </Link>
+          <Link href={"/support"}>
+            <div className="profileBox text-center">Customer Support</div>
+          </Link>
         </div>
       </div>
     </div>

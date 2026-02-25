@@ -75,7 +75,6 @@ async function getLatestProducts(): Promise<IMSProduct[]> {
 
 const Home = async () => {
   const latestProducts = await getLatestProducts();
-
   const womenProducts = await getProductsByMainCategory("women");
   const kidsProducts = await getProductsByMainCategory("kids");
   const menProducts = await getProductsByMainCategory("men");
@@ -98,7 +97,7 @@ const Home = async () => {
 
       {/* LATEST ARRIVALS */}
       <ScrollReveal>
-        <section className=" mx-auto px-6 py-28 text-center">
+        <section className="mx-auto px-6 py-28 text-center">
           <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             New This Season
           </p>

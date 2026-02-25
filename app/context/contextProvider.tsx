@@ -384,6 +384,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         loadUser,
         authLoading,
         user,
+        setUser,
       }}
     >
       {children}

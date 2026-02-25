@@ -309,13 +309,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     };
     shell.addEventListener("click", handleClick);
 
-    const initialX =
-      (shell.clientWidth || 0) - ANIMATION_CONFIG.INITIAL_X_OFFSET;
-    const initialY = ANIMATION_CONFIG.INITIAL_Y_OFFSET;
-    tiltEngine.setImmediate(initialX, initialY);
-    tiltEngine.toCenter();
-    tiltEngine.beginInitial(ANIMATION_CONFIG.INITIAL_DURATION);
-
+    
     return () => {
       shell.removeEventListener("pointerenter", pointerEnterHandler);
       shell.removeEventListener("pointermove", pointerMoveHandler);
@@ -336,6 +330,31 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     handlePointerLeave,
     handleDeviceOrientation,
   ]);
+
+  useEffect(() => {
+  if (!enableTilt || !tiltEngine) return;
+
+  const shell = shellRef.current;
+  if (!shell) return;
+
+  const run = () => {
+    const initialX =
+      shell.clientWidth - ANIMATION_CONFIG.INITIAL_X_OFFSET;
+    const initialY = ANIMATION_CONFIG.INITIAL_Y_OFFSET;
+
+    tiltEngine.setImmediate(initialX, initialY);
+    tiltEngine.toCenter();
+    tiltEngine.beginInitial(ANIMATION_CONFIG.INITIAL_DURATION);
+  };
+
+  if ("requestIdleCallback" in window) {
+    const id = (window as any).requestIdleCallback(run);
+    return () => (window as any).cancelIdleCallback(id);
+  } else {
+    const timeout = setTimeout(run, 300);
+    return () => clearTimeout(timeout);
+  }
+}, [enableTilt, tiltEngine]);
 
   const cardStyle = useMemo(
     () =>
@@ -365,15 +384,14 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
           <div className="pc-inside">
             <div className="pc-shine" />
             <div className="pc-glare" />
-            <div className="pc-content relative pc-avatar-content">
+            <div className="pc-content pc-avatar-content">
               <Image
                 className="avatar"
                 src={avatarUrl}
                 alt={`${name || "User"} avatar`}
                 fill
                 sizes="(max-width: 768px) 100vw, 400px"
-                priority={false}
-                loading="eager"
+                priority
                 onError={(e) => {
                   const t = e.target as HTMLImageElement;
                   t.style.display = "none";
@@ -400,8 +418,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                   alt={`${name || "User"} mini avatar`}
                   fill
                   sizes="80px"
-                  priority={false}
-                  loading="eager"
+                  loading="lazy"
                   onError={(e) => {
                     const t = e.target as HTMLImageElement;
                     t.style.opacity = "0.5";

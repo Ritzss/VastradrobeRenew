@@ -74,6 +74,7 @@ export interface AppContextType {
   loadUser: () => Promise<void>;
   authLoading: boolean;
   user: AuthUser | null;
+  setUser:Dispatch<SetStateAction<AuthUser | null>>;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(
