@@ -40,6 +40,7 @@ export default function ProductCardStatic({
           <Image
             src={imageSrc}
             fill
+            priority
             sizes="(max-width:768px) 100vw, 33vw"
             alt={product.name}
             className="object-cover group-hover:scale-105 duration-500 transition-all"
