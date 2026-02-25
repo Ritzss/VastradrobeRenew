@@ -72,14 +72,19 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const incrementQty = (productId: number, size: string) => {
-    setCartItems((prev) =>
-      prev.map((i) =>
-        i.productId === productId && i.size === size
-          ? { ...i, qty: i.qty + 1 }
-          : i,
-      ),
-    );
-  };
+  setCartItems((prev) =>
+    prev.map((i) => {
+      if (i.productId === productId && i.size === size) {
+        if (i.qty >= 10) {
+          toast.error("Maximum quantity is 10");
+          return i;
+        }
+        return { ...i, qty: i.qty + 1 };
+      }
+      return i;
+    })
+  );
+};
 
   const decrementQty = (productId: number, size: string) => {
     setCartItems((prev) =>

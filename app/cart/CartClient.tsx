@@ -112,7 +112,8 @@ const CartClient = () => {
             className="cardBlock flex justify-between rounded-2xl my-2"
           >
             <div className="flex justify-between w-full p-4 text-start">
-              <div className="relative w-[10%] h-[20vh] rounded-2xl">
+             <div className="w-[10%] h-[30vh]">
+               <div className="relative border w-full h-[25vh] overflow-hidden rounded-2xl">
                 <Image
                   src={
                     product.images?.[0] ??
@@ -120,25 +121,12 @@ const CartClient = () => {
                   }
                   fill
                   alt={product.name}
-                  className="object-contain"
+                  className=""
                 />
+               
               </div>
-
-              <div className="flex flex-col justify-center flex-1 px-6 gap-3">
-                <div className="text-2xl font-bold line-clamp-1">
-                  {product.name}
-                </div>
-                <p className="line-clamp-2">{product.description}</p>
-                <p className="font-semibold">
-                  Size: {entry.size}
-                </p>
-                <div className="font-bold text-lg">
-                  ₹{product.price * entry.qty}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-3 justify-between w-50">
-                <div className="flex border rounded-lg overflow-hidden">
+               {/* Quantity box */}
+                <div className="flex border mt-1 rounded-lg overflow-hidden">
                   <button
                     onClick={() =>
                       decrementQty(entry.productId, entry.size)
@@ -159,7 +147,48 @@ const CartClient = () => {
                     +
                   </button>
                 </div>
+             </div>
 
+              <div className="flex flex-col justify-center flex-1 px-6 gap-3">
+                <div className="text-2xl font-bold line-clamp-1">
+                  {product.name}
+                </div>
+                <p className="line-clamp-2">{product.description}</p>
+                <p className="font-semibold">
+                  Size: {entry.size}
+                </p>
+                
+              </div>
+
+              <div className="flex relative flex-col gap-3 w-50">
+                {/* Quantity box */}
+                {/* <div className="flex border rounded-lg overflow-hidden">
+                  <button
+                    onClick={() =>
+                      decrementQty(entry.productId, entry.size)
+                    }
+                    className="w-10 bg-gray-200"
+                  >
+                    −
+                  </button>
+                  <div className="flex-1 flex items-center justify-center">
+                    {entry.qty}
+                  </div>
+                  <button
+                    onClick={() =>
+                      incrementQty(entry.productId, entry.size)
+                    }
+                    className="w-10 bg-gray-200"
+                  >
+                    +
+                  </button>
+                </div> */}
+                {/* price */}
+                <div className="text-xl p-1 ">
+                  Price: <span className="font-bold text-2xl">₹{product.price * entry.qty}</span>
+                </div>
+
+                {/* remove box */}
                 <button
                   onClick={() =>
                     removeFromCart(entry.productId, entry.size)
@@ -174,7 +203,7 @@ const CartClient = () => {
         );
       })}
 
-      <div className="flex justify-between items-center border-t pt-6">
+      <div className="flex justify-between items-center border-t-4 pt-6">
         <div className="text-2xl font-bold">
           Total: ₹{cartTotal}
         </div>

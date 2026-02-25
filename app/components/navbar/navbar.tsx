@@ -14,8 +14,9 @@ import { Dock, Home, LogOut, ShoppingBag } from "lucide-react";
 
 import { useAppContext } from "@/hooks/useAppContext";
 import { FaRegListAlt } from "react-icons/fa";
-import TypingEffect from "../UI/TypingEffect";
+// import TypingEffect from "../UI/TypingEffect";
 import { IoIosArrowDown } from "react-icons/io";
+import RotatingText from "../UI/RotatingText";
 
 const Navbar = () => {
   const router = useRouter();
@@ -28,16 +29,16 @@ const Navbar = () => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const searchItems = [
-    "Pants......",
-    "Tops.......",
-    "Sandals....",
-    "Jackets...",
-    "Pants......",
-    "Tops.......",
-    "Sandals....",
-    "Jackets...",
+    "Pants",
+    "Tops",
+    "Sandals",
+    "Jackets",
+    "Pants",
+    "Tops",
+    "Sandals",
+    "Jackets",
   ];
-  const [index, setIndex] = useState(0);
+  // const [index, setIndex] = useState(0);
 
   const {
     user,
@@ -49,17 +50,6 @@ const Navbar = () => {
   } = useAppContext();
 
   const isLogged = !!user;
-
- 
-
-  /* rotating placeholder */
-  useEffect(() => {
-    const id = setInterval(
-      () => setIndex((p) => (p + 1) % searchItems.length),
-      2000,
-    );
-    return () => clearInterval(id);
-  }, [searchItems.length]);
 
   const [value, setValue] = useState(searchQuery);
   useEffect(() => {
@@ -219,9 +209,24 @@ const Navbar = () => {
                 />
 
                 {!value && (
-                  <div className="absolute flex gap-1 left-0 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-sm">
+                  <div className="absolute flex items-center gap-1 left-0 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-sm">
                     <span>Search </span>
-                    <TypingEffect text={`${searchItems[index]}`} />
+                    <RotatingText
+                      texts={searchItems}
+                      mainClassName="text-left pt-1 w-[5vw] text-gray-400 overflow-hidden items-center rounded-lg"
+                      staggerFrom={"last"}
+                      initial={{ y: "100%" }}
+                      animate={{ y: 0 }}
+                      exit={{ y: "-120%" }}
+                      staggerDuration={0.025}
+                      splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+                      transition={{
+                        type: "spring",
+                        damping: 30,
+                        stiffness: 400,
+                      }}
+                      rotationInterval={2000}
+                    />
                   </div>
                 )}
               </div>
@@ -362,7 +367,7 @@ const Navbar = () => {
                       );
                     }
                   }}
-                  placeholder={`Search ${searchItems[index]}`}
+                  // placeholder={`Search ${searchItems[index]}`}
                 />
               </div>
 

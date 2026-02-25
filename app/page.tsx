@@ -73,6 +73,7 @@ async function getLatestProducts(): Promise<IMSProduct[]> {
   }
 }
 
+
 const Home = async () => {
   const latestProducts = await getLatestProducts();
   const womenProducts = await getProductsByMainCategory("women");
@@ -96,25 +97,23 @@ const Home = async () => {
       </section> */}
 
       {/* LATEST ARRIVALS */}
-      <ScrollReveal>
-        <section className="mx-auto px-6 py-28 text-center">
-          <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
-            New This Season
-          </p>
-          <h2 className="text-5xl  text-[#6a0f1f] font-semibold mb-6">
-            Latest Arrivals
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-16 text-lg">
-            Fresh silhouettes, breathable fabrics, and elevated everyday
-            essentials.
-          </p>
+      <section className="mx-auto px-6 py-28 text-center">
+        <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
+          New This Season
+        </p>
+        <h2 className="text-5xl  text-[#6a0f1f] font-semibold mb-6">
+          Latest Arrivals
+        </h2>
+        <p className="text-gray-600 max-w-2xl mx-auto mb-16 text-lg">
+          Fresh silhouettes, breathable fabrics, and elevated everyday
+          essentials.
+        </p>
 
-          <LatestArrivals products={latestProducts} />
-        </section>
-      </ScrollReveal>
+        <LatestArrivals products={latestProducts} />
+      </section>
 
       {/* WOMEN */}
-      <section className="bg-[#dfc9ac] py-28">
+      <section className="bg-[#dfc9ac] py-16">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Women
@@ -133,7 +132,7 @@ const Home = async () => {
       </section>
 
       {/* Kids */}
-      <section className=" . py-28">
+      <section className=" py-16">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Kids
@@ -152,7 +151,7 @@ const Home = async () => {
       </section>
 
       {/* MEN */}
-      <section className=". bg-[#dfc9ac] py-28">
+      <section className=" bg-[#dfc9ac] py-16">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Men
@@ -171,22 +170,23 @@ const Home = async () => {
       </section>
 
       {/* VIDEO SECTION */}
-      <ScrollReveal>
-        <section className="py-28 text-center">
+      <section className="py-16 text-center">
+        <ScrollReveal>
           <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Craftsmanship
           </p>
           <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">
             See Vastra in Motion
           </h2>
+        </ScrollReveal>
 
-          <HomeVideos />
-        </section>
-      </ScrollReveal>
+        <HomeVideos />
+      </section>
 
       {/* BLOG */}
-      <ScrollReveal>
-        <section className="mx-auto bg-[#dfc9ac] md:px-6 py-32 text-center">
+
+      <section className="mx-auto bg-[#dfc9ac] md:px-6 py-16 text-center">
+        <ScrollReveal>
           <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
             Vastra Journal
           </p>
@@ -199,36 +199,34 @@ const Home = async () => {
             Stories on sustainability, craftsmanship, and the materials shaping
             modern wardrobes.
           </p>
-
-          <div className="">
-            <Link
-              href="/blog"
-              className="inline-block border border-black px-10 py-4 rounded-full hover:bg-[#6a0f1f] hover:text-white transition-all duration-300 text-lg"
-            >
-              Explore All Articles →
-            </Link>
-          </div>
-          <BlogClient limit={3} showTitle={false} />
-
-        </section>
-      </ScrollReveal>
+        </ScrollReveal>
+        <div className="">
+          <Link
+            href="/blog"
+            className="inline-block border border-black px-10 py-4 rounded-full hover:bg-[#6a0f1f] hover:text-white transition-all duration-300 text-lg"
+          >
+            Explore All Articles →
+          </Link>
+        </div>
+        <BlogClient limit={3} showTitle={false} />
+      </section>
 
       {/* Social Media */}
       {/* <SocialSection /> */}
 
       {/* SOCIAL PROOF */}
-      <section className="bg-[#eeddc7] py-28">
-        <ScrollReveal>
-          <div className="max-w-6xl mx-auto px-6 text-center">
+      <section className="bg-[#eeddc7] py-16">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <ScrollReveal>
             <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
               Community
             </p>
             <h2 className="text-4xl  text-[#6a0f1f] font-semibold mb-12">
               Loved by Thousands
             </h2>
-            <SocialProof />
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+          <SocialProof />
+        </div>
       </section>
     </section>
   );

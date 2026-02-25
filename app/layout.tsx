@@ -25,6 +25,10 @@ export default function RootLayout({
       ].join(" ")}
     >
       <body cz-shortcut-listen="true" className="bg-[#f9fafb]">
+
+        
+
+
         <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="afterInteractive"
