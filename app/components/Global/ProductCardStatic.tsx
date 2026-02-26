@@ -23,8 +23,8 @@ export default function ProductCardStatic({
   return (
     <div
       className={`cardBlock ${
-        height ?? "h-[60vh]"
-      } overflow-hidden flex flex-col justify-between rounded-2xl my-2 ${
+        height ?? "h-[55vh]"
+      } overflow-x-hidden flex flex-col rounded-2xl my-2 ${
         className ?? ""
       }`}
     >
@@ -33,9 +33,7 @@ export default function ProductCardStatic({
         className="group flex flex-col w-full"
       >
         <div
-          className={`relative ${
-            classNameInner ?? "h-[50vh]"
-          } overflow-hidden w-full`}
+          className={`relative  ${classNameInner ?? "h-[50vh]"} border-2 border-black aspect-3/4 overflow-hidden w-full`}
         >
           <Image
             src={imageSrc}
@@ -43,12 +41,12 @@ export default function ProductCardStatic({
             priority
             sizes="(max-width:768px) 100vw, 33vw"
             alt={product.name}
-            className="object-cover group-hover:scale-105 duration-500 transition-all"
+            className="object group-hover:scale-105 duration-500 transition-all"
           />
         </div>
 
-        {children}
       </Link>
+        {children}
     </div>
   );
 }

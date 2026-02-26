@@ -82,12 +82,36 @@ const CheckoutClient = () => {
 
   const total = checkoutProducts.reduce((sum, p) => sum + p.price * p.qty, 0);
 
+  /* ------------------ Razor Pay Loader-------- */
+  const loadRazorpayScript = () => {
+  return new Promise<boolean>((resolve) => {
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
   /* ---------------- PLACE ORDER ---------------- */
   const handlePlaceOrder = async () => {
     if (!address || !phone) {
       toast.error("Please enter address and phone number");
       return;
     }
+
+    const scriptLoaded = await loadRazorpayScript();
+
+  if (!scriptLoaded) {
+    toast.error("Payment system failed to load");
+    return;
+  }
 
     const res = await fetch("/api/payment/create", {
       method: "POST",

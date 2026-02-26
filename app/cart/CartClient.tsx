@@ -120,6 +120,7 @@ const CartClient = () => {
                     "/Assets/Images/Newplaceholder.png"
                   }
                   fill
+                  sizes="(max-width: 768px) 100vw, 10vw"
                   alt={product.name}
                   className=""
                 />

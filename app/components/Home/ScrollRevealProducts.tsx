@@ -65,9 +65,12 @@ export default function ScrollRevealProducts({
                   classNameInner="h-[47vh] rounded-2xl"
                
                 >
-                  <div className="uppercase text-center m-2 w-full">
-                    {product.name}
+                  <div className="uppercase text-[#6a0f1f] text-center m-2 w-full">
+                  {product.name}
+                  <div className="hidden group-hover:block">
+                    {`(${product.color})`}
                   </div>
+                </div>
                 </ProductCardStatic>
               </div>
             </ScrollReveal>

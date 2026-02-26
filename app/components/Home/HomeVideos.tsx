@@ -11,7 +11,7 @@ async function getVideos(): Promise<VideoItem[]> {
   const headersList = headers();
   const host = (await headersList).get("host");
   const protocol =
-    process.env.NODE_ENV === "development" ? "http" : "https";
+    process.env.NODE_ENV === "development" ? "http" : "http";
 
   const res = await fetch(
     `${protocol}://${host}/api/home/cloudinary-videos`,

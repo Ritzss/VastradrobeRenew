@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { geistMono, geistSans } from "./font";
 import ClientLayout from "./ClientLayout";
-import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
@@ -29,10 +28,7 @@ export default function RootLayout({
         
 
 
-        <Script
-          src="https://checkout.razorpay.com/v1/checkout.js"
-          strategy="afterInteractive"
-        />
+       
         <ClientLayout >{children}</ClientLayout>
         <SpeedInsights />
       </body>

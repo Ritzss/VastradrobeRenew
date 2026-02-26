@@ -71,6 +71,7 @@ const ProductCard = ({
 
     return () => document.removeEventListener("touchstart", close);
   }, [revealed]);
+  
   return (
     <div
       className={`cardBlock ${height ? height : "h-[78vh]"} overflow-hidden flex flex-col justify-between rounded-2xl my-2 ${className} w-[24%] ${revealed ? "is-open" : ""}`}
@@ -97,7 +98,7 @@ const ProductCard = ({
           <Image
             src={imageSrc}
             fill
-            sizes="images"
+            sizes="(max-width:768px) 100vw, 33vw"
             alt={name}
             priority
             className="group-hover:scale-105 duration-500 transition-all"
@@ -155,7 +156,10 @@ const ProductCard = ({
         {children}
         {button && (
           <div className="bg-transparent h-[6vh] px-3 flex gap-1">
-            <Link href={`/product/${Number(productId)}`} className="bg-[#eeddc7] px-1 rounded-lg w-full">
+            <Link
+              href={`/product/${Number(productId)}`}
+              className="bg-[#eeddc7] px-1 rounded-lg w-full"
+            >
               {/* <div className="font-semibold line-clamp-1 ">{brand}</div> */}
               <div className="font-bold line-clamp-2 h-full ">{name}</div>
             </Link>
@@ -177,36 +181,38 @@ const ProductCard = ({
           </div>
         )}
       </div>
-      {button && <span
-        className="absolute top-1.5 right-1 cursor-pointer text-center mx-auto hover:translate-y-1 rounded-full duration-500 transition-all bg-[#EEDDC7] p-1"
-        onClick={() => {
-          const collectionNames = Object.keys(favCollections);
+      {button && (
+        <span
+          className="absolute top-1.5 right-1 cursor-pointer text-center mx-auto hover:translate-y-1 rounded-full duration-500 transition-all bg-[#EEDDC7] p-1"
+          onClick={() => {
+            const collectionNames = Object.keys(favCollections);
 
-          if (selectedCollection) {
-            removeFromCollection(selectedCollection, productId);
-            setSelectedCollection(null);
-            setShowCollections(false);
-            return;
-          }
+            if (selectedCollection) {
+              removeFromCollection(selectedCollection, productId);
+              setSelectedCollection(null);
+              setShowCollections(false);
+              return;
+            }
 
-          // 🔥 If only one collection → auto add
-          if (collectionNames.length === 1) {
-            const defaultCollection = collectionNames[0];
-            addToCollection(defaultCollection, productId);
-            setSelectedCollection(defaultCollection);
-            return;
-          }
+            // 🔥 If only one collection → auto add
+            if (collectionNames.length === 1) {
+              const defaultCollection = collectionNames[0];
+              addToCollection(defaultCollection, productId);
+              setSelectedCollection(defaultCollection);
+              return;
+            }
 
-          // 👇 If multiple collections → show dropdown
-          setShowCollections((prev) => !prev);
-        }}
-      >
-        {selectedCollection ? (
-          <RiHeartFill size={22} className="text-[#ff0000]" />
-        ) : (
-          <Heart size={22} />
-        )}
-      </span>}
+            // 👇 If multiple collections → show dropdown
+            setShowCollections((prev) => !prev);
+          }}
+        >
+          {selectedCollection ? (
+            <RiHeartFill size={22} className="text-[#ff0000]" />
+          ) : (
+            <Heart size={22} />
+          )}
+        </span>
+      )}
     </div>
   );
 };

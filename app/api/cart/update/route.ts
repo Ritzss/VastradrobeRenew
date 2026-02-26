@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     await User.findByIdAndUpdate(
       decoded.id,
       { $set: { cart } },
-      { new: true }
+      { returnDocument: "after" }
     );
 
     return NextResponse.json({ message: "Cart updated" });

@@ -19,7 +19,7 @@ const HomeVideos = dynamic(
   () => import("./components/Home/HomeVideos"),
   {
     loading: () => (
-      <div className="h-[500px] w-full bg-gray-200 animate-pulse" />
+      <div className="h-125 w-full bg-gray-200 animate-pulse" />
     ),
   }
 );

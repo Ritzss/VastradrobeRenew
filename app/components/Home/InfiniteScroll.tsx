@@ -27,7 +27,7 @@ const InfiniteScroll = ({ children }: { children: ReactNode }) => {
   });
 
   return (
-    <div className="overflow-hidden w-full">
+    <div className="overflow-x-hidden w-full">
       <motion.div
         ref={containerRef}
         className="flex gap-4 w-max cursor-grab active:cursor-grabbing"

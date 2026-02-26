@@ -13,7 +13,7 @@ export default function LatestArrivals({ products }: LatestArrivalsProps) {
     <section className="w-full px-4 md:px-8 mt-14">
       <InfiniteScrollWrapper>
         {products.map((product) => (
-          <div key={product.productId} className="w-75 shrink-0">
+          <div key={product.productId} className="w-75  shrink-0">
             <ProductCardStatic
               product={product}
               height="h-[60vh]"

@@ -73,13 +73,11 @@ export default function Slider() {
     touchEndX.current = null;
   };
 
-
-
- if (!assets.length) {
-  return (
-    <header className="relative my-10 overflow-hidden h-[35vh] sm:h-[55vh] md:h-screen w-full m-auto bg-gray-200 animate-pulse" />
-  );
-}
+  if (!assets.length) {
+    return (
+      <header className="relative my-10 overflow-hidden h-[35vh] sm:h-[55vh] md:h-screen w-full m-auto bg-gray-200 animate-pulse" />
+    );
+  }
 
   return (
     <header
@@ -98,19 +96,31 @@ export default function Slider() {
         {assets.map((asset, index) => (
           <div
             key={asset.id}
-            className="relative min-w-full h-full overflow-hidden"
+            className="relative min-w-full h-full aspect-3/4 overflow-hidden"
           >
             {asset.resource_type === "video" && index === current ? (
               <video
-                src={asset.url || "https://res.cloudinary.com/dwhn5ec09/video/upload/v1771305979/main-video_a4rarc.mp4"}
+                src={
+                  asset.url ||
+                  "https://res.cloudinary.com/dwhn5ec09/video/upload/q_auto,f_auto,w_1280/v1771305979/main-video_a4rarc.mp4"
+                }
                 className="w-full h-full object-cover"
                 autoPlay
                 muted
                 loop
                 playsInline
+                preload="none"
+                poster="/hero-placeholder.jpg"
               />
             ) : (
-              <Image src={asset.url} fill className="object-cover" alt="Hero" />
+              <Image
+                src={asset.url}
+                fill
+                priority={index === 0}
+                sizes="100vw"
+                className="object-cover"
+                alt="Hero"
+              />
             )}
 
             <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent" />
