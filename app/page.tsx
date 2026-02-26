@@ -15,7 +15,14 @@ import SocialProofClient from "./components/Global/SocialProofClient";
 import dynamic from "next/dynamic";
 
 // const BlogClient = dynamic(() => import("./blog/BlogsClient"));
-const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"));
+const HomeVideos = dynamic(
+  () => import("./components/Home/HomeVideos"),
+  {
+    loading: () => (
+      <div className="h-[500px] w-full bg-gray-200 animate-pulse" />
+    ),
+  }
+);
 // const SocialProof = dynamic(() => import("./components/Home/SocialProof"),
 //   { ssr: false }
 // );
@@ -106,7 +113,7 @@ const Home = async () => {
       </section> */}
 
       {/* LATEST ARRIVALS */}
-      <section className="mx-auto px-6 py-28 text-center">
+      <section className="mx-auto px-6 py-16 text-center">
         <p className="uppercase tracking-[0.35em] text-sm text-[#25272D] mb-4">
           New This Season
         </p>

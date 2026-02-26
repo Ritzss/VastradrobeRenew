@@ -73,9 +73,13 @@ export default function Slider() {
     touchEndX.current = null;
   };
 
-  console.log(assets);
 
-  if (!assets.length) return null; // No assets? No slider.
+
+ if (!assets.length) {
+  return (
+    <header className="relative my-10 overflow-hidden h-[35vh] sm:h-[55vh] md:h-screen w-full m-auto bg-gray-200 animate-pulse" />
+  );
+}
 
   return (
     <header
@@ -98,7 +102,7 @@ export default function Slider() {
           >
             {asset.resource_type === "video" && index === current ? (
               <video
-                src={asset.url}
+                src={asset.url || "https://res.cloudinary.com/dwhn5ec09/video/upload/v1771305979/main-video_a4rarc.mp4"}
                 className="w-full h-full object-cover"
                 autoPlay
                 muted
