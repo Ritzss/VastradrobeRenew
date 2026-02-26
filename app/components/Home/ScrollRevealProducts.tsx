@@ -56,8 +56,7 @@ export default function ScrollRevealProducts({
       <div className="md:hidden">
         <HorizontalScroll color={color}>
           {filteredProducts.slice(0, 3).map((product) => (
-            <ScrollReveal key={product.productId}>
-              <div className="w-full sm:w-[60%] shrink-0">
+              <div key={product.productId} className="w-full sm:w-[60%] shrink-0">
                 <ProductCardStatic
                   product={product}
                   className="md:w-[95%] group w-full active:scale-102 active:shadow-[0_0_10px_#000] duration-700 transition-all"
@@ -73,7 +72,6 @@ export default function ScrollRevealProducts({
                 </div>
                 </ProductCardStatic>
               </div>
-            </ScrollReveal>
           ))}
         </HorizontalScroll>
 

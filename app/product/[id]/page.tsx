@@ -25,7 +25,7 @@ async function getAllProducts(): Promise<IMSProduct[]> {
 async function getInventory(productId: number) {
   const res = await fetch(
     `${process.env.IMS_BASE_URL}/api/ims/public/inventory/list?productId=${productId}`,
-    { cache: "no-store" },
+    { next: { revalidate: 120 } },
   );
 
   if (!res.ok) return [];

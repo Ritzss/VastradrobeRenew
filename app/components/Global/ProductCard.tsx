@@ -98,7 +98,7 @@ const ProductCard = ({
           <Image
             src={imageSrc}
             fill
-            sizes="(max-width:768px) 100vw, 33vw"
+            sizes="(max-width: 768px) 50vw, 25vw"
             alt={name}
             priority
             className="group-hover:scale-105 duration-500 transition-all"

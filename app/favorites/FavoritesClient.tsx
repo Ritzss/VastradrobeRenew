@@ -32,8 +32,7 @@ const FavoritesClient = () => {
 
     const loadProduct = async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?ids=${allIds}`,
-        { cache: "no-store" },
+        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?ids=${allIds}`
       );
 
       const data = await res.json();

@@ -38,7 +38,7 @@ const HomeVideos = async () => {
 
   return (
     <HorizontalScroll color="#DFC9AC">
-      {userVideos.map((video) => (
+      {userVideos.slice(0, 3).map((video) => (
         <VideoCarouselSection key={video.id} title="" videos={[video]} />
       ))}
     </HorizontalScroll>

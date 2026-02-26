@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { geistMono, geistSans } from "./font";
 import ClientLayout from "./ClientLayout";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "VastraDrobe",
@@ -23,13 +23,13 @@ export default function RootLayout({
         geistSans.className,
       ].join(" ")}
     >
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://maps.googleapis.com" />
+        <link rel="preconnect" href="https://vastradrobe-ims.vercel.app" />
+      </head>
       <body cz-shortcut-listen="true" className="bg-[#f9fafb]">
-
-        
-
-
-       
-        <ClientLayout >{children}</ClientLayout>
+        <ClientLayout>{children}</ClientLayout>
         <SpeedInsights />
       </body>
     </html>
