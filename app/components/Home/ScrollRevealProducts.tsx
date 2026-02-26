@@ -66,7 +66,7 @@ export default function ScrollRevealProducts({
                 >
                   <div className="uppercase text-[#6a0f1f] text-center m-2 w-full">
                   {product.name}
-                  <div className="hidden group-hover:block">
+                  <div className="hidden group-active:block text-[#6a0f1f]">
                     {`(${product.color})`}
                   </div>
                 </div>

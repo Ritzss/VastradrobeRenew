@@ -161,7 +161,7 @@ const ProductCard = ({
               className="bg-[#eeddc7] px-1 rounded-lg w-full"
             >
               {/* <div className="font-semibold line-clamp-1 ">{brand}</div> */}
-              <div className="font-bold line-clamp-2 h-full ">{name}</div>
+              <div className="font-bold line-clamp-2 h-full flex justify-center items-center">{name}</div>
             </Link>
             <button
               type="button"
