@@ -16,6 +16,8 @@ import ScrollReveal from "@/components/Global/ScrollReveal";
 import Link from "next/link";
 import SizeGuideModal from "@/components/products/SizeGuideModal";
 import { sizeGuide } from "@/lib/sizeGuide";
+import { RiHeartFill } from "react-icons/ri";
+import { Heart } from "lucide-react";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -37,6 +39,9 @@ export default function ProductPDPClient({
   const {
     addToCart,
     showVariants,
+    favCollections,
+    addToCollection,
+    removeFromCollection,
     cartItems,
     removeFromCart,
     showProductDeatils,
@@ -47,6 +52,10 @@ export default function ProductPDPClient({
   );
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [showCollections, setShowCollections] = useState(false);
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(
+    null,
+  );
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -195,6 +204,38 @@ export default function ProductPDPClient({
               priority
             />
           </div>
+          {/* fav button */}
+      <span
+        className="absolute top-1.5 right-1 cursor-pointer text-center mx-auto hover:translate-y-1 rounded-full duration-500 transition-all bg-[#EEDDC7] p-1"
+        onClick={() => {
+          const collectionNames = Object.keys(favCollections);
+
+          if (selectedCollection) {
+            removeFromCollection(selectedCollection, productId);
+            setSelectedCollection(null);
+            setShowCollections(false);
+            return;
+          }
+
+          // 🔥 If only one collection → auto add
+          if (collectionNames.length === 1) {
+            const defaultCollection = collectionNames[0];
+            addToCollection(defaultCollection, productId);
+            setSelectedCollection(defaultCollection);
+            return;
+          }
+
+          // 👇 If multiple collections → show dropdown
+          setShowCollections((prev) => !prev);
+        }}
+      >
+        {selectedCollection ? (
+          <RiHeartFill size={22} className="text-[#ff0000]" />
+        ) : (
+          <Heart size={22} />
+        )}
+      </span>
+
         </div>
 
         {/* DETAILS */}
@@ -493,6 +534,26 @@ export default function ProductPDPClient({
         </div>
       </section>
 
+      {/* 📂 COLLECTION DROPDOWN */}
+      {showCollections && !selectedCollection && (
+        <div className="absolute bubble top-3 flex flex-col z-50 right-8 mt-2 bg-white text-[#6a0f1f] border rounded-lg shadow-lg">
+          {Object.keys(favCollections).map((collection) => (
+            <div
+              key={collection}
+              onClick={(e) => {
+                e.stopPropagation(); // 🚫 prevent heart click
+                addToCollection(collection, productId);
+                setSelectedCollection(collection);
+                setShowCollections(false);
+              }}
+              className="px-4 py-2  text-sm hover:bg-[#6a0f1f] hover:text-white hover:rounded-xl cursor-pointer whitespace-nowrap"
+            >
+              {collection}
+            </div>
+          ))}
+        </div>
+      )}
+      
       {/* SIMILAR PRODUCTS */}
       <ScrollReveal>
         {similarProducts.length > 0 && (

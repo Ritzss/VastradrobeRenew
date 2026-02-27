@@ -154,6 +154,7 @@ const ProductCard = ({
           </Link>
         )}
         {children}
+        {/* details block */}
         {button && (
           <div className="bg-transparent h-[6vh] px-3 flex gap-1">
             <Link
