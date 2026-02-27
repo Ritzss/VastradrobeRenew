@@ -22,7 +22,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   const res = await fetch(
-    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&limit=20`,
+    `${process.env.IMS_BASE_URL}/api/ims/public/products?limit=20`,
     { next: { revalidate: 120 } }
   );
 

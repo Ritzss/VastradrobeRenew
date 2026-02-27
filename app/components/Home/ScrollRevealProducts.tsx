@@ -67,7 +67,7 @@ export default function ScrollRevealProducts({
                   <div className="uppercase text-[#6a0f1f] text-center m-2 w-full">
                   {product.name}
                   <div className="hidden group-active:block text-[#6a0f1f]">
-                    {`(${product.color})`}
+                    {`(${product.variants?.[0]?.color ?? ""})`}[[]]
                   </div>
                 </div>
                 </ProductCardStatic>
@@ -96,10 +96,10 @@ export default function ScrollRevealProducts({
                 classNameInner="h-[53vh] rounded-2xl"
                 className="md:w-full py-1.5 group w-[85%] hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
               >
-                <div className="uppercase text-[#6a0f1f] text-center m-2 w-full">
+                <div className="uppercase flex flex-col text-[#6a0f1f] text-center m-2 w-full">
                   {product.name}
                   <div className="hidden group-hover:block">
-                    {`(${product.color})`}
+                    {`(${product.variants?.[0]?.color ?? ""})`}
                   </div>
                 </div>
               </ProductCardStatic>

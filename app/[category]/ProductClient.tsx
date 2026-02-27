@@ -31,7 +31,7 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
 
     const sizeMatch =
       normalizedSelectedSizes.length === 0 ||
-      p.sizes?.some((productSize: string) =>
+      p.variants[0]?.sizes.some((productSize: string) =>
         normalizedSelectedSizes.includes(normalizeSize(productSize)),
       );
 

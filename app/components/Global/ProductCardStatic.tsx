@@ -18,7 +18,8 @@ export default function ProductCardStatic({
   children,
 }: Props) {
   const imageSrc =
-    product.images?.[0] || "/Assets/Images/Newplaceholder.png";
+    product.variants?.[0]?.images?.[0] ||
+    "/Assets/Images/Newplaceholder.png";
 
   return (
     <div
@@ -33,20 +34,22 @@ export default function ProductCardStatic({
         className="group flex flex-col w-full"
       >
         <div
-          className={`relative  ${classNameInner ?? "h-[50vh]"} border-2 border-black aspect-3/4 overflow-hidden w-full`}
+          className={`relative ${
+            classNameInner ?? "h-[50vh]"
+          } border-2 border-black aspect-3/4 overflow-hidden w-full`}
         >
           <Image
             src={imageSrc}
             fill
             priority
-            sizes="(max-width: 768px) 50vw, 25vw"
+            sizes="(max-width: 768px) 100vw, 25vw"
             alt={product.name}
-            className="object group-hover:scale-105 duration-500 transition-all"
+            className="object-c group-hover:scale-105 duration-500 transition-all"
           />
         </div>
-
       </Link>
-        {children}
+
+      {children}
     </div>
   );
 }

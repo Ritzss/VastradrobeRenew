@@ -51,25 +51,28 @@ const SideFilter = ({
     ).sort();
   }, [products, categoryFromRoute]);
 
-  const availableSizes = useMemo(() => {
-    if (!categoryFromRoute) return [];
+ const availableSizes = useMemo(() => {
+  if (!categoryFromRoute) return [];
 
-    const allowedCategories = CATEGORY_MAP[normalize(categoryFromRoute)] || [];
+  const allowedCategories =
+    CATEGORY_MAP[normalize(categoryFromRoute)] || [];
 
-    const filtered = products.filter((p: any) =>
-      allowedCategories.includes(normalize(p.category)),
-    );
+  const filtered = products.filter((p: any) =>
+    allowedCategories.includes(normalize(p.category)),
+  );
 
-    return Array.from(
-      new Set(
-        filtered
-          .flatMap((p: any) => p.sizes || [])
-          .map((size: string) =>
-            size.replace(/\s+/g, " ").trim().toUpperCase(),
-          ),
-      ),
-    ).sort();
-  }, [products, categoryFromRoute]);
+  return Array.from(
+    new Set(
+      filtered
+        .flatMap((p: any) =>
+          (p.variants || []).flatMap((v: any) => v.sizes || []),
+        )
+        .map((size: string) =>
+          size.replace(/\s+/g, " ").trim().toUpperCase(),
+        ),
+    ),
+  ).sort();
+}, [products, categoryFromRoute]);
 
   if (!categoryFromRoute) return null;
 

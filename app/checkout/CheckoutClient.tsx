@@ -152,7 +152,7 @@ const CheckoutClient = () => {
           price: p.price,
           qty: p.qty,
           size: p.size,
-          image: p.images?.[0] || null,
+          image: p.variants[0]?.images[0] || null,
         })),
       }),
     });
@@ -198,7 +198,7 @@ const CheckoutClient = () => {
             className="flex justify-between items-center mb-2"
           >
             <Image
-              src={item.images?.[0] || "/Assets/Images/placeholder.png"}
+              src={item.variants[0]?.images[0] || "/Assets/Images/placeholder.png"}
               width={40}
               height={40}
               alt={item.name}

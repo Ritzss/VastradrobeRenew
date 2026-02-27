@@ -289,6 +289,11 @@ RESPONSIVE LAYOUT UTILITIES
   .product-card-all {
     width: 45%;
   }
+
+  .cardWidth {
+    width: 100%;
+  }
+
   .page-container {
     max-width: 80rem;
     margin-left: auto;
@@ -303,6 +308,9 @@ RESPONSIVE LAYOUT UTILITIES
   .product-card-all {
     width: 32%;
   }
+  .cardWidth {
+    width: 28vw;
+  }
   .nav-logo{
     left: -2%;
   }
@@ -316,7 +324,7 @@ RESPONSIVE LAYOUT UTILITIES
     width: 24%;
   }
   .cardWidth {
-    width: 23vw;
+    width: 28vw;
   }
   .nav-logo{
     left: -8%;

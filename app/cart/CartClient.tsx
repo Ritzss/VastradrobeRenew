@@ -115,7 +115,7 @@ const CartClient = () => {
                <div className="relative border w-full h-[25vh] overflow-hidden rounded-2xl">
                 <Image
                   src={
-                    product.images?.[0] ??
+                    product.variants[0]?.images[0] ??
                     "/Assets/Images/Newplaceholder.png"
                   }
                   fill
@@ -129,7 +129,7 @@ const CartClient = () => {
                 <div className="flex border mt-1 rounded-lg overflow-hidden">
                   <button
                     onClick={() =>
-                      decrementQty(entry.productId, entry.size)
+                      decrementQty(entry.productId, entry.size, entry.color)
                     }
                     className="w-10 bg-gray-200"
                   >
@@ -140,7 +140,7 @@ const CartClient = () => {
                   </div>
                   <button
                     onClick={() =>
-                      incrementQty(entry.productId, entry.size)
+                      incrementQty(entry.productId, entry.size, entry.color)
                     }
                     className="w-10 bg-gray-200"
                   >
@@ -191,7 +191,7 @@ const CartClient = () => {
                 {/* remove box */}
                 <button
                   onClick={() =>
-                    removeFromCart(entry.productId, entry.size)
+                    removeFromCart(entry.productId, entry.size, entry.color)
                   }
                   className="bg-red-600 text-white rounded-lg py-2"
                 >

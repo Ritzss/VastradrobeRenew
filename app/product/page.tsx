@@ -3,7 +3,7 @@
 import AllProductClient from "./AllProductClient";
 
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 20;
 
 const ProductPage = async () => {
   const res = await fetch(

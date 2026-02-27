@@ -18,6 +18,7 @@ export type RegisterData = {
 export type CartItem = {
   productId: number;
   size: string;
+  color: string;
   qty: number;
 };
 
@@ -48,10 +49,10 @@ export interface AppContextType {
   cartItems: CartItem[];
   cartCount: number;
   clearCart: () => void;
-  addToCart: (productId: number, size: string) => void;
-  removeFromCart: (productId: number, size: string) => void;
-  incrementQty: (productId: number, size: string) => void;
-  decrementQty: (productId: number, size: string) => void;
+  addToCart: (productId: number, size: string,color:string) => void;
+  removeFromCart: (productId: number, size: string,color:string) => void;
+  incrementQty: (productId: number, size: string,color:string) => void;
+  decrementQty: (productId: number, size: string,color:string) => void;
 
   /* ❤️ Favorites (DB-backed) */
   favCollections: Record<string, Set<number>>;
