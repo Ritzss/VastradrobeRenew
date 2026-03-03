@@ -51,28 +51,27 @@ const SideFilter = ({
     ).sort();
   }, [products, categoryFromRoute]);
 
- const availableSizes = useMemo(() => {
-  if (!categoryFromRoute) return [];
+  const availableSizes = useMemo(() => {
+    if (!categoryFromRoute) return [];
 
-  const allowedCategories =
-    CATEGORY_MAP[normalize(categoryFromRoute)] || [];
+    const allowedCategories = CATEGORY_MAP[normalize(categoryFromRoute)] || [];
 
-  const filtered = products.filter((p: any) =>
-    allowedCategories.includes(normalize(p.category)),
-  );
+    const filtered = products.filter((p: any) =>
+      allowedCategories.includes(normalize(p.category)),
+    );
 
-  return Array.from(
-    new Set(
-      filtered
-        .flatMap((p: any) =>
-          (p.variants || []).flatMap((v: any) => v.sizes || []),
-        )
-        .map((size: string) =>
-          size.replace(/\s+/g, " ").trim().toUpperCase(),
-        ),
-    ),
-  ).sort();
-}, [products, categoryFromRoute]);
+    return Array.from(
+      new Set(
+        filtered
+          .flatMap((p: any) =>
+            (p.variants || []).flatMap((v: any) => v.sizes || []),
+          )
+          .map((size: string) =>
+            size.replace(/\s+/g, " ").trim().toUpperCase(),
+          ),
+      ),
+    ).sort();
+  }, [products, categoryFromRoute]);
 
   if (!categoryFromRoute) return null;
 
@@ -86,7 +85,6 @@ const SideFilter = ({
 
   return (
     <>
-      {/* MOBILE OVERLAY */}
       {onClose && (
         <div
           onClick={onClose}
@@ -95,38 +93,38 @@ const SideFilter = ({
       )}
 
       <aside
-        className={` ${className ? className : ""} fixed md:static top-0 right-0 h-full w-80 z-50 transform transition-transform duration-300 ease-in-out md:w-64 md:translate-x-0 ${onClose ? "translate-x-0" : ""} p-5 overflow-y-auto`}
+        className={`fixed md:static top-0 right-0 h-full w-80 z-50
+      bg-[#f9f5ef]
+      transform transition-transform duration-300 ease-in-out
+      ${onClose ? "translate-x-0" : ""}
+      p-8 overflow-y-auto`}
       >
-        {/* HEADER */}
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold text-[#6a0f1f]">Filters</h3>
-
-          {onClose && (
-            <button
-              onClick={onClose}
-              className="md:hidden text-sm text-red-600"
-            >
-              Close
-            </button>
-          )}
+        {/* TITLE */}
+        <div className="mb-12">
+          <p className="uppercase tracking-[0.35em] text-xs text-[#957f6a] mb-3">
+            Refine
+          </p>
+          <h3 className="text-2xl font-semibold text-[#5f5143]">Filters</h3>
         </div>
 
-        {/* SUBCATEGORY */}
-        <div className="mb-8">
-          <h4 className="text-sm font-semibold mb-3 text-gray-600">Category</h4>
+        {/* CATEGORY */}
+        <div className="mb-14">
+          <p className="uppercase tracking-[0.25em] text-xs text-[#957f6a] mb-6">
+            Category
+          </p>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-3">
             <button
               onClick={() => {
                 setSubCategory("");
                 onClose?.();
               }}
-              className={`px-3 py-1.5 rounded-full text-xs border transition
-              ${
-                !subCategory
-                  ? "bg-[#6a0f1f] text-white border-[#6a0f1f]"
-                  : "bg-white text-gray-700 border-gray-300 hover:border-[#6a0f1f]"
-              }`}
+              className={`px-5 py-2 rounded-full text-sm transition
+            ${
+              !subCategory
+                ? "bg-[#6a0f1f] text-white"
+                : "bg-[#e6d8c8] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white"
+            }`}
             >
               All
             </button>
@@ -142,12 +140,12 @@ const SideFilter = ({
                     setSubCategory(slug);
                     onClose?.();
                   }}
-                  className={`px-3 py-1.5 rounded-full text-xs border transition
-                  ${
-                    active
-                      ? "bg-[#6a0f1f] text-white border-[#6a0f1f]"
-                      : "bg-white text-gray-700 border-gray-300 hover:border-[#6a0f1f]"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm transition
+                ${
+                  active
+                    ? "bg-[#6a0f1f] text-white"
+                    : "bg-[#e6d8c8] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white"
+                }`}
                 >
                   {sub}
                 </button>
@@ -157,12 +155,12 @@ const SideFilter = ({
         </div>
 
         {/* PRICE */}
-        <div className="mb-8">
-          <h4 className="text-sm font-semibold mb-3 text-gray-600">
+        <div className="mb-14">
+          <p className="uppercase tracking-[0.25em] text-xs text-[#957f6a] mb-6">
             Price Range
-          </h4>
+          </p>
 
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <input
               type="number"
               placeholder="Min"
@@ -173,7 +171,7 @@ const SideFilter = ({
                   min: e.target.value === "" ? "" : Number(e.target.value),
                 })
               }
-              className="w-full border rounded-md px-3 py-2 text-sm outline-none focus:border-[#6a0f1f]"
+              className="w-full bg-white border border-[#e6d8c8] rounded-full px-4 py-3 text-sm outline-none focus:border-[#6a0f1f]"
             />
 
             <input
@@ -186,7 +184,7 @@ const SideFilter = ({
                   max: e.target.value === "" ? "" : Number(e.target.value),
                 })
               }
-              className="w-full border rounded-md px-3 py-2 text-sm outline-none focus:border-[#6a0f1f]"
+              className="w-full bg-white border border-[#e6d8c8] rounded-full px-4 py-3 text-sm outline-none focus:border-[#6a0f1f]"
             />
           </div>
         </div>
@@ -194,9 +192,11 @@ const SideFilter = ({
         {/* SIZE */}
         {availableSizes.length > 0 && (
           <div>
-            <h4 className="text-sm font-semibold mb-3 text-gray-600">Sizes</h4>
+            <p className="uppercase tracking-[0.25em] text-xs text-[#957f6a] mb-6">
+              Sizes
+            </p>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {availableSizes.map((size) => {
                 const active = sizes.includes(size);
 
@@ -204,12 +204,12 @@ const SideFilter = ({
                   <button
                     key={size}
                     onClick={() => toggleSize(size)}
-                    className={`px-3 h-9 text-xs font-medium rounded-md border transition
-                    ${
-                      active
-                        ? "bg-[#6a0f1f] text-white border-[#6a0f1f]"
-                        : "bg-white text-gray-700 border-gray-300 hover:border-[#6a0f1f]"
-                    }`}
+                    className={`px-4 py-2 rounded-full text-sm transition
+                  ${
+                    active
+                      ? "bg-[#6a0f1f] text-white"
+                      : "bg-[#e6d8c8] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white"
+                  }`}
                   >
                     {size}
                   </button>

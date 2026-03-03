@@ -24,10 +24,7 @@ const Login = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setLoginForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setLoginForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
@@ -41,9 +38,7 @@ const Login = () => {
     setLoading(true);
     await fetch("/api/auth/login-otp-send", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: loginForm.email }),
     });
     setLoading(false);
@@ -51,16 +46,12 @@ const Login = () => {
 
   const verifyOtp = async (otpParam?: string) => {
     const otp = otpParam || otpDigits.join("");
-
     if (otp.length !== 6) return;
 
     setLoading(true);
     const res = await fetch("/api/auth/login-otp-verify", {
       method: "POST",
-      body: JSON.stringify({
-        email: loginForm.email,
-        otp,
-      }),
+      body: JSON.stringify({ email: loginForm.email, otp }),
     });
 
     setLoading(false);
@@ -81,132 +72,132 @@ const Login = () => {
   };
 
   return (
-    <div className="md:w-[80%] w-full text-black border-white mt-4 md:m-20 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
-      {/* LEFT PANEL */}
-      <aside className="md:w-[40%] h-auto bg-[#DFC9AC] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 border-white flex-col flex justify-between">
-        <header className="flex-col flex gap-5">
-          <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center font-bold">
-            Login
-          </div>
-          <div className="text-[#cd0000] p-2.5 text-xl">
-            Access your wardrobe universe.
-          </div>
-        </header>
-        <div className="overflow-hidden self-end">
-          <Image
-            src={"https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"}
-            width={300}
-            height={200}
-            alt=""
-            priority
-            className="w-83 h-50"
-          />
-        </div>
-      </aside>
+    <div className="w-full h-full flex justify-center px-6 py-16 bg-[#f9f5ef]">
+      <div className="w-full h-full max-w-5xl rounded-[32px] overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
+        {/* LEFT PANEL */}
+        <aside className="md:w-[45%] bg-[#efe3d3] p-10 flex flex-col justify-between h-full">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-semibold text-[#5f5143]">
+              Welcome Back
+            </h2>
 
-      {/* RIGHT PANEL */}
-      <aside className="md:w-[60%] h-auto bg-[#DFC9AC] font-sans shadow-[inset_0_0_150px_28px_#cd0000] flex flex-col justify-center items-center p-8">
-        <div className="w-full text-white max-w-lg flex flex-col gap-4">
-          {/* EMAIL */}
-          <input
-            type="email"
-            name="email"
-            value={loginForm.email}
-            onChange={handleInputChange}
-            placeholder="Email"
-            className="bg-transparent border-b outline-none p-2"
-          />
+            <p className="text-[#7a6a5c] leading-relaxed">
+              Access your wardrobe universe. Experience comfort, quality and
+              timeless silhouettes crafted for everyday elegance.
+            </p>
+          </div>
 
-          {!useOtp && (
-            <>
-              {/* PASSWORD */}
-              <div className="flex border-b">
-                <input
-                  type={visible ? "text" : "password"}
-                  name="password"
-                  value={loginForm.password}
-                  onChange={handleInputChange}
-                  placeholder="Password"
-                  className="bg-transparent outline-none flex-1 p-2"
-                />
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setVisible(!visible)}
-                >
-                  {visible ? <EyeIcon /> : <EyeClosedIcon />}
+          <div className="hidden md:block">
+            <Image
+              src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"
+              width={400}
+              height={250}
+              alt="Fashion Visual"
+              className="object-contain"
+              priority
+            />
+          </div>
+        </aside>
+
+        {/* RIGHT PANEL */}
+        <aside className="md:w-[55%] bg-white p-10 flex flex-col justify-center">
+          <div className="max-w-md w-full mx-auto space-y-6">
+            <input
+              type="email"
+              name="email"
+              value={loginForm.email}
+              onChange={handleInputChange}
+              placeholder="Email"
+              className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
+            />
+
+            {!useOtp && (
+              <>
+                <div className="flex border-b border-[#e6d8c8]">
+                  <input
+                    type={visible ? "text" : "password"}
+                    name="password"
+                    value={loginForm.password}
+                    onChange={handleInputChange}
+                    placeholder="Password"
+                    className="flex-1 p-2 outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setVisible(!visible)}
+                    className="text-[#7a6a5c]"
+                  >
+                    {visible ? (
+                      <EyeIcon size={18} />
+                    ) : (
+                      <EyeClosedIcon size={18} />
+                    )}
+                  </button>
                 </div>
-              </div>
 
-              <div className="w-full flex justify-between items-center">
+                <div className="text-right text-sm">
+                  <Link
+                    href="reset_password"
+                    className="text-[#7a6a5c] hover:text-[#6a0f1f]"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
+
                 <button
                   onClick={handlePasswordLogin}
-                  className="bg-white cursor-pointer text-[#cd0000] py-2 hover:text-white rounded mt-4 lg:w-[60%] w-full hover:bg-[#6a0f1f] transition"
+                  className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
                 >
                   Login
                 </button>
-                <Link
-                  href="reset_password"
-                  className="hidden lg:block text-[#cd0000] bg-white cursor-pointer  py-2 rounded mt-4 px-1 hover:text-white hover:bg-[#6a0f1f] transition"
+              </>
+            )}
+
+            {useOtp && (
+              <>
+                <button
+                  onClick={sendOtp}
+                  disabled={loading}
+                  className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
                 >
-                  Forgot Password
-                </Link>
-              </div>
-            </>
-          )}
+                  {loading ? "Sending..." : "Send OTP"}
+                </button>
 
-          {useOtp && (
-            <>
-              <button
-                onClick={sendOtp}
-                disabled={loading}
-                className="bg-white  hover:text-white hover:bg-[#6a0f1f] text-[#cd0000] py-2 rounded mt-2"
-              >
-                {loading ? "Sending..." : "Send OTP"}
-              </button>
+                <OtpInput
+                  value={otpDigits}
+                  setValue={setOtpDigits}
+                  length={6}
+                  onComplete={(otp) => verifyOtp(otp)}
+                />
 
-              <OtpInput
-                value={otpDigits}
-                setValue={setOtpDigits}
-                length={6}
-                onComplete={(otp) => verifyOtp(otp)}
-              />
-
-              <button
-                onClick={() => verifyOtp()}
-                disabled={loading}
-                className="bg-white  hover:text-white hover:bg-[#6a0f1f] text-[#cd0000] py-2 rounded mt-4"
-              >
-                {loading ? "Verifying..." : "Login with OTP"}
-              </button>
-            </>
-          )}
-
-          <div className="flex flex-col gap-2">
-            <Link
-              href="reset_password"
-              className="block lg:hidden underline lg:w-[33%] hover:text-[#DFC9AC]"
-            >
-              Forgot Password
-            </Link>
-
-            <div className=" mt-15 w-[80%] lg:w-[60%] mx-auto text-[#6a0f1f] py-2 rounded transition text-center cursor-pointer">
-              New here?{" "}
-              <Link href="register" className="hover:text-[#cd0000] underline">
-                Create Account
-              </Link>
-            </div>
+                <button
+                  onClick={() => verifyOtp()}
+                  disabled={loading}
+                  className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
+                >
+                  {loading ? "Verifying..." : "Login with OTP"}
+                </button>
+              </>
+            )}
 
             <button
               onClick={toggleMode}
-              className="bg-white  hover:bg-[#6a0f1f] text-[#cd0000] hover:text-white py-3 rounded mt-4  transition text-center cursor-pointer"
+              className="text-sm text-[#7a6a5c] hover:text-[#6a0f1f] transition text-center"
             >
               {useOtp
                 ? "Login with Password Instead"
                 : "Login with OTP Instead"}
             </button>
+
+            <div className="text-center text-sm text-[#7a6a5c]">
+              New here?{" "}
+              <Link href="register" className="underline hover:text-[#6a0f1f]">
+                Create Account
+              </Link>
+            </div>
           </div>
-        </div>
-      </aside>
+        </aside>
+      </div>
     </div>
   );
 };

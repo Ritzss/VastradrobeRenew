@@ -5,7 +5,6 @@ import { IMSProduct } from "@/Types/Product";
 type Props = {
   product: IMSProduct;
   className?: string;
-  height?: string;
   classNameInner?: string;
   children?: React.ReactNode;
 };
@@ -13,41 +12,40 @@ type Props = {
 export default function ProductCardStatic({
   product,
   className,
-  height,
   classNameInner,
   children,
 }: Props) {
   const imageSrc =
-    product.variants?.[0]?.images?.[0] ||
-    "/Assets/Images/Newplaceholder.png";
+    product.variants?.[0]?.images?.[0] || "/Assets/Images/Newplaceholder.png";
 
   return (
-    <div
-      className={`cardBlock ${
-        height ?? "h-[55vh]"
-      } overflow-x-hidden flex flex-col rounded-2xl my-2 ${
-        className ?? ""
-      }`}
-    >
+    <div className={`flex flex-col group ${className ?? ""}`}>
       <Link
         href={`/product/${product.productId}`}
-        className="group flex flex-col w-full"
+        className="flex flex-col w-full"
       >
         <div
-          className={`relative ${
-            classNameInner ?? "h-[50vh]"
-          } border-2 border-black aspect-3/4 overflow-hidden w-full`}
+          className={`relative aspect-[3/4] w-full rounded-4xl overflow-hidden bg-[#f5f1e7] ${
+            classNameInner ?? ""
+          }`}
         >
           <Image
             src={imageSrc}
             fill
-            priority
             sizes="(max-width: 768px) 100vw, 25vw"
             alt={product.name}
-            className="object-c group-hover:scale-105 duration-500 transition-all"
+            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
           />
         </div>
       </Link>
+
+      <div className="mt-4 text-center">
+        <p className="text-[14px] font-medium text-[#5f5143]">{product.name}</p>
+
+        {product.price && (
+          <p className="mt-1 text-[13px] text-[#957f6a]">₹{product.price}</p>
+        )}
+      </div>
 
       {children}
     </div>

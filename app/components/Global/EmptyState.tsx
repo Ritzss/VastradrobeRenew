@@ -16,29 +16,42 @@ const EmptyState = ({
   buttonLink = "/",
 }: EmptyStateProps) => {
   return (
-    <div className="flex flex-col items-center justify-center py-15 text-center">
-      
-      <p className="uppercase tracking-[0.35em] text-sm text-gray-500 mb-4">
-        {label}
-      </p>
+    <section className="bg-[#f9f5ef] py-32">
+      <div className="max-w-2xl mx-auto px-6 text-center space-y-8">
+        {/* LABEL */}
+        <p className="uppercase tracking-[0.35em] text-xs text-[#957f6a]">
+          {label}
+        </p>
 
-      <h2 className="text-4xl text-[#6a0f1f] font-semibold mb-6">
-        {title}
-      </h2>
+        {/* TITLE */}
+        <h2 className="text-4xl md:text-5xl font-semibold text-[#5f5143] leading-tight">
+          {title}
+        </h2>
 
-      <p className="text-gray-600 max-w-md mb-10">
-        {description}
-      </p>
+        {/* DESCRIPTION */}
+        <p className="text-[#7a6a5c] text-lg leading-relaxed">{description}</p>
 
-      <div className="h-px w-24 bg-gray-300 mb-10" />
+        {/* DIVIDER */}
+        <div className="h-px w-20 bg-[#e6d8c8] mx-auto" />
 
-      <Link
-        href={buttonLink}
-        className="inline-block border border-black px-8 py-3 rounded-full hover:bg-[#6a0f1f] hover:text-white transition-all duration-300"
-      >
-        {buttonText}
-      </Link>
-    </div>
+        {/* CTA */}
+        <Link
+          href={buttonLink}
+          className="
+            inline-block
+            px-10 py-3
+            rounded-full
+            border border-[#5f5143]
+            text-[#5f5143]
+            hover:bg-[#5f5143]
+            hover:text-white
+            transition
+          "
+        >
+          {buttonText}
+        </Link>
+      </div>
+    </section>
   );
 };
 

@@ -1,166 +1,91 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaPlay, FaTimes } from "react-icons/fa";
 
-type Asset = {
-  id: string;
-  url: string;
-  resource_type: "image" | "video";
-};
+export default function CampaignSection() {
+  const [showVideo, setShowVideo] = useState(false);
 
-export default function Slider() {
-  const [assets, setAssets] = useState<Asset[]>([]);
-  const [current, setCurrent] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
-
-  /* ---------- FETCH HERO ASSETS ---------- */
+  // Close on ESC
   useEffect(() => {
-    const fetchAssets = async () => {
-      const res = await fetch("/api/home/cloudinary-hero");
-      const data = await res.json();
-      setAssets(data.assets || []);
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowVideo(false);
     };
-
-    fetchAssets();
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
-  /* ---------- AUTO SLIDE ---------- */
-  useEffect(() => {
-    if (isPaused || assets.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % assets.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [isPaused, assets]);
-
-  /* ---------- ARROWS ---------- */
-  const prevSlide = () => {
-    if (assets.length <= 1) return;
-    setCurrent((prev) => (prev === 0 ? assets.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    if (assets.length <= 1) return;
-    setCurrent((prev) => (prev === assets.length - 1 ? 0 : prev + 1));
-  };
-
-  /* ---------- SWIPE ---------- */
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-
-    const distance = touchStartX.current - touchEndX.current;
-
-    if (distance > 50) nextSlide();
-    if (distance < -50) prevSlide();
-
-    touchStartX.current = null;
-    touchEndX.current = null;
-  };
-
-  if (!assets.length) {
-    return (
-      <header className="relative my-10 overflow-hidden h-[35vh] sm:h-[55vh] md:h-screen w-full m-auto bg-gray-200 animate-pulse" />
-    );
-  }
-
   return (
-    <header
-      className="relative my-10 overflow-hidden h-[35vh] sm:h-[55vh] md:h-screen w-full m-auto group"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-    >
-      {/* SLIDES */}
-      <div
-        className="flex h-full transition-transform duration-700 ease-in-out"
-        style={{ transform: `translateX(-${current * 100}%)` }}
-      >
-        {assets.map((asset, index) => (
-          <div
-            key={asset.id}
-            className="relative min-w-full h-full aspect-3/4 overflow-hidden"
-          >
-            {asset.resource_type === "video" && index === current ? (
-              <video
-                src={
-                  asset.url ||
-                  "https://res.cloudinary.com/dwhn5ec09/video/upload/q_auto,f_auto,w_1280/v1771305979/main-video_a4rarc.mp4"
-                }
-                className="w-full h-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="none"
-                poster="/hero-placeholder.jpg"
-              />
-            ) : (
-              <Image
-                src={asset.url}
-                fill
-                priority={index === 0}
-                sizes="100vw"
-                className="object-cover"
-                alt="Hero"
-              />
-            )}
+    <>
+      {/* ================= HERO SECTION ================= */}
+      <section className="relative min-h-screen flex items-center justify-center text-center bg-[#edddc8] overflow-hidden">
+        {/* Background Image */}
+        <Image
+          src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770977218/products/ocktsxwyzhi2rzwoantd.jpg"
+          alt="Hero"
+          fill
+          priority
+          className="object-cover object-center scale-105"
+        />
 
-            <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent" />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+
+        {/* Content */}
+        <div className="relative z-10 max-w-3xl px-6 text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold leading-tight tracking-wide">
+            Timeless Elegance
+          </h1>
+
+          <p className="mt-6 text-white/80 text-lg sm:text-xl max-w-2xl mx-auto">
+            Curated silhouettes crafted for modern expression and refined
+            presence.
+          </p>
+
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
+            <button className="px-8 py-3 border border-white text-white rounded-full hover:bg-white hover:text-[#6a0f1f] transition text-sm tracking-widest uppercase">
+              Explore Collection
+            </button>
+
+            <button
+              onClick={() => setShowVideo(true)}
+              className="flex justify-center items-center gap-3 px-8 py-3 border border-white text-white rounded-full hover:bg-white hover:text-[#6a0f1f] transition text-sm tracking-widest uppercase"
+            >
+              <FaPlay size={12} />
+              Watch Video
+            </button>
           </div>
-        ))}
-      </div>
+        </div>
+      </section>
 
-      {/* TEXT */}
-      <div className="absolute inset-0 flex flex-col justify-center items-start px-6 sm:px-12 md:px-20 text-white z-10">
-        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 tracking-wide">
-          Elevate Your Style
-        </h1>
-        <p className="text-sm sm:text-lg md:text-xl max-w-md mb-6 text-white/80">
-          Discover curated fashion for every moment.
-        </p>
-        <Link
-          href="product"
-          className="border border-white px-8 py-3 rounded-full transition hover:bg-white hover:text-[#6a0f1f]"
+      {/* ================= VIDEO OVERLAY ================= */}
+      {showVideo && (
+        <div
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-[100] animate-fadeIn"
+          onClick={() => setShowVideo(false)}
         >
-          Shop Now
-        </Link>
-      </div>
+          <div
+            className="relative w-[90vw] max-w-5xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <video
+              src="https://res.cloudinary.com/dwhn5ec09/video/upload/q_auto,f_auto,w_1600/v1771305979/main-video_a4rarc.mp4"
+              autoPlay
+              controls
+              className="w-full rounded-xl"
+            />
 
-      {/* ARROWS (only if more than 1) */}
-      {assets.length > 1 && (
-        <>
-          <button
-            onClick={prevSlide}
-            className="absolute top-1/2 left-6 -translate-y-1/2 bg-black/40 text-white p-3 rounded-full z-10"
-          >
-            <FaChevronLeft />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute top-1/2 right-6 -translate-y-1/2 bg-black/40 text-white p-3 rounded-full z-10"
-          >
-            <FaChevronRight />
-          </button>
-        </>
+            {/* Close Button */}
+            <button
+              onClick={() => setShowVideo(false)}
+              className="absolute -top-12 right-0 text-white text-xl"
+            >
+              <FaTimes />
+            </button>
+          </div>
+        </div>
       )}
-    </header>
+    </>
   );
 }

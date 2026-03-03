@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useAppContext } from "@/hooks/useAppContext";
@@ -10,23 +8,18 @@ import { IMSProduct } from "@/Types/Product";
 import { toast } from "sonner";
 
 const CheckoutClient = () => {
-  const {
-    products,
-    cartItems, // ✅ CartItem[]
-    clearCart,
-    loadUser,
-    user,
-  } = useAppContext();
+  const { products, cartItems, clearCart, loadUser, user } = useAppContext();
 
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const buyNowSize = searchParams.get("size");
   const buyNowId = searchParams.get("buyNow");
 
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
 
-  /* PREFILL ADDRESS */
+  /* PREFILL */
   useEffect(() => {
     if (user?.deliveryAddress) {
       setAddress(user.deliveryAddress.address ?? "");
@@ -34,25 +27,17 @@ const CheckoutClient = () => {
     }
   }, [user]);
 
-  /* ---------------- PRODUCTS ---------------- */
+  /* PRODUCTS */
   const checkoutProducts = useMemo(() => {
-      if (!products.length) return [];
-    // BUY NOW FLOW
+    if (!products.length) return [];
+
     if (buyNowId && buyNowSize) {
       const product = products.find((p) => p.productId === Number(buyNowId));
-
       if (!product) return [];
 
-      return [
-        {
-          ...product,
-          size: buyNowSize,
-          qty: 1,
-        },
-      ];
+      return [{ ...product, size: buyNowSize, qty: 1 }];
     }
 
-    // NORMAL CART FLOW
     return cartItems
       .map((item) => {
         const product = products.find((p) => p.productId === item.productId);
@@ -68,50 +53,48 @@ const CheckoutClient = () => {
       size: string;
       qty: number;
     })[];
-
-    
   }, [buyNowId, buyNowSize, cartItems, products]);
-  
+
   if (!products.length) {
-    return <div className="p-10 text-xl">Loading checkout...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-[#5f5143]">
+        Preparing your checkout...
+      </div>
+    );
   }
 
   if (!checkoutProducts.length) {
-    return <div className="p-10 text-xl">Your cart is empty</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-[#5f5143]">
+        Your cart is empty.
+      </div>
+    );
   }
 
   const total = checkoutProducts.reduce((sum, p) => sum + p.price * p.qty, 0);
 
-  /* ------------------ Razor Pay Loader-------- */
-  const loadRazorpayScript = () => {
-  return new Promise<boolean>((resolve) => {
-    if (window.Razorpay) {
-      resolve(true);
-      return;
-    }
+  /* Razorpay */
+  const loadRazorpayScript = () =>
+    new Promise<boolean>((resolve) => {
+      if ((window as any).Razorpay) return resolve(true);
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
 
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-};
-
-  /* ---------------- PLACE ORDER ---------------- */
   const handlePlaceOrder = async () => {
     if (!address || !phone) {
       toast.error("Please enter address and phone number");
       return;
     }
 
-    const scriptLoaded = await loadRazorpayScript();
-
-  if (!scriptLoaded) {
-    toast.error("Payment system failed to load");
-    return;
-  }
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      toast.error("Payment system failed to load");
+      return;
+    }
 
     const res = await fetch("/api/payment/create", {
       method: "POST",
@@ -131,7 +114,7 @@ const CheckoutClient = () => {
         await verifyAndPlaceOrder(response);
       },
       prefill: { contact: phone },
-      theme: { color: "#000000" },
+      theme: { color: "#5f5143" },
     };
 
     const razorpay = new (window as any).Razorpay(options);
@@ -163,66 +146,101 @@ const CheckoutClient = () => {
     }
 
     clearCart();
-
     await loadUser();
     router.push("/orders");
     toast.success("Payment successful 🎉");
   };
 
-  /* ---------------- UI ---------------- */
+  /* UI */
   return (
-    <div className="p-10 grid grid-cols-3 gap-8">
-      <div className="col-span-2">
-        <h1 className="text-3xl font-bold mb-4">Checkout</h1>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <input
-            placeholder="Phone Number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full border p-2 mb-3 rounded"
-          />
+    <div className="min-h-screen bg-[#f9f5ef] px-6 md:px-16 py-16 pt-28">
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
+        {/* LEFT: DETAILS */}
+        <div className="space-y-10">
+          <h1 className="text-3xl font-semibold text-[#5f5143]">Checkout</h1>
 
-          <textarea
-            placeholder="Full Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="w-full border p-2 rounded"
-          />
-        </div>
-      </div>
+          <div className="bg-white rounded-[32px] p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
+            <div>
+              <label className="text-sm text-[#7a6a5c]">Phone Number</label>
+              <input
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full mt-2 px-4 py-3 rounded-full border border-[#e6d8c8] focus:outline-none"
+              />
+            </div>
 
-      <div className="bg-white p-4 rounded-lg shadow h-fit">
-        {checkoutProducts.map((item) => (
-          <div
-            key={`${item.productId}_${item.size}`}
-            className="flex justify-between items-center mb-2"
-          >
-            <Image
-              src={item.variants[0]?.images[0] || "/Assets/Images/placeholder.png"}
-              width={40}
-              height={40}
-              alt={item.name}
-            />
-            <span>{item.name}</span>
-            <span>{item.size}</span>
-            <span>x{item.qty}</span>
-            <span>₹{item.price * item.qty}</span>
+            <div>
+              <label className="text-sm text-[#7a6a5c]">Delivery Address</label>
+              <textarea
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                rows={4}
+                className="w-full mt-2 px-4 py-3 rounded-2xl border border-[#e6d8c8] focus:outline-none"
+              />
+            </div>
           </div>
-        ))}
-
-        <hr />
-
-        <div className="flex justify-between font-bold text-lg mt-2">
-          <span>Total</span>
-          <span>₹{total}</span>
         </div>
 
-        <button
-          onClick={handlePlaceOrder}
-          className="mt-4 w-full bg-black text-white py-2 rounded-lg"
-        >
-          Place Order
-        </button>
+        {/* RIGHT: SUMMARY */}
+        <div className="bg-white rounded-[32px] p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] h-fit space-y-6">
+          <h2 className="text-xl font-semibold text-[#5f5143]">
+            Order Summary
+          </h2>
+
+          {checkoutProducts.map((item) => (
+            <div
+              key={`${item.productId}_${item.size}`}
+              className="flex gap-4 items-center"
+            >
+              <div className="relative w-16 h-20 rounded-xl overflow-hidden bg-[#f3e7d8]">
+                <Image
+                  src={
+                    item.variants[0]?.images[0] ||
+                    "/Assets/Images/placeholder.png"
+                  }
+                  fill
+                  alt={item.name}
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="flex-1 text-sm text-[#5f5143]">
+                <div className="font-medium">{item.name}</div>
+                <div className="text-[#7a6a5c]">
+                  Size {item.size} × {item.qty}
+                </div>
+              </div>
+
+              <div className="font-medium text-[#5f5143]">
+                ₹{item.price * item.qty}
+              </div>
+            </div>
+          ))}
+
+          <div className="border-t pt-4 flex justify-between text-lg font-semibold text-[#5f5143]">
+            <span>Total</span>
+            <span>₹{total}</span>
+          </div>
+
+          <button
+            onClick={handlePlaceOrder}
+            className="
+              w-full
+              py-4
+              rounded-full
+              bg-[#5f5143]
+              text-white
+              hover:bg-[#6a0f1f]
+              transition
+            "
+          >
+            Complete Payment
+          </button>
+
+          <div className="text-xs text-center text-[#957f6a] pt-2">
+            🔒 Secure payment powered by Razorpay
+          </div>
+        </div>
       </div>
     </div>
   );

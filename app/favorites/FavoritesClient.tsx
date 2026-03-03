@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import ProductCard from "@/components/Global/ProductCard";
 import { motion } from "framer-motion";
-import HorizontalScroll from "@/components/Global/HorizontalScroll";
 
 const FavoritesClient = () => {
   const {
@@ -21,7 +20,10 @@ const FavoritesClient = () => {
   const [showInput, setShowInput] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const categories = Array.from(new Set(products.map((p) => p.category)));
+  const categories = useMemo(
+    () => Array.from(new Set(products.map((p) => p.category))),
+    [products],
+  );
 
   useEffect(() => {
     const allIds = Array.from(
@@ -32,9 +34,8 @@ const FavoritesClient = () => {
 
     const loadProduct = async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?ids=${allIds}`
+        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?ids=${allIds}`,
       );
-
       const data = await res.json();
       setProducts(data.products || []);
     };
@@ -42,34 +43,49 @@ const FavoritesClient = () => {
     loadProduct();
   }, [favCollections, setProducts]);
 
-  return (
-    <section className="w-full px-4 sm:px-6 lg:max-w-7xl lg:mx-auto py-10 flex flex-col gap-10 ">
-      {/* HEADER */}
-      <motion.h1
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-3xl md:text-4xl font-semibold tracking-tight"
-      >
-        Your Favorites
-      </motion.h1>
+  const hasAnyFavorites = Object.values(favCollections).some(
+    (set) => set.size > 0,
+  );
 
-      {/* CREATE COLLECTION */}
-      <div className="flex flex-wrap justify-end items-center gap-3">
+  return (
+    <section className="max-w-7xl mx-auto px-6 py-20 space-y-16 pt-28 bg-[#f9f5ef] min-h-screen">
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <h1 className="text-4xl font-semibold tracking-tight text-[#5f5143]">
+          Your Favorites
+        </h1>
+
         {!showInput ? (
           <button
             onClick={() => setShowInput(true)}
-            className="px-4 py-2 bg-black text-white rounded-md flex gap-2 text-sm hover:opacity-90 transition"
+            className="
+              flex items-center gap-2
+              px-5 py-2
+              rounded-full
+              bg-[#5f5143]
+              text-white
+              text-sm
+              hover:bg-[#6a0f1f]
+              transition
+            "
           >
-            <Plus size={16} /> New Collection
+            <Plus size={16} />
+            New Collection
           </button>
         ) : (
-          <>
+          <div className="flex gap-3 flex-wrap">
             <input
               value={newCollection}
               onChange={(e) => setNewCollection(e.target.value)}
               placeholder="Collection name"
-              className="border px-3 py-2 rounded-md outline-none text-sm w-full sm:w-auto"
+              className="
+                border border-[#e6d8c8]
+                px-4 py-2
+                rounded-full
+                text-sm
+                outline-none
+                focus:border-[#5f5143]
+              "
             />
             <button
               onClick={() => {
@@ -78,7 +94,15 @@ const FavoritesClient = () => {
                 setNewCollection("");
                 setShowInput(false);
               }}
-              className="px-4 py-2 bg-green-600 text-white rounded-md text-sm hover:opacity-90 transition"
+              className="
+                px-4 py-2
+                rounded-full
+                bg-[#5f5143]
+                text-white
+                text-sm
+                hover:bg-[#6a0f1f]
+                transition
+              "
             >
               Create
             </button>
@@ -87,28 +111,32 @@ const FavoritesClient = () => {
                 setShowInput(false);
                 setNewCollection("");
               }}
-              className="px-4 py-2 bg-gray-300 rounded-md text-sm"
+              className="
+                px-4 py-2
+                rounded-full
+                bg-[#e6d8c8]
+                text-[#5f5143]
+                text-sm
+              "
             >
               Cancel
             </button>
-          </>
+          </div>
         )}
       </div>
 
-      <div className="hidden absolute right-5 rounded-lg w-[20%] md:flex flex-col gap-3 bg-[#dfc9ac] p-5 top-60">
-        {Object.entries(favCollections).map(([collection, ids], index) => {
-          return <a href={`#${collection}`} key={index} className="bg-[#6a0f1f] text-white border-[#6a0f1f] font-semibold p-2 text-center rounded-full">
-            {collection}
-            </a>;
-        })}
-      </div>
-
-      <div className="flex gap-3 flex-wrap">
+      {/* CATEGORY FILTER */}
+      <div className="flex flex-wrap gap-3">
         <button
           onClick={() => setSelectedCategory(null)}
-          className={`px-3 py-1 rounded-md text-sm border ${
-            !selectedCategory ? "bg-black text-white" : ""
-          }`}
+          className={`
+            px-4 py-2 rounded-full text-sm border border-[#e6d8c8]
+            ${
+              !selectedCategory
+                ? "bg-[#5f5143] text-white border-[#5f5143]"
+                : "text-[#5f5143] hover:bg-[#f3e7d8]"
+            }
+          `}
         >
           All
         </button>
@@ -117,24 +145,47 @@ const FavoritesClient = () => {
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-3 py-1 rounded-md text-sm border capitalize ${
-              selectedCategory === cat ? "bg-black text-white" : ""
-            }`}
+            className={`
+              px-4 py-2 rounded-full text-sm capitalize border border-[#e6d8c8]
+              ${
+                selectedCategory === cat
+                  ? "bg-[#5f5143] text-white border-[#5f5143]"
+                  : "text-[#5f5143] hover:bg-[#f3e7d8]"
+              }
+            `}
           >
             {cat}
           </button>
         ))}
       </div>
-      <div className="block md:hidden rounded-lg w-full bg-[#dfc9ac] p-5 top-60">
-        <HorizontalScroll>
-          {Object.entries(favCollections).map(([collection, ids], index) => {
-          return <a href={`#${collection}`} key={index} className="bg-[#6a0f1f] text-white border-[#6a0f1f] font-semibold p-2 mx-2 text-center rounded-md">
-            {collection}
-            
-            </a>;
-        })}
-        </HorizontalScroll>
-      </div>
+
+      {/* EMPTY STATE */}
+      {!hasAnyFavorites && (
+        <div className="text-center py-28 space-y-6">
+          <h2 className="text-2xl font-medium text-[#5f5143]">
+            Nothing saved yet
+          </h2>
+          <p className="text-[#7a6a5c] max-w-md mx-auto">
+            Start curating your personal style. Your saved pieces will appear
+            here.
+          </p>
+          <Link
+            href="/"
+            className="
+              inline-block
+              mt-4
+              px-6 py-3
+              rounded-full
+              bg-[#5f5143]
+              text-white
+              hover:bg-[#6a0f1f]
+              transition
+            "
+          >
+            Explore Products →
+          </Link>
+        </div>
+      )}
 
       {/* COLLECTIONS */}
       {Object.entries(favCollections).map(([collection, ids], index) => {
@@ -144,46 +195,52 @@ const FavoritesClient = () => {
             (!selectedCategory || p.category === selectedCategory),
         );
 
+        if (!ids.size) return null;
+
         return (
           <motion.section
-          id={`${collection}`}
             key={collection}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1, duration: 0.4 }}
-            className="flex flex-col mx-auto md:mx-0 gap-6 w-[85%]"
+            transition={{
+              delay: index * 0.1,
+              duration: 0.4,
+            }}
+            className="space-y-8"
           >
-            <h2 className="text-xl font-semibold">{collection}</h2>
+            <h2 className="text-2xl font-semibold text-[#5f5143]">
+              {collection}
+            </h2>
 
             {favProducts.length === 0 ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-gray-400 italic text-sm p-4 rounded-lg border"
-              >
-                Nothing saved here yet. Start curating your style.
-              </motion.div>
+              <div className="text-[#957f6a] italic text-sm p-6 border border-[#e6d8c8] rounded-xl bg-white">
+                No products match this category.
+              </div>
             ) : (
-              <div className="flex flex-wrap gap-5">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
                 {favProducts.map((item) => (
                   <motion.div
                     key={item.productId}
-                    whileHover={{ y: -6 }}
-                    transition={{ type: "spring", stiffness: 200 }}
-                    className="w-full sm:w-[48%] lg:w-[30%]"
+                    whileHover={{ y: -8 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 200,
+                    }}
                   >
-                    <ProductCard
-                      product={item}
-                      button={false}
-                      height="h-[55vh]"
-                      classNameInner="h-[47vh]"
-                      className="w-full"
-                    >
+                    <ProductCard product={item}>
                       <button
                         onClick={() =>
                           removeFromCollection(collection, item.productId)
                         }
-                        className="mt-3 px-3 py-2 w-full rounded-md bg-[#cd0000] text-white text-sm transition hover:opacity-90"
+                        className="
+                            mt-4 w-full py-2
+                            rounded-full
+                            bg-[#5f5143]
+                            text-white
+                            text-sm
+                            hover:bg-[#6a0f1f]
+                            transition
+                          "
                       >
                         Remove
                       </button>
@@ -193,24 +250,10 @@ const FavoritesClient = () => {
               </div>
             )}
 
-            <hr className="border mt-6" />
+            <div className="border-t border-[#e6d8c8] pt-8" />
           </motion.section>
         );
       })}
-
-      
-
-      {/* CTA */}
-      <div className="flex justify-center pt-6">
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Link
-            href="/"
-            className="px-6 py-3 rounded-full bg-black text-white text-sm transition-all duration-300 hover:bg-white hover:text-black border border-black"
-          >
-            Explore More Products →
-          </Link>
-        </motion.div>
-      </div>
     </section>
   );
 };

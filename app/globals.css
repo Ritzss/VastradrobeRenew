@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  background-color: #eeddc7;
+  background-color: #f9f5ef;
 }
 
 body.scroll-lock {
@@ -311,9 +311,6 @@ RESPONSIVE LAYOUT UTILITIES
   .cardWidth {
     width: 28vw;
   }
-  .nav-logo{
-    left: -2%;
-  }
 }
 
 @media (min-width: 1025px) {
@@ -325,9 +322,6 @@ RESPONSIVE LAYOUT UTILITIES
   }
   .cardWidth {
     width: 23vw;
-  }
-  .nav-logo{
-    left: -8%;
   }
 }
 
@@ -381,15 +375,15 @@ RESPONSIVE LAYOUT UTILITIES
 }
 
 .bubble::before {
-      content: "";
-    border-top: 20px solid #0000;
-    border-bottom: 20px solid #0000;
-    border-left: 38px solid #dfc9ac;
-    width: 0;
-    height: 0;
-    position: absolute;
-    top: -5px;
-    right: -13px;
-    transform: rotate(-35deg);
-    z-index: -10;
+  content: "";
+  border-top: 20px solid #0000;
+  border-bottom: 20px solid #0000;
+  border-left: 38px solid #dfc9ac;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -5px;
+  right: -13px;
+  transform: rotate(-35deg);
+  z-index: -10;
 }

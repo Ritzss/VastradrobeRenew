@@ -13,50 +13,44 @@ export default function ResetPasswordPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [otpDigits, setOtpDigits] = useState<string[]>(Array(6).fill(""));
-
   const [step, setStep] = useState<"email" | "otp" | "password">("email");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const sendOtp = async () => {
-  if (!email) return toast.error("Enter Email First");
+    if (!email) return toast.error("Enter Email First");
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    const res = await fetch("/api/auth/send-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
+    try {
+      const res = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!data.success) {
-      toast.error("Invalid email address");
-      setLoading(false);
-      return; // 🚫 stops next step
+      if (!data.success) {
+        toast.error("Invalid email address");
+        setLoading(false);
+        return;
+      }
+
+      setStep("otp");
+      toast.success("OTP sent to your email.");
+    } catch {
+      toast.error("Something went wrong");
     }
 
-    setStep("otp");
-    toast.success("OTP sent to your email.");
-  } catch (err) {
-    toast.error("Something went wrong");
-  }
-
-  setLoading(false);
-};
-
+    setLoading(false);
+  };
 
   const verifyOtp = async (otpParam?: string) => {
     const otp = otpParam || otpDigits.join("");
-
     if (otp.length !== 6) return;
 
     setLoading(true);
-    setMessage("");
 
     const res = await fetch("/api/auth/verify-otp", {
       method: "POST",
@@ -81,7 +75,6 @@ export default function ResetPasswordPage() {
     }
 
     setLoading(true);
-    setMessage("");
 
     const res = await fetch("/api/auth/reset-password", {
       method: "POST",
@@ -100,116 +93,106 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="md:w-[80%] w-full m-20 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
-
-      {/* LEFT PANEL */}
-      <aside className="md:w-[40%] h-auto bg-[#dfc9ac] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 border-white flex-col flex justify-between">
-        <header className="flex-col flex gap-5">
-          <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center font-bold">
-            Reset Password
-          </div>
-          <div className="text-[#cd0000] p-2.5 text-xl">
-            Happens to the best of us.
-            <br />
-            Let’s get you back inside.
-          </div>
-        </header>
-
-        <div className="overflow-hidden self-end">
-          <Image
-            src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"
-            width={300}
-            height={200}
-            priority
-            alt="reset"
-            className="w-83 h-50"
-          />
-        </div>
-      </aside>
-
-      {/* RIGHT PANEL */}
-      <aside className="md:w-[60%] bg-[#dfc9ac] h-auto font-sans shadow-[inset_0_0_150px_28px_#cd0000] text-white flex flex-col justify-center items-center">
-
-        <div className="w-full max-w-lg  flex flex-col gap-4">
-
-          {step === "email" && (
-            <>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="bg-transparent border-b outline-none p-2"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-
-              <button
-                onClick={sendOtp}
-                disabled={loading}
-                className="bg-white text-[#cd0000] py-2 rounded mt-4 hover:bg-[#ffffff] transition"
-              >
-                {loading ? "Sending..." : "Send OTP"}
-              </button>
-            </>
-          )}
-
-          {step === "otp" && (
-            <>
-              <OtpInput
-                value={otpDigits}
-                setValue={setOtpDigits}
-                length={6}
-                onComplete={(otp) => verifyOtp(otp)}
-              />
-
-              <button
-                onClick={() => verifyOtp()}
-                disabled={loading}
-                className="bg-white text-[#cd0000] py-2 rounded mt-4 hover:bg-[#ffffff] transition"
-              >
-                {loading ? "Verifying..." : "Verify OTP"}
-              </button>
-            </>
-          )}
-
-          {step === "password" && (
-            <>
-              <input
-                type="password"
-                placeholder="Enter new password"
-                className="bg-transparent border-b outline-none p-2"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-
-              <button
-                onClick={resetPassword}
-                disabled={loading}
-                className="bg-white text-[#cd0000] py-2 rounded mt-4 hover:bg-[#ffffff] transition"
-              >
-                {loading ? "Updating..." : "Update Password"}
-              </button>
-            </>
-          )}
-
-          {message && (
-            <p className="text-sm text-center text-yellow-300 mt-2">
-              {message}
+    <div className="w-full flex justify-center px-6 py-16 bg-[#f9f5ef] h-full">
+      <div className="w-full max-w-5xl rounded-[32px] overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
+        {/* LEFT PANEL */}
+        <aside className="md:w-[45%] bg-[#efe3d3] p-10 flex flex-col justify-between">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-semibold text-[#5f5143]">
+              Reset Password
+            </h2>
+            <p className="text-[#7a6a5c] leading-relaxed">
+              Happens to the best of us. Let’s get you back inside.
             </p>
-          )}
-
-          <div className="text-center mt-4">
-            Remember your password?{" "}
-            <Link
-              href="login"
-              className="underline hover:text-[#ffffff]"
-            >
-              Back to Login
-            </Link>
           </div>
 
-        </div>
+          <div className="hidden md:block">
+            <Image
+              src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"
+              width={400}
+              height={250}
+              alt="Reset Visual"
+              className="object-contain"
+              priority
+            />
+          </div>
+        </aside>
 
-      </aside>
+        {/* RIGHT PANEL */}
+        <aside className="md:w-[55%] bg-white p-10 flex flex-col justify-center">
+          <div className="max-w-md w-full mx-auto space-y-6">
+            {step === "email" && (
+              <>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <button
+                  onClick={sendOtp}
+                  disabled={loading}
+                  className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
+                >
+                  {loading ? "Sending..." : "Send OTP"}
+                </button>
+              </>
+            )}
+
+            {step === "otp" && (
+              <>
+                <OtpInput
+                  value={otpDigits}
+                  setValue={setOtpDigits}
+                  length={6}
+                  onComplete={(otp) => verifyOtp(otp)}
+                />
+
+                <button
+                  onClick={() => verifyOtp()}
+                  disabled={loading}
+                  className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
+                >
+                  {loading ? "Verifying..." : "Verify OTP"}
+                </button>
+              </>
+            )}
+
+            {step === "password" && (
+              <>
+                <input
+                  type="password"
+                  placeholder="Enter new password"
+                  className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <button
+                  onClick={resetPassword}
+                  disabled={loading}
+                  className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
+                >
+                  {loading ? "Updating..." : "Update Password"}
+                </button>
+              </>
+            )}
+
+            {message && (
+              <p className="text-sm text-center text-[#6a0f1f]">{message}</p>
+            )}
+
+            <div className="text-center text-sm text-[#7a6a5c]">
+              Remember your password?{" "}
+              <Link href="login" className="underline hover:text-[#6a0f1f]">
+                Back to Login
+              </Link>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }

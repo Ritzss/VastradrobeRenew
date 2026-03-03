@@ -1,4 +1,3 @@
-// import ProductCard from "../Global/ProductCard";
 import HorizontalScroll from "@/components/Global/HorizontalScroll";
 import { IMSProduct } from "@/Types/Product";
 import EmptyState from "../Global/EmptyState";
@@ -27,11 +26,12 @@ export default function ScrollRevealProducts({
   color,
 }: Props) {
   const normalizedCategory = category.toLowerCase();
-  const categoryFilters =
-    CATEGORY_MAP[normalizedCategory] || [normalizedCategory];
+  const categoryFilters = CATEGORY_MAP[normalizedCategory] || [
+    normalizedCategory,
+  ];
 
   const filteredProducts = products.filter((product) =>
-    categoryFilters.includes(product.category?.toLowerCase() || "")
+    categoryFilters.includes(product.category?.toLowerCase() || ""),
   );
 
   if (filteredProducts.length === 0)
@@ -45,76 +45,46 @@ export default function ScrollRevealProducts({
     );
 
   return (
-    <section className="mx-auto my-18 px-2">
-      <ScrollReveal>
-        <h2 className="text-xl font-semibold mb-6 text-gray-800">
-          {title ?? `Explore ${category}`}
-        </h2>
-      </ScrollReveal>
-
-      {/* ---------- MOBILE ---------- */}
+    <section className="relative mx-auto px-6">
+      {/* ================= MOBILE ================= */}
       <div className="md:hidden">
         <HorizontalScroll color={color}>
           {filteredProducts.slice(0, 3).map((product) => (
-              <div key={product.productId} className="w-full sm:w-[60%] shrink-0">
-                <ProductCardStatic
-                  product={product}
-                  className="md:w-[95%] group w-full active:scale-102 active:shadow-[0_0_10px_#000] duration-700 transition-all"
-                  height="h-[60vh]"
-                  classNameInner="h-[47vh] rounded-2xl"
-               
-                >
-                  <div className="uppercase text-[#6a0f1f] text-center m-2 w-full">
-                  {product.name}
-                  <div className="hidden group-active:block text-[#6a0f1f]">
-                    {`(${product.variants?.[0]?.color ?? ""})`}[[]]
-                  </div>
-                </div>
-                </ProductCardStatic>
-              </div>
+            <div key={product.productId} className="w-[75%] shrink-0 px-3">
+              <ProductCardStatic product={product} />
+            </div>
           ))}
         </HorizontalScroll>
 
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-12">
           <Link
             href={`/${encodeURIComponent(category.toLowerCase())}`}
-            className="group inline-block border border-black px-8 py-3 rounded-full hover:bg-[#6a0f1f] hover:text-white transition-all duration-300"
+            className="px-8 py-3 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
           >
-            Browse All {category.toUpperCase()} →
+            Browse All {category}
           </Link>
         </div>
       </div>
 
-      {/* ---------- DESKTOP ---------- */}
-      <div className="hidden md:flex flex-wrap justify-evenly">
+      {/* ================= DESKTOP ================= */}
+      <div className="hidden md:flex justify-center gap-10">
         {filteredProducts.slice(0, 3).map((product) => (
           <ScrollReveal key={product.productId}>
-            <div className="md:w-[48%] lg:w-[28vw] cardWidth">
-              <ProductCardStatic
-                product={product}
-                height="h-[63vh]"
-                classNameInner="h-[53vh] rounded-2xl"
-                className="md:w-full py-1.5 group w-[85%] hover:scale-102 hover:shadow-[0_0_10px] duration-700 transition-all"
-              >
-                <div className="uppercase flex flex-col text-[#6a0f1f] text-center m-2 w-full">
-                  {product.name}
-                  <div className="hidden group-hover:block">
-                    {`(${product.variants?.[0]?.color ?? ""})`}
-                  </div>
-                </div>
-              </ProductCardStatic>
+            <div className="w-[280px]">
+              <ProductCardStatic product={product} />
             </div>
           </ScrollReveal>
         ))}
+      </div>
 
-        <div className="w-full flex justify-center mt-6">
-          <Link
-            href={`/${encodeURIComponent(category.toLowerCase())}`}
-            className="group border border-black px-8 py-3 rounded-full hover:bg-[#6a0f1f] hover:text-white transition-all duration-300"
-          >
-            Browse All {category.toUpperCase()} →
-          </Link>
-        </div>
+      {/* Desktop Button */}
+      <div className="hidden md:flex justify-center mt-16">
+        <Link
+          href={`/${encodeURIComponent(category.toLowerCase())}`}
+          className="px-10 py-3 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
+        >
+          Browse All {category}
+        </Link>
       </div>
     </section>
   );

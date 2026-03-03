@@ -40,7 +40,7 @@ export default function OtpInput({
 
   const handleKeyDown = (
     index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
+    e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (e.key === "Backspace") {
       if (value[index]) {
@@ -76,18 +76,32 @@ export default function OtpInput({
   };
 
   return (
-    <div className="flex gap-3 justify-center">
+    <div className="flex gap-4 justify-center mt-2">
       {Array.from({ length }).map((_, index) => (
         <input
           key={index}
-          ref={(el) => { inputsRef.current[index] = el; }}
+          ref={(el) => {
+            inputsRef.current[index] = el;
+          }}
           type="text"
           maxLength={1}
           value={value[index] || ""}
           onChange={(e) => handleChange(index, e.target.value)}
           onKeyDown={(e) => handleKeyDown(index, e)}
           onPaste={handlePaste}
-          className="w-12 h-12 text-center text-xl font-semibold rounded-md  bg-[#6a0f1f] text-white focus:outline-none focus:ring-2 focus:ring-white transition-all"/>
+          className="
+            w-12 h-12
+            text-center text-lg font-semibold
+            rounded-xl
+            bg-white
+            border border-[#e6d8c8]
+            text-[#5f5143]
+            outline-none
+            transition-all duration-200
+            focus:border-[#6a0f1f]
+            focus:scale-105
+          "
+        />
       ))}
     </div>
   );

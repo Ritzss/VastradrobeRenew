@@ -20,16 +20,12 @@ const CategoryBar = (props: {
       `}
     >
       {/* MOBILE: horizontal scroll */}
-      <div
-        className=" flex md:hidden gap-2 px-2 overflow-x-auto no-scrollbar text-sm"
-      >
+      <div className=" flex md:hidden gap-2 px-2 overflow-x-auto no-scrollbar text-sm">
         <CategoryItems isActive={isActive} Img={props.Img} />
       </div>
 
       {/* DESKTOP: evenly spaced */}
-      <div
-        className=" hidden md:flex flex-col w-[10vw] h-[85vh] justify-evenly text-base lg:text-lg"
-      >
+      <div className=" hidden md:flex flex-col w-[10vw] h-[85vh] justify-evenly text-base lg:text-lg">
         <CategoryItems isActive={isActive} Img={props.Img} />
       </div>
     </section>
@@ -44,8 +40,6 @@ const CategoryItems = ({
   Img: boolean;
 }) => (
   <>
-    
-
     <NavItem
       href="/women"
       src="/Assets/Images/CateImg/womennew.png"
@@ -75,7 +69,6 @@ const CategoryItems = ({
       hover="hover:bg-[#6a1f0f] hover:border-[#6a1f0f] hover:border-b-2"
       activeStyle="bg-[#6a1f0f] border-[#6a1f0f] border-b-2"
     />
-    
   </>
 );
 

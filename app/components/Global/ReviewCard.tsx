@@ -18,12 +18,7 @@ export function ReviewCard({
       {/* Top */}
       <div className="flex items-center gap-4">
         <div className="relative w-32 h-32 rounded-full overflow-hidden">
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className="object-cover"
-          />
+          <Image src={image} alt={title} fill className="object-cover" />
         </div>
         <div>
           <h4 className="font-semibold text-[#2B2B2B]">{title}</h4>
