@@ -142,14 +142,14 @@ const Navbar = () => {
           {/* LOGO */}
           <Link
             href="/"
-            className="relative nav-logo h-10 w-24 mx-4 rounded-full shrink-0 overflow-hidden flex items-center"
+            className="relative nav-logo h-13 w-24 mx-4 rounded-full shrink-0 overflow-hidden flex items-center"
           >
             <Image
-              src="/Assets/Images/Logo.png"
+              src="/Assets/Images/Logo2.png"
               fill
               sizes="(max-width: 768px) 120px, 160px"
               alt="Vastradrobe"
-              className="object-contain"
+              className=""
               priority
             />
           </Link>
@@ -202,7 +202,7 @@ const Navbar = () => {
                           />
                         </div>
                         <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Women's Co-ords
+                          Women&apos;s Co-ords
                         </span>
                       </Link>
 
@@ -220,7 +220,7 @@ const Navbar = () => {
                           />
                         </div>
                         <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Men's Linen Essentials
+                          Men&apos;s Linen Essentials
                         </span>
                       </Link>
 
@@ -238,7 +238,7 @@ const Navbar = () => {
                           />
                         </div>
                         <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Kids' Comfort Wear
+                          Kid&apos;s Comfort Wear
                         </span>
                       </Link>
                     </div>

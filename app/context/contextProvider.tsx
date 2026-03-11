@@ -280,7 +280,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const loadProducts = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=1&limit=20`,
+          `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=1&limit=50`,
         );
         const data = await res.json();
         setProducts(data.products); // only if you have local state

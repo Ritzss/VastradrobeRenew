@@ -29,16 +29,7 @@ export default function VideoStrip({ videos }: { videos: VideoItem[] }) {
               key={video.id}
               layoutId={video.videoUrl}
               onClick={() => setActiveVideo(video.videoUrl)}
-              className="
-                relative
-                min-w-[280px] md:min-w-[360px]
-                h-[420px]
-                rounded-[32px]
-                overflow-hidden
-                shadow-[0_30px_80px_rgba(149,127,106,0.18)]
-                bg-black
-                cursor-pointer
-              "
+              className=" relative min-w-[280px] md:min-w-[360px] h-[640px] rounded-[32px] overflow-hidden shadow-[0_30px_80px_rgba(149,127,106,0.18)] bg-black cursor-pointer"
             >
               <video
                 src={video.videoUrl}

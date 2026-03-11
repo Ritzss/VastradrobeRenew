@@ -35,6 +35,10 @@ const SideFilter = ({
     setSizes,
   } = useAppContext();
 
+  console.log(products);
+  
+
+  const safeProducts = products || [];
   const normalize = (val: string) => val?.trim().toLowerCase();
   const availableSubCategories = useMemo(() => {
     if (!categoryFromRoute) return [];
@@ -43,7 +47,7 @@ const SideFilter = ({
 
     return Array.from(
       new Set(
-        products
+        safeProducts
           .filter((p: any) => allowedCategories.includes(normalize(p.category)))
           .map((p: any) => p.subcategory) // lowercase s
           .filter(Boolean),
@@ -56,7 +60,7 @@ const SideFilter = ({
 
     const allowedCategories = CATEGORY_MAP[normalize(categoryFromRoute)] || [];
 
-    const filtered = products.filter((p: any) =>
+    const filtered = safeProducts.filter((p: any) =>
       allowedCategories.includes(normalize(p.category)),
     );
 

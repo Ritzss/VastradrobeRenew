@@ -162,16 +162,7 @@ function SocialIcon({
     <a
       href={href}
       target="_blank"
-      className="
-        w-10 h-10
-        flex items-center justify-center
-        rounded-full
-        bg-[#efe3d3]
-        text-[#5f5143]
-        hover:bg-[#6a0f1f]
-        hover:text-white
-        transition duration-300
-      "
+      className=" w-10 h-10 flex items-center justify-center rounded-full bg-[#efe3d3] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white transition duration-300"
     >
       {children}
     </a>
