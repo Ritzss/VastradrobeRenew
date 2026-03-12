@@ -11,7 +11,7 @@ type Props = {
 
 const AllProductClient = ({ initialProducts, pageSize }: Props) => {
   const [products, setProducts] = useState<IMSProduct[]>(initialProducts);
-  const [page, setPage] = useState(2); // page 1 already loaded
+  const [page, setPage] = useState(2);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
@@ -25,7 +25,6 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=${page}&limit=${pageSize}`,
-        { next: { revalidate: 120 } },
       );
 
       if (!res.ok) throw new Error("Fetch failed");
@@ -53,7 +52,7 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
           fetchMore();
         }
       },
-      { threshold: 1 },
+      { rootMargin: "200px" }, // smoother preload
     );
 
     if (observerRef.current) {
@@ -64,45 +63,49 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
   }, [fetchMore]);
 
   const groupedProducts = Object.values(
-  products.reduce((acc, product) => {
-    const key = product.name.trim().toLowerCase();
+    products.reduce(
+      (acc, product) => {
+        const key = product.name.trim().toLowerCase();
+        if (!acc[key]) acc[key] = product;
+        return acc;
+      },
+      {} as Record<string, IMSProduct>,
+    ),
+  );
 
-    if (!acc[key]) {
-      acc[key] = product; // keep first occurrence
-    }
-
-    return acc;
-  }, {} as Record<string, IMSProduct>)
-);
-  
-  
   return (
-    <section className="w-full px-4">
-     
-
-      <div className="m-4 text-xl text-gray-600">
+    <section className="w-full pt-28 px-12 bg-[#f9f5ef]">
+      {/* Count */}
+      <div className="mb-8 text-sm text-[#7a6a5c]">
         Showing {groupedProducts.length} products
       </div>
 
-      <div className="flex flex-wrap justify-evenly gap-3">
+      {/* GRID */}
+      <div
+        className="
+        grid
+        grid-cols-2
+        md:grid-cols-3
+        lg:grid-cols-4
+        gap-8
+        lg:gap-10
+      "
+      >
         {groupedProducts.map((item, index) => (
-          <ProductCard
-            key={`${item.productId}-${index}`}
-            product={item}
-            height="h-[57vh]"
-            classNameInner="h-[47vh] rounded-sm"
-            className="product-card-all bg-white border"
-          />
+          <ProductCard key={`${item.productId}-${index}`} product={item} />
         ))}
       </div>
 
+      {/* Infinite Scroll Trigger */}
       {hasMore && (
         <div
           ref={observerRef}
-          className="h-12 flex items-center justify-center"
+          className="h-20 flex items-center justify-center"
         >
           {loading && (
-            <span className="m-4 text-xl text-gray-500">Loading more…</span>
+            <div className="text-sm text-[#957f6a] animate-pulse">
+              Loading more products…
+            </div>
           )}
         </div>
       )}

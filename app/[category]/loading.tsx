@@ -4,8 +4,8 @@ import SkeletonLoader from "@/components/Global/SkeletonLoader";
 
 export default function Loading() {
   return (
-    <div className="flex flex-wrap justify-evenly p-6 gap-2 min-h-svh">
-      {Array.from({ length: 8 }).map((_, i) => (
+    <div className="flex w-full flex-wrap justify-evenly gap-2 min-h-svh bg-[#f9f5ef]">
+      {Array.from({ length: 6 }).map((_, i) => (
         <SkeletonLoader key={i} />
       ))}
     </div>

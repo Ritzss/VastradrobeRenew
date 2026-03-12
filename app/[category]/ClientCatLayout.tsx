@@ -1,34 +1,39 @@
 "use client";
 
 import SideFilter from "@/components/Global/SideFilter";
-import CategoryBar from "@/components/navbar/Categorybar";
 import { ReactNode, useState } from "react";
 
 const ClientCatLayout = ({ children }: { children: ReactNode }) => {
   const [showFilter, setShowFilter] = useState(false);
 
   return (
-    <section className="h-[85vh]">
-      <div className="md:hidden flex justify-between">
+    <section className="min-h-screen w-full bg-[#f9f5ef] pt-18">
+      {/* MOBILE */}
+      <div className="md:hidden relative">
         <button
           onClick={() => setShowFilter(true)}
-          className="md:hidden fixed bottom-6 right-6 bg-[#6a0f1f] text-white px-5 py-3 rounded-full shadow-lg z-30"
+          className="fixed bottom-6 right-6 z-40 rounded-full bg-[#6a0f1f] px-6 py-3 text-white shadow-[0_10px_30px_rgba(106,15,31,0.3)]"
         >
           Filters
         </button>
-        <div className="md:block w-64">
-          {showFilter && <SideFilter className="bg-white " onClose={() => setShowFilter(false)} />}
-        </div>
-        <div className="flex-wrap flex justify-center w-full">{children}</div>
+
+        {showFilter && (
+          <SideFilter
+            onClose={() => setShowFilter(false)}
+            className="bg-[#f9f5ef]"
+          />
+        )}
+
+        <div className="px-6 pt-10 pb-20">{children}</div>
       </div>
-      <div className="hidden h-full md:flex justify-between">
-        <div className="hidden md:block w-64">
+
+      {/* DESKTOP */}
+      <div className="hidden md:flex gap-16 px-16 pt-16">
+        <aside className="w-72 shrink-0 sticky top-32 self-start">
           <SideFilter />
-        </div>
-        <div className="flex-wrap flex justify-center w-full">{children}</div>
-        <div>
-        <CategoryBar className={""} drop={false} Img={false} />
-        </div>        
+        </aside>
+
+        <main className="flex-1">{children}</main>
       </div>
     </section>
   );

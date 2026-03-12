@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { geistMono, geistSans } from "./font";
 import ClientLayout from "./ClientLayout";
-import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "VastraDrobe",
@@ -24,12 +23,13 @@ export default function RootLayout({
         geistSans.className,
       ].join(" ")}
     >
-      <body cz-shortcut-listen="true" className="bg-[#f9fafb]">
-        <Script
-          src="https://checkout.razorpay.com/v1/checkout.js"
-          strategy="afterInteractive"
-        />
-        <ClientLayout >{children}</ClientLayout>
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://maps.googleapis.com" />
+        <link rel="preconnect" href="https://vastradrobe-ims.vercel.app" />
+      </head>
+      <body cz-shortcut-listen="true" className="bg-[#f9f5ef]">
+        <ClientLayout>{children}</ClientLayout>
         <SpeedInsights />
       </body>
     </html>

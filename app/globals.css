@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  background-color: #eeddc7;
+  background-color: #f9f5ef;
 }
 
 body.scroll-lock {
@@ -268,8 +268,9 @@ RESPONSIVE LAYOUT UTILITIES
   padding-right: 0.75rem;
 }
 /* Product listing cards */
+
 .product-card {
-  width: 96%;
+  width: 80%;
 }
 .product-card-all {
   width: 95%;
@@ -283,11 +284,16 @@ RESPONSIVE LAYOUT UTILITIES
 
 @media (min-width: 768px) {
   .product-card {
-    width: 45%;
+    width: 80%;
   }
   .product-card-all {
     width: 45%;
   }
+
+  .cardWidth {
+    width: 100%;
+  }
+
   .page-container {
     max-width: 80rem;
     margin-left: auto;
@@ -297,28 +303,25 @@ RESPONSIVE LAYOUT UTILITIES
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .product-card {
-    width: 40%;
+    width: 49%;
   }
   .product-card-all {
     width: 32%;
   }
-  .nav-logo{
-    left: -2%;
+  .cardWidth {
+    width: 28vw;
   }
 }
 
 @media (min-width: 1025px) {
   .product-card {
-    width: 31%;
+    width: 32%;
   }
   .product-card-all {
     width: 24%;
   }
   .cardWidth {
     width: 23vw;
-  }
-  .nav-logo{
-    left: -8%;
   }
 }
 
@@ -372,15 +375,15 @@ RESPONSIVE LAYOUT UTILITIES
 }
 
 .bubble::before {
-      content: "";
-    border-top: 20px solid #0000;
-    border-bottom: 20px solid #0000;
-    border-left: 38px solid #dfc9ac;
-    width: 0;
-    height: 0;
-    position: absolute;
-    top: -5px;
-    right: -13px;
-    transform: rotate(-35deg);
-    z-index: -10;
+  content: "";
+  border-top: 20px solid #0000;
+  border-bottom: 20px solid #0000;
+  border-left: 38px solid #dfc9ac;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -5px;
+  right: -13px;
+  transform: rotate(-35deg);
+  z-index: -10;
 }

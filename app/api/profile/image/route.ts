@@ -34,8 +34,6 @@ export async function POST(req: Request) {
     const formData = await req.formData();
     const file = formData.get("file") as File;
 
-    
-
     if (!file) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
@@ -68,12 +66,21 @@ export async function POST(req: Request) {
         .end(buffer);
     });
 
-    const imageUrl = uploadResult.secure_url;
+    const publicId = uploadResult.public_id;
 
-    user.avatar = imageUrl;
+    const optimizedUrl = cloudinary.url(publicId, {
+      width: 400,
+      height: 400,
+      crop: "fill",
+      gravity: "face",
+      quality: "auto",
+      fetch_format: "auto",
+    });
+
+    user.avatar = optimizedUrl;
     await user.save();
 
-    return NextResponse.json({ avatar: imageUrl }, { status: 200 });
+    return NextResponse.json({ avatar: optimizedUrl }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }

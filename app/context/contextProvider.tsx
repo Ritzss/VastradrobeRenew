@@ -2,7 +2,13 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { AppContext, CartItem, LoginData, PriceRange, RegisterData } from "./AppContext";
+import {
+  AppContext,
+  CartItem,
+  LoginData,
+  PriceRange,
+  RegisterData,
+} from "./AppContext";
 import { IMSProduct } from "@/Types/Product";
 import { useRouter } from "next/navigation";
 import { AuthUser } from "@/Types/AuthUser";
@@ -44,48 +50,58 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const clearCart = () => setCartItems([]);
 
-  const addToCart = (productId: number, size: string) => {
+  const addToCart = (productId: number, size: string, color: string) => {
     setCartItems((prev) => {
       const existing = prev.find(
-        (i) => i.productId === productId && i.size === size,
+        (i) =>
+          i.productId === productId && i.size === size && i.color === color,
       );
 
       if (existing) {
         return prev.map((i) =>
-          i.productId === productId && i.size === size
+          i.productId === productId && i.size === size && i.color === color
             ? { ...i, qty: i.qty + 1 }
             : i,
         );
       }
 
-      return [...prev, { productId, size, qty: 1 }];
+      return [...prev, { productId, size, color, qty: 1 }];
     });
 
-    toast.success(`Item Added to cart`);
+    toast.success("Item Added to cart");
   };
 
-  const removeFromCart = (productId: number, size: string) => {
+  const removeFromCart = (productId: number, size: string, color: string) => {
     setCartItems((prev) =>
-      prev.filter((i) => !(i.productId === productId && i.size === size)),
-    );
-    toast.error(`Item Removed from cart`);
-  };
-
-  const incrementQty = (productId: number, size: string) => {
-    setCartItems((prev) =>
-      prev.map((i) =>
-        i.productId === productId && i.size === size
-          ? { ...i, qty: i.qty + 1 }
-          : i,
+      prev.filter(
+        (i) =>
+          !(i.productId === productId && i.size === size && i.color === color),
       ),
     );
+
+    toast.error("Item Removed from cart");
   };
 
-  const decrementQty = (productId: number, size: string) => {
+  const incrementQty = (productId: number, size: string, color: string) => {
+    setCartItems((prev) =>
+      prev.map((i) => {
+        if (i.productId === productId && i.size === size && i.color === color) {
+          if (i.qty >= 10) {
+            toast.error("Maximum quantity is 10");
+            return i;
+          }
+          return { ...i, qty: i.qty + 1 };
+        }
+        return i;
+      }),
+    );
+  };
+
+  const decrementQty = (productId: number, size: string, color: string) => {
     setCartItems((prev) =>
       prev
         .map((i) =>
-          i.productId === productId && i.size === size
+          i.productId === productId && i.size === size && i.color === color
             ? { ...i, qty: i.qty - 1 }
             : i,
         )
@@ -264,7 +280,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const loadProducts = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=1&limit=20`,
+          `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=1&limit=50`,
         );
         const data = await res.json();
         setProducts(data.products); // only if you have local state
@@ -384,6 +400,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         loadUser,
         authLoading,
         user,
+        setUser,
       }}
     >
       {children}

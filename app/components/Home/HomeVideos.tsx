@@ -1,6 +1,5 @@
 import { headers } from "next/headers";
-import VideoCarouselSection from "./VideoCarouselSection";
-import HorizontalScroll from "../Global/HorizontalScroll";
+import VideoStrip from "./VideoStrip";
 
 type VideoItem = {
   id: string;
@@ -8,15 +7,17 @@ type VideoItem = {
 };
 
 async function getVideos(): Promise<VideoItem[]> {
-  const headersList = headers();
-  const host = (await headersList).get("host");
-  const protocol =
-    process.env.NODE_ENV === "development" ? "http" : "https";
+  // In Next 16, headers() must be awaited
+  const headersList = await headers();
+  const host = headersList.get("host");
 
-  const res = await fetch(
-    `${protocol}://${host}/api/home/cloudinary-videos`,
-    { next: { revalidate: 60 } }
-  );
+  if (!host) return [];
+
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+
+  const res = await fetch(`${protocol}://${host}/api/home/cloudinary-videos`, {
+    next: { revalidate: 60 },
+  });
 
   if (!res.ok) {
     console.error("Video fetch failed:", res.status);
@@ -36,13 +37,7 @@ const HomeVideos = async () => {
 
   if (!userVideos.length) return null;
 
-  return (
-    <HorizontalScroll color="#DFC9AC">
-      {userVideos.map((video) => (
-        <VideoCarouselSection key={video.id} title="" videos={[video]} />
-      ))}
-    </HorizontalScroll>
-  );
+  return <VideoStrip videos={userVideos.slice(0, 3)} />;
 };
 
 export default HomeVideos;

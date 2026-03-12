@@ -14,22 +14,26 @@ export type ProductDetails = {
   unitCount?: string;
 };
 
+export type ProductVariant = {
+  color: string;
+  sizes: string[];
+  images: string[];
+};
+
 export type IMSProduct = {
   productId: number;
   name: string;
   description?: string;
-  images: string[];
   price: number;
   mrp?: number;
   category: string;
   subcategory?: string;
-  sizes: string[];
-  color: string[];
   stock?: number;
   brand?: string;
 
-  // 🔥 NEW STRUCTURED FIELDS
-  sizeChartType?: 
+  variants: ProductVariant[];
+
+  sizeChartType?:
     | "kidsHoodie"
     | "fullSleeveTop"
     | "ribbedTop"

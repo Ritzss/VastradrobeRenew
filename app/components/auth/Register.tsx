@@ -1,4 +1,5 @@
 "use client";
+
 import { useAppContext } from "@/hooks/useAppContext";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Image from "next/image";
@@ -8,124 +9,111 @@ import React, { useState } from "react";
 
 const Register = () => {
   const [visible, setVisible] = useState(false);
-  const { registerForm, setRegisterForm, handleRegister} = useAppContext();
-  
+  const { registerForm, setRegisterForm, handleRegister } = useAppContext();
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const redirectTo = searchParams.get("redirect") || "/";
+  const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setRegisterForm((prev: any) => ({ ...prev, [name]: value }));
   };
 
-   const router = useRouter();
-    const searchParams = useSearchParams();
-  
-    const redirectTo = searchParams.get("redirect") || "/";
-    const safeRedirect = redirectTo.startsWith("/") ? redirectTo : "/";
-  
-    const onSubmit = async (e: React.FormEvent) => {
-      const success = await handleRegister(e);
-      
-      if (success){
-      router.replace(safeRedirect);
-    }
-    };
+  const onSubmit = async (e: React.FormEvent) => {
+    const success = await handleRegister(e);
+    if (success) router.replace(safeRedirect);
+  };
 
-
- 
   return (
-    <section className="md:w-[80%] my-4 w-full md:m-20 overflow-hidden rounded-xl border md:h-[70vh] md:flex">
-      <aside className="md:w-[40%] h-auto text-[#ffffff] shadow-[inset_0_0_20px_#cd0000] md:border-r-4 flex-col flex justify-between">
-        <header className="flex-col flex gap-5">
-          <div className="font-sans text-[#cd0000] pt-6 text-4xl flex justify-center hover:scale-115 hover:text-shadow-[0_0_10px] font-bold text-shadow-[0_0_20px] duration-500 transition-all">
-            Register
+    <div className="w-full flex justify-center px-6 py-16 h-full bg-[#f9f5ef]">
+      <div className="w-full max-w-5xl rounded-[32px] overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
+        {/* LEFT PANEL */}
+        <aside className="md:w-[45%] bg-[#efe3d3] p-10 flex flex-col justify-between">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-semibold text-[#5f5143]">
+              Join VastraDrobe
+            </h2>
+
+            <p className="text-[#7a6a5c] leading-relaxed">
+              Begin your journey into timeless silhouettes, conscious
+              craftsmanship and everyday elegance.
+            </p>
           </div>
-        <div className="text-[#cd0000] p-2.5 text-xl font-great flex justify-start">
-            It&apos;s look like you found yourself to a brand new Fashion hub.
-            <br />
-            <br />
-            Register to begin you new Journey with Us.
+
+          <div className="hidden md:block">
+            <Image
+              src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"
+              width={400}
+              height={250}
+              alt="Register Visual"
+              className="object-contain"
+              priority
+            />
           </div>
-        </header>
-        <div className="overflow-hidden self-end">
-          <Image
-            src={"https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"}
-            width={300}
-            height={2}
-            alt=""
-            priority
-            className="w-83 h-50"
-          />
-        </div>
-      </aside>
-      <aside className="md:w-[60%] h-auto font-sans text-white shadow-[inset_0_0_150px_28px_#cd0000] flex flex-col justify-center items-center ">
-        <form
-        onSubmit={onSubmit}
-          className="flex flex-col justify-evenly w-full h-90 p-4 "
-        >
-          <label className="flex justify-between" htmlFor="LoginID">
-            <div className=" w-[40%] text-xl">UserName:</div>
-            <div className="border-b w-[65%]">
-              <input
-                type="text"
-                name="username"
-                value={registerForm.username}
-                onChange={handleInputChange}
-                placeholder="UserName"
-                id="Username"
-                className="outline-0 flex items-center w-full"
-              />
-            </div>
-          </label>
-          <label className="flex justify-between" htmlFor="LoginID">
-            <div className=" w-[40%] text-xl">Email:</div>
-            <div className="border-b w-[65%]">
-              <input
-                type="text"
-                name="email"
-                value={registerForm.email}
-                onChange={handleInputChange}
-                placeholder="Email"
-                id="LoginID"
-                className="outline-0 flex items-center w-full"
-              />
-            </div>
-          </label>
-          <label className="flex justify-between" htmlFor="LoginPassword">
-            <div className="w-[40%] text-xl">Password:</div>
-            <div className="border-b flex w-[65%]">
+        </aside>
+
+        {/* RIGHT PANEL */}
+        <aside className="md:w-[55%] bg-white p-10 flex flex-col justify-center">
+          <form
+            onSubmit={onSubmit}
+            className="max-w-md w-full mx-auto space-y-6"
+          >
+            <input
+              type="text"
+              name="username"
+              value={registerForm.username}
+              onChange={handleInputChange}
+              placeholder="Username"
+              className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
+            />
+
+            <input
+              type="email"
+              name="email"
+              value={registerForm.email}
+              onChange={handleInputChange}
+              placeholder="Email"
+              className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
+            />
+
+            <div className="flex border-b border-[#e6d8c8]">
               <input
                 type={visible ? "text" : "password"}
                 name="password"
                 value={registerForm.password}
                 onChange={handleInputChange}
                 placeholder="Password"
-                id="LoginPassword"
-                className="outline-0 flex items-center w-[90%]"
+                className="flex-1 p-2 outline-none"
               />
-              <div
-                className={`w-[10%] flex justify-center rounded-r `}
+              <button
+                type="button"
                 onClick={() => setVisible(!visible)}
+                className="text-[#7a6a5c]"
               >
-                {visible ? (
-                  <EyeIcon className="w-[50%] " />
-                ) : (
-                  <EyeClosedIcon className="w-[50%] " />
-                )}
-              </div>
+                {visible ? <EyeIcon size={18} /> : <EyeClosedIcon size={18} />}
+              </button>
             </div>
-          </label>
-          <div className="flex justify-evenly">
-            <button type="submit" className="text-2xl hover:text-[#ffffff] duration-500 transition-all hover:text-shadow-[0px_16px_5px_rgba(0,0,0,0.34)]">
-              Register
+
+            <button
+              type="submit"
+              className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
+            >
+              Create Account
             </button>
-          </div>
-        </form>
-        <footer className="h-[40%] flex md:flex-row flex-col md:justify-between justify-center items-center w-full p-1 gap-1">
-          <div>Havn&apos;t we met before? <Link href={"login"} className="hover:underline hover:text-[#0092d6] duration-500 transition-all">Login</Link></div>
-          <div className=""><Link href={"reset_password"} className="hover:underline hover:text-[#0092d6] duration-500 transition-all">Forgot Password</Link>?Don&apos;t restart</div>
-        </footer>
-      </aside>
-    </section>
+
+            <div className="text-center text-sm text-[#7a6a5c]">
+              Already have an account?{" "}
+              <Link href="login" className="underline hover:text-[#6a0f1f]">
+                Login
+              </Link>
+            </div>
+          </form>
+        </aside>
+      </div>
+    </div>
   );
 };
 

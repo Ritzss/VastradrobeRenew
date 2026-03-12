@@ -10,7 +10,7 @@ export default async function SimilarProducts({
 }) {
   const res = await fetch(
     `${process.env.IMS_BASE_URL}/api/ims/public/products?category=${category}&limit=10`,
-    { cache: "no-store" },
+    
   );
 
   if (!res.ok) return null;

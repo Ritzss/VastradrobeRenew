@@ -16,15 +16,11 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
   return (
     <AppProvider>
       <Toaster position="top-right" richColors />
-
-      {/* Sticky navbar must be OUTSIDE scroll containers */}
-      <header className="fixed top-0 left-0 w-full z-50 transition-all duration-1000">
+      <header className="sticky top-4 left-0 w-full z-50 transition-all duration-1000 h-0">
         <Navbar />
       </header>
 
-      <main className="min-h-[85vh] mt-16">
-        {children}
-      </main>
+      <main className="min-h-[85vh]">{children}</main>
 
       <Footer />
     </AppProvider>

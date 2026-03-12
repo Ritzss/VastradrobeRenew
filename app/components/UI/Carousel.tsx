@@ -173,12 +173,12 @@ function CarouselItem({
           <div className="relative overflow-hidden rounded-xl w-full h-[75vh] bg-black">
             <video
               src={item.video}
-              className="w-full h-full "
+              className="w-full h-full"
               autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="none"
             />
           </div>
         ) : item.image ? (

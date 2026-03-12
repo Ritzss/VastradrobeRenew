@@ -1,113 +1,100 @@
 "use client";
 
 import { AiFillStar } from "react-icons/ai";
+import { motion } from "framer-motion";
 import { DEFAULT_ITEMS } from "@/components/UI/Carousel";
-import Stack from "../UI/Stack";
-import { ReviewCard } from "../Global/ReviewCard";
+import Image from "next/image";
 
 const SocialProof = () => {
+  const reviews = DEFAULT_ITEMS.slice(0, 3);
+
   return (
-    <aside className=" max-w-7xl mx-auto px-4 md:px-8 py-16 flex flex-col md:flex-col lg:flex-row gap-12 md:gap-16 items-center md:items-start">
-      {/* LEFT SIDE */}
-      <div className="flex flex-col gap-8 md:gap-10 w-full md:w-3/4">
-        <h2 className="text-2xl sm:text-3xl md:text-[3rem] font-semibold text-[#2B2B2B] leading-tight">
-          Trusted by Thousands.
-          <br className="hidden sm:block" />
-          Worn Every Day.
-        </h2>
+    <section className="bg-[#f3e7d8] py-28">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-6">
+            Community
+          </p>
 
-        {/* Hero rating */}
-        <div className="flex items-center gap-4">
-          <span className="text-3xl md:text-[3.5rem] font-bold text-[#2B2B2B]">
-            4.8
-          </span>
+          <h2 className="text-4xl md:text-5xl text-[#4b4035] font-semibold tracking-wide">
+            Loved by Thousands
+          </h2>
+        </motion.div>
 
-          <div>
-            <div className="flex gap-1 text-yellow-400">
-              <AiFillStar className="w-4 h-4 md:w-5 md:h-5" />
-              <AiFillStar className="w-4 h-4 md:w-5 md:h-5" />
-              <AiFillStar className="w-4 h-4 md:w-5 md:h-5" />
-              <AiFillStar className="w-4 h-4 md:w-5 md:h-5" />
-              <AiFillStar className="w-4 h-4 md:w-5 md:h-5" />
+        {/* Cards */}
+        <div className="grid md:grid-cols-3 gap-10 mt-20">
+          {reviews.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              viewport={{ once: true }}
+              className="bg-[#efe3d3] rounded-[24px] p-8 text-left"
+            >
+              {/* Stars */}
+              <div className="flex gap-1 text-[#2b2b2b] mb-6">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <AiFillStar key={i} className="w-4 h-4" />
+                ))}
+              </div>
+
+              {/* Quote */}
+              <p className="text-[#5f5143] leading-relaxed mb-8">
+                "{item.description}"
+              </p>
+
+              {/* Author */}
+              <div className="flex items-center gap-3">
+                <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                  <Image
+                    src={item.image || "/Assets/Images/Profiles/profile.jpg"}
+                    fill
+                    alt={item.title || "Reviewer"}
+                    className="object-cover"
+                  />
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium text-[#4b4035]">
+                    {item.title}
+                  </p>
+                  <p className="text-xs text-[#8a7b6c]">Verified Buyer</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Rating Summary */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="mt-16 flex flex-col items-center"
+        >
+          <div className="flex items-center gap-3 text-[#4b4035]">
+            <span className="text-3xl font-semibold">4.8</span>
+            <div className="flex gap-1">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <AiFillStar key={i} className="w-4 h-4" />
+              ))}
             </div>
-            <p className="text-sm text-gray-500 mt-1">
-              From 2,300+ verified purchases
-            </p>
           </div>
-        </div>
 
-        {/* Rating breakdown */}
-        <div className="flex flex-col gap-2 text-base md:text-lg text-gray-600">
-          <div className="flex gap-2">
-            ★★★★★ <span>78%</span>
-          </div>
-          <div className="flex gap-2">
-            ★★★★☆ <span>15%</span>
-          </div>
-          <div className="flex gap-2">
-            ★★★☆☆ <span>7%</span>
-          </div>
-        </div>
-
-        {/* Supporting copy */}
-        <p className="text-gray-600 leading-relaxed max-w-xl">
-          Honest feedback from customers who value comfort, quality, and fit.
-          Every review you see comes from a real order.
-        </p>
+          <p className="text-sm text-[#8a7b6c] mt-2">
+            From 2,300+ verified purchases
+          </p>
+        </motion.div>
       </div>
-
-      <div className="w-full flex justify-center">
-        <div style={{ width: 350, height: 300 }}>
-          <Stack
-            randomRotation
-            sensitivity={250}
-            sendToBackOnClick
-            autoplay
-            autoplayDelay={4000}
-            pauseOnHover
-            cards={DEFAULT_ITEMS.map((item) => (
-              <ReviewCard
-                key={item.id}
-                title={item.title || ""}
-                description={item.description || ""}
-                icon={item.icon}
-                image={item.image || ""}
-              />
-            ))}
-          />
-        </div>
-        {/* Mobile */}
-        {/* <div className="block sm:hidden">
-          <Carousel
-            baseWidth={300}
-            autoplay
-            autoplayDelay={4000}
-            pauseOnHover
-            loop
-          />
-        </div> */}
-        {/* Tablet */}
-        {/* <div className="hidden sm:block md:hidden">
-          <Carousel
-            baseWidth={400}
-            autoplay
-            autoplayDelay={4000}
-            pauseOnHover
-            loop
-          />
-        </div> */}
-        {/* Desktop */}
-        {/* <div className="hidden md:block">
-          <Carousel
-            baseWidth={500}
-            autoplay
-            autoplayDelay={4000}
-            pauseOnHover
-            loop
-          />
-        </div> */}
-      </div>
-    </aside>
+    </section>
   );
 };
 

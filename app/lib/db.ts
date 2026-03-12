@@ -17,7 +17,7 @@ export async function connectDB() {
   if (cached.conn) return cached.conn; // check if connection is there so reuse it
 
   if (!cached.promise) {
-      console.log("connection established");
+      // console.log("connection established");
     cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => mongoose);
   }// make connection
 

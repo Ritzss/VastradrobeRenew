@@ -80,7 +80,7 @@ const HorizontalScroll = ({ children, className, color }: HorizontalScrollProps)
         onMouseUp={stopDragging}
         onMouseLeave={stopDragging}
         onMouseMove={onMouseMove}
-        className={`flex gap-0 overflow-x-auto select-none ${
+        className={`flex gap-3 justify-center overflow-x-auto overflow-y-hidden touch-pan-x select-none ${
           isDragging ? "cursor-grabbing" : "cursor-grab"
         } ${className ?? ""}`}
         style={{ scrollbarWidth: "none" }}

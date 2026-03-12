@@ -10,9 +10,11 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   const { searchQuery, subCategory, priceRange, sizes } = useAppContext();
 
   const normalizedSub = normalize(subCategory);
-  const normalizeSize = (size: string) =>
-  size.replace(/\s+/g, " ").trim().toLowerCase();
   const normalizedSearch = searchQuery?.toLowerCase() || "";
+
+  const normalizeSize = (size: string) =>
+    size.replace(/\s+/g, " ").trim().toLowerCase();
+
   const normalizedSelectedSizes = sizes.map(normalizeSize);
 
   const filteredProducts = products.filter((p) => {
@@ -30,7 +32,7 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
 
     const sizeMatch =
       normalizedSelectedSizes.length === 0 ||
-      p.sizes?.some((productSize: string) =>
+      p.variants?.[0]?.sizes?.some((productSize: string) =>
         normalizedSelectedSizes.includes(normalizeSize(productSize)),
       );
 
@@ -41,9 +43,7 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
     filteredProducts.reduce(
       (acc, product) => {
         const key = product.name.trim().toLowerCase();
-        if (!acc[key]) {
-          acc[key] = product;
-        }
+        if (!acc[key]) acc[key] = product;
         return acc;
       },
       {} as Record<string, IMSProduct>,
@@ -55,7 +55,7 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   if (groupedProducts.length === 0) {
     return (
       <EmptyState
-        label={`Collection's Empty`}
+        label="Collection Empty"
         title="We’re Still Stitching This One Together"
         description="New pieces are being crafted with care. Stay tuned for thoughtfully designed additions."
         buttonText="Browse All Products →"
@@ -65,36 +65,34 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   }
 
   return (
-    <div className="md:w-[66vw] w-[95vw] h-[85vh] custom-scroll scrollbar-hide overflow-y-scroll mx-auto">
-      {/* RESULTS HEADER */}
-      <div className="flex items-center justify-between mt-10 px-4">
-        <p className="text-sm text-gray-500 uppercase tracking-[0.25em]">
+    <section className="w-full space-y-12">
+      {/* RESULT HEADER */}
+      <div className="flex items-center justify-between">
+        <p className="text-xs uppercase tracking-[0.35em] text-[#957f6a]">
           {resultCount} {resultCount === 1 ? "Item" : "Items"}
         </p>
 
         {normalizedSub && (
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-[#7a6a5c]">
             Filtered by{" "}
-            <span className="font-medium capitalize">{subCategory}</span>
+            <span className="font-medium capitalize text-[#5f5143]">
+              {subCategory}
+            </span>
           </p>
         )}
       </div>
 
-      <div className="h-px bg-gray-200 mb-12" />
+      <div className="h-px bg-[#e6d8c8]" />
 
       {/* PRODUCT GRID */}
-      <div className="flex flex-wrap gap-5">
+      <div
+        className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:gap-10"
+      >
         {groupedProducts.map((item) => (
-          <ProductCard
-            key={item.productId}
-            product={item}
-            height="h-[72vh] md:h-[54vh]"
-            className="product-card border bg-white"
-            classNameInner="h-[60vh] md:h-[43vh] rounded-sm"
-          />
+          <ProductCard key={item.productId} product={item} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
