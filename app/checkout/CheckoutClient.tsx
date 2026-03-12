@@ -36,7 +36,7 @@ const CheckoutClient = () => {
 
   /* ---------------- PRODUCTS ---------------- */
   const checkoutProducts = useMemo(() => {
-      if (!products.length) return [];
+    if (!products.length) return [];
     // BUY NOW FLOW
     if (buyNowId && buyNowSize) {
       const product = products.find((p) => p.productId === Number(buyNowId));
@@ -68,10 +68,8 @@ const CheckoutClient = () => {
       size: string;
       qty: number;
     })[];
-
-    
   }, [buyNowId, buyNowSize, cartItems, products]);
-  
+
   if (!products.length) {
     return <div className="p-10 text-xl">Loading checkout...</div>;
   }
@@ -84,20 +82,20 @@ const CheckoutClient = () => {
 
   /* ------------------ Razor Pay Loader-------- */
   const loadRazorpayScript = () => {
-  return new Promise<boolean>((resolve) => {
-    if (window.Razorpay) {
-      resolve(true);
-      return;
-    }
+    return new Promise<boolean>((resolve) => {
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
 
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-};
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
   /* ---------------- PLACE ORDER ---------------- */
   const handlePlaceOrder = async () => {
@@ -108,10 +106,10 @@ const CheckoutClient = () => {
 
     const scriptLoaded = await loadRazorpayScript();
 
-  if (!scriptLoaded) {
-    toast.error("Payment system failed to load");
-    return;
-  }
+    if (!scriptLoaded) {
+      toast.error("Payment system failed to load");
+      return;
+    }
 
     const res = await fetch("/api/payment/create", {
       method: "POST",
@@ -138,6 +136,50 @@ const CheckoutClient = () => {
     razorpay.open();
   };
 
+  // const handleCODOrder = async () => {
+  //   if (!address || !phone) {
+  //     toast.error("Please enter address and phone number");
+  //     return;
+  //   }
+
+  //   const fakePayment = {
+  //     razorpay_order_id: "test_order",
+  //     razorpay_payment_id: "test_payment",
+  //     razorpay_signature: "test_signature",
+  //   };
+
+  //   console.log(checkoutProducts);
+
+  //   const res = await fetch("/api/orders/place", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       address,
+  //       phone,
+  //       payment: fakePayment,
+  //       products: checkoutProducts.map((p) => ({
+  //         productId: p.productId,
+  //         name: p.name,
+  //         price: p.price,
+  //         qty: p.qty,
+  //         size: Array.isArray(p.size) ? p.size[0] : p.size,
+  //         image: p.variants[0]?.images[0] || null,
+  //       })),
+  //     }),
+  //   });
+
+  //   if (!res.ok) {
+  //     toast.error("Order failed");
+  //     return;
+  //   }
+
+  //   clearCart();
+  //   await loadUser();
+  //   router.push("/orders");
+
+  //   toast.success("Test order placed (paid)");
+  // };
+
   const verifyAndPlaceOrder = async (payment: any) => {
     const res = await fetch("/api/orders/place", {
       method: "POST",
@@ -151,7 +193,7 @@ const CheckoutClient = () => {
           name: p.name,
           price: p.price,
           qty: p.qty,
-          size: p.size,
+          size: Array.isArray(p.size) ? p.size[0] : p.size,
           image: p.variants[0]?.images[0] || null,
         })),
       }),
@@ -198,7 +240,9 @@ const CheckoutClient = () => {
             className="flex justify-between items-center mb-2"
           >
             <Image
-              src={item.variants[0]?.images[0] || "/Assets/Images/placeholder.png"}
+              src={
+                item.variants[0]?.images[0] || "/Assets/Images/placeholder.png"
+              }
               width={40}
               height={40}
               alt={item.name}
@@ -223,6 +267,12 @@ const CheckoutClient = () => {
         >
           Place Order
         </button>
+        {/* <button
+          onClick={handleCODOrder}
+          className="mt-2 w-full bg-gray-800 text-white py-2 rounded-lg"
+        >
+          Place Order (COD)
+        </button> */}
       </div>
     </div>
   );
