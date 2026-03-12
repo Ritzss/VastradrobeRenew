@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import ProfileCard from "@/components/UI/ProfileCard";
 import { toast } from "sonner";
 import Link from "next/link";
+// import Image from "next/image";
 
 const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
   const { user, setUser, authLoading, loadUser } = useAppContext();
@@ -156,6 +157,7 @@ const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
       </div>
     </div>
   );
+
 };
 
 function ProfileAction({ href, label }: { href: string; label: string }) {
