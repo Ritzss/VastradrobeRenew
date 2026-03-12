@@ -36,7 +36,6 @@ const SideFilter = ({
   } = useAppContext();
 
   console.log(products);
-  
 
   const safeProducts = products || [];
   const normalize = (val: string) => val?.trim().toLowerCase();
@@ -87,6 +86,12 @@ const SideFilter = ({
     }
   };
 
+  const clearFilters = () => {
+    setSubCategory("");
+    setPriceRange({ min: "", max: "" });
+    setSizes([]);
+  };
+
   return (
     <>
       {onClose && (
@@ -104,11 +109,20 @@ const SideFilter = ({
       p-8 overflow-y-auto`}
       >
         {/* TITLE */}
-        <div className="mb-12">
-          <p className="uppercase tracking-[0.35em] text-xs text-[#957f6a] mb-3">
-            Refine
-          </p>
-          <h3 className="text-2xl font-semibold text-[#5f5143]">Filters</h3>
+        <div className="mb-12 flex items-center justify-between">
+          <div>
+            <p className="uppercase tracking-[0.35em] text-xs text-[#957f6a] mb-3">
+              Refine
+            </p>
+            <h3 className="text-2xl font-semibold text-[#5f5143]">Filters</h3>
+          </div>
+
+          <button
+            onClick={clearFilters}
+            className="text-sm text-[#6a0f1f] border border-[#6a0f1f] px-3 py-1 rounded-full hover:bg-[#6a0f1f] hover:text-white transition"
+          >
+            Clear
+          </button>
         </div>
 
         {/* CATEGORY */}

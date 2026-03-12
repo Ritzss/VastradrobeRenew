@@ -37,11 +37,11 @@ const Footer = () => {
 
         <div className="grid lg:grid-cols-3 gap-16 text-sm">
           {/* SHOP */}
-          <div className="space-y-6">
+          <div className="mx-auto md:mx-0 space-y-6">
             <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
               Shop
             </h4>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col items-center md:items-start gap-3">
               {category.map((item, index) => (
                 <FooterLink
                   key={index}
@@ -53,11 +53,11 @@ const Footer = () => {
           </div>
 
           {/* CUSTOMER */}
-          <div className="space-y-6">
+          <div className="mx-auto md:mx-0 space-y-6">
             <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
               Customer Care
             </h4>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col items-center md:items-start gap-3">
               <FooterLink href="/orders" label="Orders & Tracking" />
               {customer.map((item, index) => (
                 <FooterLink
@@ -70,7 +70,7 @@ const Footer = () => {
           </div>
 
           {/* CONTACT */}
-          <div className="space-y-6">
+          <div className="text-center space-y-6">
             <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
               Visit Us
             </h4>
@@ -109,7 +109,7 @@ const Footer = () => {
             </div>
 
             {/* SOCIAL ICONS */}
-            <div className="flex gap-4 pt-4">
+            <div className="flex justify-center gap-4 pt-4">
               <SocialIcon href="https://www.facebook.com/people/Vastradrobe/61579704217653/">
                 <FaFacebookF />
               </SocialIcon>
@@ -162,7 +162,7 @@ function SocialIcon({
     <a
       href={href}
       target="_blank"
-      className=" w-10 h-10 flex items-center justify-center rounded-full bg-[#efe3d3] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white transition duration-300"
+      className="w-10 h-10 flex items-center justify-center rounded-full bg-[#efe3d3] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white transition duration-300"
     >
       {children}
     </a>

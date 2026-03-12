@@ -74,7 +74,7 @@ export default function ProductCard({ product, className, children }: Props) {
   return (
     <div className={`group flex flex-col ${className ?? ""}`}>
       {/* IMAGE BLOCK */}
-      <div className="relative aspect-[3/4] w-full rounded-4xl overflow-hidden bg-[#f5f1e7]">
+      <div className="relative aspect-3/4 w-full rounded-4xl overflow-hidden bg-[#f5f1e7]">
         <Link href={`/product/${productId}`}>
           <Image
             src={imageSrc}
@@ -88,17 +88,7 @@ export default function ProductCard({ product, className, children }: Props) {
         {/* Wishlist */}
         <button
           onClick={handleWishlist}
-          className="
-            absolute top-4 right-4
-            w-10 h-10
-            rounded-full
-            bg-white/80 backdrop-blur
-            flex items-center justify-center
-            text-[#5f5143]
-            hover:bg-[#6a0f1f]
-            hover:text-white
-            transition
-          "
+          className=" absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white transition"
         >
           {selectedCollection ? (
             <RiHeartFill size={18} className="text-red-500" />
@@ -109,27 +99,11 @@ export default function ProductCard({ product, className, children }: Props) {
 
         {/* Hover Cart Overlay */}
         <div
-          className="
-            absolute bottom-0 left-0 right-0
-            bg-white/90 backdrop-blur
-            translate-y-full
-            group-hover:translate-y-0
-            transition-all duration-300
-            p-4
-          "
+          className=" absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition-all duration-300 p-4"
         >
           <button
             onClick={handleCartToggle}
-            className="
-              w-full
-              py-2
-              rounded-full
-              bg-[#5f5143]
-              text-white
-              hover:bg-[#6a0f1f]
-              transition
-              flex items-center justify-center gap-2
-            "
+            className=" w-full py-2 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition flex items-center justify-center gap-2"
           >
             {isInCart ? (
               <>

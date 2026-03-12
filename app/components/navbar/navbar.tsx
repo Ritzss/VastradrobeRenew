@@ -155,7 +155,7 @@ const Navbar = () => {
           </Link>
 
           {/* NAV LINKS (desktop) */}
-          <div className="hidden md:flex flex-1 items-center gap-6 text-sm font-medium text-[#957f6a]">
+          <div className="hidden md:flex flex-1 items-center gap-3 text-sm font-medium text-[#957f6a]">
             <Link href="/" className="hover:text-[#6a0f1f]">
               Home
             </Link>
