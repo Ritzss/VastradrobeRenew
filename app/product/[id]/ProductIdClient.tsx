@@ -291,7 +291,7 @@ export default function ProductPDPClient({
           {product.variants.length > 1 && (
             <div>
               <p className="mb-3 text-sm font-medium text-[#5f5143]">Color</p>
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap">
                 {product.variants.map((variant) => (
                   <button
                     key={variant.color}
