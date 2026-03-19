@@ -29,9 +29,9 @@ const Register = () => {
 
   return (
     <div className="w-full flex justify-center px-6 py-16 h-full bg-[#f9f5ef]">
-      <div className="w-full max-w-5xl rounded-[32px] overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
+      <div className="w-full max-w-5xl rounded-4xl overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
         {/* LEFT PANEL */}
-        <aside className="md:w-[45%] bg-[#efe3d3] p-10 flex flex-col justify-between">
+        <aside className="hidden md:w-[45%] bg-[#efe3d3] p-10 md:flex flex-col justify-between">
           <div className="space-y-6">
             <h2 className="text-3xl font-semibold text-[#5f5143]">
               Join VastraDrobe
@@ -56,7 +56,7 @@ const Register = () => {
         </aside>
 
         {/* RIGHT PANEL */}
-        <aside className="md:w-[55%] bg-white p-10 flex flex-col justify-center">
+        <aside className="h-full md:w-[55%] bg-white p-10 flex flex-col justify-center">
           <form
             onSubmit={onSubmit}
             className="max-w-md w-full mx-auto space-y-6"
