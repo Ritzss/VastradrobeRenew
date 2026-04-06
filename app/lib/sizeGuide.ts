@@ -4,7 +4,7 @@ export const sizeGuide = {
     { size: "M", chest: "35-36", waist: "28-29", length: "24-26" },
     { size: "L", chest: "37-38", waist: "30-31", length: "25-27" },
     { size: "XL", chest: "40-41", waist: "32-33", length: "26-28" },
-    { size: "2XL", chest: "42-44", waist: "34-36", length: "27-29" },
+    { size: "XXL", chest: "42-44", waist: "34-36", length: "27-29" },
   ],
 
   fullSleeveTop: [

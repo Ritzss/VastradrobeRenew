@@ -10,7 +10,7 @@ import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
 // import SocialProof from "./components/Home/SocialProof";
 import { IMSProduct } from "./Types/Product";
 // import HomeVideosWrapper from "./components/Global/HomeVideosWrapper";
-import BlogClientWrapper from "./components/Global/BlogClientWrapper";
+// import BlogClientWrapper from "./components/Global/BlogClientWrapper";
 import SocialProofClient from "./components/Global/SocialProofClient";
 import dynamic from "next/dynamic";
 import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";

@@ -4,9 +4,15 @@ import { AiFillStar } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { DEFAULT_ITEMS } from "@/components/UI/Carousel";
 import Image from "next/image";
+import { FaTimes } from "react-icons/fa";
+import { useState } from "react";
+import { FaPlay } from "react-icons/fa6";
+import HorizontalScroll from "../Global/HorizontalScroll";
 
 const SocialProof = () => {
+  
   const reviews = DEFAULT_ITEMS.slice(0, 3);
+  const [showVideo, setShowVideo] = useState(false);
 
   return (
     <section className="bg-[#f3e7d8] py-28">
@@ -36,7 +42,7 @@ const SocialProof = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
               viewport={{ once: true }}
-              className="bg-[#efe3d3] rounded-[24px] p-8 text-left"
+              className="bg-[#efe3d3] rounded-3xl p-8 text-left"
             >
               {/* Stars */}
               <div className="flex gap-1 text-[#2b2b2b] mb-6">
@@ -47,7 +53,7 @@ const SocialProof = () => {
 
               {/* Quote */}
               <p className="text-[#5f5143] leading-relaxed mb-8">
-                "{item.description}"
+                &quot;{item.description}&quot;
               </p>
 
               {/* Author */}
@@ -60,13 +66,53 @@ const SocialProof = () => {
                     className="object-cover"
                   />
                 </div>
-
                 <div>
                   <p className="text-sm font-medium text-[#4b4035]">
                     {item.title}
                   </p>
                   <p className="text-xs text-[#8a7b6c]">Verified Buyer</p>
                 </div>
+                {item.proof && (
+                  <div
+                    onClick={() => setShowVideo(true)}
+                    className="bg-[#4b4035] text-[#ebd6c1] flex justify-center items-center gap-2 text-xl rounded-3xl p-1 flex-1 h-full"
+                  >
+                    <FaPlay size={18} />
+                    Videos
+                  </div>
+                )}
+                {showVideo && item.proof && (
+                  <div
+                    className="fixed inset-0 bg-black/9 flex items-center justify-center z-100 animate-fadeIn"
+                    onClick={() => setShowVideo(false)}
+                  >
+                    <div
+                      className="relative flex justify-center w-1/2 max-w-5xl"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <HorizontalScroll color="#00000000" >
+                        {item.proof.videos?.map((video, ind) => {
+                          return (
+                            <video
+                              key={ind}
+                              src={video}
+                              controls
+                              className="w-3/4 h-3/4 rounded-xl"
+                            />
+                          );
+                        })}
+                      </HorizontalScroll>
+
+                      {/* Close Button */}
+                      <button
+                        onClick={() => setShowVideo(false)}
+                        className="absolute -top-12 right-0 text-white text-xl"
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
