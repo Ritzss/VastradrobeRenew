@@ -296,7 +296,7 @@ export default function ProductPDPClient({
                   <button
                     key={variant.color}
                     onClick={() => setSelectedVariant(variant)}
-                    className={`px-5 py-2 rounded-full border text-sm transition ${
+                    className={`px-5 py-2 rounded-full border text-sm capitalize transition ${
                       selectedVariant?.color === variant.color
                         ? "bg-[#5f5143] text-white border-[#5f5143]"
                         : "border-[#e6d8c8] hover:bg-[#f3e7d8]"

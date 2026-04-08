@@ -14,6 +14,7 @@ export interface CarouselItem {
   description?: string;
   icon?: React.ReactNode;
   image?: string;
+  video?: string,
   proof?: {
     videos?: string[];
     images?: string[];
@@ -49,9 +50,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
-    proof: {
-      videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
-    },
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
   {
     id: 2,
@@ -67,9 +68,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
-    proof: {
-      videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
-    },
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
   {
     id: 3,
@@ -85,9 +86,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
-    proof: {
-      videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
-    },
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
   {
     id: 4,
@@ -103,9 +104,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
-    proof: {
-      videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
-    },
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
   {
     id: 5,
@@ -121,9 +122,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
-    proof: {
-      videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
-    },
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
 ];
 
