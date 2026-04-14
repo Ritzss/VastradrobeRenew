@@ -35,7 +35,7 @@ const SideFilter = ({
     setSizes,
   } = useAppContext();
 
-  console.log(products);
+  // console.log(products);
 
   const safeProducts = products || [];
   const normalize = (val: string) => val?.trim().toLowerCase();

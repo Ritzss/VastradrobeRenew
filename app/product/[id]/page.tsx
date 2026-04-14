@@ -42,7 +42,7 @@ async function getInventory(productId: number) {
   if (!res.ok) return [];
 
   const data = await res.json();
-  console.log("Inventory API response:", data);
+  // console.log("Inventory API response:", data);
   return data.inventory ?? [];
 }
 
@@ -76,7 +76,7 @@ export default async function ProductPage({
   );
 
 
-  console.log("Inventory received:", inventory);
+  // console.log("Inventory received:", inventory);
 
 
 

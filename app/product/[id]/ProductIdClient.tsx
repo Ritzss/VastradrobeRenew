@@ -44,7 +44,8 @@ export default function ProductPDPClient({
   const [activeIndex, setActiveIndex] = useState(0);
   const [showProductDetails, setShowProductDetails] = useState(false);
   useEffect(() => {
-    console.log("Product inside client:", product.variants);
+    // console.log("Product inside client:", product.variants);
+    // console.log("Inventory inside client:", inventory);
   }, [product]);
 
   /* ---------------- VARIANT STATE ---------------- */
@@ -123,18 +124,20 @@ export default function ProductPDPClient({
   //   );
   // };
 
-  console.log("PDP product variants:", product.variants);
+  // console.log("PDP product variants:", product.variants);
 
   const sizes = selectedVariant?.sizes?.length
     ? selectedVariant.sizes
     : FALLBACK_SIZES;
 
   const stockMap = useMemo(() => {
-    return inventory.reduce((acc: any, item: any) => {
-      acc[item.size] = item.quantity;
-      return acc;
-    }, {});
-  }, [inventory]);
+  return inventory.reduce((acc: any, item: any) => {
+    acc[item.size] = item.quantity;
+    return acc;
+  }, {});
+}, [inventory]);
+
+  // console.log(inventory);
 
   useEffect(() => {
     if (!inventory.length) return;
