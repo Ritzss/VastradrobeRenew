@@ -25,4 +25,12 @@ export const sizeGuide = {
     { size: "3-4 Years", chest: 28, length: 16.5 },
     { size: "5-6 Years", chest: 30, length: 18 },
   ],
+
+  MensShirt: [
+    { size: "S", chest: 38, shoulder: 17, length: 27 },
+    { size: "M", chest: 40, shoulder: 17.5, length: 28 },
+    { size: "L", chest: 42, shoulder: 18, length: 29 },
+    { size: "XL", chest: 44, shoulder: 18.5, length: 30 },
+    { size: "XXL", chest: 46, shoulder: 19, length: 31 },
+  ],
 };
