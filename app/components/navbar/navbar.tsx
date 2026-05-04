@@ -220,7 +220,7 @@ const Navbar = () => {
                           />
                         </div>
                         <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Men&apos;s Linen Essentials
+                          Men&apos;s Fashion & Clothing
                         </span>
                       </Link>
 
