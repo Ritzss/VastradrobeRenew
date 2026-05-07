@@ -33,4 +33,42 @@ export const sizeGuide = {
     { size: "XL", chest: 44, shoulder: 18.5, length: 30 },
     { size: "XXL", chest: 46, shoulder: 19, length: 31 },
   ],
+
+  MensKurta: [
+    {
+      size: "S",
+      chest: 38,
+      shoulder: 16.5,
+      kurtaLength: 40,
+      waist: "30-32",
+    },
+    {
+      size: "M",
+      chest: 40,
+      shoulder: 17,
+      kurtaLength: 41,
+      waist: "32-34",
+    },
+    {
+      size: "L",
+      chest: 42,
+      shoulder: 17.5,
+      kurtaLength: 42,
+      waist: "34-36",
+    },
+    {
+      size: "XL",
+      chest: 44,
+      shoulder: 18,
+      kurtaLength: 42,
+      waist: "36-38",
+    },
+    {
+      size: "XXL",
+      chest: 46,
+      shoulder: 18.5,
+      kurtaLength: 44,
+      waist: "38-40",
+    },
+  ],
 };
