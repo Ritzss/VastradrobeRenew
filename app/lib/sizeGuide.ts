@@ -71,4 +71,12 @@ export const sizeGuide = {
       waist: "38-40",
     },
   ],
+
+  menBottom: [
+  { size: "S", waist: "30-32", hip: "38", length: 38 },
+  { size: "M", waist: "32-34", hip: "40", length: 39 },
+  { size: "L", waist: "34-36", hip: "42", length: 40 },
+  { size: "XL", waist: "36-38", hip: "44", length: 41 },
+  { size: "XXL", waist: "38-40", hip: "46", length: 42 },
+],
 };
