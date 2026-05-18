@@ -43,6 +43,7 @@ export default function ProductPDPClient({
   // const { addToCart, cartItems, removeFromCart } = useAppContext();
   const [activeIndex, setActiveIndex] = useState(0);
   const [showProductDetails, setShowProductDetails] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
   useEffect(() => {
     // console.log("Product inside client:", product.variants);
     // console.log("Inventory inside client:", inventory);
@@ -131,11 +132,11 @@ export default function ProductPDPClient({
     : FALLBACK_SIZES;
 
   const stockMap = useMemo(() => {
-  return inventory.reduce((acc: any, item: any) => {
-    acc[item.size] = item.quantity;
-    return acc;
-  }, {});
-}, [inventory]);
+    return inventory.reduce((acc: any, item: any) => {
+      acc[item.size] = item.quantity;
+      return acc;
+    }, {});
+  }, [inventory]);
 
   // console.log(inventory);
 
@@ -275,7 +276,24 @@ export default function ProductPDPClient({
             <h1 className="text-3xl font-semibold text-[#5f5143]">
               {product.name}
             </h1>
-            <p className="mt-3 text-[#7a6a5c]">{product.description}</p>
+            <div className="mt-3">
+              <p
+                className={`text-[#7a6a5c] transition-all duration-300 ${
+                  !showFullDescription ? "line-clamp-3" : ""
+                }`}
+              >
+                {product.description}
+              </p>
+
+              {product.description && product.description.length > 120 && (
+                <button
+                  onClick={() => setShowFullDescription((prev) => !prev)}
+                  className="mt-2 text-sm font-medium text-[#6a0f1f] underline"
+                >
+                  {showFullDescription ? "Show Less" : "Show More"}
+                </button>
+              )}
+            </div>
           </div>
 
           {/* PRICE */}
