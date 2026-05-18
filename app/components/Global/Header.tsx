@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaPlay, FaTimes } from "react-icons/fa";
+import Link from "next/link";
 
 export default function CampaignSection() {
   const [showVideo, setShowVideo] = useState(false);
@@ -45,7 +46,7 @@ export default function CampaignSection() {
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
             <button className="px-8 py-3 border border-white text-white rounded-full hover:bg-white hover:text-[#6a0f1f] transition text-sm tracking-widest uppercase">
-              Explore Collection
+            <Link href={'#collection'}>Explore Collection</Link>
             </button>
 
             <button

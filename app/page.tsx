@@ -121,7 +121,7 @@ const Home = async () => {
       </section>
 
       {/* WOMEN */}
-      <section className="bg-[#f9f5ef] py-24">
+      <section id='collection' className="bg-[#f9f5ef] py-24">
         <div className="max-w-7xl mx-auto px-6 text-center mb-20">
           <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
             Women
