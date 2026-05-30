@@ -23,7 +23,7 @@ export default function CampaignSection() {
       <section className="relative min-h-screen flex items-center justify-center text-center bg-[#edddc8] overflow-hidden">
         {/* Background Image */}
         <Image
-          src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770977218/products/ocktsxwyzhi2rzwoantd.jpg"
+          src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1780136028/Summer_1_a99xpy.jpg"
           alt="Hero"
           fill
           priority
@@ -63,7 +63,7 @@ export default function CampaignSection() {
       {/* ================= VIDEO OVERLAY ================= */}
       {showVideo && (
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-[100] animate-fadeIn"
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-100 animate-fadeIn"
           onClick={() => setShowVideo(false)}
         >
           <div
