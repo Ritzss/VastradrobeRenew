@@ -1,0 +1,3202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://res.cloudinary.com/dwhn5ec09/image/upload/v1780384052/favicon_obm4xc.ico"
+    />
+    <title>Vastradrobe — Summer Lounge Co-Ord</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      :root {
+        --cr: #faf8f4;
+        --bg: #f2ede5;
+        --tp: #c9bfb2;
+        --tl: #e8e1d8;
+        --ch: #2c2825;
+        --cs: #4a4440;
+        --br: #8c7e76;
+        --ac: #b5653a;
+        --gr: #4a6b35;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Jost", sans-serif;
+        background: var(--cr);
+        color: var(--ch);
+        overflow-x: hidden;
+      }
+      img {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* ─── ANN BAR ─── */
+      .ann {
+        background: var(--ch);
+        color: #faf8f4;
+        padding: 9px 0;
+        overflow: hidden;
+      }
+      .ann-inner {
+        display: flex;
+        white-space: nowrap;
+        animation: mq 20s linear infinite;
+      }
+      .ann-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 0 28px;
+        font-size: 9.5px;
+        letter-spacing: 2.5px;
+        font-weight: 300;
+      }
+      .adot {
+        color: var(--ac);
+      }
+      @keyframes mq {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ─── NAV ─── */
+      nav {
+        position: fixed;
+        top: 33px;
+        left: 0;
+        right: 0;
+        z-index: 300;
+        padding: 0 4%;
+        transition: all 0.4s;
+      }
+      nav.sc {
+        top: 0;
+        background: rgba(250, 248, 244, 0.97);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--tl);
+      }
+      .ni {
+        max-width: 1300px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0;
+      }
+      .logo {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 19px;
+        font-weight: 400;
+        letter-spacing: 5px;
+        color: var(--ch);
+        text-decoration: none;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      /* hamburger */
+      .ham {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 4px;
+      }
+      .ham span {
+        display: block;
+        width: 22px;
+        height: 1.5px;
+        background: var(--ch);
+        transition: all 0.3s;
+        transform-origin: center;
+      }
+      .ham.open span:nth-child(1) {
+        transform: rotate(45deg) translate(4.5px, 4.5px);
+      }
+      .ham.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .ham.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(4.5px, -4.5px);
+      }
+      .nav-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(250, 248, 244, 0.98);
+        backdrop-filter: blur(20px);
+        z-index: 290;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 36px;
+        transform: translateY(-100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+      }
+      .nav-menu.open {
+        transform: translateY(0);
+        pointer-events: all;
+      }
+      .nav-menu a {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 32px;
+        font-weight: 300;
+        color: var(--ch);
+        text-decoration: none;
+        letter-spacing: 2px;
+        transition: color 0.2s;
+      }
+      .nav-menu a:hover {
+        color: var(--br);
+      }
+      .nbag {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--ch);
+        color: #faf8f4;
+        border: none;
+        font-family: "Jost", sans-serif;
+        font-size: 9.5px;
+        letter-spacing: 2px;
+        padding: 9px 16px;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .nbag:hover {
+        background: var(--cs);
+      }
+      .nbadge {
+        background: var(--ac);
+        color: #fff;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        font-size: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+      }
+
+      /* ─── HERO ─── */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        min-height: 100svh;
+        padding-top: 33px;
+      }
+      .hero-img {
+        position: relative;
+        flex: 1;
+        min-height: 60svh;
+        overflow: hidden;
+        background: #1a1714;
+      }
+      .hero-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.7s ease;
+      }
+      .hero-slide.active {
+        opacity: 1;
+      }
+      .hero-slide img {
+        object-position: top center;
+        height: 100%;
+      }
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(22, 18, 14, 0.15) 0%,
+          rgba(22, 18, 14, 0.55) 100%
+        );
+      }
+      .hero-badge {
+        position: absolute;
+        top: 20px;
+        left: 16px;
+        background: rgba(250, 248, 244, 0.92);
+        backdrop-filter: blur(8px);
+        border-radius: 30px;
+        padding: 7px 16px;
+        font-size: 9px;
+        letter-spacing: 2px;
+        color: var(--ch);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .hb-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--ac);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.4);
+        }
+      }
+      /* color strip on image */
+      .hero-colors {
+        position: absolute;
+        bottom: 16px;
+        left: 12px;
+        right: 12px;
+        background: rgba(250, 248, 244, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .hc-lbl {
+        font-size: 9px;
+        letter-spacing: 2px;
+        color: var(--br);
+        white-space: nowrap;
+      }
+      .hc-sws {
+        display: flex;
+        gap: 7px;
+        flex: 1;
+        /* overflow: hidden; */
+      }
+      .hc-sw {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .hc-sw.act {
+        border-color: var(--ch);
+        transform: scale(1.15);
+      }
+      .hc-name {
+        font-size: 9.5px;
+        color: var(--ch);
+        letter-spacing: 0.8px;
+        text-transform: capitalize;
+        white-space: nowrap;
+        margin-left: auto;
+        font-weight: 400;
+      }
+      /* hero text below image */
+      .hero-text {
+        background: var(--bg);
+        padding: 32px 20px 36px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-deco {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--tp),
+          transparent
+        );
+      }
+      .hero-tag {
+        font-size: 9px;
+        letter-spacing: 3.5px;
+        color: var(--br);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        opacity: 0;
+        animation: fu 0.8s 0.1s forwards;
+      }
+      .hero-tag::before {
+        content: "";
+        width: 24px;
+        height: 1px;
+        background: var(--tp);
+      }
+      .hero h1 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(44px, 12vw, 68px);
+        font-weight: 300;
+        line-height: 0.96;
+        color: var(--ch);
+        margin-bottom: 16px;
+        opacity: 0;
+        animation: fu 0.8s 0.25s forwards;
+      }
+      .hero h1 em {
+        font-style: italic;
+        color: var(--br);
+        display: block;
+      }
+      .hero-sub {
+        font-size: 13px;
+        color: var(--br);
+        line-height: 1.75;
+        font-weight: 300;
+        margin-bottom: 24px;
+        opacity: 0;
+        animation: fu 0.8s 0.4s forwards;
+      }
+      .hero-price {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        margin-bottom: 24px;
+        opacity: 0;
+        animation: fu 0.8s 0.5s forwards;
+      }
+      .hpm {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 40px;
+        font-weight: 400;
+      }
+      .hpo {
+        font-size: 16px;
+        color: var(--tp);
+        text-decoration: line-through;
+      }
+      .hps {
+        font-size: 9.5px;
+        background: #ebf0e6;
+        color: var(--gr);
+        padding: 4px 12px;
+        border-radius: 20px;
+      }
+      .hero-btns {
+        display: flex;
+        gap: 10px;
+        opacity: 0;
+        animation: fu 0.8s 0.62s forwards;
+      }
+      .btn-d {
+        background: var(--ch);
+        color: #faf8f4;
+        padding: 14px 28px;
+        border: none;
+        font-family: "Jost", sans-serif;
+        font-size: 10px;
+        letter-spacing: 2.5px;
+        cursor: pointer;
+        border-radius: 2px;
+        flex: 1;
+        transition: all 0.3s;
+      }
+      .btn-g {
+        background: transparent;
+        color: var(--ch);
+        padding: 14px 20px;
+        border: 1px solid var(--tp);
+        font-family: "Jost", sans-serif;
+        font-size: 10px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+
+      /* ─── USP STRIP ─── */
+      .usp {
+        background: var(--bg);
+        border-top: 1px solid var(--tl);
+        border-bottom: 1px solid var(--tl);
+        padding: 0;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .usp::-webkit-scrollbar {
+        display: none;
+      }
+      .usp-inner {
+        display: flex;
+        width: 100%;
+        padding: 18px 20px;
+        gap: 0;
+        justify-content: space-evenly;
+      }
+      .usp-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 20px;
+        border-right: 1px solid var(--tl);
+        white-space: nowrap;
+      }
+      .usp-item:last-child {
+        border: none;
+      }
+      .usp-icon {
+        font-size: 18px;
+      }
+      .usp-t {
+        font-size: 11px;
+        color: var(--ch);
+        font-weight: 400;
+        letter-spacing: 0.3px;
+      }
+      .usp-s {
+        font-size: 10px;
+        color: var(--br);
+        font-weight: 300;
+      }
+
+      /* ─── SECTION COMMONS ─── */
+      section {
+        padding: 64px 20px;
+      }
+      .smx {
+        max-width: 1300px;
+        margin: 0 auto;
+      }
+      .slbl {
+        font-size: 9px;
+        letter-spacing: 3.5px;
+        color: var(--tp);
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 300;
+      }
+      .stit {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(30px, 8vw, 52px);
+        font-weight: 300;
+        line-height: 1.1;
+        color: var(--ch);
+      }
+      .ssub {
+        font-size: 12.5px;
+        color: var(--br);
+        font-weight: 300;
+        line-height: 1.75;
+      }
+      .rev {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .rev.vis {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .rev2 {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s 0.12s ease,
+          transform 0.7s 0.12s ease;
+      }
+      .rev2.vis {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @keyframes fu {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── COLLECTION ─── */
+      .col-sec {
+        background: var(--ch);
+        padding: 64px 0 64px 20px;
+      }
+      .col-hd {
+        padding-right: 20px;
+        margin-bottom: 28px;
+      }
+      .col-hd .stit {
+        color: #faf8f4;
+      }
+      .col-hd .slbl {
+        color: var(--tp);
+      }
+      .col-hd-row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .col-hint {
+        font-size: 10px;
+        color: var(--br);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .col-scroll {
+        overflow-x: auto;
+        padding-bottom: 12px;
+        scrollbar-width: none;
+        cursor: grab;
+        -webkit-overflow-scrolling: touch;
+      }
+      .col-scroll::-webkit-scrollbar {
+        display: none;
+      }
+      .col-track {
+        display: flex;
+        gap: 12px;
+        width: max-content;
+        padding-right: 20px;
+      }
+      .col-card {
+        width: 200px;
+        flex-shrink: 0;
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        background: #1a1714;
+      }
+      .col-img {
+        height: 280px;
+        overflow: hidden;
+        position: relative;
+      }
+      .col-img img {
+        object-position: top;
+        transition: transform 0.5s;
+      }
+      .col-card:hover .col-img img {
+        transform: scale(1.07);
+      }
+      .col-ov {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(22, 18, 14, 0.85),
+          transparent 55%
+        );
+      }
+      .col-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 16px 18px;
+      }
+      .col-color {
+        font-size: 9.5px;
+        letter-spacing: 2px;
+        color: rgba(250, 248, 244, 0.7);
+        margin-bottom: 3px;
+        text-transform: uppercase;
+      }
+      .col-price {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        color: #faf8f4;
+        font-weight: 300;
+      }
+      .col-add-btn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 9px;
+        background: rgba(250, 248, 244, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #faf8f4;
+        font-family: "Jost", sans-serif;
+        font-size: 9px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        backdrop-filter: blur(4px);
+        transition: all 0.2s;
+        display: none;
+      }
+      .col-card:hover .col-add-btn,
+      .col-card:focus-within .col-add-btn {
+        display: block;
+      }
+      .col-add-btn.ok {
+        background: rgba(74, 107, 53, 0.7);
+      }
+      .col-wish-top {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 2;
+        background: rgba(28, 22, 18, 0.4);
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(4px);
+      }
+      .col-wish-top svg {
+        width: 13px;
+        height: 13px;
+        stroke: rgba(255, 255, 255, 0.8);
+        fill: none;
+        stroke-width: 1.5;
+        transition: all 0.2s;
+      }
+      .col-wish-top.on svg {
+        fill: #c9a49a;
+        stroke: #c9a49a;
+      }
+      .col-new {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 2;
+        background: var(--ac);
+        color: #fff;
+        font-size: 8px;
+        letter-spacing: 1.5px;
+        padding: 3px 9px;
+        border-radius: 20px;
+      }
+      .col-bar {
+        height: 2px;
+        background: rgba(201, 191, 178, 0.2);
+        margin: 20px 20px 0;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .col-fill {
+        height: 100%;
+        background: rgba(201, 191, 178, 0.5);
+        border-radius: 2px;
+        width: 20%;
+        transition: width 0.1s;
+      }
+
+      /* ─── PRODUCT DETAIL ─── */
+      .prod-sec {
+        background: var(--bg);
+        padding: 64px 0 64px;
+      }
+      .prod-gal {
+        padding: 0 20px 16px;
+      }
+      .prod-main {
+        border-radius: 16px;
+        overflow: hidden;
+        aspect-ratio: 4/5;
+        background: var(--tl);
+        margin-bottom: 12px;
+      }
+      .prod-main img {
+        object-position: top;
+      }
+      .prod-thumbs {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+      }
+      .prod-thumbs::-webkit-scrollbar {
+        display: none;
+      }
+      .prod-thumb {
+        width: 64px;
+        height: 78px;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .prod-thumb img {
+        object-position: top;
+      }
+      .prod-thumb.act {
+        border-color: var(--ch);
+      }
+      .prod-info {
+        padding: 0 20px;
+      }
+      .pcat {
+        font-size: 9px;
+        letter-spacing: 3px;
+        color: var(--tp);
+        display: block;
+        margin-bottom: 14px;
+      }
+      .pname {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 28px;
+        font-weight: 300;
+        line-height: 1.1;
+        margin-bottom: 4px;
+      }
+      .pbrand {
+        font-size: 11px;
+        color: var(--br);
+        margin-bottom: 16px;
+      }
+      .prating {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .pstars {
+        display: flex;
+        gap: 2px;
+      }
+      .pstar {
+        color: #c9a49a;
+        font-size: 13px;
+      }
+      .prc {
+        font-size: 11px;
+        color: var(--br);
+      }
+      .ppbox {
+        background: var(--cr);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .ppm {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 36px;
+        font-weight: 400;
+      }
+      .ppr {
+        text-align: right;
+      }
+      .ppo {
+        font-size: 15px;
+        color: var(--tp);
+        text-decoration: line-through;
+        display: block;
+      }
+      .psave {
+        font-size: 9.5px;
+        background: #ebf0e6;
+        color: var(--gr);
+        padding: 4px 10px;
+        border-radius: 20px;
+        display: inline-block;
+        margin-top: 4px;
+      }
+      .sw-lbl {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        color: var(--cs);
+        margin-bottom: 10px;
+      }
+      .sw-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .sw {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2.5px solid transparent;
+        transition: all 0.2s;
+      }
+      .sw.act {
+        transform: scale(1.2);
+        border-color: var(--ch);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      .sz-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .sz {
+        min-width: 48px;
+        height: 48px;
+        padding: 0 12px;
+        border: 1px solid var(--tl);
+        background: #fff;
+        border-radius: 8px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: "Jost", sans-serif;
+        color: var(--cs);
+      }
+      .sz.act {
+        border-color: var(--ch);
+        background: var(--ch);
+        color: #faf8f4;
+      }
+      .fab-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        background: var(--cr);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-bottom: 20px;
+      }
+      .fab-item .fl {
+        font-size: 9px;
+        letter-spacing: 1.5px;
+        color: var(--tp);
+        margin-bottom: 2px;
+      }
+      .fab-item .fv {
+        font-size: 12px;
+        color: var(--ch);
+        font-weight: 400;
+      }
+      .atc {
+        width: 100%;
+        padding: 17px;
+        background: var(--ch);
+        color: #faf8f4;
+        border: none;
+        font-family: "Jost", sans-serif;
+        font-size: 10px;
+        letter-spacing: 3px;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.3s;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .atc.ok {
+        background: var(--gr);
+      }
+      .wl {
+        width: 100%;
+        padding: 14px;
+        background: transparent;
+        border: 1px solid var(--tl);
+        color: var(--cs);
+        font-family: "Jost", sans-serif;
+        font-size: 10px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.2s;
+      }
+      .trust-pills {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+      .tpill {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--bg);
+        border-radius: 20px;
+        padding: 6px 11px;
+        font-size: 10px;
+        color: var(--br);
+      }
+
+      /* ─── LIFESTYLE ─── */
+      .ls-sec {
+        background: var(--ch);
+        padding: 64px 20px;
+      }
+      .ls-sec .stit {
+        color: #faf8f4;
+      }
+      .ls-sec .slbl {
+        color: var(--tp);
+      }
+      .ls-hd {
+        margin-bottom: 28px;
+      }
+      /* mobile: vertical stack */
+      .ls-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .ls-card {
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+      }
+      .ls-card:first-child {
+        height: 340px;
+      }
+      .ls-card:not(:first-child) {
+        height: 200px;
+      }
+      .ls-card img {
+        object-position: top;
+        transition: filter 0.4s;
+        filter: brightness(0.85);
+      }
+      .ls-card:hover img {
+        filter: brightness(0.72);
+      }
+      .ls-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 22px 24px;
+        background: linear-gradient(to top, rgba(22, 18, 14, 0.8), transparent);
+      }
+      .ls-tag {
+        font-size: 9px;
+        letter-spacing: 2px;
+        color: rgba(250, 248, 244, 0.55);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+      }
+      .ls-txt {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 17px;
+        color: #faf8f4;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.3;
+      }
+
+      /* ─── FEATURES ─── */
+      .feat-sec {
+        background: var(--cr);
+        padding: 64px 20px;
+      }
+      .feat-hd {
+        text-align: center;
+        margin-bottom: 36px;
+      }
+      .feat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .feat-card {
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 24px 20px;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s;
+      }
+      .feat-card:hover {
+        background: #eae3d9;
+      }
+      .feat-num {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 52px;
+        font-weight: 300;
+        color: rgba(44, 40, 37, 0.06);
+        position: absolute;
+        bottom: 8px;
+        right: 14px;
+        line-height: 1;
+      }
+      .feat-icon {
+        font-size: 24px;
+        margin-bottom: 14px;
+      }
+      .feat-title {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ch);
+        margin-bottom: 6px;
+        letter-spacing: 0.3px;
+      }
+      .feat-desc {
+        font-size: 11px;
+        color: var(--br);
+        line-height: 1.7;
+        font-weight: 300;
+      }
+      .feat-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--ac);
+        transition: width 0.4s;
+      }
+      .feat-card:hover .feat-line {
+        width: 100%;
+      }
+
+      /* ─── SIZING ─── */
+      .size-sec {
+        background: var(--bg);
+        padding: 64px 20px;
+      }
+      .size-table-wrap {
+        overflow-x: auto;
+        margin-top: 32px;
+        border-radius: 12px;
+        overflow: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+      .size-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 420px;
+      }
+      .size-table th {
+        background: var(--ch);
+        color: #faf8f4;
+        padding: 12px 14px;
+        font-size: 9px;
+        letter-spacing: 2px;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+      }
+      .size-table th:first-child {
+        text-align: left;
+        padding-left: 16px;
+      }
+      .size-table td {
+        padding: 12px 14px;
+        font-size: 11.5px;
+        color: var(--ch);
+        text-align: center;
+        border-bottom: 1px solid var(--tl);
+        font-weight: 300;
+      }
+      .size-table td:first-child {
+        text-align: left;
+        padding-left: 16px;
+        font-weight: 500;
+      }
+      .size-table tr:last-child td {
+        border-bottom: none;
+      }
+      .size-table tr:hover td {
+        background: var(--cr);
+      }
+      .size-note {
+        text-align: center;
+        font-size: 11px;
+        color: var(--br);
+        margin-top: 20px;
+        line-height: 1.75;
+        font-weight: 300;
+      }
+
+      /* ─── TESTIMONIALS ─── */
+      .test-sec {
+        background: var(--ch);
+        padding: 64px 20px;
+      }
+      .test-sec .stit {
+        color: #faf8f4;
+      }
+      .test-sec .slbl {
+        color: var(--tp);
+      }
+      .test-hd {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      /* horizontal scroll on mobile */
+      .test-scroll {
+        overflow-x: auto;
+        margin: 0 -20px;
+        padding: 0 20px 12px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .test-scroll::-webkit-scrollbar {
+        display: none;
+      }
+      .test-track {
+        display: flex;
+        gap: 14px;
+        width: max-content;
+        padding-right: 20px;
+      }
+      .test-card {
+        width: 280px;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(201, 191, 178, 0.15);
+        border-radius: 16px;
+        padding: 24px;
+        position: relative;
+      }
+      .test-card::before {
+        content: "❝";
+        position: absolute;
+        top: 14px;
+        right: 18px;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 44px;
+        color: rgba(201, 191, 178, 0.1);
+        line-height: 1;
+      }
+      .test-stars {
+        display: flex;
+        gap: 3px;
+        margin-bottom: 12px;
+      }
+      .tstar {
+        color: #c9a49a;
+        font-size: 13px;
+      }
+      .test-txt {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 15px;
+        line-height: 1.7;
+        color: rgba(250, 248, 244, 0.88);
+        margin-bottom: 18px;
+        font-style: italic;
+        font-weight: 300;
+      }
+      .test-foot {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-top: 1px solid rgba(201, 191, 178, 0.12);
+        padding-top: 14px;
+      }
+      .tav {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: #faf8f4;
+        flex-shrink: 0;
+      }
+      .tname {
+        font-size: 12px;
+        color: #faf8f4;
+        font-weight: 400;
+      }
+      .tloc {
+        font-size: 10px;
+        color: var(--tp);
+        margin-top: 1px;
+      }
+      .tvrf {
+        display: inline-block;
+        font-size: 9px;
+        color: var(--gr);
+        background: rgba(74, 107, 53, 0.15);
+        padding: 2px 7px;
+        border-radius: 10px;
+        margin-top: 3px;
+      }
+
+      /* ─── TRUST ─── */
+      .trust-sec {
+        background: var(--cr);
+        padding: 48px 20px;
+      }
+      .trust-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .trust-item {
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 24px 16px;
+        text-align: center;
+        transition: background 0.3s;
+      }
+      .trust-item:hover {
+        background: #eae3d9;
+      }
+      .trust-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      .trust-title {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ch);
+        margin-bottom: 4px;
+        letter-spacing: 0.3px;
+      }
+      .trust-desc {
+        font-size: 10.5px;
+        color: var(--br);
+        font-weight: 300;
+      }
+
+      /* ─── FAQ ─── */
+      .faq-sec {
+        background: var(--bg);
+        padding: 64px 20px;
+      }
+      .faq-hd {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .fi {
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .fq {
+        width: 100%;
+        padding: 17px 20px;
+        background: #fff;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        font-family: "Jost", sans-serif;
+        font-size: 13px;
+        font-weight: 300;
+        color: var(--ch);
+        text-align: left;
+        transition: background 0.2s;
+        gap: 12px;
+      }
+      .fa-arr {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--tl);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        color: var(--br);
+        flex-shrink: 0;
+        transition: all 0.3s;
+      }
+      .fq.open .fa-arr {
+        background: var(--ch);
+        color: #faf8f4;
+        transform: rotate(45deg);
+      }
+      .fa {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.4s ease,
+          padding 0.3s;
+        background: #fff;
+      }
+      .fa.open {
+        max-height: 200px;
+        padding: 0 20px 18px;
+      }
+      .fa p {
+        font-size: 12px;
+        color: var(--br);
+        line-height: 1.8;
+        font-weight: 300;
+      }
+
+      /* ─── FINAL CTA ─── */
+      .cta-sec {
+        position: relative;
+        overflow: hidden;
+        padding: 100px 20px;
+        text-align: center;
+      }
+      .cta-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+      .cta-bg img {
+        filter: brightness(0.22);
+        object-position: top center;
+      }
+      .cta-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(44, 40, 37, 0.9),
+          rgba(181, 101, 58, 0.3)
+        );
+      }
+      .cta-cnt {
+        position: relative;
+        z-index: 2;
+      }
+      .cta-cnt .slbl {
+        color: rgba(201, 191, 178, 0.6);
+        display: block;
+        margin-bottom: 10px;
+      }
+      .cta-h {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(40px, 11vw, 72px);
+        font-weight: 300;
+        color: #faf8f4;
+        line-height: 1;
+        margin: 0 auto 14px;
+      }
+      .cta-h em {
+        font-style: italic;
+        color: #c9a49a;
+      }
+      .cta-sub {
+        font-size: 12px;
+        color: rgba(250, 248, 244, 0.55);
+        margin-bottom: 32px;
+        font-weight: 300;
+      }
+      .cta-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(250, 248, 244, 0.1);
+        border: 1px solid rgba(250, 248, 244, 0.18);
+        border-radius: 40px;
+        padding: 8px 20px;
+        margin-bottom: 28px;
+        backdrop-filter: blur(8px);
+      }
+      .cta-pm {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 28px;
+        color: #faf8f4;
+      }
+      .cta-po {
+        font-size: 14px;
+        color: rgba(250, 248, 244, 0.4);
+        text-decoration: line-through;
+      }
+      .cta-ps {
+        font-size: 9px;
+        background: #ebf0e6;
+        color: var(--gr);
+        padding: 3px 10px;
+        border-radius: 20px;
+      }
+      .cta-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+
+      /* ─── CART DRAWER ─── */
+      .cov {
+        position: fixed;
+        inset: 0;
+        background: rgba(22, 18, 14, 0.5);
+        z-index: 400;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s;
+        backdrop-filter: blur(3px);
+      }
+      .cov.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .cdr {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #faf8f4;
+        z-index: 401;
+        transform: translateY(110%);
+        transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px 20px 0 0;
+        max-height: 85svh;
+      }
+      .cdr.open {
+        transform: translateY(0);
+      }
+      .cdr-handle {
+        width: 36px;
+        height: 4px;
+        background: var(--tl);
+        border-radius: 2px;
+        margin: 12px auto 0;
+      }
+      .cd-hd {
+        padding: 16px 20px 14px;
+        border-bottom: 1px solid var(--tl);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .cd-hd h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-weight: 300;
+        letter-spacing: 1px;
+      }
+      .cd-cls {
+        background: var(--tl);
+        border: none;
+        cursor: pointer;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: var(--ch);
+        transition: background 0.2s;
+      }
+      .cd-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px 20px;
+      }
+      .ci {
+        display: flex;
+        gap: 12px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--tl);
+      }
+      .ci-img {
+        width: 64px;
+        height: 78px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: var(--tl);
+      }
+      .ci-img img {
+        object-position: top;
+      }
+      .ci-info {
+        flex: 1;
+      }
+      .ci-name {
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--ch);
+        margin-bottom: 2px;
+      }
+      .ci-det {
+        font-size: 10px;
+        color: var(--br);
+        text-transform: capitalize;
+        margin-bottom: 5px;
+      }
+      .ci-price {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 19px;
+        color: var(--ch);
+      }
+      .ci-rm {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--tp);
+        font-size: 18px;
+        line-height: 1;
+        align-self: start;
+        padding: 2px;
+      }
+      .cd-foot {
+        padding: 16px 20px 24px;
+        border-top: 1px solid var(--tl);
+      }
+      .cd-sub {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .cd-sub-lbl {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        color: var(--br);
+      }
+      .cd-sub-val {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 26px;
+      }
+      .cd-ship {
+        background: #ebf0e6;
+        color: var(--gr);
+        font-size: 10px;
+        text-align: center;
+        padding: 8px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      .cd-chk {
+        width: 100%;
+        padding: 16px;
+        background: var(--ch);
+        color: #faf8f4;
+        border: none;
+        font-family: "Jost", sans-serif;
+        font-size: 10px;
+        letter-spacing: 3px;
+        cursor: pointer;
+        border-radius: 8px;
+        margin-bottom: 8px;
+      }
+      .cd-cont {
+        width: 100%;
+        padding: 13px;
+        background: transparent;
+        border: 1px solid var(--tl);
+        color: var(--cs);
+        font-family: "Jost", sans-serif;
+        font-size: 10px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        border-radius: 8px;
+      }
+
+      /* ─── STICKY ADD TO CART BAR ─── */
+      .sticky-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        background: rgba(250, 248, 244, 0.96);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--tl);
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transform: translateY(100%);
+        transition: transform 0.4s;
+        box-shadow: 0 -4px 24px rgba(44, 40, 37, 0.08);
+      }
+      .sticky-bar.show {
+        transform: translateY(0);
+      }
+      .sb-info {
+        flex: 1;
+      }
+      .sb-name {
+        font-size: 11px;
+        color: var(--ch);
+        font-weight: 400;
+        letter-spacing: 0.3px;
+      }
+      .sb-price {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        color: var(--ch);
+      }
+      .sb-atc {
+        background: var(--ch);
+        color: #faf8f4;
+        border: none;
+        font-family: "Jost", sans-serif;
+        font-size: 10px;
+        letter-spacing: 2px;
+        padding: 13px 22px;
+        border-radius: 6px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.3s;
+      }
+      .sb-atc:hover {
+        background: var(--cs);
+      }
+      .sb-atc.ok {
+        background: var(--gr);
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        background: #1a1714;
+        padding: 48px 20px 28px;
+      }
+      .f-top {
+        margin-bottom: 36px;
+      }
+      .f-logo {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-weight: 400;
+        letter-spacing: 5px;
+        color: #faf8f4;
+        margin-bottom: 10px;
+      }
+      .f-tag {
+        font-size: 11px;
+        color: var(--br);
+        line-height: 1.75;
+        max-width: 260px;
+        margin-bottom: 18px;
+        font-weight: 300;
+      }
+      .f-social {
+        display: flex;
+        gap: 10px;
+      }
+      .fsoc {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1px solid rgba(201, 191, 178, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .f-cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        margin-bottom: 36px;
+      }
+      .f-col h4 {
+        font-size: 9px;
+        letter-spacing: 3px;
+        color: rgba(250, 248, 244, 0.4);
+        margin-bottom: 14px;
+        font-weight: 400;
+      }
+      .f-col a {
+        display: block;
+        font-size: 11px;
+        color: var(--br);
+        text-decoration: none;
+        margin-bottom: 8px;
+        font-weight: 300;
+      }
+      .f-col a:hover {
+        color: #faf8f4;
+      }
+      .f-bot {
+        border-top: 1px solid rgba(201, 191, 178, 0.1);
+        padding-top: 20px;
+      }
+      .f-bot p {
+        font-size: 10px;
+        color: var(--br);
+        font-weight: 300;
+        margin-bottom: 4px;
+      }
+
+      /* ─── DESKTOP OVERRIDES ─── */
+      @media (min-width: 768px) {
+        .hero {
+          flex-direction: row;
+          min-height: 100svh;
+        }
+        .hero-img {
+          flex: 1;
+          min-height: 100svh;
+        }
+        .hero-text {
+          flex: 0 0 42%;
+          padding: 80px 5% 80px 5%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .hero h1 {
+          font-size: clamp(52px, 5.5vw, 82px);
+        }
+        .hero-badge {
+          top: 28px;
+          left: 24px;
+        }
+        .hero-colors {
+          bottom: 24px;
+          left: 24px;
+          right: 24px;
+        }
+        .ls-grid {
+          display: grid;
+          grid-template-columns: 1.3fr 1fr 1fr;
+          grid-template-rows: 380px 260px;
+        }
+        .ls-card:first-child {
+          grid-row: span 2;
+          height: auto;
+        }
+        .ls-card:nth-child(4) {
+          grid-column: span 2;
+          height: auto;
+        }
+        .ls-card:not(:first-child) {
+          height: auto;
+        }
+        .feat-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .test-scroll {
+          margin: 0;
+          padding: 0;
+        }
+        .test-track {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          width: 100%;
+        }
+        .test-card {
+          width: auto;
+        }
+        .trust-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+        .cdr {
+          left: auto;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          width: 390px;
+          border-radius: 0;
+          max-height: none;
+          transform: translateX(110%);
+        }
+        .cdr.open {
+          transform: translateX(0);
+        }
+        .cdr-handle {
+          display: none;
+        }
+        section {
+          padding: 100px 5%;
+        }
+        .col-sec {
+          padding: 100px 0 100px 5%;
+        }
+        .ls-sec {
+          padding: 100px 5%;
+        }
+        .prod-sec {
+          padding: 100px 0;
+        }
+        .prod-gal {
+          padding: 0 0 0 5%;
+          max-width: none;
+        }
+        .prod-info-wrap {
+          padding: 0 5% 0 0;
+        }
+        .prod-inner-flex {
+          display: grid;
+          grid-template-columns: 52% 48%;
+          gap: 64px;
+          max-width: 1300px;
+          margin: 0 auto;
+          padding: 0 5%;
+        }
+        .prod-gal {
+          padding: 0;
+          position: sticky;
+          top: 100px;
+        }
+        .sticky-bar {
+          display: none !important;
+        }
+        .col-card {
+          width: 260px;
+        }
+        .col-img {
+          height: 340px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ANN -->
+    <div class="ann">
+      <div class="ann-inner">
+        <span class="ann-item"
+          >FREE SHIPPING ABOVE ₹999 <span class="adot">✦</span></span
+        >
+        <span class="ann-item"
+          >13 GORGEOUS COLORS <span class="adot">✦</span></span
+        >
+        <span class="ann-item">COD AVAILABLE <span class="adot">✦</span></span>
+        <span class="ann-item"
+          >EASY 15-DAY RETURNS <span class="adot">✦</span></span
+        >
+        <span class="ann-item">MADE IN INDIA <span class="adot">✦</span></span>
+        <span class="ann-item"
+          >FREE SHIPPING ABOVE ₹999 <span class="adot">✦</span></span
+        >
+        <span class="ann-item"
+          >13 GORGEOUS COLORS <span class="adot">✦</span></span
+        >
+        <span class="ann-item">COD AVAILABLE <span class="adot">✦</span></span>
+        <span class="ann-item"
+          >EASY 15-DAY RETURNS <span class="adot">✦</span></span
+        >
+        <span class="ann-item">MADE IN INDIA <span class="adot">✦</span></span>
+      </div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="nav">
+      <div class="ni">
+        <a class="logo" href="/">VASTRADROBE</a>
+        <div class="nav-right">
+          <button class="nbag" onclick="openCart()" aria-label="Cart">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 01-8 0" />
+            </svg>
+            BAG <span class="nbadge" id="ccount">0</span>
+          </button>
+          <button class="ham" id="ham" onclick="toggleMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="nav-menu" id="navMenu">
+      <a href="/" onclick="closeMenu()">HOME</a>
+      <a href="#collection" onclick="closeMenu()">COLLECTION</a>
+      <a href="#product" onclick="closeMenu()">SHOP</a>
+      <a href="#sizing" onclick="closeMenu()">SIZING</a>
+      <a href="#faq" onclick="closeMenu()">FAQ</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="hero" style="padding: 0">
+      <div class="hero-img">
+        <div id="heroSlides"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-badge">
+          <div class="hb-dot"></div>
+          <span style="font-size: 9px; letter-spacing: 2px; color: var(--ch)"
+            >CO-ORD SET · IN STOCK</span
+          >
+        </div>
+        <div class="hero-colors">
+          <span class="hc-lbl">COLORS</span>
+          <div class="hc-sws" id="heroSws"></div>
+          <span class="hc-name" id="heroName">Pink</span>
+        </div>
+      </div>
+      <div class="hero-text">
+        <div class="hero-deco"></div>
+        <p class="hero-tag">VASTRADROBE · SUMMER 2024</p>
+        <h1>Soft<br /><em>Enough</em><br />to Live In.</h1>
+        <p class="hero-sub">
+          Breathable everyday co-ord sets for comfort and effortless style. 13
+          elegant hues.
+        </p>
+        <div class="hero-price">
+          <span class="hpm">₹599</span><span class="hpo">₹999</span
+          ><span class="hps">40% OFF</span>
+        </div>
+        <div class="hero-btns">
+          <button
+            class="btn-d"
+            onclick="
+              document
+                .getElementById('collection')
+                .scrollIntoView({ behavior: 'smooth' })
+            "
+          >
+            SHOP NOW
+          </button>
+          <button
+            class="btn-g"
+            onclick="
+              document
+                .getElementById('product')
+                .scrollIntoView({ behavior: 'smooth' })
+            "
+          >
+            DETAILS
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- USP STRIP -->
+    <div class="usp">
+      <div class="usp-inner">
+        <div class="usp-item">
+          <span class="usp-icon">🌿</span>
+          <div>
+            <div class="usp-t">Cotton Blend</div>
+            <div class="usp-s">Breathable fabric</div>
+          </div>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon">🎨</span>
+          <div>
+            <div class="usp-t">13 Colors</div>
+            <div class="usp-s">All available</div>
+          </div>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon">📏</span>
+          <div>
+            <div class="usp-t">S — XXL</div>
+            <div class="usp-s">Inclusive sizing</div>
+          </div>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon">🚚</span>
+          <div>
+            <div class="usp-t">Free Shipping</div>
+            <div class="usp-s">Orders above ₹999</div>
+          </div>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon">↩️</span>
+          <div>
+            <div class="usp-t">Easy Returns</div>
+            <div class="usp-s">15-day policy</div>
+          </div>
+        </div>
+        <div class="usp-item">
+          <span class="usp-icon">🇮🇳</span>
+          <div>
+            <div class="usp-t">Made in India</div>
+            <div class="usp-s">By Vastradrobe</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLLECTION -->
+    <section
+      class="col-sec"
+      id="collection"
+      style="padding-top: 64px; padding-bottom: 64px; padding-left: 20px"
+    >
+      <div class="col-hd rev">
+        <div class="col-hd-row" style="padding-right: 20px">
+          <div>
+            <span class="slbl" style="color: var(--tp)">ALL 13 VARIANTS</span>
+            <h2 class="stit" style="color: #faf8f4">
+              The Full<br />Collection
+            </h2>
+          </div>
+          <div class="col-hint">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="col-scroll rev2" id="colScroll">
+        <div class="col-track" id="colTrack"></div>
+      </div>
+      <div class="col-bar"><div class="col-fill" id="colFill"></div></div>
+    </section>
+
+    <!-- PRODUCT DETAIL -->
+    <section class="prod-sec" id="product" style="padding: 64px 0">
+      <div id="prodLayout">
+        <div class="prod-gal rev">
+          <div class="prod-main"><img id="pmain" src="" alt="Product" /></div>
+          <div class="prod-thumbs" id="pthumbs"></div>
+        </div>
+        <div class="prod-info rev2" id="prodInfo">
+          <span class="pcat">VASTRADROBE · WOMEN'S CO-ORD</span>
+          <h2 class="pname">Women's Solid Cotton<br />Half Co-Ord Set</h2>
+          <p class="pbrand">by Vastradrobe · Made in India</p>
+          <div class="prating">
+            <div class="pstars">
+              <span class="pstar">★</span><span class="pstar">★</span
+              ><span class="pstar">★</span><span class="pstar">★</span
+              ><span class="pstar">★</span>
+            </div>
+            <span class="prc">4.8 · 312 reviews</span>
+          </div>
+          <div class="ppbox">
+            <span class="ppm">₹599</span>
+            <div class="ppr">
+              <span class="ppo">₹999</span><span class="psave">SAVE ₹400</span>
+            </div>
+          </div>
+          <div class="sw-lbl">
+            COLOR —
+            <strong
+              id="clabel"
+              style="font-weight: 500; text-transform: capitalize"
+              >pink</strong
+            >
+          </div>
+          <div class="sw-row" id="swatchRow"></div>
+          <div class="sw-lbl">SIZE</div>
+          <div class="sz-row">
+            <button class="sz" onclick="selSz(this)">S</button>
+            <button class="sz act" onclick="selSz(this)">M</button>
+            <button class="sz" onclick="selSz(this)">L</button>
+            <button class="sz" onclick="selSz(this)">XL</button>
+            <button class="sz" onclick="selSz(this)">XXL</button>
+          </div>
+          <div class="fab-grid">
+            <div class="fab-item">
+              <div class="fl">MATERIAL</div>
+              <div class="fv">Cotton Blend</div>
+            </div>
+            <div class="fab-item">
+              <div class="fl">PATTERN</div>
+              <div class="fv">Solid</div>
+            </div>
+            <div class="fab-item">
+              <div class="fl">FIT TYPE</div>
+              <div class="fv">Relaxed Pull-On</div>
+            </div>
+            <div class="fab-item">
+              <div class="fl">NECKLINE</div>
+              <div class="fv">Smart Collar</div>
+            </div>
+            <div class="fab-item">
+              <div class="fl">CARE</div>
+              <div class="fv">Machine Wash Cold</div>
+            </div>
+            <div class="fab-item">
+              <div class="fl">ORIGIN</div>
+              <div class="fv">Made in India</div>
+            </div>
+          </div>
+          <button class="atc" id="atcbtn" onclick="addToCart()">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 01-8 0" />
+            </svg>
+            ADD TO CART — ₹599
+          </button>
+          <button
+            class="wl"
+            id="wlbtn"
+            onclick="
+              this.textContent = this.textContent.includes('ADD')
+                ? '♥  WISHLISTED'
+                : '♡  ADD TO WISHLIST'
+            "
+          >
+            ♡ ADD TO WISHLIST
+          </button>
+          <div class="trust-pills">
+            <div class="tpill">🚚 Free shipping ₹999+</div>
+            <div class="tpill">↩️ 15-day returns</div>
+            <div class="tpill">📦 COD available</div>
+            <div class="tpill">🔐 Secure payment</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIFESTYLE -->
+    <section class="ls-sec rev">
+      <div class="ls-hd">
+        <span class="slbl">THE VASTRADROBE LIFE</span>
+        <h2 class="stit" style="color: #faf8f4">Slow down.<br />Soften up.</h2>
+      </div>
+      <div class="ls-grid rev2" id="lsgrid"></div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="feat-sec">
+      <div class="feat-hd rev">
+        <span class="slbl" style="display: block; text-align: center"
+          >WHY VASTRADROBE</span
+        >
+        <h2 class="stit" style="text-align: center">
+          Designed for how you
+          <em style="font-style: italic; color: var(--br)">really</em> live
+        </h2>
+      </div>
+      <div class="feat-grid rev2">
+        <div class="feat-card">
+          <span class="feat-num">01</span>
+          <div class="feat-icon">🌿</div>
+          <div class="feat-title">Ultra Soft Fabric</div>
+          <div class="feat-desc">
+            Cotton blend — gentle, breathable, gets softer every wash.
+          </div>
+          <div class="feat-line"></div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-num">02</span>
+          <div class="feat-icon">🍃</div>
+          <div class="feat-title">Breathable All Day</div>
+          <div class="feat-desc">
+            Cool and airy through warm days and lazy mornings.
+          </div>
+          <div class="feat-line"></div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-num">03</span>
+          <div class="feat-icon">👗</div>
+          <div class="feat-title">Co-Ord Set</div>
+          <div class="feat-desc">
+            Collar top + matching shorts. One set, endless occasions.
+          </div>
+          <div class="feat-line"></div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-num">04</span>
+          <div class="feat-icon">✨</div>
+          <div class="feat-title">Relaxed Fit</div>
+          <div class="feat-desc">
+            Pull-on ease with a structured collar — effortlessly polished.
+          </div>
+          <div class="feat-line"></div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-num">05</span>
+          <div class="feat-icon">🧵</div>
+          <div class="feat-title">Premium Stitching</div>
+          <div class="feat-desc">
+            Reinforced hems and seams built to last seasons.
+          </div>
+          <div class="feat-line"></div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-num">06</span>
+          <div class="feat-icon">🇮🇳</div>
+          <div class="feat-title">Made in India</div>
+          <div class="feat-desc">
+            Quality-checked and ethically produced by Vastradrobe.
+          </div>
+          <div class="feat-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIZING -->
+    <section class="size-sec" id="sizing">
+      <div style="text-align: center" class="rev">
+        <span class="slbl" style="display: block; text-align: center"
+          >FIT GUIDE</span
+        >
+        <h2 class="stit">Find Your<br />Perfect Size</h2>
+      </div>
+      <div class="size-table-wrap rev2">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>SIZE</th>
+              <th>CHEST</th>
+              <th>WAIST</th>
+              <th>HIPS</th>
+              <th>FIT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>S</td>
+              <td>32–33"</td>
+              <td>26–27"</td>
+              <td>34–35"</td>
+              <td>Fitted</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>34–35"</td>
+              <td>28–29"</td>
+              <td>36–37"</td>
+              <td>Regular</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>36–37"</td>
+              <td>30–31"</td>
+              <td>38–39"</td>
+              <td>Relaxed</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>38–39"</td>
+              <td>32–33"</td>
+              <td>40–41"</td>
+              <td>Relaxed</td>
+            </tr>
+            <tr>
+              <td>XXL</td>
+              <td>40–42"</td>
+              <td>34–36"</td>
+              <td>42–44"</td>
+              <td>Loose</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="size-note rev2">
+        Runs <strong>true to size</strong>. For oversized look, size up.<br />Between
+        sizes? Go up.
+      </p>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="test-sec">
+      <div class="test-hd rev">
+        <span class="slbl">312 HAPPY CUSTOMERS</span>
+        <h2 class="stit">What women<br />are saying</h2>
+      </div>
+      <div class="test-scroll rev2">
+        <div class="test-track" id="testTrack">
+          <div class="test-card">
+            <div class="test-stars">
+              <span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span>
+            </div>
+            <p class="test-txt">
+              "I ordered the Pink set and haven't taken it off all weekend.
+              Incredible quality for ₹599 — so soft and the fit is perfect."
+            </p>
+            <div class="test-foot">
+              <div class="tav" style="background: #d47d8a">P</div>
+              <div>
+                <div class="tname">Priya Sharma</div>
+                <div class="tloc">Mumbai</div>
+                <span class="tvrf">✓ Verified Buyer</span>
+              </div>
+            </div>
+          </div>
+          <div class="test-card">
+            <div class="test-stars">
+              <span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span>
+            </div>
+            <p class="test-txt">
+              "Ordered Olive, then 3 more colours immediately. Ships fast,
+              packaging is premium, cotton is so breathable. My new favourite
+              brand."
+            </p>
+            <div class="test-foot">
+              <div class="tav" style="background: #6b7a5a">A</div>
+              <div>
+                <div class="tname">Ananya Rao</div>
+                <div class="tloc">Bangalore</div>
+                <span class="tvrf">✓ Verified Buyer</span>
+              </div>
+            </div>
+          </div>
+          <div class="test-card">
+            <div class="test-stars">
+              <span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span>
+            </div>
+            <p class="test-txt">
+              "Wore the Blue set on a flight and got three compliments.
+              Breathable, doesn't crease, so polished. Perfect for travel."
+            </p>
+            <div class="test-foot">
+              <div class="tav" style="background: #3d5a80">N</div>
+              <div>
+                <div class="tname">Neha Joshi</div>
+                <div class="tloc">Delhi</div>
+                <span class="tvrf">✓ Verified Buyer</span>
+              </div>
+            </div>
+          </div>
+          <div class="test-card">
+            <div class="test-stars">
+              <span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span>
+            </div>
+            <p class="test-txt">
+              "Wine colour in real life is stunning. No pilling after 15+
+              washes. Stitching quality exceptional. Worth every rupee."
+            </p>
+            <div class="test-foot">
+              <div class="tav" style="background: #7d3b3b">M</div>
+              <div>
+                <div class="tname">Meera Pillai</div>
+                <div class="tloc">Chennai</div>
+                <span class="tvrf">✓ Verified Buyer</span>
+              </div>
+            </div>
+          </div>
+          <div class="test-card">
+            <div class="test-stars">
+              <span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span>
+            </div>
+            <p class="test-txt">
+              "Bought Rust Brown as a gift. She cried happy tears. Collar detail
+              makes it feel premium, cotton is incredibly breathable."
+            </p>
+            <div class="test-foot">
+              <div class="tav" style="background: #b5653a">S</div>
+              <div>
+                <div class="tname">Shalini Gupta</div>
+                <div class="tloc">Pune</div>
+                <span class="tvrf">✓ Verified Buyer</span>
+              </div>
+            </div>
+          </div>
+          <div class="test-card">
+            <div class="test-stars">
+              <span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span><span class="tstar">★</span
+              ><span class="tstar">★</span>
+            </div>
+            <p class="test-txt">
+              "At ₹599 for a full co-ord set I expected average. I was
+              completely wrong. Great fabric, stitching, fit. Highly recommend!"
+            </p>
+            <div class="test-foot">
+              <div class="tav" style="background: #c4a882; color: #7a6e68">
+                K
+              </div>
+              <div>
+                <div class="tname">Kavya Reddy</div>
+                <div class="tloc">Hyderabad</div>
+                <span class="tvrf">✓ Verified Buyer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST -->
+    <section class="trust-sec">
+      <div style="text-align: center; margin-bottom: 24px" class="rev">
+        <span class="slbl" style="display: block; text-align: center"
+          >OUR PROMISE</span
+        >
+        <h2 class="stit">You deserve<br />the best.</h2>
+      </div>
+      <div class="trust-grid rev2">
+        <div class="trust-item">
+          <div class="trust-icon">🚚</div>
+          <div class="trust-title">Free Shipping</div>
+          <div class="trust-desc">On orders above ₹999</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">↩️</div>
+          <div class="trust-title">Easy Returns</div>
+          <div class="trust-desc">Hassle-free 15 days</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🌸</div>
+          <div class="trust-title">Skin-Friendly</div>
+          <div class="trust-desc">Cotton-blend fabric</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🔐</div>
+          <div class="trust-title">Secure Checkout</div>
+          <div class="trust-desc">100% protection</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-sec" id="faq">
+      <div class="faq-hd rev">
+        <span class="slbl" style="display: block; text-align: center"
+          >QUESTIONS</span
+        >
+        <h2 class="stit" style="text-align: center">Frequently<br />Asked</h2>
+      </div>
+      <div class="faq-list rev2">
+        <div class="fi">
+          <button class="fq" onclick="tFaq(this)">
+            <span>What fabric is the co-ord set made of?</span
+            ><span class="fa-arr">+</span>
+          </button>
+          <div class="fa">
+            <p>
+              Premium Cotton Blend — soft, lightweight, breathable. Gentle on
+              skin and gets softer every wash. Keeps you cool all day long.
+            </p>
+          </div>
+        </div>
+        <div class="fi" style="margin-top: 3px">
+          <button class="fq" onclick="tFaq(this)">
+            <span>How should I wash it?</span><span class="fa-arr">+</span>
+          </button>
+          <div class="fa">
+            <p>
+              Machine wash cold, gentle cycle. Wash with similar colors. No
+              bleach. Avoid high heat tumble dry. Air dry or hang dry. Iron on
+              low heat if needed.
+            </p>
+          </div>
+        </div>
+        <div class="fi" style="margin-top: 3px">
+          <button class="fq" onclick="tFaq(this)">
+            <span>How does the fit run?</span><span class="fa-arr">+</span>
+          </button>
+          <div class="fa">
+            <p>
+              Runs true to size with a relaxed pull-on fit. S to XXL available.
+              For a more oversized look, size up by one.
+            </p>
+          </div>
+        </div>
+        <div class="fi" style="margin-top: 3px">
+          <button class="fq" onclick="tFaq(this)">
+            <span>How long does delivery take?</span
+            ><span class="fa-arr">+</span>
+          </button>
+          <div class="fa">
+            <p>
+              Dispatched within 24–48 hours. Standard delivery 4–7 business days
+              across India. COD available. Tracking sent via SMS and email.
+            </p>
+          </div>
+        </div>
+        <div class="fi" style="margin-top: 3px">
+          <button class="fq" onclick="tFaq(this)">
+            <span>What is your return policy?</span
+            ><span class="fa-arr">+</span>
+          </button>
+          <div class="fa">
+            <p>
+              15-day hassle-free returns and exchanges. Items must be unworn and
+              original condition. Contact us — free doorstep pickup arranged.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="cta-sec">
+      <div class="cta-bg">
+        <img
+          src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118560/products/p1samry4giprhoi6cemg.png"
+          alt="bg"
+        />
+      </div>
+      <div class="cta-cnt">
+        <span class="slbl rev" style="display: block; text-align: center"
+          >YOUR COMFORT AWAITS</span
+        >
+        <h2 class="cta-h rev">Your everyday<br /><em>comfort uniform.</em></h2>
+        <p class="cta-sub rev">13 colors. One perfect fit.</p>
+        <div class="cta-badge rev2">
+          <span class="cta-pm">₹599</span><span class="cta-po">₹999</span
+          ><span class="cta-ps">40% OFF</span>
+        </div>
+        <div class="cta-btns rev2">
+          <button
+            class="btn-d"
+            style="padding: 16px; letter-spacing: 2.5px"
+            onclick="
+              document
+                .getElementById('collection')
+                .scrollIntoView({ behavior: 'smooth' })
+            "
+          >
+            SHOP ALL 13 COLORS
+          </button>
+          <button
+            class="btn-g"
+            style="
+              padding: 15px;
+              border-color: rgba(255, 255, 255, 0.3);
+              color: #faf8f4;
+            "
+            onclick="
+              document
+                .getElementById('product')
+                .scrollIntoView({ behavior: 'smooth' })
+            "
+          >
+            VIEW DETAILS
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="f-top">
+        <div class="f-logo">VASTRADROBE</div>
+        <p class="f-tag">
+          Minimal loungewear for how you truly live. Soft, breathable, endlessly
+          wearable. Made in India.
+        </p>
+        <div class="f-social">
+          <div class="fsoc">📷</div>
+          <div class="fsoc">💬</div>
+          <div class="fsoc">🐦</div>
+        </div>
+      </div>
+      <div class="f-cols">
+        <div class="f-col">
+          <h4>SHOP</h4>
+          <a href="/women">Co-Ord Sets</a><a href="/#latestArrival">New Arrivals</a
+          ><a href="/women">Bestsellers</a><a href="#collection">All Colors</a>
+        </div>
+        <div class="f-col">
+          <h4>HELP</h4>
+          <a href="#sizing">Size Guide</a
+          ><a href="/policies/returns-and-refunds">Returns</a
+          ><a href="/policies/information">Contact</a>
+        </div>
+        <div class="f-col">
+          <h4>BRAND</h4>
+          <a
+            href="https://www.vastradrobe.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Our Site
+          </a>
+          <!-- <a href="/policies/information">Our Story</a> -->
+          <a href="#">Made in India</a
+          ><a
+            href="https://www.instagram.com/vastradrobe/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+          </a>
+
+          <a
+            href="https://chat.whatsapp.com/EvtOGkMPxx59bJZuQWZc4b"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp
+          </a>
+
+          <a
+            href="https://www.amazon.in/stores/VASTRADROBE/page/30369E04-11CD-44B1-80D6-FCF332FBA59E"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Amazon
+          </a>
+
+          <a
+            href="https://www.youtube.com/@vastradrobe"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            YouTube
+          </a>
+
+          <a
+            href="https://www.facebook.com/people/Vastradrobe/61579704217653/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Facebook
+          </a>
+        </div>
+        <div class="f-col">
+          <h4>LEGAL</h4>
+          <a href="/policies/privacy-and-policy">Privacy</a><a href="/policies/terms-and-conditions">Terms</a><a href="/policies/faqs">FAQ</a>
+        </div>
+      </div>
+      <div class="f-bot">
+        <p>© 2026 Vastradrobe. All rights reserved.</p>
+        <p>Made with love in India 🇮🇳</p>
+      </div>
+    </footer>
+
+    <!-- STICKY BAR -->
+    <div class="sticky-bar" id="stickyBar">
+      <div class="sb-info">
+        <div class="sb-name">Women's Co-Ord Set</div>
+        <div class="sb-price">₹599</div>
+      </div>
+      <button class="sb-atc" id="sbAtc" onclick="addToCart()">
+        ADD TO BAG
+      </button>
+    </div>
+
+    <!-- CART -->
+    <div class="cov" id="cov" onclick="closeCart()"></div>
+    <div class="cdr" id="cdr">
+      <div class="cdr-handle"></div>
+      <div class="cd-hd">
+        <h3>Your Bag (<span id="cicount">0</span>)</h3>
+        <button class="cd-cls" onclick="closeCart()">✕</button>
+      </div>
+      <div class="cd-body" id="cdbody"></div>
+      <div class="cd-foot">
+        <div class="cd-sub">
+          <span class="cd-sub-lbl">SUBTOTAL</span
+          ><span class="cd-sub-val" id="ctotal">₹0</span>
+        </div>
+        <div class="cd-ship" id="shipbar" style="display: none"></div>
+        <button class="cd-chk">PROCEED TO CHECKOUT</button>
+        <button class="cd-cont" onclick="closeCart()">CONTINUE SHOPPING</button>
+      </div>
+    </div>
+
+    <script>
+      const V = [
+        {
+          c: "olive",
+          hex: "#6B7A5A",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118560/products/p1samry4giprhoi6cemg.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118561/products/dnvdr1kmhhhdhbwdyr3d.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118561/products/as6dgs2imoihxqu5qm6u.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118562/products/yvwgxexxgilvhk1sflqg.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118563/products/hh740rpq84z5v51xql2j.png",
+          ],
+        },
+        {
+          c: "pink",
+          hex: "#D47D8A",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118432/products/q18e4kxmojkxtnhlfbmr.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118432/products/ldfmn4ntq7ajq7mrhnof.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118433/products/avuovoeo37ccsp384zoa.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118433/products/lstuwnrks2zimkh0jocm.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118434/products/i3qwy0mszmvrbzceniz8.png",
+          ],
+        },
+        {
+          c: "rust brown",
+          hex: "#B5653A",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118473/products/hdo05pzatlvfoj3kt05r.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118474/products/fhikcoceuvyxlf5ynbql.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118474/products/rin0peytomcopicrb4hr.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118475/products/oisctbd14htpb0fei2ao.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118476/products/utzxini6rshvk7na0bsl.png",
+          ],
+        },
+        {
+          c: "red brown",
+          hex: "#9B4A4A",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780047280/products/nlj0y1zvnafsplhflvpd.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780047281/products/w3pv2ozf2s2mpp81mwr8.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780047281/products/cti5mmgae0b75esz33uu.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780047282/products/y4dambb8xa1ngrpct7u5.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780047282/products/snybparfn9cmfdltsuqw.png",
+          ],
+        },
+        {
+          c: "rose pink",
+          hex: "#E8A0A8",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117592/products/uq8hvsqirwmgsq34cplj.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117593/products/lbn9xbcralnlpcsap4v4.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117594/products/hv7hpyikqwp2rymsroja.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117594/products/linkcl7cyonwxecvioto.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117595/products/f0sxuyfifwaapqqkc3db.png",
+          ],
+        },
+        {
+          c: "blue",
+          hex: "#3D5A80",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117709/products/vc5obt2dxkizvrclouky.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117709/products/rxzj6uf6z9bv7sagtb0f.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117710/products/rhnnpaqmx73uy2db3kqa.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117710/products/z4e4fshcuucr9euebxlo.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780117711/products/ol9wlnjac7mpqywxf8fp.png",
+          ],
+        },
+        {
+          c: "baby pink",
+          hex: "#F0B8C0",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118004/products/h2ppim0n1lndtznpzurp.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118005/products/gmx1jizun7juetvugbuy.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118005/products/f2vxofxfrf4v3tsoxaji.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118006/products/p6uyehghzohkjzozap9h.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118006/products/wyb5wwfljt7bfsg5avij.png",
+          ],
+        },
+        {
+          c: "beige",
+          hex: "#D4C4B0",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118174/products/pp95mvjgf3hamtz3zmtk.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118174/products/it3vn1fm62c6x7vcyx7k.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118173/products/shi7x8os0dlliu48nby9.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118173/products/rh7xvjzaemyw9i3njxhx.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1780118172/products/ou3qgr5s8ifgf7tg26or.png",
+          ],
+        },
+        {
+          c: "green",
+          hex: "#4A7C59",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1779187903/products/dlqcmbd75htigkwpay6b.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1779187904/products/nsuzubfa4u8x1unlokeu.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1779187905/products/dxmfw0figs4v5pvwvfvl.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1779187907/products/jlaf0pmj6tkesvx9cewu.png",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1779187908/products/rbhifnnxklg36c5cvyak.png",
+          ],
+        },
+        {
+          c: "coffee brown",
+          hex: "#7B5E4A",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773391163/products/psnoazze1vfqnrbkkhz8.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773391162/products/uw7zkmrtsbeyfk3g9lg4.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773391160/products/zgydxtb95cozlcvy1zxz.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773391164/products/vkygkuycj7z8oes7m996.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773391165/products/xey7dgyv9avi8wyabvbf.jpg",
+          ],
+        },
+        {
+          c: "wine",
+          hex: "#7D3B3B",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383830/products/kxrllzolwzko9xw5ma3s.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383824/products/vwop2qz6ugyiafqp2wxs.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383825/products/wmvfxd6gr7jqk0khxjcs.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383827/products/c1sbegzoaxws6ghtpmb9.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383828/products/qm8voyzw1jkdvbxadatl.jpg",
+          ],
+        },
+        {
+          c: "black",
+          hex: "#2C2825",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383539/products/ak7pltn661b3yhifq4wp.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383541/products/axpzzlq4dwwzn9roqbab.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383540/products/np943dxwcf1thzwiau8t.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383539/products/ymuaijf7gf8jhmuvcuvc.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773383540/products/mln810buamavmc0kitgw.jpg",
+          ],
+        },
+        {
+          c: "light brown",
+          hex: "#C4A882",
+          imgs: [
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773390341/products/xht3kwkhqiu7ix2ufa3l.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773390340/products/guwshdxgiyhxmvjtqd9w.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773390338/products/wo83u4htkvmgtrxsv9cf.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773390337/products/xm6xuiyu0gut5bg0m6mg.jpg",
+            "https://res.cloudinary.com/dwhn5ec09/image/upload/v1773390336/products/cnbsxhyohwqpsja1cwjp.jpg",
+          ],
+        },
+      ];
+
+      let selV = V[1],
+        cart = [],
+        hIdx = 0,
+        hAuto;
+      const heroSet = [V[1], V[0], V[5], V[2], V[10], V[9]];
+
+      /* HERO */
+      function buildHero() {
+        const s = document.getElementById("heroSlides");
+        const sw = document.getElementById("heroSws");
+        heroSet.forEach((v, i) => {
+          const d = document.createElement("div");
+          d.className = "hero-slide" + (i === 0 ? " active" : "");
+          d.innerHTML = `<img src="${v.imgs[0]}" style="width:100%;height:100%;object-fit:cover;object-position:top center" loading="${i < 2 ? "eager" : "lazy"}"/>`;
+          s.appendChild(d);
+          const el = document.createElement("div");
+          el.className = "hc-sw" + (i === 0 ? " act" : "");
+          el.style.background = v.hex;
+          el.title = v.c;
+          el.onclick = () => goHero(i);
+          sw.appendChild(el);
+        });
+        hAuto = setInterval(() => goHero((hIdx + 1) % heroSet.length), 3800);
+      }
+      function goHero(i) {
+        hIdx = i;
+        document
+          .querySelectorAll(".hero-slide")
+          .forEach((s, j) => s.classList.toggle("active", j === i));
+        document
+          .querySelectorAll(".hc-sw")
+          .forEach((s, j) => s.classList.toggle("act", j === i));
+        document.getElementById("heroName").textContent =
+          heroSet[i].c.charAt(0).toUpperCase() + heroSet[i].c.slice(1);
+      }
+
+      /* COLLECTION */
+      function buildCollection() {
+        const track = document.getElementById("colTrack");
+        const newIdx = [0, 1, 4, 6];
+        V.forEach((v, i) => {
+          const card = document.createElement("div");
+          card.className = "col-card";
+          card.innerHTML = `<div class="col-img"><img src="${v.imgs[0]}" alt="${v.c}" loading="lazy" style="object-position:top"/><div class="col-ov"></div></div>
+    ${newIdx.includes(i) ? '<span class="col-new">NEW</span>' : ""}
+    <button class="col-wish-top" onclick="event.stopPropagation();this.classList.toggle('on')" aria-label="Wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+    <div class="col-info">
+      <div class="col-color">${v.c}</div>
+      <div class="col-price">₹599</div>
+      <button class="col-add-btn" onclick="event.stopPropagation();colAdd(this,${i})">+ QUICK ADD</button>
+    </div>`;
+          card.onclick = () => goProduct(i);
+          track.appendChild(card);
+        });
+        const sc = document.getElementById("colScroll");
+        const fill = document.getElementById("colFill");
+        sc.addEventListener("scroll", () => {
+          fill.style.width =
+            Math.max(
+              10,
+              (sc.scrollLeft / (sc.scrollWidth - sc.clientWidth)) * 100,
+            ) + "%";
+        });
+        let isD = false,
+          sx,
+          sl;
+        sc.addEventListener("mousedown", (e) => {
+          isD = true;
+          sx = e.pageX - sc.offsetLeft;
+          sl = sc.scrollLeft;
+        });
+        sc.addEventListener("mouseleave", () => (isD = false));
+        sc.addEventListener("mouseup", () => (isD = false));
+        sc.addEventListener("mousemove", (e) => {
+          if (!isD) return;
+          e.preventDefault();
+          sc.scrollLeft = sl - (e.pageX - sc.offsetLeft - sx) * 1.2;
+        });
+      }
+      function colAdd(btn, i) {
+        btn.textContent = "✓";
+        btn.classList.add("ok");
+        cart.push({ c: V[i].c, img: V[i].imgs[0], sz: "M" });
+        renderCart();
+        setTimeout(() => {
+          btn.textContent = "+ QUICK ADD";
+          btn.classList.remove("ok");
+        }, 1600);
+      }
+
+      /* LIFESTYLE */
+      function buildLifestyle() {
+        const g = document.getElementById("lsgrid");
+        [
+          {
+            v: V[0],
+            img: 0,
+            tag: "MORNING RITUALS",
+            txt: "Made for slow mornings.",
+          },
+          {
+            v: V[5],
+            img: 1,
+            tag: "EVERYDAY EASE",
+            txt: "Comfort that looks elegant.",
+          },
+          {
+            v: V[10],
+            img: 0,
+            tag: "SELF CARE",
+            txt: "For you, on your terms.",
+          },
+          {
+            v: V[2],
+            img: 2,
+            tag: "SLOW LIVING",
+            txt: "Dress softly. Live fully.",
+          },
+          {
+            v: V[8],
+            img: 1,
+            tag: "DAILY COMFORT",
+            txt: "Self-care starts here.",
+          },
+        ].forEach((p) => {
+          g.innerHTML += `<div class="ls-card"><img src="${p.v.imgs[p.img]}" alt="${p.v.c}" loading="lazy" style="object-position:top"/><div class="ls-info"><div class="ls-tag">${p.tag}</div><p class="ls-txt">"${p.txt}"</p></div></div>`;
+        });
+      }
+
+      /* PRODUCT */
+      function buildSwatches() {
+        const r = document.getElementById("swatchRow");
+        V.forEach((v, i) => {
+          const el = document.createElement("div");
+          el.className = "sw" + (i === 1 ? " act" : "");
+          el.style.background = v.hex;
+          el.title = v.c;
+          el.onclick = () => {
+            selV = v;
+            document
+              .querySelectorAll(".sw")
+              .forEach((s) => s.classList.remove("act"));
+            el.classList.add("act");
+            document.getElementById("clabel").textContent = v.c;
+            updateGal();
+          };
+          r.appendChild(el);
+        });
+        updateGal();
+      }
+      function updateGal() {
+        document.getElementById("pmain").src = selV.imgs[0];
+        const t = document.getElementById("pthumbs");
+        t.innerHTML = "";
+        selV.imgs.forEach((src, i) => {
+          const d = document.createElement("div");
+          d.className = "prod-thumb" + (i === 0 ? " act" : "");
+          d.innerHTML = `<img src="${src}" loading="lazy" style="object-position:top"/>`;
+          d.onclick = () => {
+            document.getElementById("pmain").src = src;
+            t.querySelectorAll(".prod-thumb").forEach((x) =>
+              x.classList.remove("act"),
+            );
+            d.classList.add("act");
+          };
+          t.appendChild(d);
+        });
+      }
+      function goProduct(i) {
+        selV = V[i];
+        document.getElementById("clabel").textContent = selV.c;
+        document
+          .querySelectorAll(".sw")
+          .forEach((s, j) => s.classList.toggle("act", j === i));
+        updateGal();
+        document
+          .getElementById("product")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      /* CART */
+      function addToCart() {
+        const b = document.getElementById("atcbtn");
+        const sb = document.getElementById("sbAtc");
+        b.innerHTML = "✓ ADDED";
+        b.classList.add("ok");
+        if (sb) {
+          sb.textContent = "✓ ADDED";
+          sb.classList.add("ok");
+        }
+        cart.push({
+          c: selV.c,
+          img: selV.imgs[0],
+          sz: document.querySelector(".sz.act")?.textContent || "M",
+        });
+        renderCart();
+        setTimeout(() => {
+          b.innerHTML =
+            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> ADD TO CART — ₹599';
+          b.classList.remove("ok");
+          if (sb) {
+            sb.textContent = "ADD TO BAG";
+            sb.classList.remove("ok");
+          }
+          openCart();
+        }, 1300);
+      }
+      function renderCart() {
+        const n = cart.length;
+        document.getElementById("ccount").textContent = n;
+        document.getElementById("cicount").textContent = n;
+        const tot = n * 599;
+        document.getElementById("ctotal").textContent =
+          "₹" + tot.toLocaleString("en-IN");
+        const sb = document.getElementById("shipbar");
+        if (n > 0) {
+          sb.style.display = "block";
+          sb.textContent =
+            tot >= 999
+              ? "✓ Free shipping applied!"
+              : "Add ₹" + (999 - tot) + " more for free shipping";
+        } else sb.style.display = "none";
+        const b = document.getElementById("cdbody");
+        if (!n) {
+          b.innerHTML = `<div style="text-align:center;padding:56px 0"><div style="font-size:36px;margin-bottom:14px">🛍️</div><p style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#8C7E76;font-style:italic">Your bag is empty.</p><p style="font-size:11px;color:#C9BFB2;margin-top:6px">Add a co-ord set to get started</p></div>`;
+          return;
+        }
+        b.innerHTML = cart
+          .map(
+            (item, i) =>
+              `<div class="ci"><div class="ci-img"><img src="${item.img}" alt="${item.c}" style="object-position:top"/></div><div class="ci-info"><div class="ci-name">Women's Solid Co-Ord Set</div><div class="ci-det">${item.c} · Size ${item.sz}</div><div class="ci-price">₹599</div></div><button class="ci-rm" onclick="remItem(${i})">×</button></div>`,
+          )
+          .join("");
+      }
+      function remItem(i) {
+        cart.splice(i, 1);
+        renderCart();
+      }
+      function openCart() {
+        document.getElementById("cov").classList.add("open");
+        document.getElementById("cdr").classList.add("open");
+      }
+      function closeCart() {
+        document.getElementById("cov").classList.remove("open");
+        document.getElementById("cdr").classList.remove("open");
+      }
+      function selSz(el) {
+        document
+          .querySelectorAll(".sz")
+          .forEach((b) => b.classList.remove("act"));
+        el.classList.add("act");
+      }
+      function toggleMenu() {
+        document.getElementById("ham").classList.toggle("open");
+        document.getElementById("navMenu").classList.toggle("open");
+      }
+      function closeMenu() {
+        document.getElementById("ham").classList.remove("open");
+        document.getElementById("navMenu").classList.remove("open");
+      }
+      function tFaq(btn) {
+        const a = btn.nextElementSibling,
+          open = a.classList.contains("open");
+        document
+          .querySelectorAll(".fa")
+          .forEach((x) => x.classList.remove("open"));
+        document
+          .querySelectorAll(".fq")
+          .forEach((x) => x.classList.remove("open"));
+        document
+          .querySelectorAll(".fa-arr")
+          .forEach((x) => (x.textContent = "+"));
+        if (!open) {
+          a.classList.add("open");
+          btn.classList.add("open");
+          btn.querySelector(".fa-arr").textContent = "×";
+        }
+      }
+
+      /* STICKY BAR — show when product section is in view */
+      const prodObs = new IntersectionObserver(
+        (entries) => {
+          const bar = document.getElementById("stickyBar");
+          if (bar) bar.classList.toggle("show", !entries[0].isIntersecting);
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -100px 0px" },
+      );
+      const prodEl = document.getElementById("product");
+      if (prodEl) prodObs.observe(prodEl);
+
+      /* DESKTOP: restructure product section layout */
+      function initProdLayout() {
+        if (window.innerWidth >= 768) {
+          const layout = document.getElementById("prodLayout");
+          if (layout && !layout.classList.contains("done")) {
+            layout.classList.add("done", "prod-inner-flex");
+            const gal = document.querySelector(".prod-gal");
+            const info = document.getElementById("prodInfo");
+            if (info) info.style.padding = "0";
+            if (gal) gal.style.padding = "0";
+          }
+        }
+      }
+      window.addEventListener("resize", initProdLayout);
+      initProdLayout();
+
+      window.addEventListener("scroll", () =>
+        document.getElementById("nav").classList.toggle("sc", scrollY > 55),
+      );
+      const obs = new IntersectionObserver(
+        (e) => {
+          e.forEach((x) => {
+            if (x.isIntersecting) {
+              x.target.classList.add("vis");
+              obs.unobserve(x.target);
+            }
+          });
+        },
+        { threshold: 0.07 },
+      );
+      document.querySelectorAll(".rev,.rev2").forEach((r) => obs.observe(r));
+
+      buildHero();
+      buildCollection();
+      buildLifestyle();
+      buildSwatches();
+      renderCart();
+    </script>
+  </body>
+</html>

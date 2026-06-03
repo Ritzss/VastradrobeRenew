@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 // import BlogClient from "./blog/BlogsClient";
 import Slider from "./components/Global/Header";
@@ -14,6 +15,7 @@ import { IMSProduct } from "./Types/Product";
 import SocialProofClient from "./components/Global/SocialProofClient";
 import dynamic from "next/dynamic";
 import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";
+import LandingSlider from "./components/Home/LandingSlider";
 
 // const BlogClient = dynamic(() => import("./blog/BlogsClient"));
 const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"), {
@@ -91,6 +93,9 @@ const Home = async () => {
       {/* HERO */}
       <Slider />
 
+      {/* LANDING PAGE PROMO */}
+      <LandingSlider />
+
       {/* CATEGORY */}
       {/* <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
         <p className="uppercase tracking-[0.35em]  text-sm text-[#25272D] mb-4">
@@ -103,7 +108,7 @@ const Home = async () => {
       </section> */}
 
       {/* LATEST ARRIVALS */}
-      <section className="mx-auto py-24 text-center bg-[#fffaf6]">
+      <section id="latestArrival" className="mx-auto py-24 text-center bg-[#fffaf6]">
         <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
           New This Season
         </p>
@@ -121,7 +126,7 @@ const Home = async () => {
       </section>
 
       {/* WOMEN */}
-      <section id='collection' className="bg-[#f9f5ef] py-24">
+      <section id="collection" className="bg-[#f9f5ef] py-24">
         <div className="max-w-7xl mx-auto px-6 text-center mb-20">
           <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
             Women
