@@ -176,7 +176,7 @@ export default function ProductPDPClient({
     if (!selectedSize || !selectedVariant) return;
 
     router.push(
-      `/checkout?buyNow=1&productId=${productId}&size=${selectedSize}&color=${selectedVariant.color}&qty=1`,
+      `/checkout?buyNow=${productId}&productId=${productId}&size=${selectedSize}&color=${selectedVariant.color}&qty=1`,
     );
   };
 

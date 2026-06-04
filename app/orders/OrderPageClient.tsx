@@ -95,14 +95,7 @@ const OrdersPageClient = () => {
           return (
             <div
               key={order._id}
-              className="
-              bg-white
-              rounded-[32px]
-              shadow-[0_30px_80px_rgba(149,127,106,0.15)]
-              p-8
-              mb-12
-              transition
-            "
+              className=" bg-white rounded-[32px] shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 mb-12 transition"
             >
               {/* Header */}
               <div className="flex justify-between items-center mb-6">
@@ -181,13 +174,7 @@ const OrdersPageClient = () => {
                   setExpandedOrderId(order._id);
                   await loadDetailedProducts(order);
                 }}
-                className="
-                mt-6
-                text-sm
-                text-[#6a0f1f]
-                hover:underline
-                transition
-              "
+                className=" mt-6 text-sm text-[#6a0f1f] hover:underline transition"
               >
                 {expandedOrderId === order._id
                   ? "Hide Details"

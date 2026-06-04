@@ -75,7 +75,7 @@ export default function ProductCard({ product, className, children }: Props) {
     <div className={`group flex flex-col ${className ?? ""}`}>
       {/* IMAGE BLOCK */}
       <div className="relative aspect-3/4 w-full rounded-4xl overflow-hidden bg-[#f5f1e7]">
-        <Link href={`/product/${productId}`}>
+        {/* <Link href={`/product/${productId}`}> */}
           <Image
             src={imageSrc}
             fill
@@ -83,7 +83,7 @@ export default function ProductCard({ product, className, children }: Props) {
             alt={name}
             className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
           />
-        </Link>
+        {/* </Link> */}
 
         {/* Wishlist */}
         <button

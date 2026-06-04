@@ -2,9 +2,11 @@
 
 import EmptyState from "@/components/Global/EmptyState";
 import ProductCard from "@/components/Global/ProductCard";
+import ProductQuickView from "@/components/products/ProductQuickView";
 import { useAppContext } from "@/hooks/useAppContext";
 import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
+import { useState } from "react";
 
 const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   const { searchQuery, subCategory, priceRange, sizes } = useAppContext();
@@ -52,6 +54,26 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
 
   const resultCount = groupedProducts.length;
 
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const openProduct = (index: number) => setSelectedIndex(index);
+
+  const closeProduct = () => setSelectedIndex(null);
+
+  const nextProduct = () => {
+    if (selectedIndex === null) return;
+
+    setSelectedIndex((selectedIndex + 1) % groupedProducts.length);
+  };
+
+  const prevProduct = () => {
+    if (selectedIndex === null) return;
+
+    setSelectedIndex(
+      selectedIndex === 0 ? groupedProducts.length - 1 : selectedIndex - 1,
+    );
+  };
+
   if (groupedProducts.length === 0) {
     return (
       <EmptyState
@@ -85,13 +107,24 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
       <div className="h-px bg-[#e6d8c8]" />
 
       {/* PRODUCT GRID */}
-      <div
-        className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:gap-10"
-      >
-        {groupedProducts.map((item) => (
-          <ProductCard key={item.productId} product={item} />
+      <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:gap-10">
+        {groupedProducts.map((item, index) => (
+          <div
+            key={`${item.productId}-${index}`}
+            onClick={() => openProduct(index)}
+            className="cursor-pointer"
+          >
+            <ProductCard product={item} />
+          </div>
         ))}
       </div>
+      <ProductQuickView
+        product={selectedIndex !== null ? groupedProducts[selectedIndex] : null}
+        isOpen={selectedIndex !== null}
+        onClose={closeProduct}
+        onNext={nextProduct}
+        onPrev={prevProduct}
+      />
     </section>
   );
 };

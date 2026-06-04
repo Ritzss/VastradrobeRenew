@@ -28,8 +28,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://maps.googleapis.com" />
         <link rel="preconnect" href="https://vastradrobe-ims.vercel.app" />
       </head>
-      <body cz-shortcut-listen="true" className="bg-[#f9f5ef]">
-        <ClientLayout>{children}</ClientLayout>
+      <body cz-shortcut-listen="true" className="bg-[#f9f5ef] overflow-hidden">
+        <ClientLayout >{children}</ClientLayout>
         <SpeedInsights />
       </body>
     </html>

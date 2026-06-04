@@ -144,7 +144,9 @@ const CartClient = () => {
                   <div className="relative w-28 h-36 rounded-2xl overflow-hidden bg-[#f3e7d8] shrink-0">
                     <Image
                       src={
-                        product.variants[0]?.images[0] ??
+                        product.variants.find((v) => v.color === entry.color)
+                          ?.images?.[0] ??
+                        product.variants[0]?.images?.[0] ??
                         "/Assets/Images/Newplaceholder.png"
                       }
                       fill
@@ -161,9 +163,10 @@ const CartClient = () => {
                         {product.name}
                       </h2>
 
-                      <p className="text-sm text-[#7a6a5c] mt-1">
+                      <div className="text-sm text-[#7a6a5c] mt-1">
+                        {entry.color && <p>Color: {entry.color}</p>}
                         Size: {entry.size}
-                      </p>
+                      </div>
 
                       <p className="text-sm text-[#7a6a5c]">
                         ₹{product.price} each

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 // import BlogClient from "./blog/BlogsClient";
 import Slider from "./components/Global/Header";
@@ -89,7 +88,7 @@ const Home = async () => {
   const menProducts = await getProductsByMainCategory("men");
 
   return (
-    <section className="w-full bg-[#f9f5ef] text-black">
+    <section className="w-full bg-[#f9f5ef] text-black ">
       {/* HERO */}
       <Slider />
 
