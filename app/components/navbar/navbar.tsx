@@ -186,14 +186,14 @@ const Navbar = () => {
                   {/* Arrow */}
                   <div className="absolute left-10 top-3 w-5 h-5 bg-white rotate-45"></div>
 
-                  <div className="w-[820px] rounded-[48px] p-5 bg-white">
+                  <div className="w-205 rounded-[48px] p-5 bg-white">
                     <div className="grid grid-cols-3 gap-6">
                       {/* WOMEN */}
                       <Link
                         href="/women"
                         className="flex flex-col items-center text-center group"
                       >
-                        <div className="relative w-full h-[140px] rounded-4xl overflow-hidden">
+                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
                           <Image
                             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770977218/products/ocktsxwyzhi2rzwoantd.jpg"
                             alt="Women's Co-ords"
@@ -211,7 +211,7 @@ const Navbar = () => {
                         href="/men"
                         className="flex flex-col items-center text-center group"
                       >
-                        <div className="relative w-full h-[140px] rounded-4xl overflow-hidden">
+                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
                           <Image
                             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771238559/products/miaelyvxljqatr8prk9v.jpg"
                             alt="Men's Linen Essentials"
@@ -229,7 +229,7 @@ const Navbar = () => {
                         href="/kids"
                         className="flex flex-col items-center text-center group"
                       >
-                        <div className="relative w-full h-[140px] rounded-4xl overflow-hidden">
+                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
                           <Image
                             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770292098/products/uiyy3o3gztwnx5et7oiy.jpg"
                             alt="Kids' Comfort Wear"
@@ -379,7 +379,7 @@ const Navbar = () => {
                 >
                   <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[#5f5143] text-sm font-medium shadow-sm hover:bg-[#e9e1d4] transition">
                     <RiAccountBoxLine size={18} />
-                    <span className="max-w-[110px] truncate">
+                    <span className="max-w-27.5 truncate">
                       {user?.username}
                     </span>
                     <IoIosArrowDown size={14} />
