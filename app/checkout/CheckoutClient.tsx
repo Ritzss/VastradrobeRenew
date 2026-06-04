@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/purity */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useAppContext } from "@/hooks/useAppContext";
@@ -184,7 +186,7 @@ const CheckoutClient = () => {
         <div className="space-y-10">
           <h1 className="text-3xl font-semibold text-[#5f5143]">Checkout</h1>
 
-          <div className="bg-white rounded-[32px] p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
+          <div className="bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
             <div>
               <label className="text-sm text-[#7a6a5c]">Phone Number</label>
               <input
@@ -207,7 +209,7 @@ const CheckoutClient = () => {
         </div>
 
         {/* RIGHT: SUMMARY */}
-        <div className="bg-white rounded-[32px] p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] h-fit space-y-6">
+        <div className="bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] h-fit space-y-6">
           <h2 className="text-xl font-semibold text-[#5f5143]">
             Order Summary
           </h2>

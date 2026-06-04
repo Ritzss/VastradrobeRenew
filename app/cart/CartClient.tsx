@@ -1,6 +1,6 @@
 "use client";
 
-import StarBorder from "@/components/UI/StarBorder";
+// import StarBorder from "@/components/UI/StarBorder";
 import { useAppContext } from "@/hooks/useAppContext";
 import Image from "next/image";
 import Link from "next/link";
@@ -233,16 +233,7 @@ const CartClient = () => {
 
           {/* RIGHT – SUMMARY */}
           <div className="md:col-span-1">
-            <div
-              className="
-            bg-white
-            rounded-[32px]
-            shadow-[0_30px_80px_rgba(149,127,106,0.15)]
-            p-8
-            sticky top-28
-            space-y-6
-          "
-            >
+            <div className="  bg-white  rounded-4xl  shadow-[0_30px_80px_rgba(149,127,106,0.15)]  p-8  sticky top-28  space-y-6">
               <h3 className="text-xl font-semibold text-[#5f5143]">
                 Order Summary
               </h3>
