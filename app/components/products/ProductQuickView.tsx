@@ -250,7 +250,7 @@ const ProductQuickView = ({
                       }}
                       className={`px-4 py-2 rounded-md border ${
                         selectedColor === index
-                          ? "bg-black text-white border-black"
+                          ? "bg-[#6A0F1F] text-white border-white"
                           : "border-gray-300"
                       }`}
                     >
@@ -277,7 +277,7 @@ const ProductQuickView = ({
                       onClick={() => setSelectedSize(size)}
                       className={`px-4 py-2 rounded-md border ${
                         selectedSize === size
-                          ? "bg-black text-white border-black"
+                          ? "bg-[#6A0F1F] text-white border-white"
                           : "border-gray-300"
                       }`}
                     >
@@ -290,7 +290,7 @@ const ProductQuickView = ({
 
             <Link
               href={`/product/${productId}`}
-              className="inline-flex items-center my-5 gap-2 text-sm font-medium text-[#3d342d] hover:gap-3 transition-all"
+              className="inline-flex items-center mt-5 gap-2 text-sm font-medium text-[#3d342d] hover:gap-3 transition-all"
             >
               Explore The Product
               <span>→</span>
@@ -300,7 +300,7 @@ const ProductQuickView = ({
               <button
                 onClick={handleCartToggle}
                 disabled={!selectedSize}
-                className="w-full bg-[#2d2722] text-white py-4 rounded-xl tracking-wide hover:opacity-90 transition disabled:opacity-50"
+                className="w-full bg-[#6A0F1F] text-white py-4 rounded-xl tracking-wide hover:opacity-90 transition disabled:opacity-50"
               >
                 {isInCart ? "✓ Added To Bag" : "👜 Add To Bag"}
               </button>
