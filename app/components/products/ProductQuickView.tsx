@@ -290,7 +290,7 @@ const ProductQuickView = ({
 
             <Link
               href={`/product/${productId}`}
-              className="inline-flex items-center gap-2 text-sm font-medium text-[#3d342d] hover:gap-3 transition-all"
+              className="inline-flex items-center my-5 gap-2 text-sm font-medium text-[#3d342d] hover:gap-3 transition-all"
             >
               Explore The Product
               <span>→</span>
