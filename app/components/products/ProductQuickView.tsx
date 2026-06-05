@@ -146,7 +146,7 @@ const ProductQuickView = ({
                 % Off
               </div>
             )}
-            {/* <Link href={`/product/${productId}`}> */}
+    
             <div className="relative h-[40vh] md:h-full overflow-hidden">
               {/* Blurred background */}
               <Image
@@ -166,7 +166,7 @@ const ProductQuickView = ({
                 />
               </div>
             </div>
-            {/* </Link> */}
+       
             {currentVariant?.images?.length > 1 && (
               <div className="absolute bottom-5 left-0 right-0 px-4 flex gap-2 overflow-x-auto justify-center">
                 {currentVariant.images.map((image, index) => (
@@ -174,7 +174,7 @@ const ProductQuickView = ({
                     key={`${image}-${index}`}
                     onClick={() => setActiveImage(index)}
                     className={`relative h-14 w-14 rounded-lg overflow-hidden border-2 ${
-                      activeImage === index ? "border-black" : "border-white"
+                      activeImage === index ? "border-[#6A0F1F]" : "border-white"
                     }`}
                   >
                     <Image src={image} alt="" fill className="object-cover" />
