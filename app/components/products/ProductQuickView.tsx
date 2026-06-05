@@ -135,9 +135,9 @@ const ProductQuickView = ({
           <ChevronRight size={22} />
         </button>
 
-        <div className="grid md:grid-cols-[42%_58%] h-full">
+        <div className="grid grid-cols-1 md:grid-cols-[42%_58%] h-full">
           {/* IMAGE */}
-          <div className="relative bg-linear-to-br from-[#f8f4ef] to-[#efe7dc] h-[45vh] md:h-full overflow-hidden">
+          <div className="relative bg-linear-to-br from-[#f8f4ef] to-[#efe7dc] h-[40vh] md:h-full overflow-hidden">
             {product.mrp && product.mrp > product.price && (
               <div className="absolute top-5 left-5 z-20 bg-black text-white px-4 py-2 rounded-full text-xs font-medium tracking-[0.15em] uppercase">
                 {Math.round(
@@ -147,20 +147,28 @@ const ProductQuickView = ({
               </div>
             )}
             {/* <Link href={`/product/${productId}`}> */}
+            <div className="relative h-[40vh] md:h-full overflow-hidden">
+              {/* Blurred background */}
               <Image
-                src={
-                  currentVariant?.images?.[activeImageIndex] ??
-                  "/placeholder.png"
-                }
-                alt={product.name}
+                src={currentVariant?.images?.[activeImageIndex]}
+                alt=""
                 fill
-                priority
-                sizes="50vw"
-                className="object-cover"
+                className="object-cover blur scale-110 opacity-40"
               />
+
+              {/* Main image */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Image
+                  src={currentVariant?.images?.[activeImageIndex]}
+                  alt={product.name}
+                  fill
+                  className="object-contain md:object-cover"
+                />
+              </div>
+            </div>
             {/* </Link> */}
             {currentVariant?.images?.length > 1 && (
-              <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2">
+              <div className="absolute bottom-5 left-0 right-0 px-4 flex gap-2 overflow-x-auto justify-center">
                 {currentVariant.images.map((image, index) => (
                   <button
                     key={`${image}-${index}`}
@@ -182,7 +190,7 @@ const ProductQuickView = ({
               {product.category}
             </p>
 
-            <h2 className="mt-4 text-4xl md:text-5xl font-light tracking-tight text-[#2e2924]">
+            <h2 className="mt-4 text-2xl sm:text-3xl md:text-5xl font-light tracking-tight text-[#2e2924]">
               {product.name}
             </h2>
 
@@ -296,7 +304,7 @@ const ProductQuickView = ({
               <span>→</span>
             </Link>
 
-            <div className="sticky bottom-0 bg-white border-t border-[#eee] pt-6 mt-8 flex flex-col gap-3">
+            <div className="sticky bottom-0 bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
               <button
                 onClick={handleCartToggle}
                 disabled={!selectedSize}
