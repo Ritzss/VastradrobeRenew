@@ -25,7 +25,7 @@ export default function BlogPreviewGrid({ limit = 3 }: Props) {
           <Link href={`/blog/${blog.slug}`}>
             <div className="group cursor-pointer">
               {/* Image */}
-              <div className="relative h-[320px] rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
+              <div className="relative h-80 rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
                 <Image
                   src={blog.coverImage}
                   fill

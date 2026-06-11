@@ -14,13 +14,13 @@ export default function LatestArrivals({ products }: LatestArrivalsProps) {
       {/* LEFT FADE */}
       <div
         className="pointer-events-none absolute left-0 top-0 h-full w-16 z-10 
-                  bg-gradient-to-r from-[#fffaf6] to-transparent"
+                  bg-linear-to-r from-[#fffaf6] to-transparent"
       />
 
       {/* RIGHT FADE */}
       <div
         className="pointer-events-none absolute right-0 top-0 h-full w-16 z-10 
-                  bg-gradient-to-l from-[#fffaf6] to-transparent"
+                  bg-linear-to-l from-[#fffaf6] to-transparent"
       />
 
       <InfiniteScrollWrapper>
