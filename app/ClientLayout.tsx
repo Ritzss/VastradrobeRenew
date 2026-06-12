@@ -16,7 +16,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
   return (
     <AppProvider>
       <Toaster position="top-right" richColors />
-      <div className="max-h-screen overflow-y-scroll">
+      <div className="max-h-screen overflow-y-scroll scrollbar-hide">
         <header className="sticky top-4 left-0 w-full z-50 transition-all duration-1000 h-0">
         <Navbar />
       </header>
