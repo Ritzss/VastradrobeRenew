@@ -14,7 +14,7 @@ import { IMSProduct } from "./Types/Product";
 import SocialProofClient from "./components/Global/SocialProofClient";
 import dynamic from "next/dynamic";
 import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";
-// import LandingSlider from "./components/Home/LandingSlider";
+import LandingSlider from "./components/Home/LandingSlider";
 
 // const BlogClient = dynamic(() => import("./blog/BlogsClient"));
 const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"), {
@@ -93,7 +93,7 @@ const Home = async () => {
       <Slider />
 
       {/* LANDING PAGE PROMO */}
-      {/* <LandingSlider /> */}
+      <LandingSlider />
 
       {/* CATEGORY */}
       {/* <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
