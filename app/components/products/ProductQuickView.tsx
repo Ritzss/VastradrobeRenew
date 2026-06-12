@@ -3,13 +3,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Heart } from "lucide-react";
 
 import { IMSProduct } from "@/Types/Product";
 // import { useRouter } from "next/router";
 import { useAppContext } from "@/hooks/useAppContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { RiHeartFill } from "react-icons/ri";
 
 interface ProductQuickViewProps {
   product: IMSProduct | null;
@@ -32,11 +33,22 @@ const ProductQuickView = ({
   const [showFullDescription, setShowFullDescription] = useState(false);
   const router = useRouter();
 
-  const { addToCart, removeFromCart, cartItems } = useAppContext();
+  const {
+    addToCart,
+    removeFromCart,
+    cartItems,
+    favCollections,
+    addToCollection,
+    removeFromCollection,
+  } = useAppContext();
 
   const selectedVariant = product?.variants?.[selectedColor];
 
   const productId = Number(product?.productId);
+
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(
+    null,
+  );
 
   const isInCart = cartItems.some(
     (item) =>
@@ -45,13 +57,36 @@ const ProductQuickView = ({
       item.color === selectedVariant?.color,
   );
 
-  useEffect(() => {
-  if (!product) return;
+  const collectionNames = Object.keys(favCollections);
 
-  setSelectedColor(0);
-  setSelectedSize("");
-  setActiveImage(0);
-}, [product, product?.productId]);
+  const isWishlisted = collectionNames.some((collectionName) =>
+    // favCollections stores a Set of productIds for each collection
+    Boolean(favCollections[collectionName]?.has?.(productId)),
+  );
+
+  const handleWishlist = () => {
+    const collectionNames = Object.keys(favCollections);
+
+    if (selectedCollection) {
+      removeFromCollection(selectedCollection, productId);
+      setSelectedCollection(null);
+      return;
+    }
+
+    if (collectionNames.length > 0) {
+      const defaultCollection = collectionNames[0];
+      addToCollection(defaultCollection, productId);
+      setSelectedCollection(defaultCollection);
+    }
+  };
+
+  useEffect(() => {
+    if (!product) return;
+
+    setSelectedColor(0);
+    setSelectedSize("");
+    setActiveImage(0);
+  }, [product, product?.productId]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -146,7 +181,7 @@ const ProductQuickView = ({
                 % Off
               </div>
             )}
-    
+
             <div className="relative h-[40vh] md:h-full overflow-hidden">
               {/* Blurred background */}
               <Image
@@ -164,9 +199,20 @@ const ProductQuickView = ({
                   fill
                   className="object-contain md:object-cover"
                 />
+                {/* Wishlist */}
+                <button
+                  onClick={handleWishlist}
+                  className=" absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white transition"
+                >
+                  {isWishlisted ? (
+                    <RiHeartFill size={18} className="text-red-500" />
+                  ) : (
+                    <Heart size={18} />
+                  )}
+                </button>
               </div>
             </div>
-       
+
             {currentVariant?.images?.length > 1 && (
               <div className="absolute bottom-5 left-0 right-0 px-4 flex gap-2 overflow-x-auto justify-center">
                 {currentVariant.images.map((image, index) => (
@@ -174,7 +220,9 @@ const ProductQuickView = ({
                     key={`${image}-${index}`}
                     onClick={() => setActiveImage(index)}
                     className={`relative h-14 w-14 rounded-lg overflow-hidden border-2 ${
-                      activeImage === index ? "border-[#6A0F1F]" : "border-white"
+                      activeImage === index
+                        ? "border-[#6A0F1F]"
+                        : "border-white"
                     }`}
                   >
                     <Image src={image} alt="" fill className="object-cover" />

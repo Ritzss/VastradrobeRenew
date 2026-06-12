@@ -5,11 +5,11 @@ import Image from "next/image";
 // import Link from "next/link";
 import { IMSProduct } from "@/Types/Product";
 import { useAppContext } from "@/hooks/useAppContext";
-import { useState } from "react";
+// import { useState } from "react";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
-import { Heart } from "lucide-react";
-import { RiHeartFill } from "react-icons/ri";
+// import { Heart } from "lucide-react";
+// import { RiHeartFill } from "react-icons/ri";
 
 type Props = {
   product: IMSProduct;
@@ -25,9 +25,6 @@ export default function ProductCard({ product, className, children }: Props) {
     cartItems,
     addToCart,
     removeFromCart,
-    favCollections,
-    addToCollection,
-    removeFromCollection,
   } = useAppContext();
 
   const firstVariant = variants?.[0];
@@ -44,9 +41,9 @@ export default function ProductCard({ product, className, children }: Props) {
       item.color === defaultColor,
   );
 
-  const [selectedCollection, setSelectedCollection] = useState<string | null>(
-    null,
-  );
+  // const [selectedCollection, setSelectedCollection] = useState<string | null>(
+  //   null,
+  // );
 
   const handleCartToggle = () => {
     if (!defaultColor) return;
@@ -56,21 +53,21 @@ export default function ProductCard({ product, className, children }: Props) {
       : addToCart(productId, defaultSize, defaultColor);
   };
 
-  const handleWishlist = () => {
-    const collectionNames = Object.keys(favCollections);
+  // const handleWishlist = () => {
+  //   const collectionNames = Object.keys(favCollections);
 
-    if (selectedCollection) {
-      removeFromCollection(selectedCollection, productId);
-      setSelectedCollection(null);
-      return;
-    }
+  //   if (selectedCollection) {
+  //     removeFromCollection(selectedCollection, productId);
+  //     setSelectedCollection(null);
+  //     return;
+  //   }
 
-    if (collectionNames.length > 0) {
-      const defaultCollection = collectionNames[0];
-      addToCollection(defaultCollection, productId);
-      setSelectedCollection(defaultCollection);
-    }
-  };
+  //   if (collectionNames.length > 0) {
+  //     const defaultCollection = collectionNames[0];
+  //     addToCollection(defaultCollection, productId);
+  //     setSelectedCollection(defaultCollection);
+  //   }
+  // };
 
   return (
     <div className={`group flex flex-col ${className ?? ""}`}>
@@ -87,7 +84,7 @@ export default function ProductCard({ product, className, children }: Props) {
         {/* </Link> */}
 
         {/* Wishlist */}
-        <button
+        {/* <button
           onClick={handleWishlist}
           className=" absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white transition"
         >
@@ -96,7 +93,7 @@ export default function ProductCard({ product, className, children }: Props) {
           ) : (
             <Heart size={18} />
           )}
-        </button>
+        </button> */}
 
         {/* Hover Cart Overlay */}
         <div
