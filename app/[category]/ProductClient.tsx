@@ -6,7 +6,7 @@ import ProductQuickView from "@/components/products/ProductQuickView";
 import { useAppContext } from "@/hooks/useAppContext";
 import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   const { searchQuery, subCategory, priceRange, sizes } = useAppContext();
@@ -58,21 +58,23 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
 
   const openProduct = (index: number) => setSelectedIndex(index);
 
-  const closeProduct = () => setSelectedIndex(null);
+ const closeProduct = useCallback(() => {
+  setSelectedIndex(null);
+}, []);
 
-  const nextProduct = () => {
-    if (selectedIndex === null) return;
+const nextProduct = useCallback(() => {
+  setSelectedIndex((prev) => {
+    if (prev === null) return null;
+    return (prev + 1) % groupedProducts.length;
+  });
+}, [groupedProducts.length]);
 
-    setSelectedIndex((selectedIndex + 1) % groupedProducts.length);
-  };
-
-  const prevProduct = () => {
-    if (selectedIndex === null) return;
-
-    setSelectedIndex(
-      selectedIndex === 0 ? groupedProducts.length - 1 : selectedIndex - 1,
-    );
-  };
+const prevProduct = useCallback(() => {
+  setSelectedIndex((prev) => {
+    if (prev === null) return null;
+    return prev === 0 ? groupedProducts.length - 1 : prev - 1;
+  });
+}, [groupedProducts.length]);
 
   if (groupedProducts.length === 0) {
     return (

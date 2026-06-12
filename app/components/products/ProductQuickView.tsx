@@ -46,12 +46,12 @@ const ProductQuickView = ({
   );
 
   useEffect(() => {
-    if (!product) return;
+  if (!product) return;
 
-    setSelectedColor(0);
-    setSelectedSize("");
-    setActiveImage(0);
-  }, [product, product?.productId]);
+  setSelectedColor(0);
+  setSelectedSize("");
+  setActiveImage(0);
+}, [product, product?.productId]);
 
   useEffect(() => {
     if (!isOpen) return;
