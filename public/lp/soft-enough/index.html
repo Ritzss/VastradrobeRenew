@@ -1103,7 +1103,7 @@
       .size-table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 420px;
+        min-width: 380px;
       }
       .size-table th {
         background: var(--ch);
@@ -1873,6 +1873,141 @@
         .col-img {
           height: 340px;
         }
+        /* =========================
+   MOBILE FIXES
+   ========================= */
+
+        @media (max-width: 480px) {
+          html,
+          body {
+            overflow-x: hidden;
+            width: 100%;
+          }
+
+          /* Logo */
+          .logo img,
+          .f-logo img {
+            height: 40px !important;
+            width: auto !important;
+          }
+
+          /* Hero */
+          .hero-text {
+            padding: 24px 16px 32px;
+          }
+
+          .hero h1 {
+            font-size: 42px;
+          }
+
+          .hero-sub {
+            font-size: 12px;
+          }
+
+          .hero-colors {
+            flex-wrap: wrap;
+            gap: 8px;
+          }
+
+          .hc-name {
+            width: 100%;
+            margin-left: 0;
+            margin-top: 4px;
+          }
+
+          .hero-btns {
+            flex-direction: column;
+          }
+
+          .btn-d,
+          .btn-g {
+            width: 100%;
+          }
+
+          /* USP */
+          .usp-inner {
+            width: max-content;
+            min-width: 100%;
+            justify-content: flex-start;
+          }
+
+          .usp-item {
+            padding: 0 14px;
+          }
+
+          /* Collection */
+          .col-card {
+            width: 170px;
+          }
+
+          .col-img {
+            height: 240px;
+          }
+
+          /* Product */
+          .pname {
+            font-size: 24px;
+          }
+
+          .ppm {
+            font-size: 30px;
+          }
+
+          .ppbox {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+          }
+
+          .ppr {
+            text-align: left;
+          }
+
+          .fab-grid {
+            grid-template-columns: 1fr;
+          }
+
+          /* Features */
+          .feat-grid {
+            grid-template-columns: 1fr;
+          }
+
+          /* Trust */
+          .trust-grid {
+            grid-template-columns: 1fr;
+          }
+
+          /* Testimonials */
+          .test-card {
+            width: 250px;
+          }
+
+          /* Footer */
+          .f-cols {
+            grid-template-columns: 1fr;
+            gap: 20px;
+          }
+
+          /* Sticky bar */
+          .sticky-bar {
+            padding: 10px 12px;
+          }
+
+          .sb-atc {
+            padding: 12px 14px;
+            font-size: 9px;
+          }
+
+          /* CTA */
+          .cta-h {
+            font-size: 38px;
+          }
+
+          /* Sections */
+          section {
+            padding: 48px 16px;
+          }
+        }
       }
     </style>
   </head>
@@ -1912,7 +2047,7 @@
           <img
             src="../../Assets/Images/Logo2.png"
             alt="Vastradrobe"
-            style="height: 5vh; width: 6vw"
+            style="height: 5vh; width: auto"
           />
         </a>
         <div class="nav-right">
@@ -2424,15 +2559,16 @@
               ><span class="tstar">★</span>
             </div>
             <p class="test-txt">
-              "Bought clothes from Vastradrobe a few weeks ago and I’m really
-              impressed! The quality was better than expected, great fabric and
-              perfect finishing."
+              "The clothes of vastradrobe is very nice I like it and quality is
+              also so good overall the clothes of vastradrobe is best."
             </p>
             <div class="test-foot">
-              <div class="tav" style="background: #b5653a">A</div>
-              <a href="https://share.google/AMgmBfRBvpsiyT4gx">
-                <div title="Google Review" class="tname">Aarav</div>
-                <!-- <div class="tloc">Pune</div> -->
+              <div class="tav" style="background: #c4a882; color: #7a6e68">
+                J
+              </div>
+              <a href="https://share.google/EWPVa7792Ac7nH42C">
+                <div title="Google Review" class="tname">JULI GAUR</div>
+                <!-- <div class="tloc">Hyderabad</div> -->
                 <span class="tvrf">✓ Verified Buyer</span>
               </a>
             </div>
@@ -2444,16 +2580,15 @@
               ><span class="tstar">★</span>
             </div>
             <p class="test-txt">
-              "The clothes of vastradrobe is very nice I like it and quality is
-              also so good overall the clothes of vastradrobe is best."
+              "Bought clothes from Vastradrobe a few weeks ago and I’m really
+              impressed! The quality was better than expected, great fabric and
+              perfect finishing."
             </p>
             <div class="test-foot">
-              <div class="tav" style="background: #c4a882; color: #7a6e68">
-                J
-              </div>
-              <a href="https://share.google/EWPVa7792Ac7nH42C">
-                <div title="Google Review" class="tname">JULI GAUR</div>
-                <!-- <div class="tloc">Hyderabad</div> -->
+              <div class="tav" style="background: #b5653a">A</div>
+              <a href="https://share.google/AMgmBfRBvpsiyT4gx">
+                <div title="Google Review" class="tname">Aarav</div>
+                <!-- <div class="tloc">Pune</div> -->
                 <span class="tvrf">✓ Verified Buyer</span>
               </a>
             </div>
@@ -2625,7 +2760,7 @@
             <img
               src="../../Assets/Images/Logo2.png"
               alt="Vastradrobe"
-              style="height: 5vh; width: 6vw"
+              style="height: 5vh; width: auto"
             />
           </a>
         </div>
