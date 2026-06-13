@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, Heart } from "lucide-react";
+import { X, Heart, ArrowRight, ArrowLeft } from "lucide-react";
 
 import { IMSProduct } from "@/Types/Product";
 // import { useRouter } from "next/router";
@@ -159,7 +159,7 @@ const ProductQuickView = ({
           onClick={onPrev}
           className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-white shadow-lg rounded-full p-3"
         >
-          <ChevronLeft size={22} />
+          <ArrowLeft size={22} />
         </button>
 
         {/* NEXT */}
@@ -167,7 +167,7 @@ const ProductQuickView = ({
           onClick={onNext}
           className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white shadow-lg rounded-full p-3"
         >
-          <ChevronRight size={22} />
+          <ArrowRight size={22} />
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-[42%_58%] h-full">
