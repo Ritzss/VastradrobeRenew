@@ -92,7 +92,7 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
       "
       >
         {groupedProducts.map((item, index) => (
-          <ProductCard key={`${item.productId}-${index}`} product={item} />
+          <ProductCard key={`${item.productId}-${index}`} product={item} Linked />
         ))}
       </div>
 

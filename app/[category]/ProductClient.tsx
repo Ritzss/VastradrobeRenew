@@ -116,7 +116,7 @@ const prevProduct = useCallback(() => {
             onClick={() => openProduct(index)}
             className="cursor-pointer"
           >
-            <ProductCard product={item} />
+            <ProductCard Linked={false} product={item} />
           </div>
         ))}
       </div>

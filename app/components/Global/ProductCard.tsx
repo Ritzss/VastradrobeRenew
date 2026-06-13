@@ -8,6 +8,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 // import { useState } from "react";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
+import Link from "next/link";
 // import { Heart } from "lucide-react";
 // import { RiHeartFill } from "react-icons/ri";
 
@@ -15,17 +16,19 @@ type Props = {
   product: IMSProduct;
   className?: string;
   children?: React.ReactNode;
+  Linked: boolean;
 };
 
-export default function ProductCard({ product, className, children }: Props) {
+export default function ProductCard({
+  product,
+  className,
+  children,
+  Linked,
+}: Props) {
   const productId = Number(product.productId);
   const { name, variants, price } = product;
 
-  const {
-    cartItems,
-    addToCart,
-    removeFromCart,
-  } = useAppContext();
+  const { cartItems, addToCart, removeFromCart } = useAppContext();
 
   const firstVariant = variants?.[0];
   const imageSrc =
@@ -73,15 +76,29 @@ export default function ProductCard({ product, className, children }: Props) {
     <div className={`group flex flex-col ${className ?? ""}`}>
       {/* IMAGE BLOCK */}
       <div className="relative aspect-3/4 w-full rounded-4xl overflow-hidden bg-[#f5f1e7]">
-        {/* <Link href={`/product/${productId}`}> */}
-          <Image
-            src={imageSrc}
-            fill
-            sizes="(max-width: 768px) 100vw, 25vw"
-            alt={name}
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          />
-        {/* </Link> */}
+        {Linked && (
+          <Link href={`/product/${productId}`}>
+            <Image
+              src={imageSrc}
+              fill
+              sizes="(max-width: 768px) 100vw, 25vw"
+              alt={name}
+              className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            />
+          </Link>
+        )}
+
+        {!Linked && (
+          // <Link href={`/product/${productId}`}>
+            <Image
+              src={imageSrc}
+              fill
+              sizes="(max-width: 768px) 100vw, 25vw"
+              alt={name}
+              className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            />
+          // </Link>
+        )}
 
         {/* Wishlist */}
         {/* <button
@@ -96,9 +113,7 @@ export default function ProductCard({ product, className, children }: Props) {
         </button> */}
 
         {/* Hover Cart Overlay */}
-        <div
-          className=" absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition-all duration-300 p-4"
-        >
+        <div className=" absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition-all duration-300 p-4">
           <button
             onClick={handleCartToggle}
             className=" w-full py-2 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition flex items-center justify-center gap-2"

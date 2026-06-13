@@ -570,7 +570,7 @@ export default function ProductPDPClient({
 
             <div className="grid md:grid-cols-4 gap-8">
               {similarProducts.slice(0, 4).map((p) => (
-                <ProductCard key={p.productId} product={p} />
+                <ProductCard Linked key={p.productId} product={p} />
               ))}
             </div>
           </section>
