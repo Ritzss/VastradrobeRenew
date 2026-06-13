@@ -3221,85 +3221,87 @@
       }
 
       /* CART */
-      function addToCart() {
-        const b = document.getElementById("atcbtn");
-        const sb = document.getElementById("sbAtc");
-        b.innerHTML = "✓ ADDED";
-        b.classList.add("ok");
-        if (sb) {
-          sb.textContent = "✓ ADDED";
-          sb.classList.add("ok");
-        }
-        cart.push({
-          c: selV.c,
-          img: selV.imgs[0],
-          sz: document.querySelector(".sz.act")?.textContent || "M",
-        });
-        renderCart();
-        setTimeout(() => {
-          b.innerHTML =
-            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> ADD TO CART — ₹599';
-          b.classList.remove("ok");
-          if (sb) {
-            sb.textContent = "ADD TO BAG";
-            sb.classList.remove("ok");
-          }
-          openCart();
-        }, 1300);
-      }
-      function renderCart() {
-        const n = cart.length;
-        document.getElementById("ccount").textContent = n;
-        document.getElementById("cicount").textContent = n;
-        const tot = n * 599;
-        document.getElementById("ctotal").textContent =
-          "₹" + tot.toLocaleString("en-IN");
-        const sb = document.getElementById("shipbar");
-        if (n > 0) {
-          sb.style.display = "block";
-          sb.textContent =
-            tot >= 999
-              ? "✓ Free shipping applied!"
-              : "Add ₹" + (999 - tot) + " more for free shipping";
-        } else sb.style.display = "none";
-        const b = document.getElementById("cdbody");
-        if (!n) {
-          b.innerHTML = `<div style="text-align:center;padding:56px 0"><div style="font-size:36px;margin-bottom:14px">🛍️</div><p style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#8C7E76;font-style:italic">Your bag is empty.</p><p style="font-size:11px;color:#C9BFB2;margin-top:6px">Add a co-ord set to get started</p></div>`;
-          return;
-        }
-        b.innerHTML = cart
-          .map(
-            (item, i) =>
-              `<div class="ci"><div class="ci-img"><img src="${item.img}" alt="${item.c}" style="object-position:top"/></div><div class="ci-info"><div class="ci-name">Women's Solid Co-Ord Set</div><div class="ci-det">${item.c} · Size ${item.sz}</div><div class="ci-price">₹599</div></div><button class="ci-rm" onclick="remItem(${i})">×</button></div>`,
-          )
-          .join("");
-      }
-      function remItem(i) {
-        cart.splice(i, 1);
-        renderCart();
-      }
-      function openCart() {
-        document.getElementById("cov").classList.add("open");
-        document.getElementById("cdr").classList.add("open");
-      }
-      function closeCart() {
-        document.getElementById("cov").classList.remove("open");
-        document.getElementById("cdr").classList.remove("open");
-      }
-      function selSz(el) {
-        document
-          .querySelectorAll(".sz")
-          .forEach((b) => b.classList.remove("act"));
-        el.classList.add("act");
-      }
-      function toggleMenu() {
-        document.getElementById("ham").classList.toggle("open");
-        document.getElementById("navMenu").classList.toggle("open");
-      }
-      function closeMenu() {
-        document.getElementById("ham").classList.remove("open");
-        document.getElementById("navMenu").classList.remove("open");
-      }
+      // function addToCart() {
+      //   const b = document.getElementById("atcbtn");
+      //   const sb = document.getElementById("sbAtc");
+      //   b.innerHTML = "✓ ADDED";
+      //   b.classList.add("ok");
+      //   if (sb) {
+      //     sb.textContent = "✓ ADDED";
+      //     sb.classList.add("ok");
+      //   }
+      //   cart.push({
+      //     c: selV.c,
+      //     img: selV.imgs[0],
+      //     sz: document.querySelector(".sz.act")?.textContent || "M",
+      //   });
+      //   renderCart();
+      //   setTimeout(() => {
+      //     b.innerHTML =
+      //       '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> ADD TO CART — ₹599';
+      //     b.classList.remove("ok");
+      //     if (sb) {
+      //       sb.textContent = "ADD TO BAG";
+      //       sb.classList.remove("ok");
+      //     }
+      //     openCart();
+      //   }, 1300);
+      // }
+      // function renderCart() {
+      //   const n = cart.length;
+      //   document.getElementById("ccount").textContent = n;
+      //   document.getElementById("cicount").textContent = n;
+      //   const tot = n * 599;
+      //   document.getElementById("ctotal").textContent =
+      //     "₹" + tot.toLocaleString("en-IN");
+      //   const sb = document.getElementById("shipbar");
+      //   if (n > 0) {
+      //     sb.style.display = "block";
+      //     sb.textContent =
+      //       tot >= 999
+      //         ? "✓ Free shipping applied!"
+      //         : "Add ₹" + (999 - tot) + " more for free shipping";
+      //   } else sb.style.display = "none";
+      //   const b = document.getElementById("cdbody");
+      //   if (!n) {
+      //     b.innerHTML = `<div style="text-align:center;padding:56px 0"><div style="font-size:36px;margin-bottom:14px">🛍️</div><p style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#8C7E76;font-style:italic">Your bag is empty.</p><p style="font-size:11px;color:#C9BFB2;margin-top:6px">Add a co-ord set to get started</p></div>`;
+      //     return;
+      //   }
+      //   b.innerHTML = cart
+      //     .map(
+      //       (item, i) =>
+      //         `<div class="ci"><div class="ci-img"><img src="${item.img}" alt="${item.c}" style="object-position:top"/></div><div class="ci-info"><div class="ci-name">Women's Solid Co-Ord Set</div><div class="ci-det">${item.c} · Size ${item.sz}</div><div class="ci-price">₹599</div></div><button class="ci-rm" onclick="remItem(${i})">×</button></div>`,
+      //     )
+      //     .join("");
+      // }
+      // function remItem(i) {
+      //   cart.splice(i, 1);
+      //   renderCart();
+      // }
+      // function openCart() {
+      //   document.getElementById("cov").classList.add("open");
+      //   document.getElementById("cdr").classList.add("open");
+      // }
+      // function closeCart() {
+      //   document.getElementById("cov").classList.remove("open");
+      //   document.getElementById("cdr").classList.remove("open");
+      // }
+
+      // function selSz(el) {
+      //   document
+      //     .querySelectorAll(".sz")
+      //     .forEach((b) => b.classList.remove("act"));
+      //   el.classList.add("act");
+      // }
+      // function toggleMenu() {
+      //   document.getElementById("ham").classList.toggle("open");
+      //   document.getElementById("navMenu").classList.toggle("open");
+      // }
+      // function closeMenu() {
+      //   document.getElementById("ham").classList.remove("open");
+      //   document.getElementById("navMenu").classList.remove("open");
+      // }
+      
       function tFaq(btn) {
         const a = btn.nextElementSibling,
           open = a.classList.contains("open");
