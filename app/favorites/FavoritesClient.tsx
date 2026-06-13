@@ -188,7 +188,7 @@ const FavoritesClient = () => {
                       stiffness: 200,
                     }}
                   >
-                    <ProductCard product={item}>
+                    <ProductCard product={item} Linked>
                       <button
                         onClick={() =>
                           removeFromCollection(collection, item.productId)
