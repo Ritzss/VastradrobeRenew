@@ -247,6 +247,7 @@ export default function ProductPDPClient({
               alt={product.name}
               className="w-full h-auto object-contain"
               priority
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
 
@@ -262,8 +263,10 @@ export default function ProductPDPClient({
                   src={img}
                   width={200}
                   height={300}
-                  alt=""
+                  alt={product.name}
                   className="w-full h-auto object-contain"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </button>
             ))}
