@@ -190,7 +190,7 @@ const Navbar = () => {
                     <div className="grid grid-cols-3 gap-6">
                       {/* WOMEN */}
                       <Link
-                        href="/women"
+                        href="/women#categoryPage"
                         className="flex flex-col items-center text-center group"
                       >
                         <div className="relative w-full h-35 rounded-4xl overflow-hidden">
@@ -208,7 +208,7 @@ const Navbar = () => {
 
                       {/* MEN */}
                       <Link
-                        href="/men"
+                        href="/men#categoryPage"
                         className="flex flex-col items-center text-center group"
                       >
                         <div className="relative w-full h-35 rounded-4xl overflow-hidden">
@@ -226,7 +226,7 @@ const Navbar = () => {
 
                       {/* KIDS */}
                       <Link
-                        href="/kids"
+                        href="/kids#categoryPage"
                         className="flex flex-col items-center text-center group"
                       >
                         <div className="relative w-full h-35 rounded-4xl overflow-hidden">
@@ -497,21 +497,21 @@ const Navbar = () => {
                 {open && (
                   <div className="bg-[#faf7f2]">
                     <Link
-                      href="/women"
+                      href="/women#categoryPage"
                       onClick={() => setOpen(false)}
                       className="block px-12 py-3 text-sm text-[#957f6a] hover:bg-[#e9e1d4]"
                     >
                       Women
                     </Link>
                     <Link
-                      href="/men"
+                      href="/men#categoryPage"
                       onClick={() => setOpen(false)}
                       className="block px-12 py-3 text-sm text-[#957f6a] hover:bg-[#e9e1d4]"
                     >
                       Men
                     </Link>
                     <Link
-                      href="/kids"
+                      href="/kids#categoryPage"
                       onClick={() => setOpen(false)}
                       className="block px-12 py-3 text-sm text-[#957f6a] hover:bg-[#e9e1d4]"
                     >

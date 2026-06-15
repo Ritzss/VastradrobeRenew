@@ -131,7 +131,7 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   }
 
   return (
-    <section className="w-full space-y-12">
+    <section id="categoryPage" className="w-full space-y-12">
       {/* RESULT HEADER */}
       <div className="flex items-center justify-between">
         <p className="text-xs uppercase tracking-[0.35em] text-[#957f6a]">
