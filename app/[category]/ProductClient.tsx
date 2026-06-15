@@ -2,18 +2,26 @@
 
 import EmptyState from "@/components/Global/EmptyState";
 import ProductCard from "@/components/Global/ProductCard";
+import ProductStackMobile from "@/components/products/ProductQuickViewMobile";
+// import ProductStack from "@/components/products/ProductQuickViewMobile";
 // import ProductQuickView from "@/components/products/ProductQuickView";
 import { useAppContext } from "@/hooks/useAppContext";
 import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
 import dynamic from "next/dynamic";
-import { startTransition, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 const ProductQuickView = dynamic(
   () => import("@/components/products/ProductQuickView"),
   {
     ssr: false,
-  }
+  },
 );
 
 const ProductClient = ({ products }: { products: IMSProduct[] }) => {
@@ -31,12 +39,12 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   );
 
   useEffect(() => {
-  const id = requestIdleCallback(() => {
-    import("@/components/products/ProductQuickView");
-  });
+    const id = requestIdleCallback(() => {
+      import("@/components/products/ProductQuickView");
+    });
 
-  return () => cancelIdleCallback(id);
-}, []);
+    return () => cancelIdleCallback(id);
+  }, []);
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
@@ -87,10 +95,10 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const openProduct = useCallback((index: number) => {
-  startTransition(() => {
-    setSelectedIndex(index);
-  });
-}, []);
+    startTransition(() => {
+      setSelectedIndex(index);
+    });
+  }, []);
 
   const closeProduct = useCallback(() => {
     setSelectedIndex(null);
@@ -154,13 +162,30 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
           </div>
         ))}
       </div>
-      <ProductQuickView
-        product={selectedIndex !== null ? groupedProducts[selectedIndex] : null}
-        isOpen={selectedIndex !== null}
-        onClose={closeProduct}
-        onNext={nextProduct}
-        onPrev={prevProduct}
-      />
+      {/* Desktop */}
+      <div className="hidden md:block">
+        <ProductQuickView
+          product={
+            selectedIndex !== null ? groupedProducts[selectedIndex] : null
+          }
+          isOpen={selectedIndex !== null}
+          onClose={closeProduct}
+          onNext={nextProduct}
+          onPrev={prevProduct}
+        />
+      </div>
+
+      {/* Mobile */}
+      <div className="md:hidden">
+        <ProductStackMobile
+          products={groupedProducts}
+          selectedProduct={
+            selectedIndex !== null ? groupedProducts[selectedIndex] : null
+          }
+          isOpen={selectedIndex !== null}
+          onClose={closeProduct}
+        />
+      </div>
     </section>
   );
 };

@@ -43,9 +43,9 @@ const ProductQuickView = ({
   } = useAppContext();
 
   const selectedVariant = product?.variants?.[selectedColor];
-  
+
   const productId = Number(product?.productId);
-  
+
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
     null,
   );
@@ -138,27 +138,26 @@ const ProductQuickView = ({
     );
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
 
-const handleTouchStart = (e: React.TouchEvent) => {
-  setTouchStart(e.touches[0].clientX);
-};
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
 
-const handleTouchEnd = (e: React.TouchEvent) => {
-  if (touchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const distance = touchStart - touchEnd;
 
-  const touchEnd = e.changedTouches[0].clientX;
-  const distance = touchStart - touchEnd;
+    if (distance > 50) {
+      onNext(); // swipe left
+    }
 
-  if (distance > 50) {
-    onNext(); // swipe left
-  }
+    if (distance < -50) {
+      onPrev(); // swipe right
+    }
 
-  if (distance < -50) {
-    onPrev(); // swipe right
-  }
-
-  setTouchStart(null);
-};
+    setTouchStart(null);
+  };
 
   return (
     <div
@@ -167,6 +166,8 @@ const handleTouchEnd = (e: React.TouchEvent) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         className="relative bg-white w-full max-w-7xl h-[95dvh] rounded-3xl overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.25)] animate-in fade-in zoom-in-95 duration-300"
       >
         {/* CLOSE */}
