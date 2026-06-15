@@ -43,12 +43,13 @@ const ProductQuickView = ({
   } = useAppContext();
 
   const selectedVariant = product?.variants?.[selectedColor];
-
+  
   const productId = Number(product?.productId);
-
+  
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
     null,
   );
+  const [touchStart, setTouchStart] = useState<number | null>(null);
 
   const isInCart = cartItems.some(
     (item) =>
@@ -137,6 +138,28 @@ const ProductQuickView = ({
     );
   };
 
+
+const handleTouchStart = (e: React.TouchEvent) => {
+  setTouchStart(e.touches[0].clientX);
+};
+
+const handleTouchEnd = (e: React.TouchEvent) => {
+  if (touchStart === null) return;
+
+  const touchEnd = e.changedTouches[0].clientX;
+  const distance = touchStart - touchEnd;
+
+  if (distance > 50) {
+    onNext(); // swipe left
+  }
+
+  if (distance < -50) {
+    onPrev(); // swipe right
+  }
+
+  setTouchStart(null);
+};
+
   return (
     <div
       className="fixed inset-0 z-9999 bg-black/70 backdrop-blur-sm flex items-center justify-center p-2 md:p-6"
@@ -157,7 +180,7 @@ const ProductQuickView = ({
         {/* PREV */}
         <button
           onClick={onPrev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-white shadow-lg rounded-full p-3"
+          className="hidden md:block absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-white shadow-lg rounded-full p-3"
         >
           <ChevronLeft size={22} />
         </button>
@@ -165,7 +188,7 @@ const ProductQuickView = ({
         {/* NEXT */}
         <button
           onClick={onNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white shadow-lg rounded-full p-3"
+          className="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white shadow-lg rounded-full p-3"
         >
           <ChevronRight size={22} />
         </button>
