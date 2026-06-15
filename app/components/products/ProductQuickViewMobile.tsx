@@ -16,7 +16,7 @@ interface Props {
 }
 
 const STACK_SIZE = 4;
-const STEP = 1;
+// const STEP = 1;
 
 export default function ProductStackMobile({
   products,
