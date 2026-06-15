@@ -13,6 +13,7 @@ import ScrollReveal from "@/components/Global/ScrollReveal";
 import Link from "next/link";
 import { sizeGuide } from "@/lib/sizeGuide";
 import SizeGuideModal from "@/components/products/SizeGuideModal";
+import { toast } from "sonner";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -392,23 +393,31 @@ export default function ProductPDPClient({
           </div>
 
           {/* BUTTONS */}
-          <div className="flex gap-4 pt-4">
-            <button
-              disabled={!selectedSize}
-              onClick={handleBuyNow}
-              className="flex-1 py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40"
-            >
-              Buy Now
-            </button>
+          {(product?.stock ?? 0) > 0 ? (
+            <div className="flex gap-4 pt-4">
+              <button
+                disabled={!selectedSize}
+                onClick={handleBuyNow}
+                className="flex-1 py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40"
+              >
+                Buy Now
+              </button>
 
-            <button
-              disabled={!selectedSize}
-              onClick={handleCartToggle}
-              className="flex-1 py-4 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#f3e7d8] transition disabled:opacity-40"
-            >
-              {isInCart ? "Remove" : "Add to Cart"}
-            </button>
-          </div>
+              <button
+                disabled={!selectedSize}
+                onClick={handleCartToggle}
+                className="flex-1 py-4 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#f3e7d8] transition disabled:opacity-40"
+              >
+                {isInCart ? "Remove" : "Add to Cart"}
+              </button>
+            </div>
+          ) : (
+            <div className="relative flex top-3 left-3">
+              <button onClick={()=>{toast.success("Will be notified when restocked")}} className="flex-1 flex justify-center py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40">
+                {`Notify Me When Available (Sold Out)`}
+              </button>
+            </div>
+          )}
           <div className="mt-6 border-t pt-4 text-sm text-gray-600 space-y-2">
             <div className="flex items-center gap-2">
               <span>🚚</span>

@@ -11,6 +11,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { RiHeartFill } from "react-icons/ri";
+import { toast } from "sonner";
 
 interface ProductQuickViewProps {
   product: IMSProduct | null;
@@ -376,7 +377,7 @@ const ProductQuickView = ({
               <span>→</span>
             </Link>
 
-            <div className="sticky bottom-0 bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
+            {(product.stock ?? 0) > 0 ? (<div className="sticky bottom-0 bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
               <button
                 onClick={handleCartToggle}
                 disabled={!selectedSize}
@@ -392,7 +393,14 @@ const ProductQuickView = ({
               >
                 ⚡ Buy Instantly
               </button>
+            </div>)
+            : (
+            <div className="relative flex top-3 left-3">
+              <button onClick={()=>{toast.success("Will be notified when restocked")}} className="flex-1 flex justify-center py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40">
+                {`Notify Me When Available (Sold Out)`}
+              </button>
             </div>
+          )}
           </div>
         </div>
       </div>
