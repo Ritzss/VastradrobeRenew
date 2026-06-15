@@ -9,6 +9,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { FaCartArrowDown } from "react-icons/fa6";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import Link from "next/link";
+import { toast } from "sonner";
 // import { Heart } from "lucide-react";
 // import { RiHeartFill } from "react-icons/ri";
 
@@ -85,11 +86,24 @@ export default function ProductCard({
               alt={name}
               className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
             />
+            {/* Badge */}
+            {(product?.stock ?? 0) <= 0 && (
+              <div className="absolute top-3 left-3 z-20">
+                <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-medium text-white">
+                  Sold Out
+                </span>
+              </div>
+            )}
+            {/* Overlay */}
+            {(product?.stock ?? 0) <= 0 && (
+              <div className="absolute inset-0 bg-black/15 z-10" />
+            )}
           </Link>
         )}
 
         {!Linked && (
           // <Link href={`/product/${productId}`}>
+          <>
             <Image
               src={imageSrc}
               fill
@@ -97,6 +111,20 @@ export default function ProductCard({
               alt={name}
               className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
             />
+
+            {/* Badge */}
+            {(product?.stock ?? 0) <= 0 && (
+              <div className="absolute top-3 left-3 z-20">
+                <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-medium text-white">
+                  Sold Out
+                </span>
+              </div>
+            )}
+            {/* Overlay */}
+            {(product?.stock ?? 0) <= 0 && (
+              <div className="absolute inset-0 bg-black/15 z-10" />
+            )}
+          </>
           // </Link>
         )}
 
@@ -113,23 +141,34 @@ export default function ProductCard({
         </button> */}
 
         {/* Hover Cart Overlay */}
-        <div className=" absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition-all duration-300 p-4">
-          <button
-            onClick={handleCartToggle}
-            className=" w-full py-2 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition flex items-center justify-center gap-2"
-          >
-            {isInCart ? (
-              <>
-                <MdOutlineRemoveShoppingCart />
-                Remove
-              </>
-            ) : (
-              <>
-                <FaCartArrowDown />
-                Add to Cart
-              </>
-            )}
-          </button>
+        <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition-all duration-300 p-4">
+          {(product?.stock ?? 0) > 0 ? (
+            <button
+              onClick={handleCartToggle}
+              className="w-full py-2 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition flex items-center justify-center gap-2"
+            >
+              {isInCart ? (
+                <>
+                  <MdOutlineRemoveShoppingCart />
+                  Remove
+                </>
+              ) : (
+                <>
+                  <FaCartArrowDown />
+                  Add to Cart
+                </>
+              )}
+            </button>
+          ) : (
+            <button
+              onClick={() =>
+                toast.success("You'll be notified when this item is restocked")
+              }
+              className="w-full py-2 rounded-full bg-neutral-700 text-white flex items-center justify-center"
+            >
+              Notify Me When Available
+            </button>
+          )}
         </div>
       </div>
 

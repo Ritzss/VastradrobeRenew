@@ -377,30 +377,36 @@ const ProductQuickView = ({
               <span>→</span>
             </Link>
 
-            {(product.stock ?? 0) > 0 ? (<div className="sticky bottom-0 bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
-              <button
-                onClick={handleCartToggle}
-                disabled={!selectedSize}
-                className="w-full bg-[#6A0F1F] text-white py-4 rounded-xl tracking-wide hover:opacity-90 transition disabled:opacity-50"
-              >
-                {isInCart ? "✓ Added To Bag" : "👜 Add To Bag"}
-              </button>
+            {(product.stock ?? 0) > 0 ? (
+              <div className="sticky bottom-0 bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
+                <button
+                  onClick={handleCartToggle}
+                  disabled={!selectedSize}
+                  className="w-full bg-[#6A0F1F] text-white py-4 rounded-xl tracking-wide hover:opacity-90 transition disabled:opacity-50"
+                >
+                  {isInCart ? "✓ Added To Bag" : "👜 Add To Bag"}
+                </button>
 
-              <button
-                onClick={handleBuyNow}
-                disabled={!selectedSize}
-                className="w-full border border-[#2d2722] text-[#2d2722] py-4 rounded-xl hover:bg-[#2d2722] hover:text-white transition disabled:opacity-50"
-              >
-                ⚡ Buy Instantly
-              </button>
-            </div>)
-            : (
-            <div className="relative flex top-3 left-3">
-              <button onClick={()=>{toast.success("Will be notified when restocked")}} className="flex-1 flex justify-center py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40">
-                {`Notify Me When Available (Sold Out)`}
-              </button>
-            </div>
-          )}
+                <button
+                  onClick={handleBuyNow}
+                  disabled={!selectedSize}
+                  className="w-full border border-[#2d2722] text-[#2d2722] py-4 rounded-xl hover:bg-[#2d2722] hover:text-white transition disabled:opacity-50"
+                >
+                  ⚡ Buy Instantly
+                </button>
+              </div>
+            ) : (
+              <div className="relative flex top-3 left-3">
+                <button
+                  onClick={() => {
+                    toast.success("Will be notified when restocked");
+                  }}
+                  className="flex-1 flex justify-center py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40"
+                >
+                  {`Notify Me When Available (Sold Out)`}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -136,6 +136,18 @@ export default function ProductStackMobile({
                             fill
                             className="object-cover"
                           />
+                          {/* Badge */}
+                          {(product?.stock ?? 0) <= 0 && (
+                            <div className="absolute top-3 left-3 z-20">
+                              <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-medium text-white">
+                                Sold Out
+                              </span>
+                            </div>
+                          )}
+                          {/* Overlay */}
+                          {(product?.stock ?? 0) <= 0 && (
+                            <div className="absolute inset-0 bg-black/15 z-10" />
+                          )}
                         </div>
                       ))}
                     </div>
