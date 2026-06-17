@@ -115,7 +115,7 @@ export default function ProductCard({
             {/* Badge */}
             {(product?.stock ?? 0) <= 0 && (
               <div className="absolute top-3 left-3 z-20">
-                <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-medium text-white">
+                <span className="rounded-full bg-red-600 shadow-[0_0_15px_#ff0000] px-3 py-1 text-xs font-medium text-white">
                   Sold Out
                 </span>
               </div>
