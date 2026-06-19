@@ -398,7 +398,7 @@ export default function ProductPDPClient({
               <button
                 disabled={!selectedSize}
                 onClick={handleBuyNow}
-                className="flex-1 py-4 h-full rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40"
+                className="flex-1 py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40"
               >
                 Buy Now
               </button>
@@ -555,7 +555,7 @@ export default function ProductPDPClient({
         </div>
       </div>
       {showSizeGuide && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed h-full inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl max-w-3xl w-full relative">
             <button
               onClick={() => setShowSizeGuide(false)}
