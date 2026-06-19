@@ -13,6 +13,49 @@ export const sizeGuide = {
     { size: "XL", length: 22.5, chestHalf: 22.75, shoulder: 16.25 },
   ],
 
+  formalTopBottom:[
+  {
+    "size": "S",
+    "bust": 34,
+    "waist": 28,
+    "hip": 36,
+    "topLength": 25,
+    "bottomLength": 39
+  },
+  {
+    "size": "M",
+    "bust": 36,
+    "waist": 30,
+    "hip": 38,
+    "topLength": 26,
+    "bottomLength": 40
+  },
+  {
+    "size": "L",
+    "bust": 38,
+    "waist": 32,
+    "hip": 40,
+    "topLength": 27,
+    "bottomLength": 41
+  },
+  {
+    "size": "XL",
+    "bust": 40,
+    "waist": 34,
+    "hip": 42,
+    "topLength": 28,
+    "bottomLength": 42
+  },
+  {
+    "size": "XXL",
+    "bust": 42,
+    "waist": 36,
+    "hip": 44,
+    "topLength": 29,
+    "bottomLength": 43
+  }
+],
+
   ribbedTop: [
     { size: "S", bust: 34, waist: 28 },
     { size: "M", bust: 36, waist: 30 },

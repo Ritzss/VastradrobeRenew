@@ -398,7 +398,7 @@ export default function ProductPDPClient({
               <button
                 disabled={!selectedSize}
                 onClick={handleBuyNow}
-                className="flex-1 py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40"
+                className="flex-1 py-4 h-full rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40"
               >
                 Buy Now
               </button>
