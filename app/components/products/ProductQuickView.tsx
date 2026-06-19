@@ -320,7 +320,7 @@ const ProductQuickView = ({
               <div className="mt-8">
                 <h3 className="text-sm font-medium uppercase mb-3">Color</h3>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 capitalize">
                   {product.variants.map((variant, index) => (
                     <button
                       key={variant.color}
