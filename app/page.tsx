@@ -93,7 +93,9 @@ const Home = async () => {
       <Slider />
 
       {/* LANDING PAGE PROMO */}
-      <LandingSlider />
+      <div className="hidden md:block">
+        <LandingSlider />
+      </div>
 
       {/* CATEGORY */}
       {/* <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
@@ -107,7 +109,10 @@ const Home = async () => {
       </section> */}
 
       {/* LATEST ARRIVALS */}
-      <section id="latestArrival" className="mx-auto py-24 text-center bg-[#fffaf6]">
+      <section
+        id="latestArrival"
+        className="mx-auto py-24 text-center bg-[#fffaf6]"
+      >
         <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
           New This Season
         </p>

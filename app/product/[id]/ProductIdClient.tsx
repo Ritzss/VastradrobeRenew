@@ -349,9 +349,9 @@ export default function ProductPDPClient({
                     } ${qty === 0 ? "opacity-40 cursor-not-allowed" : ""}`}
                   >
                     {size}
-                    {stockMap[size] !== undefined && stockMap[size] < 15 && (
-                      <span className="ml-2 text-xs text-gray-500">
-                        ({stockMap[size]})
+                    {stockMap[size] !== undefined && stockMap[size] < 10 && (
+                      <span className="ml-2 text-xs text-red-500">
+                         {stockMap[size]} left, Hurry!
                       </span>
                     )}
                   </button>
