@@ -114,7 +114,7 @@ const ProductQuickView = ({
     };
 
     fetchInventory();
-  }, [product?.productId]);
+  }, [product?.productId, productId]);
 
   useEffect(() => {
     if (!product) return;

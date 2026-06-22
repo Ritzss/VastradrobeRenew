@@ -130,7 +130,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-[#e6d8c8] mt-20 pt-8 text-center text-xs text-[#8a7b6c]">
-          © 2026 VastraDrobe. All rights reserved.
+         Copyright © 2026 VastraDrobe. All rights reserved.
         </div>
       </div>
     </footer>
