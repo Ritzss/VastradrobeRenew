@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
@@ -12,9 +13,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { RiHeartFill } from "react-icons/ri";
 import { toast } from "sonner";
+import { IMSInventory } from "@/Types/Inventory";
 
 interface ProductQuickViewProps {
   product: IMSProduct | null;
+  inventory: IMSInventory[];
   isOpen: boolean;
   onClose: () => void;
   onNext: () => void;
@@ -32,6 +35,7 @@ const ProductQuickView = ({
   const [selectedSize, setSelectedSize] = useState("");
   const [activeImage, setActiveImage] = useState(0);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [inventory, setInventory] = useState<any[]>([]);
   const router = useRouter();
 
   const {
@@ -81,6 +85,36 @@ const ProductQuickView = ({
       setSelectedCollection(defaultCollection);
     }
   };
+  // console.log("IMS URL:", process.env.IMS_BASE_URL);
+  // console.log("IMS URL:", process.env.NEXT_PUBLIC_IMS_BASE_URL);
+
+  useEffect(() => {
+    if (!product?.productId) return;
+
+    const fetchInventory = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/inventory/list?productId=${productId}`,
+        );
+
+        if (!res.ok) {
+          setInventory([]);
+          return;
+        }
+
+        const data = await res.json();
+        // console.log(data.inventory);
+        // console.log("Inventory:", data.inventory);
+        // console.log("Current Variant:", currentVariant);
+        setInventory(data.inventory || []);
+      } catch (error) {
+        console.error("Inventory fetch failed:", error);
+        setInventory([]);
+      }
+    };
+
+    fetchInventory();
+  }, [product?.productId]);
 
   useEffect(() => {
     if (!product) return;
@@ -116,6 +150,19 @@ const ProductQuickView = ({
     : 0;
 
   const currentVariant = product.variants?.[activeColorIndex];
+
+  const getSizeStock = (size: string) => {
+    const matches = inventory.filter(
+      (item) => item.size?.toLowerCase() === size.toLowerCase(),
+      // item.color?.toLowerCase() ===
+      //   currentVariant?.color?.toLowerCase()
+    );
+
+    // console.log("Size:", size);
+    // console.log("Matches:", matches);
+
+    return matches.reduce((total, item) => total + (item.quantity || 0), 0);
+  };
 
   const activeImageIndex = currentVariant?.images?.[activeImage]
     ? activeImage
@@ -352,19 +399,34 @@ const ProductQuickView = ({
                 <h3 className="text-sm font-medium uppercase mb-3">Size</h3>
 
                 <div className="flex flex-wrap gap-2">
-                  {currentVariant.sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 rounded-md border ${
-                        selectedSize === size
-                          ? "bg-[#6A0F1F] text-white border-white"
-                          : "border-gray-300"
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
+                  {currentVariant.sizes.map((size) => {
+                    const stock = getSizeStock(size);
+                    const outOfStock = stock <= 0;
+
+                    return (
+                      <button
+                        key={size}
+                        disabled={outOfStock}
+                        onClick={() => setSelectedSize(size)}
+                        className={`relative px-4 py-2 rounded-md border transition ${
+                          selectedSize === size
+                            ? "bg-[#6A0F1F] text-white border-[#6A0F1F]"
+                            : "border-gray-300"
+                        } ${
+                          outOfStock
+                            ? "opacity-40 cursor-not-allowed line-through"
+                            : "hover:border-[#6A0F1F]"
+                        }`}
+                      >
+                        {size}
+                        {!outOfStock && stock < 10 && (
+                          <span className="ml-2 text-xs text-red-500">
+                            {stock} left, Hurry!
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}

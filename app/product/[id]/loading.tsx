@@ -8,11 +8,7 @@ export default function Loading() {
         {/* IMAGE SECTION */}
         <div className="space-y-6">
           <div
-            className="
-            aspect-square
-            rounded-[32px]
-            bg-[#e6d8c8]
-          "
+            className="aspect-square rounded-4xl bg-[#e6d8c8]"
           />
 
           <div className="flex gap-4">

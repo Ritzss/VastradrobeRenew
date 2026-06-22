@@ -165,14 +165,12 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
       {/* Desktop */}
       <div className="hidden md:block">
         <ProductQuickView
-          product={
-            selectedIndex !== null ? groupedProducts[selectedIndex] : null
-          }
+          product={selectedIndex !== null ? groupedProducts[selectedIndex] : null}
           isOpen={selectedIndex !== null}
           onClose={closeProduct}
           onNext={nextProduct}
-          onPrev={prevProduct}
-        />
+          onPrev={prevProduct} 
+          inventory={[]}        />
       </div>
 
       {/* Mobile */}
