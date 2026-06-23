@@ -168,10 +168,18 @@ const CheckoutClient = () => {
       }),
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
       toast.error("Payment verification failed");
       return;
     }
+
+    fbPixel.purchase({
+      orderId: data.orderId,
+      total: data.totalAmount,
+      products: data.products.map((p: any) => String(p.productId)),
+    });
 
     clearCart();
     await loadUser();
