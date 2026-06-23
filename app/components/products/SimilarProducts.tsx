@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/product/[id]/SimilarProducts.tsx
 import ProductCard from "@/components/Global/ProductCard";
 

@@ -1,4 +1,4 @@
-import FavoritesClient from "./FavoritesClient";
+import FavoritesClient from "../components/products/FavoritesClient";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

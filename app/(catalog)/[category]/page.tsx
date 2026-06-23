@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import ProductClient from "./ProductClient";
+import ProductClient from "../../components/products/ProductClient";
+// import ProductClient from "./ProductClient";
 
 type PageProps = {
   params: Promise<{ category: string }>;

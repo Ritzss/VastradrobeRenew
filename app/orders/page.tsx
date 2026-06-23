@@ -1,4 +1,4 @@
-import OrdersPageClient from "./OrderPageClient";
+import OrdersPageClient from "../components/products/OrderPageClient";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

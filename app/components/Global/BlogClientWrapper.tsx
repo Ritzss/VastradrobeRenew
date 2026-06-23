@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 
 const BlogClient = dynamic(
-  () => import("@/blog/BlogsClient"),
+  () => import("@/components/blog/BlogsClient"),
   { ssr: false }
 );
 

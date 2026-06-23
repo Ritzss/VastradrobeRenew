@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AllProductClient from "./AllProductClient";
+import AllProductClient from "../components/products/AllProductClient";
 import { createSlug } from "@/lib/slug";
 
 const PAGE_SIZE = 20;

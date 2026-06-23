@@ -2,7 +2,7 @@
 // app/product/[id]/page.tsx
 
 import type { Metadata } from "next";
-import ProductPDPClient from "./ProductIdClient";
+import ProductPDPClient from "../../components/products/ProductIdClient";
 import { IMSProduct } from "@/Types/Product";
 import { createSlug, getProductIdFromSlug } from "@/lib/slug";
 import { redirect } from "next/navigation";

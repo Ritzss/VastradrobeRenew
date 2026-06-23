@@ -1,5 +1,5 @@
 import React from 'react'
-import BlogClient from "./BlogsClient"
+import BlogClient from "../components/blog/BlogsClient"
 
 const BlogsPage = () => {
   return (

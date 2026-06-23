@@ -1,5 +1,7 @@
 // app/search/page.tsx
-import ProductClient from "@/[category]/ProductClient";
+// import ProductClient from "@/[category]/ProductClient";
+
+import ProductClient from "@/components/products/ProductClient";
 
 export default async function SearchPage() {
 

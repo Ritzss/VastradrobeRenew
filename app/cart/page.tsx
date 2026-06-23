@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
-import CartClient from "./CartClient";
+import CartClient from "../components/cart/CartClient";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
