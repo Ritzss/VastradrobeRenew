@@ -63,7 +63,7 @@ const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
 
       <div className="max-w-6xl mx-auto space-y-12">
         {/* Profile Summary */}
-        <div className="bg-white rounded-[32px] shadow-[0_30px_80px_rgba(149,127,106,0.15)]">
+        <div className="bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)]">
           <ProfileCard
             name={user?.username}
             handle={user?.username}
@@ -95,7 +95,7 @@ const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
         {/* Main Grid */}
         <div className="grid md:grid-cols-3 gap-10">
           {/* DETAILS */}
-          <div className="md:col-span-2 bg-white rounded-[32px] shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 space-y-6">
+          <div className="md:col-span-2 bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 space-y-6">
             <div>
               <label className="text-sm text-[#7a6a5c]">Email</label>
               <div className="mt-1 border-b border-[#e6d8c8] p-2 text-[#5f5143]">
@@ -144,7 +144,7 @@ const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
           </div>
 
           {/* ACTIONS */}
-          <div className="bg-white rounded-[32px] shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 space-y-4">
+          <div className="bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 space-y-4">
             <ProfileAction href="/orders" label="My Orders" />
             <ProfileAction href="/favorites" label="My Favorites" />
             <ProfileAction
