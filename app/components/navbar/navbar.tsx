@@ -168,7 +168,7 @@ const Navbar = () => {
               onMouseLeave={() => setDropdownOpen(false)}
             >
               <Link
-                href="/product"
+                href="/collection"
                 className="flex items-center gap-2 hover:text-[#6a0f1f]"
                 aria-haspopup="true"
                 aria-expanded={dropdownOpen}

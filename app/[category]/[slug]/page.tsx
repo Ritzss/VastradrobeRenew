@@ -4,6 +4,8 @@
 import type { Metadata } from "next";
 import ProductPDPClient from "./ProductIdClient";
 import { IMSProduct } from "@/Types/Product";
+import { createSlug, getProductIdFromSlug } from "@/lib/slug";
+import { redirect } from "next/navigation";
 
 async function getProduct(id: number): Promise<IMSProduct | null> {
   const res = await fetch(
@@ -50,11 +52,24 @@ async function getInventory(productId: number) {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{
+    category: string;
+    slug: string;
+  }>;
 }): Promise<Metadata> {
-  const { id } = await params;
+  const { slug } = await params;
 
-  const product = await getProduct(Number(id));
+  let productId: number;
+
+  try {
+    productId = getProductIdFromSlug(slug);
+  } catch {
+    return {
+      title: "Product Not Found | VastraDrobe",
+    };
+  }
+
+  const product = await getProduct(productId);
 
   if (!product) {
     return {
@@ -68,8 +83,14 @@ export async function generateMetadata({
   const image =
     product.variants?.[0]?.images?.[0] || "https://vastradrobe.com/logo.png";
 
+  const productUrl = `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
+    product.name,
+    product.productId,
+  )}`;
+
   return {
-    title: `${product.name} - ${product.category} | VastraDrobe`,
+    title: `${product.name} | ${product.category} | VastraDrobe`,
+
     description,
 
     keywords: [
@@ -79,16 +100,16 @@ export async function generateMetadata({
       "VastraDrobe",
       "Fashion",
       "Online Shopping",
-    ].filter((keyword): keyword is string => Boolean(keyword)),
+    ].filter(Boolean) as string[],
 
     alternates: {
-      canonical: `https://vastradrobe.com/product/${product.productId}`,
+      canonical: productUrl,
     },
 
     openGraph: {
       title: product.name,
       description,
-      url: `https://vastradrobe.com/product/${product.productId}`,
+      url: productUrl,
       siteName: "VastraDrobe",
       images: [
         {
@@ -109,20 +130,36 @@ export async function generateMetadata({
   };
 }
 
+
+
 export default async function ProductPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{
+    category: string;
+    slug: string;
+  }>;
 }) {
-  const { id } = await params;
+  const { slug, category } = await params;
 
-  const productId = Number(id);
+  let productId: number;
 
-  if (Number.isNaN(productId)) {
+  try {
+    productId = getProductIdFromSlug(slug);
+  } catch {
     return <div className="p-10 text-center">Invalid product</div>;
   }
 
   const product = await getProduct(productId);
+
+  if (product && product.category.toLowerCase() !== category.toLowerCase()) {
+    redirect(
+      `/${product.category.toLowerCase()}/${createSlug(
+        product.name,
+        product.productId,
+      )}`,
+    );
+  }
 
   if (!product) {
     return <div className="p-10 text-center">Product not found</div>;
@@ -166,7 +203,10 @@ export default async function ProductPage({
         "@type": "ListItem",
         position: product.subcategory ? 4 : 3,
         name: product.name,
-        item: `https://vastradrobe.com/product/${product.productId}`,
+        item: `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
+          product.name,
+          product.productId,
+        )}`,
       },
     ],
   };
@@ -193,7 +233,10 @@ export default async function ProductPage({
     offers: {
       "@type": "Offer",
 
-      url: `https://vastradrobe.com/product/${product.productId}`,
+      url: `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
+        product.name,
+        product.productId,
+      )}`,
 
       priceCurrency: "INR",
 

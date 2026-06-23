@@ -14,6 +14,7 @@ import Link from "next/link";
 import { RiHeartFill } from "react-icons/ri";
 import { toast } from "sonner";
 import { IMSInventory } from "@/Types/Inventory";
+import { createSlug } from "@/lib/slug";
 
 interface ProductQuickViewProps {
   product: IMSProduct | null;
@@ -89,7 +90,7 @@ const ProductQuickView = ({
   // console.log("IMS URL:", process.env.NEXT_PUBLIC_IMS_BASE_URL);
 
   useEffect(() => {
-    if (!product?.productId) return;
+    if (!productId) return;
 
     const fetchInventory = async () => {
       try {
@@ -112,17 +113,15 @@ const ProductQuickView = ({
         setInventory([]);
       }
     };
-
     fetchInventory();
-  }, [product?.productId, productId]);
+  }, [productId]);
 
   useEffect(() => {
     if (!product) return;
-
     setSelectedColor(0);
     setSelectedSize("");
     setActiveImage(0);
-  }, [product, product?.productId]);
+  }, [product]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -130,6 +129,8 @@ const ProductQuickView = ({
     document.body.style.overflow = "hidden";
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.repeat) return;
+
       if (e.key === "Escape") onClose();
       if (e.key === "ArrowLeft") onPrev();
       if (e.key === "ArrowRight") onNext();
@@ -260,6 +261,7 @@ const ProductQuickView = ({
                 src={currentVariant?.images?.[activeImageIndex]}
                 alt=""
                 fill
+                sizes="(max-width: 768px) 100vw, 25vw"
                 className="object-cover blur scale-110 opacity-40"
               />
 
@@ -269,6 +271,7 @@ const ProductQuickView = ({
                   src={currentVariant?.images?.[activeImageIndex]}
                   alt={product.name}
                   fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
                   className="object-contain md:object-cover"
                 />
                 {/* Wishlist */}
@@ -297,7 +300,7 @@ const ProductQuickView = ({
                         : "border-white"
                     }`}
                   >
-                    <Image src={image} alt="" fill className="object-cover" />
+                    <Image src={image} alt="" fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" />
                   </button>
                 ))}
               </div>
@@ -432,7 +435,10 @@ const ProductQuickView = ({
             )}
 
             <Link
-              href={`/product/${productId}`}
+              href={`/${product.category.toLowerCase()}/${createSlug(
+                product.name,
+                product.productId,
+              )}`}
               className="inline-flex items-center mt-5 gap-2 text-sm font-medium text-[#3d342d] hover:gap-3 transition-all"
             >
               Explore The Product

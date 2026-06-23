@@ -75,8 +75,21 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
 
   return (
     <section className="w-full pt-28 px-12 bg-[#f9f5ef]">
+      <h1 className="sr-only">All Fashion Products | VastraDrobe</h1>
+      <div className="flex flex-col justify-center items-center">
+        <h1 className="mb-3 text-4xl md:text-5xl font-light tracking-tight text-[#5f5143]">
+        Curated for Every Occasion
+      </h1>
+
+      <p className="mb-10 max-w-3xl text-center leading-7 text-[#7a6a5c]">
+        Browse our complete collection of contemporary fashion, from effortless
+        everyday wear to standout statement pieces. Find styles that move with
+        you, wherever the day takes you.
+      </p>
+      </div>
+
       {/* Count */}
-      <div className="mb-8 text-sm text-[#7a6a5c]">
+      <div className="mb-10 text-sm text-[#7a6a5c]">
         Showing {groupedProducts.length} products
       </div>
 
@@ -92,7 +105,11 @@ const AllProductClient = ({ initialProducts, pageSize }: Props) => {
       "
       >
         {groupedProducts.map((item, index) => (
-          <ProductCard key={`${item.productId}-${index}`} product={item} Linked />
+          <ProductCard
+            key={`${item.productId}-${index}`}
+            product={item}
+            Linked
+          />
         ))}
       </div>
 

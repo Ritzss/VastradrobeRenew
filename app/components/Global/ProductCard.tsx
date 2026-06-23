@@ -10,6 +10,7 @@ import { FaCartArrowDown } from "react-icons/fa6";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
 import Link from "next/link";
 import { toast } from "sonner";
+import { createSlug } from "@/lib/slug";
 // import { Heart } from "lucide-react";
 // import { RiHeartFill } from "react-icons/ri";
 
@@ -78,7 +79,12 @@ export default function ProductCard({
       {/* IMAGE BLOCK */}
       <div className="relative aspect-3/4 w-full rounded-4xl overflow-hidden bg-[#f5f1e7]">
         {Linked && (
-          <Link href={`/product/${productId}`}>
+          <Link
+            href={`/${product.category.toLowerCase()}/${createSlug(
+              product.name,
+              product.productId,
+            )}`}
+          >
             <Image
               src={imageSrc}
               fill

@@ -173,6 +173,18 @@ export default function ProductPDPClient({
       : addToCart(productId, selectedSize, selectedVariant.color);
   };
 
+  const categoryLabel = ["boys", "girls"].includes(
+    product.category.toLowerCase(),
+  )
+    ? "Kids"
+    : product.category;
+
+  const categorySlug = ["boys", "girls"].includes(
+    product.category.toLowerCase(),
+  )
+    ? "kids"
+    : product.category.toLowerCase();
+
   const handleBuyNow = () => {
     if (!selectedSize || !selectedVariant) return;
 
@@ -184,15 +196,34 @@ export default function ProductPDPClient({
   return (
     <div className="px-6 md:px-12 py-12 space-y-12 pt-28">
       {/* BREADCRUMB */}
-      <nav className="text-sm text-[#957f6a]">
-        <ol className="flex gap-2">
+      <nav className="mb-6 text-sm text-[#957f6a]">
+        <ol className="flex flex-wrap items-center gap-2">
           <li>
             <Link href="/" className="hover:text-[#5f5143]">
               Home
             </Link>
           </li>
-          <li>/</li>
-          <li className="text-[#5f5143] font-medium">{product.name}</li>
+
+          <li>
+            <span className="text-[#c8b9a8]">›</span>
+          </li>
+
+          <li>
+            <Link
+              href={`/${categorySlug}`}
+              className="capitalize hover:text-[#5f5143]"
+            >
+              {categoryLabel}
+            </Link>
+          </li>
+
+          <li>
+            <span className="text-[#c8b9a8]">›</span>
+          </li>
+
+          <li className="font-medium text-[#5f5143] line-clamp-1">
+            {product.name}
+          </li>
         </ol>
       </nav>
 
@@ -351,7 +382,7 @@ export default function ProductPDPClient({
                     {size}
                     {stockMap[size] !== undefined && stockMap[size] < 10 && (
                       <span className="ml-2 text-xs text-red-500">
-                         {stockMap[size]} left, Hurry!
+                        {stockMap[size]} left, Hurry!
                       </span>
                     )}
                   </button>
@@ -413,7 +444,12 @@ export default function ProductPDPClient({
             </div>
           ) : (
             <div className="relative flex top-3 left-3">
-              <button onClick={()=>{toast.success("Will be notified when restocked")}} className="flex-1 flex justify-center py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40">
+              <button
+                onClick={() => {
+                  toast.success("Will be notified when restocked");
+                }}
+                className="flex-1 flex justify-center py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-40"
+              >
                 {`Notify Me When Available (Sold Out)`}
               </button>
             </div>
