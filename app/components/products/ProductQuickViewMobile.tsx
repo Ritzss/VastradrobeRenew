@@ -134,6 +134,7 @@ export default function ProductStackMobile({
                             src={image}
                             alt={`${product.name}-${idx}`}
                             fill
+                            sizes="100vw"
                             className="object-cover"
                           />
                           {/* Badge */}

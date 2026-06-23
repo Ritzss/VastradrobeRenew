@@ -270,7 +270,7 @@ const ProductQuickView = ({
                 src={currentVariant?.images?.[activeImageIndex]}
                 alt=""
                 fill
-                sizes="(max-width: 768px) 100vw, 25vw"
+                sizes="100vw"
                 className="object-cover blur scale-110 opacity-40"
               />
 
@@ -280,7 +280,7 @@ const ProductQuickView = ({
                   src={currentVariant?.images?.[activeImageIndex]}
                   alt={product.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, 25vw"
+                  sizes="100vw"
                   className="object-contain md:object-cover"
                 />
                 {/* Wishlist */}
@@ -313,7 +313,7 @@ const ProductQuickView = ({
                       src={image}
                       alt=""
                       fill
-                      sizes="(max-width: 768px) 100vw, 25vw"
+                      sizes="100vw"
                       className="object-cover"
                     />
                   </button>
