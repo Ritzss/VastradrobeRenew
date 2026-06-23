@@ -1,40 +1,62 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MetadataRoute } from "next";
+import { createSlug } from "@/lib/slug";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://vastradrobe.com";
 
   const staticPages = [
     "",
+    "/collection",
     "/blog",
-    "/favorites",
-    "/orders",
-    "/profile",
-    "/search",
     "/support",
     "/policies",
-    "/account",
-  ];
-
-  const categories = [
-    "women",
-    "men",
-    "kids",
-    "ethnic",
+    "/women",
+    "/men",
+    "/kids",
+    "/ethnic",
   ];
 
   const staticUrls = staticPages.map((page) => ({
     url: `${baseUrl}${page}`,
     lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: page === "" ? 1 : 0.8,
+    changeFrequency: page === "" ? ("daily" as const) : ("weekly" as const),
+    priority: page === "" ? 1.0 : 0.9,
   }));
 
-  const categoryUrls = categories.map((category) => ({
-    url: `${baseUrl}/${category}`,
-    lastModified: new Date(),
-    changeFrequency: "daily" as const,
-    priority: 0.9,
-  }));
+  let productUrls: MetadataRoute.Sitemap = [];
 
-  return [...staticUrls, ...categoryUrls];
+  try {
+    const res = await fetch(
+      `${process.env.IMS_BASE_URL}/api/ims/public/products?limit=5000`,
+      {
+        next: { revalidate: 3600 },
+      },
+    );
+
+    if (res.ok) {
+      const data = await res.json();
+
+      productUrls = (data.products || []).map((product: any) => {
+        const category =
+          ["boys", "girls"].includes(product.category?.toLowerCase())
+            ? "kids"
+            : product.category?.toLowerCase();
+
+        return {
+          url: `${baseUrl}/${category}/${createSlug(
+            product.name,
+            product.productId,
+          )}`,
+          lastModified: new Date(),
+          changeFrequency: "weekly",
+          priority: 0.8,
+        };
+      });
+    }
+  } catch (error) {
+    console.error("Sitemap generation error:", error);
+  }
+
+  return [...staticUrls, ...productUrls];
 }
