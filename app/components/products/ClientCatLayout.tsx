@@ -28,7 +28,7 @@ const ClientCatLayout = ({ children }: { children: ReactNode }) => {
       </div>
 
       {/* DESKTOP */}
-      <div className="hidden md:flex gap-16 px-16 pt-16">
+      <div className="hidden md:flex gap-16 px-1 pt-16">
         <aside className="w-72 shrink-0 sticky top-32 self-start">
           <SideFilter />
         </aside>

@@ -2,7 +2,7 @@ export default function Loading() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f5f1e7] relative overflow-hidden">
       {/* Ambient gradient glow */}
-      <div className="absolute w-[500px] h-[500px] bg-[#e9e1d4] rounded-full blur-3xl opacity-40 animate-pulse" />
+      <div className="absolute w-125 h-125 bg-[#e9e1d4] rounded-full blur-3xl opacity-40 animate-pulse" />
 
       {/* Floating rotating soft ring */}
       <div className="relative flex flex-col items-center">

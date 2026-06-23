@@ -25,7 +25,7 @@ export default function ProductCardStatic({
         className="flex flex-col w-full"
       >
         <div
-          className={`relative aspect-[3/4] w-full rounded-4xl overflow-hidden bg-[#f5f1e7] ${
+          className={`relative aspect-3/4 w-full rounded-4xl overflow-hidden bg-[#f5f1e7] ${
             classNameInner ?? ""
           }`}
         >
@@ -40,7 +40,7 @@ export default function ProductCardStatic({
       </Link>
 
       <div className="mt-4 text-center">
-        <p className="text-[14px] font-medium text-[#5f5143]">{product.name}</p>
+        <p className="text-[14px] font-medium text-[#5f5143] line-clamp-2">{product.name}</p>
 
         {product.price && (
           <p className="mt-1 text-[13px] text-[#957f6a]">₹{product.price}</p>

@@ -58,16 +58,7 @@ const FavoritesClient = () => {
         {!showInput ? (
           <button
             onClick={() => setShowInput(true)}
-            className="
-              flex items-center gap-2
-              px-5 py-2
-              rounded-full
-              bg-[#5f5143]
-              text-white
-              text-sm
-              hover:bg-[#6a0f1f]
-              transition
-            "
+            className="  flex items-center gap-2  px-5 py-2  rounded-full  bg-[#5f5143]  text-white  text-sm  hover:bg-[#6a0f1f]  transition"
           >
             <Plus size={16} />
             New Collection
@@ -78,14 +69,7 @@ const FavoritesClient = () => {
               value={newCollection}
               onChange={(e) => setNewCollection(e.target.value)}
               placeholder="Collection name"
-              className="
-                border border-[#e6d8c8]
-                px-4 py-2
-                rounded-full
-                text-sm
-                outline-none
-                focus:border-[#5f5143]
-              "
+              className=" border border-[#e6d8c8] px-4 py-2 rounded-full text-sm outline-none focus:border-[#5f5143]"
             />
             <button
               onClick={() => {
@@ -94,15 +78,7 @@ const FavoritesClient = () => {
                 setNewCollection("");
                 setShowInput(false);
               }}
-              className="
-                px-4 py-2
-                rounded-full
-                bg-[#5f5143]
-                text-white
-                text-sm
-                hover:bg-[#6a0f1f]
-                transition
-              "
+              className=" px-4 py-2 rounded-full bg-[#5f5143] text-white text-sm hover:bg-[#6a0f1f] transition"
             >
               Create
             </button>
@@ -111,13 +87,7 @@ const FavoritesClient = () => {
                 setShowInput(false);
                 setNewCollection("");
               }}
-              className="
-                px-4 py-2
-                rounded-full
-                bg-[#e6d8c8]
-                text-[#5f5143]
-                text-sm
-              "
+              className=" px-4 py-2 rounded-full bg-[#e6d8c8] text-[#5f5143] text-sm"
             >
               Cancel
             </button>
@@ -171,16 +141,7 @@ const FavoritesClient = () => {
           </p>
           <Link
             href="/"
-            className="
-              inline-block
-              mt-4
-              px-6 py-3
-              rounded-full
-              bg-[#5f5143]
-              text-white
-              hover:bg-[#6a0f1f]
-              transition
-            "
+            className=" inline-block mt-4 px-6 py-3 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition"
           >
             Explore Products →
           </Link>
@@ -227,20 +188,12 @@ const FavoritesClient = () => {
                       stiffness: 200,
                     }}
                   >
-                    <ProductCard product={item}>
+                    <ProductCard product={item} Linked>
                       <button
                         onClick={() =>
                           removeFromCollection(collection, item.productId)
                         }
-                        className="
-                            mt-4 w-full py-2
-                            rounded-full
-                            bg-[#5f5143]
-                            text-white
-                            text-sm
-                            hover:bg-[#6a0f1f]
-                            transition
-                          "
+                        className=" mt-4 w-full py-2 rounded-full bg-[#5f5143] text-white text-sm hover:bg-[#6a0f1f] transition"
                       >
                         Remove
                       </button>

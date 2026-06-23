@@ -37,7 +37,8 @@ export type IMSProduct = {
     | "kidsHoodie"
     | "fullSleeveTop"
     | "ribbedTop"
-    | "generalTopBottom";
+    | "generalTopBottom"
+    | "MensShirt";
 
   productDetails?: ProductDetails;
 };

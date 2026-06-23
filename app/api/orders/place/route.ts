@@ -27,14 +27,16 @@ export async function POST(req: Request) {
     if (!address || !phone || !products?.length) {
       return NextResponse.json(
         { message: "Invalid order data" },
-        { status: 400 }
+        { status: 400 },
       );
     }
+
+    // console.log(JSON.stringify(products, null, 2));
 
     if (!payment) {
       return NextResponse.json(
         { message: "Payment data missing" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -47,28 +49,39 @@ export async function POST(req: Request) {
     }
 
     /* ---------------- PAYMENT VERIFY ---------------- */
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-    } = payment;
+    let razorpay_order_id = null;
+    let razorpay_payment_id = null;
 
-    const generatedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
-      .update(razorpay_order_id + "|" + razorpay_payment_id)
-      .digest("hex");
+    if (process.env.NODE_ENV !== "development") {
+      const {
+        razorpay_order_id: orderId,
+        razorpay_payment_id: paymentId,
+        razorpay_signature,
+      } = payment;
 
-    if (generatedSignature !== razorpay_signature) {
-      return NextResponse.json(
-        { message: "Invalid payment signature" },
-        { status: 400 }
-      );
+      const generatedSignature = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+        .update(orderId + "|" + paymentId)
+        .digest("hex");
+
+      if (generatedSignature !== razorpay_signature) {
+        return NextResponse.json(
+          { message: "Invalid payment signature" },
+          { status: 400 },
+        );
+      }
+
+      razorpay_order_id = orderId;
+      razorpay_payment_id = paymentId;
+    } else {
+      razorpay_order_id = `dev_order_${Date.now()}`;
+      razorpay_payment_id = `dev_payment_${Date.now()}`;
     }
 
     /* ---------------- TOTAL ---------------- */
     const totalAmount = products.reduce(
       (sum: number, p: any) => sum + p.price * p.qty,
-      0
+      0,
     );
 
     /* ---------------- CREATE ORDER ---------------- */
@@ -94,14 +107,16 @@ export async function POST(req: Request) {
       {
         message: "Order placed successfully",
         orderId: order._id,
+        totalAmount,
+        products,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("ORDER ERROR:", error);
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

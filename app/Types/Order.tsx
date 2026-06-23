@@ -3,6 +3,7 @@ export type OrderItem = {
   name: string;
   price: number;
   size: string; // 👈 single size, not array
+  color: string; // 👈 single size, not array
   qty: number;
   image?: string;
 };

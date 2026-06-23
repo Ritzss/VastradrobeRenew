@@ -61,7 +61,7 @@ export default function ScrollRevealProducts({
             href={`/${encodeURIComponent(category.toLowerCase())}`}
             className="px-8 py-3 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
           >
-            Browse All {category}
+            browse all {category}
           </Link>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function ScrollRevealProducts({
       <div className="hidden md:flex justify-center gap-10">
         {filteredProducts.slice(0, 3).map((product) => (
           <ScrollReveal key={product.productId}>
-            <div className="w-[280px]">
+            <div className="w-70">
               <ProductCardStatic product={product} />
             </div>
           </ScrollReveal>
@@ -81,7 +81,7 @@ export default function ScrollRevealProducts({
       <div className="hidden md:flex justify-center mt-16">
         <Link
           href={`/${encodeURIComponent(category.toLowerCase())}`}
-          className="px-10 py-3 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
+          className="px-10 py-3 capitalize rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
         >
           Browse All {category}
         </Link>

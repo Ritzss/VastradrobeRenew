@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/product/[id]/SimilarProducts.tsx
 import ProductCard from "@/components/Global/ProductCard";
 
@@ -30,8 +31,7 @@ export default async function SimilarProducts({
           <ProductCard
             key={p.productId}
             className="product-card border bg-white"
-            product={p}
-          />
+            product={p} Linked          />
         ))}
       </div>
     </section>

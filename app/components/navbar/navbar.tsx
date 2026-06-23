@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -49,6 +50,7 @@ const Navbar = () => {
   ];
 
   const {
+    products,
     user,
     authLoading,
     cartCount,
@@ -75,33 +77,37 @@ const Navbar = () => {
   }, []);
 
   /* 🔍 FETCH SEARCH SUGGESTIONS (DEBOUNCED) */
-  useEffect(() => {
+useEffect(() => {
+  const fetchSuggestions = async () => {
     if (!searchQuery.trim()) {
       setSuggestions([]);
       return;
     }
 
-    const timer = setTimeout(async () => {
-      try {
-        setLoadingSuggestions(true);
+    try {
+      setLoadingSuggestions(true);
 
-        const res = await fetch(
-          `/api/search/suggestions?q=${encodeURIComponent(searchQuery)}`,
-        );
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?search=${encodeURIComponent(
+          searchQuery
+        )}`
+      );
 
-        if (!res.ok) throw new Error("Failed to fetch");
+      const data = await res.json();
 
-        const data = await res.json();
-        setSuggestions(data || []);
-      } catch {
-        setSuggestions([]);
-      } finally {
-        setLoadingSuggestions(false);
-      }
-    }, 300);
+      setSuggestions(data.products?.slice(0, 8) || []);
+    } catch (error) {
+      console.error("Suggestion Error:", error);
+      setSuggestions([]);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
 
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
+  const timer = setTimeout(fetchSuggestions, 300);
+
+  return () => clearTimeout(timer);
+}, [searchQuery]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -124,9 +130,37 @@ const Navbar = () => {
   const handleSelectSuggestion = (id: string) => {
     setSuggestions([]);
     setSearchQuery("");
-    router.push(`/product/${id}`);
+    router.push(`/collection`);
   };
 
+  const handleSearch = () => {
+    const query = searchQuery.trim();
+
+    if (!query) return;
+
+    setSuggestions([]);
+    router.push(`/search?q=${encodeURIComponent(query)}`);
+  };
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    const filtered = products
+      .filter((product: any) =>
+        product.productName?.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+      .slice(0, 5);
+
+    setSuggestions(filtered);
+  }, [searchQuery, products]);
+
+  // const router = useRouter();
+
+  // const [searchQuery, setSearchQuery] = useState("");
+  // const [suggestions, setSuggestions] = useState<any[]>([]);
   return (
     // Make NAV pill slightly elevated and pill-shaped
     <nav aria-label="Main navigation">
@@ -155,7 +189,7 @@ const Navbar = () => {
           </Link>
 
           {/* NAV LINKS (desktop) */}
-          <div className="hidden md:flex flex-1 items-center gap-6 text-sm font-medium text-[#957f6a]">
+          <div className="hidden md:flex flex-1 items-center gap-3 text-sm font-medium text-[#957f6a]">
             <Link href="/" className="hover:text-[#6a0f1f]">
               Home
             </Link>
@@ -167,7 +201,7 @@ const Navbar = () => {
               onMouseLeave={() => setDropdownOpen(false)}
             >
               <Link
-                href="/product"
+                href="/collection"
                 className="flex items-center gap-2 hover:text-[#6a0f1f]"
                 aria-haspopup="true"
                 aria-expanded={dropdownOpen}
@@ -186,14 +220,14 @@ const Navbar = () => {
                   {/* Arrow */}
                   <div className="absolute left-10 top-3 w-5 h-5 bg-white rotate-45"></div>
 
-                  <div className="w-[820px] rounded-[48px] p-5 bg-white">
+                  <div className="w-205 rounded-[48px] p-5 bg-white">
                     <div className="grid grid-cols-3 gap-6">
                       {/* WOMEN */}
                       <Link
-                        href="/women"
+                        href="/women#categoryPage"
                         className="flex flex-col items-center text-center group"
                       >
-                        <div className="relative w-full h-[140px] rounded-4xl overflow-hidden">
+                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
                           <Image
                             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770977218/products/ocktsxwyzhi2rzwoantd.jpg"
                             alt="Women's Co-ords"
@@ -208,10 +242,10 @@ const Navbar = () => {
 
                       {/* MEN */}
                       <Link
-                        href="/men"
+                        href="/men#categoryPage"
                         className="flex flex-col items-center text-center group"
                       >
-                        <div className="relative w-full h-[140px] rounded-4xl overflow-hidden">
+                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
                           <Image
                             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771238559/products/miaelyvxljqatr8prk9v.jpg"
                             alt="Men's Linen Essentials"
@@ -220,16 +254,16 @@ const Navbar = () => {
                           />
                         </div>
                         <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Men&apos;s Linen Essentials
+                          Men&apos;s Fashion & Clothing
                         </span>
                       </Link>
 
                       {/* KIDS */}
                       <Link
-                        href="/kids"
+                        href="/kids#categoryPage"
                         className="flex flex-col items-center text-center group"
                       >
-                        <div className="relative w-full h-[140px] rounded-4xl overflow-hidden">
+                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
                           <Image
                             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770292098/products/uiyy3o3gztwnx5et7oiy.jpg"
                             alt="Kids' Comfort Wear"
@@ -379,7 +413,7 @@ const Navbar = () => {
                 >
                   <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[#5f5143] text-sm font-medium shadow-sm hover:bg-[#e9e1d4] transition">
                     <RiAccountBoxLine size={18} />
-                    <span className="max-w-[110px] truncate">
+                    <span className="max-w-27.5 truncate">
                       {user?.username}
                     </span>
                     <IoIosArrowDown size={14} />
@@ -442,7 +476,7 @@ const Navbar = () => {
               style={{ background: "#f5f1e7" }}
             >
               {/* SEARCH */}
-              <div>
+              <div className="relative">
                 <div
                   className="flex items-center gap-3 rounded-full px-4 py-3"
                   style={{
@@ -450,22 +484,47 @@ const Navbar = () => {
                     boxShadow: "inset 0 1px 4px rgba(0,0,0,0.04)",
                   }}
                 >
-                  <IoSearch className="text-[#957f6a]" size={18} />
+                  <IoSearch
+                    className="text-[#957f6a] cursor-pointer"
+                    size={18}
+                    onClick={handleSearch}
+                  />
+
                   <input
                     className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#b99f84]"
-                    placeholder="Search"
+                    placeholder="Search products..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && searchQuery.trim()) {
-                        setSuggestions([]);
-                        router.push(
-                          `/search?q=${encodeURIComponent(searchQuery)}`,
-                        );
+                      if (e.key === "Enter") {
+                        handleSearch();
                       }
                     }}
                   />
                 </div>
+
+                {suggestions.length > 0 && (
+                  <div className="absolute left-0 right-0 mt-2 bg-white rounded-xl border shadow-lg z-50 overflow-hidden">
+                    {suggestions.map((item: any) => (
+                      <button
+                        key={item._id}
+                        type="button"
+                        className="w-full px-4 py-3 text-left hover:bg-gray-50 transition"
+                        onClick={() => {
+                          setSearchQuery(item.productName);
+                          setSuggestions([]);
+                          router.push(
+                            `/search?q=${encodeURIComponent(item.productName)}`,
+                          );
+                        }}
+                      >
+                        <div className="font-medium text-sm">
+                          {item.productName}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* PRIMARY LINKS */}
@@ -497,21 +556,21 @@ const Navbar = () => {
                 {open && (
                   <div className="bg-[#faf7f2]">
                     <Link
-                      href="/women"
+                      href="/women#categoryPage"
                       onClick={() => setOpen(false)}
                       className="block px-12 py-3 text-sm text-[#957f6a] hover:bg-[#e9e1d4]"
                     >
                       Women
                     </Link>
                     <Link
-                      href="/men"
+                      href="/men#categoryPage"
                       onClick={() => setOpen(false)}
                       className="block px-12 py-3 text-sm text-[#957f6a] hover:bg-[#e9e1d4]"
                     >
                       Men
                     </Link>
                     <Link
-                      href="/kids"
+                      href="/kids#categoryPage"
                       onClick={() => setOpen(false)}
                       className="block px-12 py-3 text-sm text-[#957f6a] hover:bg-[#e9e1d4]"
                     >

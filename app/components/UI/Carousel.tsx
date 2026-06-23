@@ -14,7 +14,11 @@ export interface CarouselItem {
   description?: string;
   icon?: React.ReactNode;
   image?: string;
-  video?: string;
+  video?: string,
+  proof?: {
+    videos?: string[];
+    images?: string[];
+  };
 }
 
 export interface CarouselProps {
@@ -46,6 +50,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
   {
     id: 2,
@@ -61,6 +68,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
   {
     id: 3,
@@ -76,6 +86,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
   {
     id: 4,
@@ -91,6 +104,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
   {
     id: 5,
@@ -106,6 +122,9 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
       </div>
     ),
     image: "/Assets/Images/Profiles/profile.jpg",
+    // proof: {
+    //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
+    // },
   },
 ];
 
@@ -195,9 +214,7 @@ function CarouselItem({
       {variant === "review" && (
         <div className="md:p-10 lg:p-10 p-5 h-[65%] w-full text-start">
           <div className="mb-1 font-black text-lg text-white">{item.title}</div>
-          <div className="text-sm text-white">
-            {item.description || ""}
-          </div>
+          <div className="text-sm text-white">{item.description || ""}</div>
         </div>
       )}
     </motion.div>
@@ -386,31 +403,33 @@ export default function Carousel({
           />
         ))}
       </motion.div>
-      {variant === "review" && (<div
-        className={`flex w-full justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""}`}
-      >
-        <div className="mt-4 flex w-37.5 justify-between px-8">
-          {items.map((_, index) => (
-            <motion.div
-              key={index}
-              className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
-                activeIndex === index
-                  ? round
-                    ? "bg-white"
-                    : "bg-[#333333]"
-                  : round
-                    ? "bg-[#555]"
-                    : "bg-[rgba(51,51,51,0.4)]"
-              }`}
-              animate={{
-                scale: activeIndex === index ? 1.2 : 1,
-              }}
-              onClick={() => setPosition(loop ? index + 1 : index)}
-              transition={{ duration: 0.15 }}
-            />
-          ))}
+      {variant === "review" && (
+        <div
+          className={`flex w-full justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""}`}
+        >
+          <div className="mt-4 flex w-37.5 justify-between px-8">
+            {items.map((_, index) => (
+              <motion.div
+                key={index}
+                className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
+                  activeIndex === index
+                    ? round
+                      ? "bg-white"
+                      : "bg-[#333333]"
+                    : round
+                      ? "bg-[#555]"
+                      : "bg-[rgba(51,51,51,0.4)]"
+                }`}
+                animate={{
+                  scale: activeIndex === index ? 1.2 : 1,
+                }}
+                onClick={() => setPosition(loop ? index + 1 : index)}
+                transition={{ duration: 0.15 }}
+              />
+            ))}
+          </div>
         </div>
-      </div>)}
+      )}
     </div>
   );
 }

@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IMSProduct } from "@/Types/Product";
 import { Order } from "@/Types/Order";
-import Image from "next/image";
+// import Image from "next/image";
 import EmptyState from "@/components/Global/EmptyState";
+// import { fbPixel } from "@/lib/facebookpixel";
 
 const STATUS_STEPS = ["pending", "paid", "packing", "shipping", "delivered"];
 
@@ -95,14 +96,7 @@ const OrdersPageClient = () => {
           return (
             <div
               key={order._id}
-              className="
-              bg-white
-              rounded-[32px]
-              shadow-[0_30px_80px_rgba(149,127,106,0.15)]
-              p-8
-              mb-12
-              transition
-            "
+              className=" bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 mb-12 transition"
             >
               {/* Header */}
               <div className="flex justify-between items-center mb-6">
@@ -131,7 +125,7 @@ const OrdersPageClient = () => {
                     />
                     {idx < STATUS_STEPS.length - 1 && (
                       <div
-                        className={`flex-1 h-[2px] ${
+                        className={`flex-1 h-0.5 ${
                           idx < currentStep ? "bg-[#6a0f1f]" : "bg-[#e6d8c8]"
                         }`}
                       />
@@ -181,13 +175,7 @@ const OrdersPageClient = () => {
                   setExpandedOrderId(order._id);
                   await loadDetailedProducts(order);
                 }}
-                className="
-                mt-6
-                text-sm
-                text-[#6a0f1f]
-                hover:underline
-                transition
-              "
+                className=" mt-6 text-sm text-[#6a0f1f] hover:underline transition"
               >
                 {expandedOrderId === order._id
                   ? "Hide Details"

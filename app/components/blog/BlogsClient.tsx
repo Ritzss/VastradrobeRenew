@@ -1,7 +1,7 @@
 "use client";
 
-import { blogs } from "../lib/blog";
-import AnimatedList from "../components/UI/AnimatedList";
+import { blogs } from "../../lib/blog";
+import AnimatedList from "../UI/AnimatedList";
 import BlogPreviewGrid from "@/components/Home/BlogPreviewGrid";
 
 interface BlogClientProps {

@@ -1,9 +1,9 @@
-"use client";
+// "use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { blogs } from "@/lib/blog";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 
 interface Props {
   limit?: number;
@@ -15,17 +15,17 @@ export default function BlogPreviewGrid({ limit = 3 }: Props) {
   return (
     <div className="grid md:grid-cols-3 gap-10">
       {items.map((blog, index) => (
-        <motion.div
-          key={blog.slug}
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: index * 0.15 }}
-          viewport={{ once: true }}
-        >
-          <Link href={`/blog/${blog.slug}`}>
+        // <motion.div
+        //   key={blog.slug}
+        //   initial={{ opacity: 0, y: 40 }}
+        //   whileInView={{ opacity: 1, y: 0 }}
+        //   transition={{ duration: 0.6, delay: index * 0.15 }}
+        //   viewport={{ once: true }}
+        // >
+          <Link key={blog.slug} href={`/blog/${blog.slug}`}>
             <div className="group cursor-pointer">
               {/* Image */}
-              <div className="relative h-[320px] rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
+              <div className="relative h-80 rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
                 <Image
                   src={blog.coverImage}
                   fill
@@ -46,7 +46,7 @@ export default function BlogPreviewGrid({ limit = 3 }: Props) {
               </div>
             </div>
           </Link>
-        </motion.div>
+        // </motion.div>
       ))}
     </div>
   );

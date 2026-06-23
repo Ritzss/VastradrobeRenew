@@ -1,5 +1,12 @@
-import ProfilePageClient from "./ProfilePageClient";
+import ProfilePageClient from "../components/auth/ProfilePageClient";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 const ProfilePage = () => {
   return (

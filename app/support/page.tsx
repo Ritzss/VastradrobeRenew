@@ -1,4 +1,4 @@
-import SupportPageClient from './SupportPageClient';
+import SupportPageClient from '../components/Global/SupportPageClient';
 
 const SupportPage = () => {
   return (

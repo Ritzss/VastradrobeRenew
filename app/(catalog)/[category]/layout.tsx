@@ -1,6 +1,6 @@
 
 import { ReactNode } from "react";
-import ClientCatLayout from "./ClientCatLayout";
+import ClientCatLayout from "../../components/products/ClientCatLayout";
 
 const layout = ({ children }: { children: ReactNode }) => {
   return (

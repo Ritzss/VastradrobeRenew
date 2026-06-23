@@ -10,10 +10,11 @@ import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
 // import SocialProof from "./components/Home/SocialProof";
 import { IMSProduct } from "./Types/Product";
 // import HomeVideosWrapper from "./components/Global/HomeVideosWrapper";
-import BlogClientWrapper from "./components/Global/BlogClientWrapper";
+// import BlogClientWrapper from "./components/Global/BlogClientWrapper";
 import SocialProofClient from "./components/Global/SocialProofClient";
 import dynamic from "next/dynamic";
 import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";
+import LandingSlider from "./components/Home/LandingSlider";
 
 // const BlogClient = dynamic(() => import("./blog/BlogsClient"));
 const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"), {
@@ -87,9 +88,14 @@ const Home = async () => {
   const menProducts = await getProductsByMainCategory("men");
 
   return (
-    <section className="w-full bg-[#f9f5ef] text-black">
+    <section className="w-full bg-[#f9f5ef] text-black ">
       {/* HERO */}
       <Slider />
+
+      {/* LANDING PAGE PROMO */}
+      <div className="hidden md:block">
+        <LandingSlider />
+      </div>
 
       {/* CATEGORY */}
       {/* <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
@@ -103,7 +109,10 @@ const Home = async () => {
       </section> */}
 
       {/* LATEST ARRIVALS */}
-      <section className="mx-auto py-24 text-center bg-[#fffaf6]">
+      <section
+        id="latestArrival"
+        className="mx-auto py-24 text-center bg-[#fffaf6]"
+      >
         <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
           New This Season
         </p>
@@ -121,7 +130,7 @@ const Home = async () => {
       </section>
 
       {/* WOMEN */}
-      <section className="bg-[#f9f5ef] py-24">
+      <section id="collection" className="bg-[#f9f5ef] py-24">
         <div className="max-w-7xl mx-auto px-6 text-center mb-20">
           <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
             Women

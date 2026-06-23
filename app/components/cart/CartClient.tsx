@@ -1,6 +1,6 @@
 "use client";
 
-import StarBorder from "@/components/UI/StarBorder";
+// import StarBorder from "@/components/UI/StarBorder";
 import { useAppContext } from "@/hooks/useAppContext";
 import Image from "next/image";
 import Link from "next/link";
@@ -144,7 +144,9 @@ const CartClient = () => {
                   <div className="relative w-28 h-36 rounded-2xl overflow-hidden bg-[#f3e7d8] shrink-0">
                     <Image
                       src={
-                        product.variants[0]?.images[0] ??
+                        product.variants.find((v) => v.color === entry.color)
+                          ?.images?.[0] ??
+                        product.variants[0]?.images?.[0] ??
                         "/Assets/Images/Newplaceholder.png"
                       }
                       fill
@@ -161,9 +163,10 @@ const CartClient = () => {
                         {product.name}
                       </h2>
 
-                      <p className="text-sm text-[#7a6a5c] mt-1">
+                      <div className="text-sm text-[#7a6a5c] mt-1">
+                        {entry.color && <p>Color: {entry.color}</p>}
                         Size: {entry.size}
-                      </p>
+                      </div>
 
                       <p className="text-sm text-[#7a6a5c]">
                         ₹{product.price} each
@@ -230,16 +233,7 @@ const CartClient = () => {
 
           {/* RIGHT – SUMMARY */}
           <div className="md:col-span-1">
-            <div
-              className="
-            bg-white
-            rounded-[32px]
-            shadow-[0_30px_80px_rgba(149,127,106,0.15)]
-            p-8
-            sticky top-28
-            space-y-6
-          "
-            >
+            <div className="  bg-white  rounded-4xl  shadow-[0_30px_80px_rgba(149,127,106,0.15)]  p-8  sticky top-28  space-y-6">
               <h3 className="text-xl font-semibold text-[#5f5143]">
                 Order Summary
               </h3>

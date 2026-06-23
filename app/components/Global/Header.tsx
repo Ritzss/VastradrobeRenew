@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaPlay, FaTimes } from "react-icons/fa";
+import Link from "next/link";
 
 export default function CampaignSection() {
   const [showVideo, setShowVideo] = useState(false);
@@ -22,7 +23,7 @@ export default function CampaignSection() {
       <section className="relative min-h-screen flex items-center justify-center text-center bg-[#edddc8] overflow-hidden">
         {/* Background Image */}
         <Image
-          src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770977218/products/ocktsxwyzhi2rzwoantd.jpg"
+          src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1780136028/Summer_1_a99xpy.jpg"
           alt="Hero"
           fill
           priority
@@ -45,7 +46,7 @@ export default function CampaignSection() {
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
             <button className="px-8 py-3 border border-white text-white rounded-full hover:bg-white hover:text-[#6a0f1f] transition text-sm tracking-widest uppercase">
-              Explore Collection
+            <Link href={'#collection'}>Explore Collection</Link>
             </button>
 
             <button
@@ -62,7 +63,7 @@ export default function CampaignSection() {
       {/* ================= VIDEO OVERLAY ================= */}
       {showVideo && (
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-[100] animate-fadeIn"
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-100 animate-fadeIn"
           onClick={() => setShowVideo(false)}
         >
           <div

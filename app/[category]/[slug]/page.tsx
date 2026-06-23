@@ -1,0 +1,274 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// app/product/[id]/page.tsx
+
+import type { Metadata } from "next";
+import ProductPDPClient from "../../components/products/ProductIdClient";
+import { IMSProduct } from "@/Types/Product";
+import { createSlug, getProductIdFromSlug } from "@/lib/slug";
+import { redirect } from "next/navigation";
+
+async function getProduct(id: number): Promise<IMSProduct | null> {
+  const res = await fetch(
+    `${process.env.IMS_BASE_URL}/api/ims/public/products/${id}`,
+    { next: { revalidate: 120 } },
+  );
+
+  if (!res.ok) return null;
+
+  const data = await res.json();
+  const product = data.product ?? null;
+
+  if (product && !Array.isArray(product.variants)) {
+    product.variants = [];
+  }
+
+  return product;
+}
+
+async function getAllProducts(): Promise<IMSProduct[]> {
+  const res = await fetch(
+    `${process.env.IMS_BASE_URL}/api/ims/public/products?limit=20`,
+    { next: { revalidate: 120 } },
+  );
+
+  if (!res.ok) return [];
+
+  const data = await res.json();
+  return data.products ?? [];
+}
+
+async function getInventory(productId: number) {
+  const res = await fetch(
+    `${process.env.IMS_BASE_URL}/api/ims/public/inventory/list?productId=${productId}`,
+    { next: { revalidate: 120 } },
+  );
+
+  if (!res.ok) return [];
+
+  const data = await res.json();
+  return data.inventory ?? [];
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{
+    category: string;
+    slug: string;
+  }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  let productId: number;
+
+  try {
+    productId = getProductIdFromSlug(slug);
+  } catch {
+    return {
+      title: "Product Not Found | VastraDrobe",
+    };
+  }
+
+  const product = await getProduct(productId);
+
+  if (!product) {
+    return {
+      title: "Product Not Found | VastraDrobe",
+    };
+  }
+
+  const description =
+    product.description || `${product.name} available online at VastraDrobe.`;
+
+  const image =
+    product.variants?.[0]?.images?.[0] || "https://vastradrobe.com/logo.png";
+
+  const productUrl = `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
+    product.name,
+    product.productId,
+  )}`;
+
+  return {
+    title: `${product.name} | ${product.category} | VastraDrobe`,
+
+    description,
+
+    keywords: [
+      product.name,
+      product.category,
+      product.subcategory,
+      "VastraDrobe",
+      "Fashion",
+      "Online Shopping",
+    ].filter(Boolean) as string[],
+
+    alternates: {
+      canonical: productUrl,
+    },
+
+    openGraph: {
+      title: product.name,
+      description,
+      url: productUrl,
+      siteName: "VastraDrobe",
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+        },
+      ],
+      type: "website",
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description,
+      images: [image],
+    },
+  };
+}
+
+
+
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{
+    category: string;
+    slug: string;
+  }>;
+}) {
+  const { slug, category } = await params;
+
+  let productId: number;
+
+  try {
+    productId = getProductIdFromSlug(slug);
+  } catch {
+    return <div className="p-10 text-center">Invalid product</div>;
+  }
+
+  const product = await getProduct(productId);
+
+  if (product && product.category.toLowerCase() !== category.toLowerCase()) {
+    redirect(
+      `/${product.category.toLowerCase()}/${createSlug(
+        product.name,
+        product.productId,
+      )}`,
+    );
+  }
+
+  if (!product) {
+    return <div className="p-10 text-center">Product not found</div>;
+  }
+
+  const inventory = await getInventory(productId);
+
+  const allProducts = await getAllProducts();
+
+  const similarProducts = allProducts.filter(
+    (p) => p.category === product.category && p.productId !== product.productId,
+  );
+
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://vastradrobe.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: product.category,
+        item: `https://vastradrobe.com/${product.category?.toLowerCase()}`,
+      },
+      ...(product.subcategory
+        ? [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: product.subcategory,
+              item: `https://vastradrobe.com/${product.category?.toLowerCase()}?subcategory=${product.subcategory}`,
+            },
+          ]
+        : []),
+      {
+        "@type": "ListItem",
+        position: product.subcategory ? 4 : 3,
+        name: product.name,
+        item: `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
+          product.name,
+          product.productId,
+        )}`,
+      },
+    ],
+  };
+
+  const productStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+
+    name: product.name,
+
+    image: product.variants?.flatMap((variant) => variant.images) || [],
+
+    description: product.description || "",
+
+    sku: String(product.productId),
+
+    brand: {
+      "@type": "Brand",
+      name: product.brand || "VastraDrobe",
+    },
+
+    category: product.category,
+
+    offers: {
+      "@type": "Offer",
+
+      url: `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
+        product.name,
+        product.productId,
+      )}`,
+
+      priceCurrency: "INR",
+
+      price: product.price,
+
+      availability: inventory.some((item: any) => item.quantity > 0)
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbStructuredData),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(productStructuredData),
+        }}
+      />
+
+      <ProductPDPClient
+        product={product}
+        similarProducts={similarProducts}
+        inventory={inventory}
+      />
+    </>
+  );
+}
