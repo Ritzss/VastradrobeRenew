@@ -31,8 +31,7 @@ export async function POST(req: Request) {
       );
     }
 
-  // console.log(JSON.stringify(products, null, 2));
-
+    // console.log(JSON.stringify(products, null, 2));
 
     if (!payment) {
       return NextResponse.json(
@@ -85,7 +84,6 @@ export async function POST(req: Request) {
       0,
     );
 
-
     /* ---------------- CREATE ORDER ---------------- */
     const order = await Order.create({
       userId: user._id,
@@ -109,6 +107,8 @@ export async function POST(req: Request) {
       {
         message: "Order placed successfully",
         orderId: order._id,
+        totalAmount,
+        products,
       },
       { status: 201 },
     );

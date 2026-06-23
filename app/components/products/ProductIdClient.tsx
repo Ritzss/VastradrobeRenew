@@ -14,6 +14,7 @@ import Link from "next/link";
 import { sizeGuide } from "@/lib/sizeGuide";
 import SizeGuideModal from "@/components/products/SizeGuideModal";
 import { toast } from "sonner";
+import { fbPixel } from "@/lib/facebookpixel";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -140,6 +141,16 @@ export default function ProductPDPClient({
   }, [inventory]);
 
   // console.log(inventory);
+
+  useEffect(() => {
+  if (!product) return;
+
+  fbPixel.viewContent({
+    id: String(product.productId),
+    name: product.name,
+    price: product.price,
+  });
+}, [product]);
 
   useEffect(() => {
     if (!inventory.length) return;

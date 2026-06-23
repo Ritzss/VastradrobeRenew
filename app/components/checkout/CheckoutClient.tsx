@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
 import { IMSProduct } from "@/Types/Product";
 import { toast } from "sonner";
+import { fbPixel } from "@/lib/facebookpixel";
 
 const CheckoutClient = () => {
   const { products, cartItems, clearCart, loadUser, user } = useAppContext();
@@ -174,6 +175,9 @@ const CheckoutClient = () => {
 
     clearCart();
     await loadUser();
+    fbPixel.addPaymentInfo({
+      total: total,
+    });
     router.push("/orders");
     toast.success("Payment successful 🎉");
   };

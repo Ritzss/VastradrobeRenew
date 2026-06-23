@@ -15,6 +15,7 @@ import { RiHeartFill } from "react-icons/ri";
 import { toast } from "sonner";
 import { IMSInventory } from "@/Types/Inventory";
 import { createSlug } from "@/lib/slug";
+import { fbPixel } from "@/lib/facebookpixel";
 
 interface ProductQuickViewProps {
   product: IMSProduct | null;
@@ -72,6 +73,14 @@ const ProductQuickView = ({
   );
 
   const handleWishlist = () => {
+    if (!product) return;
+
+    fbPixel.addToWishlist({
+      id: String(productId),
+      name: product.name,
+      price: product.price,
+    });
+
     const collectionNames = Object.keys(favCollections);
 
     if (selectedCollection) {
@@ -300,7 +309,13 @@ const ProductQuickView = ({
                         : "border-white"
                     }`}
                   >
-                    <Image src={image} alt="" fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" />
+                    <Image
+                      src={image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="object-cover"
+                    />
                   </button>
                 ))}
               </div>

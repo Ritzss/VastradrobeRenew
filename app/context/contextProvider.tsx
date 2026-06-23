@@ -13,6 +13,7 @@ import { IMSProduct } from "@/Types/Product";
 import { useRouter } from "next/navigation";
 import { AuthUser } from "@/Types/AuthUser";
 import { toast } from "sonner";
+import { fbPixel } from "@/lib/facebookpixel";
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
@@ -51,6 +52,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const clearCart = () => setCartItems([]);
 
   const addToCart = (productId: number, size: string, color: string) => {
+    const product = products.find((p) => p.productId === productId);
+
+    fbPixel.addToCart({
+      id: String(productId),
+      name: product?.name ?? "Unknown Product",
+      price: product?.price ?? 0,
+    });
+
     setCartItems((prev) => {
       const existing = prev.find(
         (i) =>
