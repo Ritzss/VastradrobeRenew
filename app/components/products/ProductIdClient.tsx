@@ -232,7 +232,7 @@ export default function ProductPDPClient({
             <span className="text-[#c8b9a8]">›</span>
           </li>
 
-          <li className="font-medium text-[#5f5143] line-clamp-1">
+          <li className="font-medium text-[#5f5143] w-[30%] line-clamp-1">
             {product.name}
           </li>
         </ol>
