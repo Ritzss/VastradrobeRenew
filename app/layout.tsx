@@ -5,9 +5,7 @@ import { geistMono, geistSans } from "./font";
 import ClientLayout from "./ClientLayout";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next";
-import { GoogleAnalytics } from "@next/third-parties/google";
-
+import { Analytics } from "@vercel/analytics/next"
 // import Image from "next/image";
 // import FacebookPixel from "./components/Global/FacebookPixel";
 // import { Suspense } from "react";
@@ -125,8 +123,6 @@ export default function RootLayout({
         <SpeedInsights />
 
         <Analytics/>
-
-        <GoogleAnalytics gaId="G-TGB3YXV2JF" />
 
         <noscript>
           <img
