@@ -98,7 +98,7 @@ export default function ProductPDPClient({
   // }, [selectedVariant]);
 
   const guide = product.sizeChartType
-    ? sizeGuide[product.sizeChartType] || []
+    ? (sizeGuide as Record<string, { size: string }[]>)[product.sizeChartType] || []
     : [];
 
   const selectedSizeData = guide.find((row) => row.size === selectedSize);
