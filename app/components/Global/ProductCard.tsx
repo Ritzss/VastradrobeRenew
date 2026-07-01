@@ -180,7 +180,7 @@ export default function ProductCard({
 
       {/* DETAILS */}
       <div className="mt-4 text-center">
-        <p className="text-[14px] font-medium text-[#5f5143] line-clamp-2">
+        <p title={name} className="text-[14px] font-medium text-[#5f5143] line-clamp-2">
           {name}
         </p>
 
