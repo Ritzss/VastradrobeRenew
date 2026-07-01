@@ -33,7 +33,7 @@ const ClientCatLayout = ({ children }: { children: ReactNode }) => {
           <SideFilter />
         </aside>
 
-        <main className="flex-1 scrollbar-hide overflow-y-scroll h-[116vh]">{children}</main>
+        <main id="categoryPage" className="flex-1 scrollbar-hide overflow-y-scroll h-[116vh]">{children}</main>
       </div>
     </section>
   );
