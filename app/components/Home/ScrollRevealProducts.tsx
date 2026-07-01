@@ -80,7 +80,7 @@ export default function ScrollRevealProducts({
       {/* Desktop Button */}
       <div className="hidden md:flex justify-center mt-16">
         <Link
-          href={`/${encodeURIComponent(category.toLowerCase())}`}
+          href={`/${encodeURIComponent(category.toLowerCase())}#categoryPage`}
           className="px-10 py-3 capitalize rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
         >
           Browse All {category}
