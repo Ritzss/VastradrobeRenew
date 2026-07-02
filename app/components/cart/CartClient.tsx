@@ -93,15 +93,7 @@ const CartClient = () => {
 
           <Link href="/">
             <button
-              className="
-            mt-4
-            px-8 py-4
-            rounded-full
-            bg-[#5f5143]
-            text-white
-            hover:bg-[#6a0f1f]
-            transition
-          "
+              className=" mt-4 px-8 py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition"
             >
               Explore Collection
             </button>
@@ -131,14 +123,7 @@ const CartClient = () => {
               return (
                 <div
                   key={`${entry.productId}_${entry.size}`}
-                  className="
-                  bg-white
-                  rounded-[28px]
-                  shadow-[0_20px_60px_rgba(149,127,106,0.12)]
-                  p-6
-                  flex
-                  gap-6
-                "
+                  className=" bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-6 flex gap-6"
                 >
                   {/* Image */}
                   <div className="relative w-28 h-36 rounded-2xl overflow-hidden bg-[#f3e7d8] shrink-0">
@@ -250,15 +235,7 @@ const CartClient = () => {
 
               <Link href="/checkout">
                 <button
-                  className="
-                w-full
-                py-4
-                rounded-full
-                bg-[#5f5143]
-                text-white
-                hover:bg-[#6a0f1f]
-                transition
-              "
+                  className=" w-full py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition"
                 >
                   Proceed to Checkout
                 </button>

@@ -23,14 +23,7 @@ const ParentSubCategoryBar = ({ className }: { className: string }) => {
       `}
     >
       <div
-        className="
-          flex items-center justify-start md:justify-center
-          gap-4 md:gap-8
-          px-3 md:px-6
-          py-3
-          overflow-x-auto
-          no-scrollbar
-        "
+        className=" flex items-center justify-start md:justify-center gap-4 md:gap-8 px-3 md:px-6 py-3 overflow-x-auto no-scrollbar"
       >
         {/* ALL */}
         <div className="flex flex-col items-center shrink-0">

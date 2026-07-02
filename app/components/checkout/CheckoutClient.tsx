@@ -266,15 +266,7 @@ const CheckoutClient = () => {
 
           <button
             onClick={handlePlaceOrder}
-            className="
-              w-full
-              py-4
-              rounded-full
-              bg-[#5f5143]
-              text-white
-              hover:bg-[#6a0f1f]
-              transition
-            "
+            className=" w-full py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition"
           >
             Complete Payment
           </button>

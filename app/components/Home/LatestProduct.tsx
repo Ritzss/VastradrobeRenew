@@ -13,14 +13,12 @@ export default function LatestArrivals({ products }: LatestArrivalsProps) {
     <section className="relative w-full mt-16">
       {/* LEFT FADE */}
       <div
-        className="pointer-events-none absolute left-0 top-0 h-full w-16 z-10 
-                  bg-linear-to-r from-[#fffaf6] to-transparent"
+        className="pointer-events-none absolute left-0 top-0 h-full w-16 z-10 bg-linear-to-r from-[#fffaf6] to-transparent"
       />
 
       {/* RIGHT FADE */}
       <div
-        className="pointer-events-none absolute right-0 top-0 h-full w-16 z-10 
-                  bg-linear-to-l from-[#fffaf6] to-transparent"
+        className="pointer-events-none absolute right-0 top-0 h-full w-16 z-10 bg-linear-to-l from-[#fffaf6] to-transparent"
       />
 
       <InfiniteScrollWrapper>

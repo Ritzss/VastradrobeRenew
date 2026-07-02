@@ -128,15 +128,7 @@ const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="
-                  px-8 py-3
-                  rounded-full
-                  bg-[#5f5143]
-                  text-white
-                  hover:bg-[#6a0f1f]
-                  transition
-                  disabled:opacity-60
-                "
+                className=" px-8 py-3 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-60"
               >
                 {saving ? "Saving..." : "Save Changes"}
               </button>
@@ -164,15 +156,7 @@ function ProfileAction({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="
-        block
-        px-4 py-3
-        rounded-xl
-        border border-[#e6d8c8]
-        text-[#5f5143]
-        hover:bg-[#f3e7d8]
-        transition
-      "
+      className=" block px-4 py-3 rounded-xl border border-[#e6d8c8] text-[#5f5143] hover:bg-[#f3e7d8] transition"
     >
       {label}
     </Link>
