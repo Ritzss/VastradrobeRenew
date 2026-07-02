@@ -29,7 +29,7 @@ export default function VideoStrip({ videos }: { videos: VideoItem[] }) {
               key={video.id}
               layoutId={video.videoUrl}
               onClick={() => setActiveVideo(video.videoUrl)}
-              className=" relative min-w-[280px] md:min-w-[360px] h-[640px] rounded-[32px] overflow-hidden shadow-[0_30px_80px_rgba(149,127,106,0.18)] bg-black cursor-pointer"
+              className=" relative min-w-70 md:min-w-90 h-160 rounded-4xl overflow-hidden shadow-[0_30px_80px_rgba(149,127,106,0.18)] bg-black cursor-pointer"
             >
               <video
                 src={video.videoUrl}
@@ -54,7 +54,7 @@ export default function VideoStrip({ videos }: { videos: VideoItem[] }) {
           <>
             {/* Background Fade */}
             <motion.div
-              className="fixed inset-0 bg-black/90 backdrop-blur-sm z-[100]"
+              className="fixed inset-0 bg-black/90 backdrop-blur-sm z-100"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -64,7 +64,7 @@ export default function VideoStrip({ videos }: { videos: VideoItem[] }) {
             {/* Expanding Video */}
             <motion.div
               layoutId={activeVideo}
-              className="fixed inset-0 z-[101] flex items-center justify-center p-6"
+              className="fixed inset-0 z-101 flex items-center justify-center p-6"
               onClick={() => setActiveVideo(null)}
             >
               <motion.video
