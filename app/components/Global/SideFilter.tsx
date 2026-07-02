@@ -102,12 +102,7 @@ const SideFilter = ({
       )}
 
       <aside
-        className={`fixed md:static top-0 right-0 h-full w-80 z-50
-      bg-[#f9f5ef]
-      transform transition-transform duration-300 ease-in-out
-      ${onClose ? "translate-x-0" : ""}
-      p-8 overflow-y-auto`}
-      >
+        className={`fixed md:static top-0 right-0 h-full w-80 z-50 bg-[#f9f5ef] transform transition-transform duration-300 ease-in-out ${onClose ? "translate-x-0" : ""} p-8 overflow-y-auto`} >
         {/* TITLE */}
         <div className="mb-12 flex items-center justify-between">
           <div>
@@ -137,12 +132,7 @@ const SideFilter = ({
                 setSubCategory("");
                 onClose?.();
               }}
-              className={`px-5 py-2 rounded-full text-sm transition
-            ${
-              !subCategory
-                ? "bg-[#6a0f1f] text-white"
-                : "bg-[#e6d8c8] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white"
-            }`}
+              className={`px-5 py-2 rounded-full text-sm transition ${!subCategory ? "bg-[#6a0f1f] text-white" : "bg-[#e6d8c8] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white" }`}
             >
               All
             </button>
