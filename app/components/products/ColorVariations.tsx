@@ -31,9 +31,7 @@ export default function ColorVariants({
           <Link
             key={p.productId}
             href={`/product/${p.productId}`}
-            className={`w-8 h-8 rounded-full border ${
-              p.productId === currentId ? "ring-2 ring-black" : ""
-            }`}
+            className={`w-8 h-8 rounded-full border ${p.productId === currentId ? "ring-2 ring-black" : ""}`}
             style={{ background: p.color || "#ccc" }}
           />
         ))}

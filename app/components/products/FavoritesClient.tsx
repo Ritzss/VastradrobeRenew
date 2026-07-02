@@ -99,14 +99,7 @@ const FavoritesClient = () => {
       <div className="flex flex-wrap gap-3">
         <button
           onClick={() => setSelectedCategory(null)}
-          className={`
-            px-4 py-2 rounded-full text-sm border border-[#e6d8c8]
-            ${
-              !selectedCategory
-                ? "bg-[#5f5143] text-white border-[#5f5143]"
-                : "text-[#5f5143] hover:bg-[#f3e7d8]"
-            }
-          `}
+          className={` px-4 py-2 rounded-full text-sm border border-[#e6d8c8] ${!selectedCategory ? "bg-[#5f5143] text-white border-[#5f5143]" : "text-[#5f5143] hover:bg-[#f3e7d8]"}`}
         >
           All
         </button>
@@ -115,14 +108,7 @@ const FavoritesClient = () => {
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`
-              px-4 py-2 rounded-full text-sm capitalize border border-[#e6d8c8]
-              ${
-                selectedCategory === cat
-                  ? "bg-[#5f5143] text-white border-[#5f5143]"
-                  : "text-[#5f5143] hover:bg-[#f3e7d8]"
-              }
-            `}
+            className={` px-4 py-2 rounded-full text-sm capitalize border border-[#e6d8c8] ${selectedCategory === cat ? "bg-[#5f5143] text-white border-[#5f5143]" : "text-[#5f5143] hover:bg-[#f3e7d8]"}`}
           >
             {cat}
           </button>

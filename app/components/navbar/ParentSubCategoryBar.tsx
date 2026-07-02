@@ -17,10 +17,7 @@ const ParentSubCategoryBar = ({ className }: { className: string }) => {
 
   return (
     <div
-      className={`
-        w-full bg-white
-        ${className}
-      `}
+      className={` w-full bg-white ${className}`}
     >
       <div
         className=" flex items-center justify-start md:justify-center gap-4 md:gap-8 px-3 md:px-6 py-3 overflow-x-auto no-scrollbar"
@@ -32,16 +29,7 @@ const ParentSubCategoryBar = ({ className }: { className: string }) => {
               setSubCategory("");
               router.push(`/${category}`);
             }}
-            className={`
-              text-xs sm:text-sm md:text-base
-              font-semibold
-              pb-1
-              ${
-                !subCategory
-                  ? "text-red-600 border-b-2 border-red-600"
-                  : "text-gray-600 hover:text-black"
-              }
-            `}
+            className={` text-xs sm:text-sm md:text-base font-semibold pb-1 ${!subCategory ? "text-red-600 border-b-2 border-red-600" : "text-gray-600 hover:text-black"}`}
           >
             All
           </button>
@@ -59,17 +47,7 @@ const ParentSubCategoryBar = ({ className }: { className: string }) => {
                   setSubCategory(slug);
                   router.push(`/${category}`);
                 }}
-                className={`
-                  text-xs sm:text-sm md:text-base
-                  font-semibold
-                  pb-1
-                  whitespace-nowrap
-                  ${
-                    isActive
-                      ? "text-red-600 border-b-2 border-red-600"
-                      : "text-gray-600 hover:text-black"
-                  }
-                `}
+                className={`text-xs sm:text-sm md:text-base font-semibold pb-1 whitespace-nowrap ${isActive ? "text-red-600 border-b-2 border-red-600" : "text-gray-600 hover:text-black"}`}
               >
                 {sub}
               </button>

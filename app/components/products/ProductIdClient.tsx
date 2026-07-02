@@ -274,9 +274,7 @@ export default function ProductPDPClient({
             {(selectedVariant?.images || []).map((_, i) => (
               <div
                 key={i}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === activeIndex ? "bg-[#cd0000] w-4" : "bg-gray-300 w-2"
-                }`}
+                className={`h-2 rounded-full transition-all duration-300 ${ i === activeIndex ? "bg-[#cd0000] w-4" : "bg-gray-300 w-2"}`}
               />
             ))}
           </div>
@@ -321,9 +319,7 @@ export default function ProductPDPClient({
             </h1>
             <div className="mt-3">
               <p
-                className={`text-[#7a6a5c] transition-all duration-300 ${
-                  !showFullDescription ? "line-clamp-3" : ""
-                }`}
+                className={`text-[#7a6a5c] transition-all duration-300 ${!showFullDescription ? "line-clamp-3" : ""}`}
               >
                 {product.description}
               </p>
@@ -360,11 +356,7 @@ export default function ProductPDPClient({
                   <button
                     key={variant.color}
                     onClick={() => setSelectedVariant(variant)}
-                    className={`px-5 py-2 rounded-full border text-sm capitalize transition ${
-                      selectedVariant?.color === variant.color
-                        ? "bg-[#5f5143] text-white border-[#5f5143]"
-                        : "border-[#e6d8c8] hover:bg-[#f3e7d8]"
-                    }`}
+                    className={`px-5 py-2 rounded-full border text-sm capitalize transition ${selectedVariant?.color === variant.color ? "bg-[#5f5143] text-white border-[#5f5143]" : "border-[#e6d8c8] hover:bg-[#f3e7d8]"}`}
                   >
                     {variant.color}
                   </button>
@@ -384,11 +376,7 @@ export default function ProductPDPClient({
                     key={size}
                     disabled={qty === 0}
                     onClick={() => setSelectedSize(size)}
-                    className={`px-5 py-2 rounded-full border border-[#e6d8c8] text-sm transition ${
-                      selectedSize === size
-                        ? "bg-[#5f5143] text-white border-[#5f5143]"
-                        : "hover:bg-[#f3e7d8]"
-                    } ${qty === 0 ? "opacity-40 cursor-not-allowed" : ""}`}
+                    className={`px-5 py-2 rounded-full border border-[#e6d8c8] text-sm transition ${selectedSize === size ? "bg-[#5f5143] text-white border-[#5f5143]" : "hover:bg-[#f3e7d8]"} ${qty === 0 ? "opacity-40 cursor-not-allowed" : ""}`}
                   >
                     {size}
                     {stockMap[size] !== undefined && stockMap[size] < 10 && (
