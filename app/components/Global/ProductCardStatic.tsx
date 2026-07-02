@@ -21,6 +21,7 @@ export default function ProductCardStatic({
   return (
     <div className={`flex flex-col group ${className ?? ""}`}>
       <Link
+      title={product.name}
         href={`/product/${product.productId}`}
         className="flex flex-col w-full"
       >
