@@ -117,17 +117,7 @@ export default function SupportPageClient() {
             <button
               type="submit"
               disabled={loading}
-              className="
-                w-full
-                py-4
-                rounded-full
-                bg-[#5f5143]
-                text-white
-                font-medium
-                hover:bg-[#6a0f1f]
-                transition
-                disabled:opacity-50
-              "
+              className=" w-full py-4 rounded-full bg-[#5f5143] text-white font-medium hover:bg-[#6a0f1f] transition disabled:opacity-50"
             >
               {loading ? "Sending..." : "Send Message"}
             </button>

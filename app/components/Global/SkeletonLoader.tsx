@@ -4,7 +4,7 @@ const SkeletonLoader = () => {
   return (
     <div className="flex flex-col animate-pulse">
       {/* IMAGE */}
-      <div className="aspect-[3/4] w-full rounded-4xl bg-[#f3e7d8]" />
+      <div className="aspect-3/4 w-full rounded-4xl bg-[#f3e7d8]" />
 
       {/* TEXT */}
       <div className="mt-4 text-center space-y-2">
