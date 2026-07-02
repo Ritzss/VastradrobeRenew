@@ -26,9 +26,7 @@ export default function ProductCardStatic({
         className="flex flex-col w-full"
       >
         <div
-          className={`relative aspect-3/4 w-full rounded-4xl overflow-hidden bg-[#f5f1e7] ${
-            classNameInner ?? ""
-          }`}
+          className={`relative aspect-3/4 w-full rounded-4xl overflow-hidden bg-[#f5f1e7] ${classNameInner ?? ""}`}
         >
           <Image
             src={imageSrc}
