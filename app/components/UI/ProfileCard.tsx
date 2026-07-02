@@ -28,17 +28,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 
   return (
     <div
-      className={`
-        w-full
-        bg-white
-        rounded-[32px]
-        shadow-[0_30px_80px_rgba(149,127,106,0.15)]
-        p-8
-        flex flex-col md:flex-row
-        items-center
-        gap-8
-        ${className}
-      `}
+      className={` w-full bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 flex flex-col md:flex-row items-center gap-8 ${className}`}
     >
       {/* Avatar */}
       <div className="relative w-32 h-32 rounded-full overflow-hidden bg-[#f3e7d8] shrink-0">
@@ -65,16 +55,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             <>
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="
-                  mt-4
-                  px-6 py-2
-                  rounded-full
-                  border border-[#e6d8c8]
-                  text-[#5f5143]
-                  hover:bg-[#f3e7d8]
-                  transition
-                  text-sm
-                "
+                className=" mt-4 px-6 py-2 rounded-full border border-[#e6d8c8] text-[#5f5143] hover:bg-[#f3e7d8] transition text-sm"
               >
                 {contactText}
               </button>
