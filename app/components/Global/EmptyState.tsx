@@ -37,16 +37,7 @@ const EmptyState = ({
         {/* CTA */}
         <Link
           href={buttonLink}
-          className="
-            inline-block
-            px-10 py-3
-            rounded-full
-            border border-[#5f5143]
-            text-[#5f5143]
-            hover:bg-[#5f5143]
-            hover:text-white
-            transition
-          "
+          className=" inline-block px-10 py-3 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
         >
           {buttonText}
         </Link>
