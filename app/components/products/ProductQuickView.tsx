@@ -394,11 +394,7 @@ const ProductQuickView = ({
                         setSelectedSize("");
                         setActiveImage(0);
                       }}
-                      className={`px-4 py-2 rounded-md border ${
-                        selectedColor === index
-                          ? "bg-[#6A0F1F] text-white border-white"
-                          : "border-gray-300"
-                      }`}
+                      className={`px-4 py-2 rounded-md border ${selectedColor === index ? "bg-[#6A0F1F] text-white border-white" : "border-gray-300"}`}
                     >
                       <>
                         {variant.color}
@@ -426,15 +422,7 @@ const ProductQuickView = ({
                         key={size}
                         disabled={outOfStock}
                         onClick={() => setSelectedSize(size)}
-                        className={`relative px-4 py-2 rounded-md border transition ${
-                          selectedSize === size
-                            ? "bg-[#6A0F1F] text-white border-[#6A0F1F]"
-                            : "border-gray-300"
-                        } ${
-                          outOfStock
-                            ? "opacity-40 cursor-not-allowed line-through"
-                            : "hover:border-[#6A0F1F]"
-                        }`}
+                        className={`relative px-4 py-2 rounded-md border transition ${selectedSize === size? "bg-[#6A0F1F] text-white border-[#6A0F1F]": "border-gray-300"} ${outOfStock? "opacity-40 cursor-not-allowed line-through": "hover:border-[#6A0F1F]"}`}
                       >
                         {size}
                         {!outOfStock && stock < 10 && (
