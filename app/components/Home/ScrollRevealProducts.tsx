@@ -9,6 +9,7 @@ type Props = {
   products: IMSProduct[];
   category: string;
   title?: string;
+  text?: string;
   color?: string;
 };
 
@@ -23,6 +24,7 @@ export default function ScrollRevealProducts({
   products,
   category,
   title,
+  text,
   color,
 }: Props) {
   const normalizedCategory = category.toLowerCase();
@@ -51,7 +53,7 @@ export default function ScrollRevealProducts({
         <HorizontalScroll color={color}>
           {filteredProducts.slice(0, 3).map((product) => (
             <div key={product.productId} className="w-[75%] shrink-0 px-3">
-              <ProductCardStatic product={product} />
+              <ProductCardStatic product={product} text={text || ""} />
             </div>
           ))}
         </HorizontalScroll>
@@ -71,17 +73,17 @@ export default function ScrollRevealProducts({
         {filteredProducts.slice(0, 3).map((product) => (
           <ScrollReveal key={product.productId}>
             <div className="w-70">
-              <ProductCardStatic product={product} />
+              <ProductCardStatic product={product} text={text || ""} />
             </div>
           </ScrollReveal>
         ))}
       </div>
 
       {/* Desktop Button */}
-      <div className="hidden md:flex justify-center mt-16">
+      <div className="hidden md:flex justify-center mt-5">
         <Link
           href={`/${encodeURIComponent(category.toLowerCase())}#categoryPage`}
-          className="px-10 py-3 capitalize rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
+          className={`px-10 py-3 capitalize rounded-full border border-${text} border-[#5f5143] text-${text} text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition`}
         >
           Browse All {category}
         </Link>

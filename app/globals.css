@@ -355,6 +355,23 @@ RESPONSIVE LAYOUT UTILITIES
   scrollbar-width: none;
 }
 
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 198s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 .texts-edit {
   color: transparent;
   background-image: linear-gradient(#fff, #6f6fbe);

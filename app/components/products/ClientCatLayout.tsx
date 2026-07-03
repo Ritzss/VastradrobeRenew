@@ -7,7 +7,7 @@ const ClientCatLayout = ({ children }: { children: ReactNode }) => {
   const [showFilter, setShowFilter] = useState(false);
 
   return (
-    <section className="min-h-screen w-full bg-[#f9f5ef] pt-18">
+    <section className="min-h-screen w-full bg-[#f9f5ef]">
       {/* MOBILE */}
       <div className="md:hidden relative">
         <button
@@ -28,7 +28,7 @@ const ClientCatLayout = ({ children }: { children: ReactNode }) => {
       </div>
 
       {/* DESKTOP */}
-      <div className="hidden md:flex gap-16 px-1 pt-16">
+      <div className="hidden md:flex gap-16 px-1 pt-4">
         <aside className="w-72 shrink-0 sticky top-32 self-start">
           <SideFilter />
         </aside>

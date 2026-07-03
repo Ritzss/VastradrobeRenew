@@ -67,6 +67,21 @@ export default function ProductPDPClient({
   useEffect(() => {
     setActiveIndex(0);
   }, [selectedVariant]);
+
+   useEffect(() => {
+    const KEY = "recentlyViewed";
+
+    const existing: number[] = JSON.parse(
+      localStorage.getItem(KEY) || "[]"
+    );
+
+    const updated = [
+      product.productId,
+      ...existing.filter((id) => id !== product.productId),
+    ].slice(0, 12);
+
+    localStorage.setItem(KEY, JSON.stringify(updated));
+  }, [product.productId]);
   /* ---------------- SIZE LOGIC ---------------- */
 
   // const sizes = selectedVariant?.sizes?.length
@@ -98,7 +113,9 @@ export default function ProductPDPClient({
   // }, [selectedVariant]);
 
   const guide = product.sizeChartType
-    ? (sizeGuide as Record<string, { size: string }[]>)[product.sizeChartType] || []
+    ? (sizeGuide as Record<string, { size: string }[]>)[
+        product.sizeChartType
+      ] || []
     : [];
 
   const selectedSizeData = guide.find((row) => row.size === selectedSize);
@@ -143,14 +160,14 @@ export default function ProductPDPClient({
   // console.log(inventory);
 
   useEffect(() => {
-  if (!product) return;
+    if (!product) return;
 
-  fbPixel.viewContent({
-    id: String(product.productId),
-    name: product.name,
-    price: product.price,
-  });
-}, [product]);
+    fbPixel.viewContent({
+      id: String(product.productId),
+      name: product.name,
+      price: product.price,
+    });
+  }, [product]);
 
   useEffect(() => {
     if (!inventory.length) return;
@@ -274,7 +291,7 @@ export default function ProductPDPClient({
             {(selectedVariant?.images || []).map((_, i) => (
               <div
                 key={i}
-                className={`h-2 rounded-full transition-all duration-300 ${ i === activeIndex ? "bg-[#cd0000] w-4" : "bg-gray-300 w-2"}`}
+                className={`h-2 rounded-full transition-all duration-300 ${i === activeIndex ? "bg-[#cd0000] w-4" : "bg-gray-300 w-2"}`}
               />
             ))}
           </div>
@@ -317,22 +334,6 @@ export default function ProductPDPClient({
             <h1 className="text-3xl font-semibold text-[#5f5143]">
               {product.name}
             </h1>
-            <div className="mt-3">
-              <p
-                className={`text-[#7a6a5c] transition-all duration-300 ${!showFullDescription ? "line-clamp-3" : ""}`}
-              >
-                {product.description}
-              </p>
-
-              {product.description && product.description.length > 120 && (
-                <button
-                  onClick={() => setShowFullDescription((prev) => !prev)}
-                  className="mt-2 text-sm font-medium text-[#6a0f1f] underline"
-                >
-                  {showFullDescription ? "Show Less" : "Show More"}
-                </button>
-              )}
-            </div>
           </div>
 
           {/* PRICE */}
@@ -469,126 +470,163 @@ export default function ProductPDPClient({
               <p>100% secure checkout</p>
             </div>
           </div>
-        </div>
-      </section>
-      <div className="mt-6 border-t pt-6">
-        <button
-          onClick={() => setShowProductDetails((prev) => !prev)}
-          className="w-full flex items-center justify-between text-sm font-medium bg-[#2b2b2b10] px-4 py-3 rounded-xl hover:bg-[#2b2b2b20] transition-all duration-300"
-        >
-          <span>
-            {showProductDetails
-              ? "Hide Product Details"
-              : "View Product Details"}
-          </span>
+          <div className="mt-6 border-t pt-6">
+            <button
+              onClick={() => setShowProductDetails((prev) => !prev)}
+              className="w-full flex items-center justify-between text-sm font-medium bg-[#2b2b2b10] px-4 py-3 rounded-xl hover:bg-[#2b2b2b20] transition-all duration-300"
+            >
+              <span>
+                {showProductDetails
+                  ? "Hide Product Details"
+                  : "View Product Details"}
+              </span>
 
-          <IoIosArrowDown
-            size={20}
-            className={`transition-transform duration-300 ${
-              showProductDetails ? "rotate-180" : "rotate-0"
-            }`}
-          />
-        </button>
+              <IoIosArrowDown
+                size={20}
+                className={`transition-transform duration-300 ${
+                  showProductDetails ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </button>
 
-        <div
-          className={`overflow-hidden transition-all duration-500 ${
-            showProductDetails
-              ? "max-h-150 opacity-100 mt-6"
-              : "max-h-0 opacity-0"
-          }`}
-        >
-          <div className="bg-gray-50 rounded-xl p-5 text-sm space-y-3">
-            {/* TOP HIGHLIGHTS */}
-            <h3 className="font-semibold text-base mb-2">Top Highlights</h3>
+            <div
+              className={`overflow-hidden transition-all duration-500 ${
+                showProductDetails
+                  ? "max-h-150 opacity-100 mt-6"
+                  : "max-h-0 opacity-0"
+              }`}
+            >
+              <div className="bg-gray-50 rounded-xl p-5 text-sm space-y-3">
+                {/* TOP HIGHLIGHTS */}
+                <h3 className="font-semibold text-2xl mb-2">Top Highlights</h3>
 
-            <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-gray-700">
-              {product.productDetails?.material && (
-                <>
-                  <span className="text-gray-500">Material</span>
-                  <span className="font-medium">
-                    {product.productDetails.material}
-                  </span>
-                </>
-              )}
+                <div className="flex gap-y-3 gap-x-6 text-gray-700">
+                  <div className="flex flex-col gap-y-3 gap-x-6 ml-5 w-[45%]">
+                    {product.productDetails?.material && (
+                      <>
+                        <span className="text-xl text-black">Material</span>
+                        <span className="ml-2 font-medium">
+                          {product.productDetails.material}
+                        </span>
+                      </>
+                    )}
 
-              {product.productDetails?.closureType && (
-                <>
-                  <span className="text-gray-500">Closure Type</span>
-                  <span className="font-medium">
-                    {product.productDetails.closureType}
-                  </span>
-                </>
-              )}
+                    <div className="mt-3">
+                      <span className="text-xl text-black">Description</span>
+                      <p
+                        className={`ml-2 font-medium transition-all duration-300 ${!showFullDescription ? "line-clamp-3" : ""}`}
+                      >
+                        {product.description}
+                      </p>
 
-              {product.productDetails?.careInstructions && (
-                <>
-                  <span className="text-gray-500">Care Instructions</span>
-                  <span className="font-medium">
-                    {product.productDetails.careInstructions}
-                  </span>
-                </>
-              )}
+                      {product.description &&
+                        product.description.length > 120 && (
+                          <button
+                            onClick={() =>
+                              setShowFullDescription((prev) => !prev)
+                            }
+                            className="mt-2 text-sm font-medium text-[#6a0f1f] underline"
+                          >
+                            {showFullDescription ? "Show Less" : "Show More"}
+                          </button>
+                        )}
+                    </div>
 
-              {product.productDetails?.style && (
-                <>
-                  <span className="text-gray-500">Style</span>
-                  <span className="font-medium">
-                    {product.productDetails.style}
-                  </span>
-                </>
-              )}
+                    {product.productDetails?.closureType && (
+                      <>
+                        <span className="text-xl text-black">Closure Type</span>
+                        <span className="ml-2 font-medium">
+                          {product.productDetails.closureType}
+                        </span>
+                      </>
+                    )}
+                  </div>
 
-              {product.productDetails?.pattern && (
-                <>
-                  <span className="text-gray-500">Pattern</span>
-                  <span className="font-medium">
-                    {product.productDetails.pattern}
-                  </span>
-                </>
-              )}
+                  <div className="flex flex-col gap-y-3 gap-x-6 ml-5 w-[45%]">
+                    {product.productDetails?.careInstructions && (
+                      <>
+                        <span className="text-xl text-black">
+                          Care Instructions
+                        </span>
+                        <span className="ml-2 font-medium">
+                          {product.productDetails.careInstructions}
+                        </span>
+                      </>
+                    )}
+                    
+                    {product.productDetails?.style && (
+                      <>
+                        <span className="text-xl text-black">Style</span>
+                        <span className="ml-2 font-medium">
+                          {product.productDetails.style}
+                        </span>
+                      </>
+                    )}
 
-              {product.productDetails?.countryOfOrigin && (
-                <>
-                  <span className="text-gray-500">Country of Origin</span>
-                  <span className="font-medium">
-                    {product.productDetails.countryOfOrigin}
-                  </span>
-                </>
-              )}
-            </div>
+                    {product.productDetails?.pattern && (
+                      <>
+                        <span className="text-xl text-black">Pattern</span>
+                        <span className="ml-2 font-medium">
+                          {product.productDetails.pattern}
+                        </span>
+                      </>
+                    )}
 
-            {/* ADDITIONAL INFO */}
-            {(product.productDetails?.manufacturer ||
-              product.productDetails?.unitCount) && (
-              <>
-                <h3 className="font-semibold text-base mt-6 mb-2">
-                  Additional Information
-                </h3>
-
-                <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-gray-700">
-                  {product.productDetails?.manufacturer && (
-                    <>
-                      <span className="text-gray-500">Manufacturer</span>
-                      <span className="font-medium">
-                        {product.productDetails.manufacturer}
-                      </span>
-                    </>
-                  )}
-
-                  {product.productDetails?.unitCount && (
-                    <>
-                      <span className="text-gray-500">Unit Count</span>
-                      <span className="font-medium">
-                        {product.productDetails.unitCount}
-                      </span>
-                    </>
-                  )}
+                    {product.productDetails?.countryOfOrigin && (
+                      <>
+                        <span className="text-xl text-black">
+                          Country of Origin
+                        </span>
+                        <span className="ml-2 font-medium">
+                          {product.productDetails.countryOfOrigin}
+                        </span>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </>
-            )}
+
+                {/* ADDITIONAL INFO */}
+                {(product.productDetails?.manufacturer ||
+                  product.productDetails?.unitCount) && (
+                  <>
+                    <h3 className="font-semibold text-2xl mt-6 mb-2">
+                      Additional Information
+                    </h3>
+
+                    <div className="flex gap-y-3 gap-x-6 text-gray-700">
+                      <div className="flex flex-col gap-y-3 gap-x-6 ml-5">
+                        {product.productDetails?.manufacturer && (
+                          <>
+                            <span className="text-xl text-black">
+                              Manufacturer
+                            </span>
+                            <span className="ml-2 font-medium capitalize">
+                              {product.productDetails.manufacturer}
+                            </span>
+                          </>
+                        )}
+                      </div>
+
+                      <div className="flex flex-col gap-y-3 gap-x-6 ml-5">
+                        {product.productDetails?.unitCount && (
+                          <>
+                            <span className="text-xl text-black">
+                              Unit Count
+                            </span>
+                            <span className="ml-2 font-medium">
+                              {product.productDetails.unitCount}
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
       {showSizeGuide && (
         <div className="fixed h-full inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl max-w-3xl w-full relative">

@@ -30,7 +30,7 @@ const InfiniteScroll = ({ children }: { children: ReactNode }) => {
     <div className="overflow-x-hidden w-full">
       <motion.div
         ref={containerRef}
-        className="flex gap-4 w-max cursor-grab active:cursor-grabbing"
+        className="flex w-max cursor-grab active:cursor-grabbing"
         style={{ x }}
         drag="x"
         dragConstraints={{ left: -10000, right: 10000 }}

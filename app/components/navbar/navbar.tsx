@@ -164,9 +164,9 @@ useEffect(() => {
   return (
     // Make NAV pill slightly elevated and pill-shaped
     <nav aria-label="Main navigation">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="">
         <div
-          className="w-full rounded-full p-3 flex items-center gap-6 shadow-[0_10px_25px_rgba(149,127,106,0.08)]"
+          className="w-full p-2 flex items-center gap-6 shadow-[0_10px_25px_rgba(149,127,106,0.08)]"
           style={{
             background: "#f5f1e7",
             border: "1px solid rgba(0,0,0,0.04)",

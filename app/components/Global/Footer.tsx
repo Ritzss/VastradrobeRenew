@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   FaFacebookF,
@@ -7,6 +8,8 @@ import {
   FaWhatsapp,
   FaYoutube,
 } from "react-icons/fa6";
+
+import img from '../../../public/Assets/Images/Logo2.png'
 
 const Footer = () => {
   const category = ["Men", "Women", "Kids"];
@@ -25,19 +28,20 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#f9f5ef] text-[#5f5143]">
-      <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="max-w-7xl mx-auto px-6 pt-20 pb-5">
+
+        <div className="flex gap-16 text-sm">
         {/* Brand */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-20 w-2/4">
+        <Image src={img} alt="" width="222" height="222" className="mx-auto" />
           <h3 className="text-2xl font-semibold tracking-wide">VastraDrobe</h3>
           <p className="mt-4 text-sm text-[#7a6a5c] max-w-xl mx-auto">
             Crafted for everyday elegance. Designed with intention. Worn with
             confidence.
           </p>
         </div>
-
-        <div className="grid lg:grid-cols-3 gap-16 text-sm">
           {/* SHOP */}
-          <div className="mx-auto md:mx-0 space-y-6">
+          <div className="mx-auto md:mx-0 space-y-6 w-1/4">
             <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
               Shop
             </h4>
@@ -53,7 +57,7 @@ const Footer = () => {
           </div>
 
           {/* CUSTOMER */}
-          <div className="mx-auto md:mx-0 space-y-6">
+          <div className="mx-auto md:mx-0 space-y-6 w-1/4">
             <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
               Customer Care
             </h4>
@@ -70,7 +74,7 @@ const Footer = () => {
           </div>
 
           {/* CONTACT */}
-          <div className="text-center space-y-6">
+          <div className="text-center space-y-6 w-1/4">
             <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
               Visit Us
             </h4>

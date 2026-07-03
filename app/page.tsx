@@ -15,6 +15,7 @@ import SocialProofClient from "./components/Global/SocialProofClient";
 import dynamic from "next/dynamic";
 import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";
 import LandingSlider from "./components/Home/LandingSlider";
+import RecentlyViewed from "./components/Home/RecentlyViewed";
 
 // const BlogClient = dynamic(() => import("./blog/BlogsClient"));
 const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"), {
@@ -86,6 +87,22 @@ const Home = async () => {
   const womenProducts = await getProductsByMainCategory("women");
   const kidsProducts = await getProductsByMainCategory("kids");
   const menProducts = await getProductsByMainCategory("men");
+  const res = await fetch(
+    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1`,
+    {
+      next: { revalidate: 120 },
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  const data = await res.json();
+
+  const initialProducts = Array.isArray(data.products)
+    ? data.products
+    : [];
 
   return (
     <section className="w-full bg-[#f9f5ef] text-black ">
@@ -111,7 +128,7 @@ const Home = async () => {
       {/* LATEST ARRIVALS */}
       <section
         id="latestArrival"
-        className="mx-auto py-24 text-center bg-[#fffaf6]"
+        className="mx-auto py-5 text-center bg-[#fffaf6]"
       >
         <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
           New This Season
@@ -121,7 +138,7 @@ const Home = async () => {
           Latest Arrivals
         </h2>
 
-        <p className="text-[#957f6a] max-w-xl mx-auto mb-16 text-base leading-relaxed">
+        <p className="text-[#957f6a] max-w-xl mx-auto mb-8 text-base leading-relaxed">
           Fresh silhouettes, breathable fabrics, and elevated everyday
           essentials.
         </p>
@@ -130,8 +147,8 @@ const Home = async () => {
       </section>
 
       {/* WOMEN */}
-      <section id="collection" className="bg-[#f9f5ef] py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-20">
+      <section id="collection" className="bg-[#F6F5F3] py-8">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-5">
           <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
             Women
           </p>
@@ -144,13 +161,14 @@ const Home = async () => {
           products={womenProducts}
           category="women"
           title=""
+          text="black"
           color="#fffaf6"
         />
       </section>
 
       {/* Kids */}
-      <section className="bg-[#fffaf6] py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-20">
+      <section className="bg-[#fffaf6] py-8">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-5">
           <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
             Kids
           </p>
@@ -169,8 +187,8 @@ const Home = async () => {
       </section>
 
       {/* MEN */}
-      <section className="bg-[#f9f5ef] py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-20">
+      <section className="bg-[#F6F5F3] py-8">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-5">
           <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
             Men
           </p>
@@ -184,12 +202,18 @@ const Home = async () => {
           products={menProducts}
           category="men"
           title=""
+          text="black"
           color="#fffaf6"
         />
       </section>
 
+      {/* Recently Viewed */}
+      <div className="hidden md:block">
+        <RecentlyViewed products={initialProducts} />
+      </div>
+
       {/* VIDEO SECTION */}
-      <section className="bg-[#fffaf6] py-24">
+      <section className="bg-[#fffaf6] py-8">
         <div className="max-w-7xl mx-auto px-6 text-center mb-16">
           <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
             Craftsmanship
@@ -204,7 +228,7 @@ const Home = async () => {
       </section>
 
       {/* BLOG */}
-      <section className="bg-[#f9f5ef] py-28">
+      <section className="bg-[#F6F5F3] py-8">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <div className="text-center mb-20">

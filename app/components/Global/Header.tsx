@@ -20,7 +20,7 @@ export default function CampaignSection() {
   return (
     <>
       {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-screen flex items-center justify-center text-center bg-[#edddc8] overflow-hidden">
+      <section className="relative min-h-[85vh] flex items-center justify-center text-center bg-[#edddc8] overflow-hidden">
         {/* Background Image */}
         <Image
           src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1780136028/Summer_1_a99xpy.jpg"
