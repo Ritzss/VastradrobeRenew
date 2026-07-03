@@ -53,12 +53,12 @@ export default function RecentlyViewed({ products }: Props) {
 
           <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l from-[#fffaf6] to-transparent" />
 
-          {recentProducts.length > 1 ? (
+          {recentProducts.length > 3 ? (
             <InfiniteScrollWrapper>
               {recentProducts.map((product) => (
                 <div
                   key={product.productId}
-                  className="w-72 shrink-0 px-3"
+                  className="w-72 shrink-0 px-1"
                 >
                   <ProductCardStatic product={product} text={""} />
                 </div>
@@ -69,7 +69,7 @@ export default function RecentlyViewed({ products }: Props) {
               {recentProducts.map((product) => (
                 <div
                   key={product.productId}
-                  className="w-72 px-3"
+                  className="w-72 px-1"
                 >
                   <ProductCardStatic product={product} text={""} />
                 </div>
