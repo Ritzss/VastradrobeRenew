@@ -15,6 +15,9 @@ import { sizeGuide } from "@/lib/sizeGuide";
 import SizeGuideModal from "@/components/products/SizeGuideModal";
 import { toast } from "sonner";
 import { fbPixel } from "@/lib/facebookpixel";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Dialog, DialogContent } from "../UI/dialog";
+
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -38,6 +41,8 @@ export default function ProductPDPClient({
     product.variants?.[0]?.images?.[0] || "/Assets/Images/Newplaceholder.png",
   );
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [openGallery, setOpenGallery] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   //  const router = useRouter();
   // const productId = Number(product.productId);
@@ -68,12 +73,10 @@ export default function ProductPDPClient({
     setActiveIndex(0);
   }, [selectedVariant]);
 
-   useEffect(() => {
+  useEffect(() => {
     const KEY = "recentlyViewed";
 
-    const existing: number[] = JSON.parse(
-      localStorage.getItem(KEY) || "[]"
-    );
+    const existing: number[] = JSON.parse(localStorage.getItem(KEY) || "[]");
 
     const updated = [
       product.productId,
@@ -297,18 +300,59 @@ export default function ProductPDPClient({
           </div>
 
           {/* MAIN IMAGE - NO CROPPING */}
-          <div className="hidden md:block w-full bg-[#f3e7d8] rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] overflow-hidden">
-            <Image
-              src={activeImage}
-              width={800}
-              height={1000}
-              alt={product.name}
-              className="w-full h-auto object-contain"
-              priority
-            />
+          <div className="hidden md:grid gap-4 sticky top-24">
+            <div className="grid grid-cols-2 gap-4">
+              {selectedVariant.images.slice(0, 3).map((image, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setSelectedImage(index);
+                    setOpenGallery(true);
+                  }}
+                  className="relative aspect-3/5 overflow-hidden rounded-2xl bg-[#f8f8f8] group"
+                >
+                  <Image
+                    src={image}
+                    alt={`${product.name} ${index + 1}`}
+                    fill
+                    sizes="(max-width:768px) 100vw, 50vw"
+                    className="object-cover transition duration-500"
+                  />
+                </div>
+              ))}
+
+              {/* Last Image */}
+              {selectedVariant.images.length > 3 && (
+                <button
+                  onClick={() => {
+                    setSelectedImage(3);
+                    setOpenGallery(true);
+                  }}
+                  className="relative aspect-3/5 overflow-hidden rounded-2xl group"
+                >
+                  <Image
+                    src={selectedVariant.images[3]}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width:768px) 100vw, 50vw"
+                    className="object-cover brightness-50 transition duration-500"
+                  />
+
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+                    <span className="text-5xl font-bold">
+                      +{selectedVariant.images.length - 3}
+                    </span>
+
+                    <span className="mt-2 text-sm tracking-[0.25em] uppercase">
+                      View All
+                    </span>
+                  </div>
+                </button>
+              )}
+            </div>
           </div>
 
-          {/* THUMBNAILS */}
+          {/* THUMBNAILS
           <div className="hidden md:flex gap-4">
             {(selectedVariant?.images || []).map((img, i) => (
               <button
@@ -325,7 +369,7 @@ export default function ProductPDPClient({
                 />
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* DETAILS SECTION */}
@@ -553,7 +597,7 @@ export default function ProductPDPClient({
                         </span>
                       </>
                     )}
-                    
+
                     {product.productDetails?.style && (
                       <>
                         <span className="text-xl text-black">Style</span>
@@ -658,6 +702,67 @@ export default function ProductPDPClient({
           </section>
         </ScrollReveal>
       )}
+
+      <Dialog open={openGallery} onOpenChange={setOpenGallery}>
+        <DialogContent className="max-w-7xl w-[95vw] h-[95vh] p-0 overflow-hidden">
+          <div className="grid lg:grid-cols-[90px_1fr] h-full">
+            {/* Thumbnails */}
+
+            <div className="hidden lg:flex flex-col gap-3 overflow-y-auto p-4 border-r">
+              {selectedVariant.images.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImage(index)}
+                  className={`relative w-16 h-20 rounded-lg overflow-hidden border-2 ${
+                    selectedImage === index
+                      ? "border-[#5f5143]"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <Image src={img} fill alt="" className="object-cover" />
+                </button>
+              ))}
+            </div>
+
+            {/* Main Image */}
+
+            <div className="relative flex items-center justify-center bg-[#fafafa]">
+              <Image
+                src={selectedVariant.images[selectedImage]}
+                fill
+                alt=""
+                className="object-contain p-8"
+              />
+
+              <button
+                onClick={() =>
+                  setSelectedImage((prev) =>
+                    prev === 0 ? selectedVariant.images.length - 1 : prev - 1,
+                  )
+                }
+                className="absolute left-6 bg-white rounded-full shadow p-3"
+              >
+                <ChevronLeft size={24} />
+              </button>
+
+              <button
+                onClick={() =>
+                  setSelectedImage((prev) =>
+                    prev === selectedVariant.images.length - 1 ? 0 : prev + 1,
+                  )
+                }
+                className="absolute right-6 bg-white rounded-full shadow p-3"
+              >
+                <ChevronRight size={24} />
+              </button>
+
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full">
+                {selectedImage + 1} / {selectedVariant.images.length}
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
