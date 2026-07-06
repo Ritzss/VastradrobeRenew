@@ -35,13 +35,13 @@ const Footer = () => {
       {/* BRAND */}
       <Link
         href="/"
-        className="text-center lg:text-left flex flex-col items-center lg:items-start"
+        className="text-center flex flex-col items-center"
       >
         <Image
           src={img}
           alt="VastraDrobe"
-          width={180}
-          height={180}
+          width={280}
+          height={280}
           className="w-36 sm:w-44 md:w-48 h-auto"
         />
 
