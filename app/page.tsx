@@ -208,7 +208,7 @@ const Home = async () => {
       </section>
 
       {/* Recently Viewed */}
-      <div className="hidden md:block">
+      <div className="block">
         <RecentlyViewed products={initialProducts} />
       </div>
 

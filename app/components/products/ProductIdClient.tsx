@@ -37,9 +37,9 @@ export default function ProductPDPClient({
   const [selectedVariant, setSelectedVariant] = useState(
     product.variants?.[0] || null,
   );
-  const [activeImage, setActiveImage] = useState(
-    product.variants?.[0]?.images?.[0] || "/Assets/Images/Newplaceholder.png",
-  );
+  // const [activeImage, setActiveImage] = useState(
+  //   product.variants?.[0]?.images?.[0] || "/Assets/Images/Newplaceholder.png",
+  // );
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [openGallery, setOpenGallery] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -48,7 +48,7 @@ export default function ProductPDPClient({
   // const productId = Number(product.productId);
 
   // const { addToCart, cartItems, removeFromCart } = useAppContext();
-  const [activeIndex, setActiveIndex] = useState(0);
+  // const [activeIndex, setActiveIndex] = useState(0);
   const [showProductDetails, setShowProductDetails] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
   useEffect(() => {
@@ -69,9 +69,9 @@ export default function ProductPDPClient({
   // const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
 
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [selectedVariant]);
+  // useEffect(() => {
+  //   setActiveIndex(0);
+  // }, [selectedVariant]);
 
   useEffect(() => {
     const KEY = "recentlyViewed";
@@ -180,9 +180,9 @@ export default function ProductPDPClient({
 
   useEffect(() => {
     if (!selectedVariant) return;
-    setActiveImage(
-      selectedVariant.images?.[0] || "/Assets/Images/Newplaceholder.png",
-    );
+    // setActiveImage(
+    //   selectedVariant.images?.[0] || "/Assets/Images/Newplaceholder.png",
+    // );
     setSelectedSize(null);
   }, [selectedVariant]);
 

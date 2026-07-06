@@ -61,7 +61,7 @@ export default function ScrollRevealProducts({
         <div className="flex justify-center mt-12">
           <Link
             href={`/${encodeURIComponent(category.toLowerCase())}`}
-            className="px-8 py-3 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
+            className="capitalize px-8 py-3 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
           >
             browse all {category}
           </Link>
