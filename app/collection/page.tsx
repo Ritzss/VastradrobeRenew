@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import AllProductClient from "../components/products/AllProductClient";
-import { createSlug } from "@/lib/slug";
-
-const PAGE_SIZE = 20;
 
 export const metadata: Metadata = {
   title: "All Products | VastraDrobe",
@@ -30,9 +27,11 @@ export const metadata: Metadata = {
 
 const ProductPage = async () => {
   const res = await fetch(
-    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1&limit=${PAGE_SIZE}`,
+    `${process.env.IMS_BASE_URL}/api/ims/public/products?view=subcategories`,
     {
-      next: { revalidate: 120 },
+      next: {
+        revalidate: 120,
+      },
     },
   );
 
@@ -42,9 +41,7 @@ const ProductPage = async () => {
 
   const data = await res.json();
 
-  const initialProducts = Array.isArray(data.products)
-    ? data.products
-    : [];
+  const sections = data.sections || [];
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -68,14 +65,25 @@ const ProductPage = async () => {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    itemListElement: initialProducts.map((product: { category: string; name: string; productId: number; }, index: number) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      url: `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
-        product.name,
-        product.productId,
-      )}`,
-    })),
+    itemListElement: sections.flatMap(
+      (
+        section: {
+          products: {
+            category: string;
+            name: string;
+            productId: number;
+          }[];
+        },
+        sectionIndex: number,
+      ) =>
+        section.products.map((product, productIndex) => ({
+          "@type": "ListItem",
+          position: sectionIndex * 100 + productIndex + 1,
+          url: `https://vastradrobe.com/${product.category.toLowerCase()}/${product.name
+            .toLowerCase()
+            .replace(/\s+/g, "-")}-${product.productId}`,
+        })),
+    ),
   };
 
   return (
@@ -94,10 +102,7 @@ const ProductPage = async () => {
         }}
       />
 
-      <AllProductClient
-        initialProducts={initialProducts}
-        pageSize={PAGE_SIZE}
-      />
+      <AllProductClient sections={sections} />
     </>
   );
 };
