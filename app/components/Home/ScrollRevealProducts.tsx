@@ -49,9 +49,9 @@ export default function ScrollRevealProducts({
     <section className="relative mx-auto px-6">
       {/* ================= MOBILE ================= */}
       <div className="md:hidden">
-        <HorizontalScroll color={color}>
+        <HorizontalScroll className="gap-0" color={color}>
           {filteredProducts.slice(0, 3).map((product) => (
-            <div key={product.productId} className="w-[75%] shrink-0 px-3">
+            <div key={product.productId} className="w-[75%] shrink-0 px-1">
               <ProductCardStatic product={product} text={text || ""} />
             </div>
           ))}
