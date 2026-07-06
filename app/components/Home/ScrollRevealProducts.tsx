@@ -69,7 +69,7 @@ export default function ScrollRevealProducts({
       </div>
 
       {/* ================= DESKTOP ================= */}
-      <div className="hidden md:flex justify-center gap-10">
+      <div className="hidden md:flex justify-center gap-2">
         {filteredProducts.slice(0, 3).map((product) => (
           <ScrollReveal key={product.productId}>
             <div className="w-70">
