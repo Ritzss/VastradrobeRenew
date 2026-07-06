@@ -32,14 +32,14 @@ const Footer = () => {
 
         <div className="flex items-center gap-16 text-sm">
         {/* Brand */}
-        <div className="text-center mb-20 w-2/4">
+        <Link href={"/"} className="text-center mb-20 w-2/4">
         <Image src={img} alt="" width="222" height="222" className="mx-auto" />
           <h3 className="text-2xl font-semibold tracking-wide">VastraDrobe</h3>
           <p className="mt-4 text-sm text-[#7a6a5c] max-w-xl mx-auto">
             Crafted for everyday elegance. Designed with intention. Worn with
             confidence.
           </p>
-        </div>
+        </Link>
           {/* SHOP */}
           <div className="mb-40 mx-auto md:mx-0 space-y-6 w-1/4">
             <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
