@@ -12,6 +12,36 @@ type Props = {
 };
 
 const AllProductClient = ({ sections }: Props) => {
+  const openings = ["Discover", "Explore", "Shop", "Browse", "Find"];
+
+  const qualities = [
+    "premium",
+    "trendy",
+    "stylish",
+    "comfortable",
+    "high-quality",
+  ];
+
+  const occasions = [
+    "everyday wear",
+    "casual outings",
+    "special occasions",
+    "modern wardrobes",
+    "all seasons",
+  ];
+
+  const getDescription = (subcategory: string, totalProducts: number) => {
+    const seed = subcategory
+      .split("")
+      .reduce((sum, char) => sum + char.charCodeAt(0), 0);
+
+    const opening = openings[seed % openings.length];
+    const quality = qualities[seed % qualities.length];
+    const occasion = occasions[seed % occasions.length];
+
+    return `${opening} ${totalProducts} ${quality} ${subcategory.toLowerCase()} at VastraDrobe. Shop quality designs, comfortable fits, and timeless styles perfect for ${occasion}.`;
+  };
+
   return (
     <section className="w-full pt-5 px-12 bg-[#f9f5ef]">
       <h1 className="sr-only">All Fashion Products | VastraDrobe</h1>
@@ -28,23 +58,14 @@ const AllProductClient = ({ sections }: Props) => {
       </div>
 
       {sections.map((section) => (
-        <section
-          key={section.subcategory}
-          className="mb-15"
-        >
-          <div className="mb-8">
+        <section key={section.subcategory} className="mb-10">
+          <div className="mb-2">
             <h2 className="text-3xl font-light text-[#5f5143] capitalize">
               {section.subcategory}
             </h2>
 
             <p className="mt-2 max-w-3xl text-[#7a6a5c] leading-7">
-              Explore our latest{" "}
-              <span className="font-medium">
-                {section.subcategory.toLowerCase()}
-              </span>{" "}
-              collection featuring premium fabrics, timeless designs, and
-              versatile styles crafted for everyday comfort and effortless
-              fashion.
+               {getDescription(section.subcategory, section.totalProducts)}
             </p>
 
             <p className="mt-2 text-sm text-[#9b8a79]">
@@ -54,11 +75,7 @@ const AllProductClient = ({ sections }: Props) => {
 
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6 lg:gap-2">
             {section.products.map((product) => (
-              <ProductCard
-                key={product.productId}
-                product={product}
-                Linked
-              />
+              <ProductCard key={product.productId} product={product} Linked />
             ))}
           </div>
         </section>
