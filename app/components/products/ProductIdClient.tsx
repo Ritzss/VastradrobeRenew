@@ -225,7 +225,7 @@ export default function ProductPDPClient({
   };
 
   return (
-    <div className="px-6 md:px-12 py-12 space-y-12 pt-28">
+    <div className="px-6 md:px-12 py-12 space-y-12 pt-5">
       {/* BREADCRUMB */}
       <nav className="mb-6 text-sm text-[#957f6a]">
         <ol className="flex flex-wrap items-center gap-2">
@@ -708,7 +708,7 @@ export default function ProductPDPClient({
           <div className="grid lg:grid-cols-[90px_1fr] h-full">
             {/* Thumbnails */}
 
-            <div className="hidden lg:flex flex-col gap-3 overflow-y-auto p-4 border-r">
+            <div className="hidden lg:flex flex-col gap-3 scrollbar-hide overflow-y-auto p-4 border-r">
               {selectedVariant.images.map((img, index) => (
                 <button
                   key={index}
@@ -719,7 +719,7 @@ export default function ProductPDPClient({
                       : "border-gray-200"
                   }`}
                 >
-                  <Image src={img} fill alt="" className="object-cover" />
+                  <Image src={img} fill alt="" className="object-contain" />
                 </button>
               ))}
             </div>
