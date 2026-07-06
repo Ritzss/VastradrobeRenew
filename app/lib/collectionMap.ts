@@ -15,7 +15,7 @@ export const collectionMap: Record<string, string> = {
 
   "Casual Shirts": "👔 Office Wear",
 
-  Trousers: "👖 Everyday Essentials",
+  Trousers: "🎉 Ethnic Collection",
 
   girls: "🧒 Kids Collection",
   "Girls plazzo Co-ordset": "🧒 Kids Collection",

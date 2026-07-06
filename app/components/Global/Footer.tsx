@@ -28,129 +28,160 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#f9f5ef] text-[#5f5143]">
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-5">
+  <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-14 md:pt-20 pb-5">
 
-        <div className="flex items-center gap-16 text-sm">
-        {/* Brand */}
-        <Link href={"/"} className="text-center mb-20 w-2/4">
-        <Image src={img} alt="" width="222" height="222" className="mx-auto" />
-          <h3 className="text-2xl font-semibold tracking-wide">VastraDrobe</h3>
-          <p className="mt-4 text-sm text-[#7a6a5c] max-w-xl mx-auto">
-            Crafted for everyday elegance. Designed with intention. Worn with
-            confidence.
-          </p>
-        </Link>
-          {/* SHOP */}
-          <div className="mb-40 mx-auto md:mx-0 space-y-6 w-1/4">
-            <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
-              Shop
-            </h4>
-            <div className="flex flex-col items-center md:items-start gap-3">
-              {category.map((item, index) => (
-                <FooterLink
-                  key={index}
-                  href={`/${slugify(item)}`}
-                  label={item}
-                />
-              ))}
-            </div>
-          </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-10">
 
-          {/* CUSTOMER */}
-          <div className="mx-auto md:mx-0 space-y-6 w-1/4">
-            <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
-              Customer Care
-            </h4>
-            <div className="flex flex-col items-center md:items-start gap-3">
-              <FooterLink href="/orders" label="Orders & Tracking" />
-              {customer.map((item, index) => (
-                <FooterLink
-                  key={index}
-                  href={`/policies/${slugify(item)}`}
-                  label={item}
-                />
-              ))}
-            </div>
-          </div>
+      {/* BRAND */}
+      <Link
+        href="/"
+        className="text-center lg:text-left flex flex-col items-center lg:items-start"
+      >
+        <Image
+          src={img}
+          alt="VastraDrobe"
+          width={180}
+          height={180}
+          className="w-36 sm:w-44 md:w-48 h-auto"
+        />
 
-          {/* CONTACT */}
-          <div className="text-center space-y-6 w-1/4">
-            <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
-              Visit Us
-            </h4>
+        <h3 className="text-2xl font-semibold mt-2">
+          VastraDrobe
+        </h3>
 
-            {/* Stylized Map */}
-            <div className="relative rounded-[28px] overflow-hidden border border-[#e6d8c8] shadow-[0_20px_60px_rgba(149,127,106,0.12)]">
-              {/* Soft tint overlay */}
-              <div className="absolute inset-0 bg-[#f3e7d8]/40 pointer-events-none mix-blend-multiply z-10"></div>
+        <p className="mt-4 text-sm text-[#7a6a5c] max-w-sm">
+          Crafted for everyday elegance. Designed with intention. Worn with
+          confidence.
+        </p>
+      </Link>
 
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3508.188857139117!2d77.09748757545684!3d28.44372279262982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19053c00df5f%3A0x190bb5aedb9410d1!2sVastradrobe%20India%20Private%20Limited!5e0!3m2!1sen!2sin!4v1770965132563!5m2!1sen!2sin"
-                loading="lazy"
-                className="w-full h-55 border-0"
-              ></iframe>
-            </div>
+      {/* SHOP */}
+      <div className="space-y-5 text-center sm:text-left">
+        <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
+          Shop
+        </h4>
 
-            <div className="text-[#7a6a5c] leading-relaxed">
-              <p>
-                GF 43, Augusta Point, Golf Course Rd, DLF Phase 5, Gurugram,
-                Haryana 122011
-              </p>
-
-              <a
-                href="tel:+918800513926"
-                className="block mt-3 hover:text-[#6a0f1f] hover:underline"
-              >
-                +91 8800513926
-              </a>
-
-              <a
-                href="mailto:support@vastradrobe.com"
-                className="block hover:text-[#6a0f1f] hover:underline"
-              >
-                support@vastradrobe.com
-              </a>
-            </div>
-
-            {/* SOCIAL ICONS */}
-            <div className="flex justify-center gap-4 pt-4">
-              <SocialIcon href="https://www.facebook.com/people/Vastradrobe/61579704217653/">
-                <FaFacebookF />
-              </SocialIcon>
-              <SocialIcon href="https://www.instagram.com/vastradrobe/">
-                <FaInstagram />
-              </SocialIcon>
-              <SocialIcon href="https://www.amazon.in/stores/VASTRADROBE/page/30369E04-11CD-44B1-80D6-FCF332FBA59E">
-                <FaAmazon />
-              </SocialIcon>
-              <SocialIcon href="https://chat.whatsapp.com/EvtOGkMPxx59bJZuQWZc4b">
-                <FaWhatsapp />
-              </SocialIcon>
-              <SocialIcon href="https://www.youtube.com/@vastradrobe">
-                <FaYoutube />
-              </SocialIcon>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-[#e6d8c8] mt-20 pt-8 text-center text-xs text-[#8a7b6c]">
-         Copyright © 2026 VastraDrobe. All rights reserved.
+        <div className="flex flex-col gap-3 items-center sm:items-start">
+          {category.map((item, index) => (
+            <FooterLink
+              key={index}
+              href={`/${slugify(item)}`}
+              label={item}
+            />
+          ))}
         </div>
       </div>
-    </footer>
+
+      {/* CUSTOMER */}
+      <div className="space-y-5 text-center sm:text-left">
+        <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
+          Customer Care
+        </h4>
+
+        <div className="flex flex-col gap-3 items-center sm:items-start">
+          <FooterLink href="/orders" label="Orders & Tracking" />
+
+          {customer.map((item, index) => (
+            <FooterLink
+              key={index}
+              href={`/policies/${slugify(item)}`}
+              label={item}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* CONTACT */}
+      <div className="space-y-5 text-center">
+        <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
+          Visit Us
+        </h4>
+
+        <div className="relative rounded-3xl overflow-hidden border border-[#e6d8c8] shadow-[0_20px_60px_rgba(149,127,106,0.12)]">
+
+          <div className="absolute inset-0 bg-[#f3e7d8]/40 pointer-events-none mix-blend-multiply z-10" />
+
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3508.188857139117!2d77.09748757545684!3d28.44372279262982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19053c00df5f%3A0x190bb5aedb9410d1!2sVastradrobe%20India%20Private%20Limited!5e0!3m2!1sen!2sin!4v1770965132563!5m2!1sen!2sin"
+            loading="lazy"
+            className="w-full h-52 sm:h-60 border-0"
+          />
+        </div>
+
+        <div className="text-sm text-[#7a6a5c] leading-relaxed">
+          <p>
+            GF 43, Augusta Point, Golf Course Rd,
+            <br />
+            DLF Phase 5, Gurugram,
+            <br />
+            Haryana 122011
+          </p>
+
+          <a
+            href="tel:+918800513926"
+            className="block mt-3 hover:text-[#6a0f1f]"
+          >
+            +91 8800513926
+          </a>
+
+          <a
+            href="mailto:support@vastradrobe.com"
+            className="block hover:text-[#6a0f1f]"
+          >
+            support@vastradrobe.com
+          </a>
+        </div>
+
+        <div className="flex justify-center gap-3 flex-wrap pt-2">
+          <SocialIcon href="https://www.facebook.com/people/Vastradrobe/61579704217653/">
+            <FaFacebookF />
+          </SocialIcon>
+
+          <SocialIcon href="https://www.instagram.com/vastradrobe/">
+            <FaInstagram />
+          </SocialIcon>
+
+          <SocialIcon href="https://www.amazon.in/stores/VASTRADROBE/page/30369E04-11CD-44B1-80D6-FCF332FBA59E">
+            <FaAmazon />
+          </SocialIcon>
+
+          <SocialIcon href="https://chat.whatsapp.com/EvtOGkMPxx59bJZuQWZc4b">
+            <FaWhatsapp />
+          </SocialIcon>
+
+          <SocialIcon href="https://www.youtube.com/@vastradrobe">
+            <FaYoutube />
+          </SocialIcon>
+        </div>
+      </div>
+    </div>
+
+    <div className="border-t border-[#e6d8c8] mt-14 md:mt-20 pt-6 md:pt-8 text-center text-xs text-[#8a7b6c]">
+      Copyright © 2026 VastraDrobe. All rights reserved.
+    </div>
+  </div>
+</footer>
   );
 };
 
-function FooterLink({ href, label }: { href: string; label: string }) {
+function FooterLink({
+  href,
+  label,
+}: {
+  href: string;
+  label: string;
+}) {
   return (
     <Link
       href={href}
-      className="group flex items-center justify-between hover:text-[#6a0f1f] transition w-fit gap-2"
+      className="group flex items-center gap-2 hover:text-[#6a0f1f] transition"
     >
       <span>{label}</span>
-      <span className="opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-        <ArrowUpRight size={16} />
-      </span>
+
+      <ArrowUpRight
+        size={15}
+        className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+      />
     </Link>
   );
 }
