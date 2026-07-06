@@ -262,8 +262,8 @@ export default function ProductPDPClient({
       <section className="grid lg:grid-cols-2 gap-16 items-start">
         {/* IMAGE SECTION */}
         <div className="space-y-6">
-          <div
-            className="md:hidden w-full flex relative overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+          {/* <div
+            className="w-full flex relative overflow-x-auto snap-x snap-mandatory scrollbar-hide"
             onScroll={(e) => {
               const scrollLeft = e.currentTarget.scrollLeft;
               const width = e.currentTarget.clientWidth;
@@ -287,10 +287,8 @@ export default function ProductPDPClient({
                 />
               </div>
             ))}
-          </div>
-
           {/* 🔴 DOT INDICATOR */}
-          <div className="md:hidden absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {/* <div className="md:hidden absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
             {(selectedVariant?.images || []).map((_, i) => (
               <div
                 key={i}
@@ -298,9 +296,11 @@ export default function ProductPDPClient({
               />
             ))}
           </div>
+          </div> */}
+
 
           {/* MAIN IMAGE - NO CROPPING */}
-          <div className="hidden md:grid gap-4 sticky top-24">
+          <div className="md:grid gap-4 sticky top-24">
             <div className="grid grid-cols-2 gap-4">
               {selectedVariant.images.slice(0, 3).map((image, index) => (
                 <div
@@ -731,7 +731,7 @@ export default function ProductPDPClient({
                 src={selectedVariant.images[selectedImage]}
                 fill
                 alt=""
-                className="object-contain p-8"
+                className="object-cover p-8"
               />
 
               <button
