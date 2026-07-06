@@ -1,10 +1,11 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+// /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import ProductCardStatic from "@/components/Global/ProductCardStatic";
 import { IMSProduct } from "@/Types/Product";
 import InfiniteScrollWrapper from "../Global/InfiniteScrollWrapper";
+import HorizontalScroll from "../Global/HorizontalScroll";
 
 type LatestArrivalsProps = {
   products: IMSProduct[];
@@ -104,18 +105,20 @@ export default function LatestArrivals({ products }: LatestArrivalsProps,text: s
         {filteredProducts.length > 3 ? (
           <InfiniteScrollWrapper key={selectedCategory}>
             {filteredProducts.map((product) => (
-              <div key={product.productId} className="w-72 shrink-0 px-1">
+              <div key={product.productId} className="w-55 md:w-72 shrink-0 px-1">
                 <ProductCardStatic latest text={text} product={product} />
               </div>
             ))}
           </InfiniteScrollWrapper>
         ) : (
           <div className="flex justify-center">
+            <HorizontalScroll color="#f9f5ef">
             {filteredProducts.map((product) => (
-              <div key={product.productId} className="w-72 shrink-0 px-1">
-                <ProductCardStatic latest text={text} product={product} />
+              <div key={product.productId} className="w-55 md:w-72 shrink-0 px-1">
+                <ProductCardStatic className="" latest text={text} product={product} />
               </div>
             ))}
+            </HorizontalScroll>
           </div>
         )}
       </section>

@@ -58,7 +58,7 @@ export default function RecentlyViewed({ products }: Props) {
               {recentProducts.map((product) => (
                 <div
                   key={product.productId}
-                  className="w-72 shrink-0 px-1"
+                  className="w-55 md:w-72 shrink-0 px-1"
                 >
                   <ProductCardStatic product={product} text={""} />
                 </div>
@@ -69,7 +69,7 @@ export default function RecentlyViewed({ products }: Props) {
               {recentProducts.map((product) => (
                 <div
                   key={product.productId}
-                  className="w-72 px-1"
+                  className="w-55 md:w-72 px-1"
                 >
                   <ProductCardStatic product={product} text={""} />
                 </div>
