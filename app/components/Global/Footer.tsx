@@ -30,7 +30,7 @@ const Footer = () => {
     <footer className="bg-[#f9f5ef] text-[#5f5143]">
       <div className="max-w-7xl mx-auto px-6 pt-20 pb-5">
 
-        <div className="flex gap-16 text-sm">
+        <div className="flex items-center gap-16 text-sm">
         {/* Brand */}
         <div className="text-center mb-20 w-2/4">
         <Image src={img} alt="" width="222" height="222" className="mx-auto" />
@@ -41,7 +41,7 @@ const Footer = () => {
           </p>
         </div>
           {/* SHOP */}
-          <div className="mx-auto md:mx-0 space-y-6 w-1/4">
+          <div className="mb-40 mx-auto md:mx-0 space-y-6 w-1/4">
             <h4 className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
               Shop
             </h4>
