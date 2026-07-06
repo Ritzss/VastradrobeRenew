@@ -23,7 +23,6 @@ const CATEGORY_MAP: Record<string, string[]> = {
 export default function ScrollRevealProducts({
   products,
   category,
-  title,
   text,
   color,
 }: Props) {
