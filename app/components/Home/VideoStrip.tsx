@@ -23,7 +23,7 @@ export default function VideoStrip({ videos }: { videos: VideoItem[] }) {
   return (
     <>
       <div className="relative mx-auto px-6">
-        <div className="flex gap-6 overflow-x-auto md:overflow-visible md:justify-center">
+        <div className="flex gap-2 overflow-x-auto md:overflow-visible md:justify-center">
           {videos.map((video) => (
             <motion.div
               key={video.id}
