@@ -71,7 +71,7 @@ export default function CampaignSection() {
     <>
       {/* ================= HERO SECTION ================= */}
       <section className="bg-[#f8f4ef] py-10 lg:py-5">
-        <div className="mx-auto max-w-7xl px-4">
+        <div className="mx-auto px-4">
           {/* Heading
 
           <div className="mx-auto mb-12 max-w-3xl text-center">
