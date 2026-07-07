@@ -36,23 +36,25 @@ const HERO_BANNERS = [
   //   previewHref: "/collection/new",
   // },
   {
-    id: 2,
-    image: "/Assets/Images/banner1.png",
-    title: "Festive Edit",
-    subtitle: "Celebrate every occasion in style.",
-    buttonText: "Explore Festive",
-    href: "/collections/ethnic-collection",
-    previewHref: "/collections/ethnic-collection",
-  },
-  {
-    id: 3,
-    image: "/Assets/Images/banner2.png",
-    title: "Everyday Luxe",
-    subtitle: "Designed for every moment.",
-    buttonText: "Discover More",
-    href: "/collections/co-ord-collection",
-    previewHref: "/collections/co-ord-collection",
-  },
+  id: 2,
+  image: "/Assets/Images/banner1.png",
+  title: "Ethnic Wear Collection",
+  subtitle:
+    "Shop premium ethnic wear for women including kurta sets, festive outfits, elegant suits, and traditional styles for every celebration.",
+  buttonText: "Shop Ethnic Wear",
+  href: "/collections/ethnic-collection",
+  previewHref: "/collections/ethnic-collection",
+},
+{
+  id: 3,
+  image: "/Assets/Images/banner2.png",
+  title: "Co-Ord Sets Online",
+  subtitle:
+    "Discover stylish women's co-ord sets, office wear co-ord sets, cotton co-ord sets, and western outfits designed for everyday comfort and elegance.",
+  buttonText: "Shop Co-Ord Sets",
+  href: "/collections/co-ord-collection",
+  previewHref: "/collections/co-ord-collection",
+},
 ];
 
 export default function CampaignSection() {
