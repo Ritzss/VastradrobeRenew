@@ -282,6 +282,23 @@ const Home = async () => {
       <LazySection placeholderHeight={450}>
         <SocialProofClient />
       </LazySection>
+
+      {/* SEO Content Section */}
+      <section className="sr-only">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-semibold text-[#5f5143]">
+            Shop Women&apos;s Co-Ord Sets Online in India
+          </h2>
+
+          <p className="mt-6 text-[#7b6a58] leading-8">
+            Discover premium women&apos;s co-ord sets online in India, including
+            formal co-ord sets for women, office wear co-ord sets, cotton co-ord
+            sets, western wear, ethnic wear, dresses, tops, and everyday
+            fashion. VastraDrobe offers thoughtfully designed clothing crafted
+            for comfort, elegance, and modern lifestyles.
+          </p>
+        </div>
+      </section>
     </section>
   );
 };

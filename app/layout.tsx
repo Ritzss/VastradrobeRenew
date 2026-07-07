@@ -10,32 +10,165 @@ import { Analytics } from "@vercel/analytics/next"
 // import FacebookPixel from "./components/Global/FacebookPixel";
 // import { Suspense } from "react";
 
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://vastradrobe.com"),
+
   title: {
-    default: "VastraDrobe",
+    default: "VastraDrobe | Premium Women's Fashion & Ethnic Wear Online",
     template: "%s | VastraDrobe",
   },
+
   description:
-    "Shop premium fashion, ethnic wear, western wear, co-ord sets and latest trends at VastraDrobe.",
+    "Discover premium women's fashion at VastraDrobe. Shop elegant ethnic wear, western wear, dresses, co-ord sets, tops, kurtas, festive collections, and everyday essentials with secure shopping and fast delivery across India.",
+
+  applicationName: "VastraDrobe",
 
   keywords: [
-    "women fashion",
-    "ethnic wear",
-    "western wear",
-    "co ord sets",
-    "vastradrobe",
-    "online shopping",
+  "VastraDrobe",
+
+  // Brand
+  "VastraDrobe fashion",
+  "VastraDrobe online shopping",
+
+  // Women's Fashion
+  "women fashion online",
+  "women clothing online India",
+  "ladies clothing online",
+  "women western wear",
+  "western wear for women",
+  "latest women's fashion",
+  "women apparel online",
+
+  // Co-ord Sets
+  "women co-ord sets online",
+  "women co-ord sets online India",
+  "co-ord sets for women",
+  "formal co-ord sets for women",
+  "office wear co-ord sets",
+  "cotton co-ord sets for women",
+  "printed co-ord sets",
+  "party wear co-ord sets",
+  "summer co-ord sets",
+  "girls co-ord sets online",
+
+  // Tops
+  "tops for women",
+  "designer tops",
+  "casual tops for women",
+  "office tops for women",
+  "cotton tops for women",
+
+  // Ethnic
+  "ethnic wear for women",
+  "ethnic dresses",
+  "kurti online",
+  "kurta sets",
+  "Indian ethnic wear",
+  "festive wear for women",
+
+  // Dresses
+  "dresses for women",
+  "party wear dresses",
+  "casual dresses",
+  "maxi dresses",
+  "summer dresses",
+
+  // Occasion
+  "office wear for women",
+  "casual wear for women",
+  "party wear for women",
+  "vacation wear",
+  "everyday fashion",
+
+  // Regional
+  "women western wear in Gurugram",
+  "women clothing in Gurugram",
+  "fashion store Gurugram",
+  "online fashion store India",
+
+  // Shopping Intent
+  "buy women clothing online",
+  "premium women's clothing",
+  "designer clothing online",
+  "online fashion shopping India",
+  "best online clothing store",
+  "affordable luxury fashion",
+],
+
+  authors: [
+    {
+      name: "VastraDrobe",
+      url: "https://vastradrobe.com",
+    },
   ],
 
-  openGraph: {
-    title: "VastraDrobe",
-    description: "Shop premium fashion and latest trends at VastraDrobe.",
-    url: "https://vastradrobe.com",
-    siteName: "VastraDrobe",
-    locale: "en_US",
-    type: "website",
+  creator: "VastraDrobe",
+
+  publisher: "VastraDrobe",
+
+  category: "Fashion",
+
+  alternates: {
+    canonical: "/",
   },
+
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+
+  openGraph: {
+    title: "VastraDrobe | Premium Women's Fashion",
+    description:
+      "Discover timeless fashion with premium ethnic wear, western wear, co-ord sets, dresses and everyday essentials at VastraDrobe.",
+
+    url: "https://vastradrobe.com",
+
+    siteName: "VastraDrobe",
+
+    locale: "en_US",
+
+    type: "website",
+
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "VastraDrobe Premium Fashion",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "VastraDrobe | Premium Women's Fashion",
+    description:
+      "Shop premium ethnic wear, western wear, dresses, co-ord sets and timeless fashion at VastraDrobe.",
+
+    images: ["/og-image.jpg"],
+  },
+
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+
+  manifest: "/site.webmanifest",
+
+  themeColor: "#6a0f1f",
 };
+
 
 export default function RootLayout({
   children,
