@@ -8,7 +8,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { useEffect, useState, useMemo } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import ProductCard from "@/components/Global/ProductCard";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ScrollReveal from "@/components/Global/ScrollReveal";
 import Link from "next/link";
 import { sizeGuide } from "@/lib/sizeGuide";
@@ -17,7 +17,6 @@ import { toast } from "sonner";
 import { fbPixel } from "@/lib/facebookpixel";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Dialog, DialogContent } from "../UI/dialog";
-
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -31,12 +30,21 @@ export default function ProductPDPClient({
   inventory: any[];
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const selectedColorFromURL = searchParams.get("color");
   const productId = Number(product.productId);
   const { addToCart, cartItems, removeFromCart } = useAppContext();
 
-  const [selectedVariant, setSelectedVariant] = useState(
-    product.variants?.[0] || null,
-  );
+  const initialVariant =
+    product.variants.find(
+      (variant) =>
+        variant.color.toLowerCase() === selectedColorFromURL?.toLowerCase(),
+    ) ??
+    product.variants?.[0] ??
+    null;
+
+  const [selectedVariant, setSelectedVariant] = useState(initialVariant);
   // const [activeImage, setActiveImage] = useState(
   //   product.variants?.[0]?.images?.[0] || "/Assets/Images/Newplaceholder.png",
   // );
@@ -72,6 +80,17 @@ export default function ProductPDPClient({
   // useEffect(() => {
   //   setActiveIndex(0);
   // }, [selectedVariant]);
+
+  useEffect(() => {
+    if (!selectedColorFromURL) return;
+
+    const variant =
+      product.variants.find(
+        (v) => v.color.toLowerCase() === selectedColorFromURL.toLowerCase(),
+      ) ?? product.variants[0];
+
+    setSelectedVariant(variant);
+  }, [selectedColorFromURL, product]);
 
   useEffect(() => {
     const KEY = "recentlyViewed";
@@ -297,7 +316,6 @@ export default function ProductPDPClient({
             ))}
           </div>
           </div> */}
-
 
           {/* MAIN IMAGE - NO CROPPING */}
           <div className="md:grid gap-4 sticky top-24">

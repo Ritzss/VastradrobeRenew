@@ -112,7 +112,7 @@ export default function LatestArrivals({ products }: LatestArrivalsProps,text: s
           </InfiniteScrollWrapper>
         ) : (
           <div className="flex justify-center">
-            <HorizontalScroll className="justify-center" color="#f9f5ef">
+            <HorizontalScroll className="md:justify-center" color="#f9f5ef">
             {filteredProducts.map((product) => (
               <div key={product.productId} className="w-55 md:w-72 shrink-0 px-1">
                 <ProductCardStatic className="" latest text={text} product={product} />

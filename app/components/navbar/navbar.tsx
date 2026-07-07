@@ -6,18 +6,19 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import { motion } from "framer-motion";
 import { IoSearch, IoCart } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa6";
 import { MdSupportAgent } from "react-icons/md";
 import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
 import { Dock, Home, LogOut, Menu, ShoppingBag, X } from "lucide-react";
-
+import img from "../../../public/Assets/Images/logoV2.png";
 import { useAppContext } from "@/hooks/useAppContext";
 import { FaRegListAlt } from "react-icons/fa";
 // import TypingEffect from "../UI/TypingEffect";
 import { IoIosArrowDown } from "react-icons/io";
 import RotatingText from "../UI/RotatingText";
+import { ShoppingBagIcon, ShoppingBagOpenIcon } from "@phosphor-icons/react";
 
 /**
  * Fixes applied:
@@ -77,37 +78,37 @@ const Navbar = () => {
   }, []);
 
   /* 🔍 FETCH SEARCH SUGGESTIONS (DEBOUNCED) */
-useEffect(() => {
-  const fetchSuggestions = async () => {
-    if (!searchQuery.trim()) {
-      setSuggestions([]);
-      return;
-    }
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (!searchQuery.trim()) {
+        setSuggestions([]);
+        return;
+      }
 
-    try {
-      setLoadingSuggestions(true);
+      try {
+        setLoadingSuggestions(true);
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?search=${encodeURIComponent(
-          searchQuery
-        )}`
-      );
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?search=${encodeURIComponent(
+            searchQuery,
+          )}`,
+        );
 
-      const data = await res.json();
+        const data = await res.json();
 
-      setSuggestions(data.products?.slice(0, 8) || []);
-    } catch (error) {
-      console.error("Suggestion Error:", error);
-      setSuggestions([]);
-    } finally {
-      setLoadingSuggestions(false);
-    }
-  };
+        setSuggestions(data.products?.slice(0, 8) || []);
+      } catch (error) {
+        console.error("Suggestion Error:", error);
+        setSuggestions([]);
+      } finally {
+        setLoadingSuggestions(false);
+      }
+    };
 
-  const timer = setTimeout(fetchSuggestions, 300);
+    const timer = setTimeout(fetchSuggestions, 300);
 
-  return () => clearTimeout(timer);
-}, [searchQuery]);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -176,16 +177,21 @@ useEffect(() => {
           {/* LOGO */}
           <Link
             href="/"
-            className="relative nav-logo h-13 w-24 mx-4 rounded-full shrink-0 overflow-hidden flex items-center"
+            className="relative nav-logo w-13.5 aspect-square mx-4 rounded-full shrink-0 overflow-hidden flex items-center"
           >
-            <Image
-              src="/Assets/Images/Logo2.png"
-              fill
-              sizes="(max-width: 768px) 120px, 160px"
-              alt="Vastradrobe"
-              className=""
-              priority
-            />
+            <motion.div
+              layoutId="brand-logo"
+              transition={{
+                layout: {
+                  type: "spring",
+                  stiffness: 60,
+                  damping: 22,
+                  mass: 1.2,
+                },
+              }}
+            >
+              <Image src={img} alt="Logo" width={48} height={48} priority />
+            </motion.div>
           </Link>
 
           {/* NAV LINKS (desktop) */}
@@ -380,12 +386,27 @@ useEffect(() => {
             {/* CART */}
             <Link
               href="/cart"
-              className="relative text-[#957f6a] hover:text-[#6a0f1f]"
+              className="group relative text-[#957f6a] hover:text-[#6a0f1f]"
             >
-              <IoCart size={21} />
+              <div className="relative h-8 w-8">
+                <ShoppingBagIcon
+                  size={32}
+                  color="#ff0000"
+                  weight="duotone"
+                  className="absolute inset-0 transition-all duration-300 group-hover:scale-75 group-hover:opacity-0"
+                />
+
+                <ShoppingBagOpenIcon
+                  size={32}
+                  color="#ff0000"
+                  weight="duotone"
+                  className="absolute inset-0 scale-125 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"
+                />
+              </div>
+
               {cartCount > 0 && (
                 <span
-                  className="absolute -top-1 -right-2 text-xs text-white rounded-full px-1.5"
+                  className="absolute -top-1 -right-2 rounded-full px-1.5 text-xs text-white"
                   style={{ background: "#957f6a" }}
                 >
                   {cartCount}
@@ -542,7 +563,11 @@ useEffect(() => {
                   className="w-full flex items-center justify-between px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
                 >
                   <div className="flex items-center gap-4">
-                    <ShoppingBag size={18} />
+                    <ShoppingBag
+                      size={16}
+                      // color="#ff0000"
+                      // weight="duotone"
+                    />
                     <span className="text-sm font-medium">Collection</span>
                   </div>
                   <IoIosArrowDown

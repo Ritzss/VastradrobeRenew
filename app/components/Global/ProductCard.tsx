@@ -80,10 +80,15 @@ export default function ProductCard({
       <div className="relative aspect-3/4 w-full rounded-4xl overflow-hidden bg-[#f5f1e7]">
         {Linked && (
           <Link
-            href={`/${product.category.toLowerCase()}/${createSlug(
-              product.name,
-              product.productId,
-            )}`}
+            href={{
+              pathname: `/${product.category.toLowerCase()}/${createSlug(
+                product.name,
+                product.productId,
+              )}`,
+              query: {
+                color: product.variants[0].color,
+              },
+            }}
           >
             <Image
               src={imageSrc}
@@ -180,7 +185,10 @@ export default function ProductCard({
 
       {/* DETAILS */}
       <div className="mt-4 text-center">
-        <p title={name} className="text-[14px] font-medium text-[#5f5143] line-clamp-2">
+        <p
+          title={name}
+          className="text-[14px] font-medium text-[#5f5143] line-clamp-2"
+        >
           {name}
         </p>
 

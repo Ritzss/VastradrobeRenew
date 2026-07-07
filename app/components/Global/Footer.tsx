@@ -9,8 +9,7 @@ import {
   FaYoutube,
 } from "react-icons/fa6";
 
-import img from '../../../public/Assets/Images/Logo2.png'
-
+import img from '../../../public/Assets/Images/logoV2.png'
 const Footer = () => {
   const category = ["Men", "Women", "Kids"];
   const customer = [
@@ -121,7 +120,7 @@ const Footer = () => {
             href="tel:+918800513926"
             className="block mt-3 hover:text-[#6a0f1f]"
           >
-            +91 8800513926
+            +91 9910953926
           </a>
 
           <a

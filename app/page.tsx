@@ -8,7 +8,7 @@ import ScrollReveal from "./components/Global/ScrollReveal";
 import LatestArrivals from "./components/Home/LatestProduct";
 import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
 // import SocialProof from "./components/Home/SocialProof";
-import { IMSProduct } from "./Types/Product";
+// import { IMSProduct } from "./Types/Product";
 // import HomeVideosWrapper from "./components/Global/HomeVideosWrapper";
 // import BlogClientWrapper from "./components/Global/BlogClientWrapper";
 import SocialProofClient from "./components/Global/SocialProofClient";
@@ -16,6 +16,9 @@ import dynamic from "next/dynamic";
 import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";
 import LandingSlider from "./components/Home/LandingSlider";
 import RecentlyViewed from "./components/Home/RecentlyViewed";
+import FeaturedCollections from "./components/Home/FeaturedCollections";
+import ShopByColor from "./components/Home/ShopbyColor";
+import LazySection from "./components/Global/LazySection";
 
 // const BlogClient = dynamic(() => import("./blog/BlogsClient"));
 const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"), {
@@ -26,83 +29,83 @@ const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"), {
 // );
 // const SocialSection = dynamic(() => import("./components/Home/SocialSection"));
 
-const CATEGORY_MAP: Record<string, string[]> = {
-  men: ["men"],
-  women: ["women"],
-  kids: ["boys", "girls"],
-  ethnic: ["ethnic"],
-};
+// const CATEGORY_MAP: Record<string, string[]> = {
+//   men: ["men"],
+//   women: ["women"],
+//   kids: ["boys", "girls"],
+//   ethnic: ["ethnic"],
+// };
 
 // export const dynamic = "force-dynamic";
-async function getProductsByMainCategory(
-  mainCategory: string,
-  limit = 8,
-): Promise<IMSProduct[]> {
-  try {
-    const categories = CATEGORY_MAP[mainCategory.toLowerCase()] || [];
+// async function getProductsByMainCategory(
+//   mainCategory: string,
+//   limit = 8,
+// ): Promise<IMSProduct[]> {
+//   try {
+//     const categories = CATEGORY_MAP[mainCategory.toLowerCase()] || [];
 
-    if (categories.length === 0) return [];
+//     if (categories.length === 0) return [];
 
-    const responses = await Promise.all(
-      categories.map((cat) =>
-        fetch(
-          `${process.env.IMS_BASE_URL}/api/ims/public/products?category=${cat}&limit=${limit}`,
-          { next: { revalidate: 120 } },
-        ),
-      ),
-    );
+//     const responses = await Promise.all(
+//       categories.map((cat) =>
+//         fetch(
+//           `${process.env.IMS_BASE_URL}/api/ims/public/products?category=${cat}&limit=${limit}`,
+//           { next: { revalidate: 120 } },
+//         ),
+//       ),
+//     );
 
-    const results = await Promise.all(
-      responses.map((res) =>
-        res.ok ? res.json() : Promise.resolve({ products: [] }),
-      ),
-    );
+//     const results = await Promise.all(
+//       responses.map((res) =>
+//         res.ok ? res.json() : Promise.resolve({ products: [] }),
+//       ),
+//     );
 
-    return results.flatMap((r) => r.products || []);
-  } catch (err) {
-    console.error(`${mainCategory.toUpperCase()} FETCH ERROR:`, err);
-    return [];
-  }
-}
+//     return results.flatMap((r) => r.products || []);
+//   } catch (err) {
+//     console.error(`${mainCategory.toUpperCase()} FETCH ERROR:`, err);
+//     return [];
+//   }
+// }
 
-async function getLatestProducts(): Promise<IMSProduct[]> {
-  try {
-    const res = await fetch(
-      `${process.env.IMS_BASE_URL}/api/ims/public/products/latest`,
-      { next: { revalidate: 60 } },
-    );
+// async function getLatestProducts(): Promise<IMSProduct[]> {
+//   try {
+//     const res = await fetch(
+//       `${process.env.IMS_BASE_URL}/api/ims/public/products/latest`,
+//       { next: { revalidate: 60 } },
+//     );
 
-    if (!res.ok) return [];
+//     if (!res.ok) return [];
 
-    const data = await res.json();
-    return data.products || [];
-  } catch (err) {
-    console.error("LATEST PRODUCTS FETCH ERROR:", err);
-    return [];
-  }
-}
+//     const data = await res.json();
+//     return data.products || [];
+//   } catch (err) {
+//     console.error("LATEST PRODUCTS FETCH ERROR:", err);
+//     return [];
+//   }
+// }
 
 const Home = async () => {
-  const latestProducts = await getLatestProducts();
-  const womenProducts = await getProductsByMainCategory("women");
-  const kidsProducts = await getProductsByMainCategory("kids");
-  const menProducts = await getProductsByMainCategory("men");
-  const res = await fetch(
-    `${process.env.IMS_BASE_URL}/api/ims/public/products?page=1`,
-    {
-      next: { revalidate: 120 },
+  const res = await fetch(`${process.env.IMS_BASE_URL}/api/ims/public/home`, {
+    next: {
+      revalidate: 120,
     },
-  );
+  });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch products");
+    throw new Error("Failed to fetch homepage");
   }
 
-  const data = await res.json();
+  const {
+    latestProducts,
+    womenProducts,
+    menProducts,
+    kidsProducts,
+    featuredCollections,
+    allProducts,
+  } = await res.json();
 
-  const initialProducts = Array.isArray(data.products)
-    ? data.products
-    : [];
+  // const data = await featuredRes.json();
 
   return (
     <section className="w-full bg-[#f9f5ef] text-black ">
@@ -125,6 +128,9 @@ const Home = async () => {
         <CategorySlider />
       </section> */}
 
+      {/* Featured Collection */}
+      <FeaturedCollections sections={featuredCollections} />
+
       {/* LATEST ARRIVALS */}
       <section
         id="latestArrival"
@@ -145,6 +151,11 @@ const Home = async () => {
 
         <LatestArrivals products={latestProducts} />
       </section>
+
+      {/* Shop by Color */}
+      {/* <LazySection placeholderHeight={900}>
+        <ShopByColor products={allProducts} />
+      </LazySection> */}
 
       {/* WOMEN */}
       <section id="collection" className="bg-[#F6F5F3] py-8">
@@ -208,9 +219,9 @@ const Home = async () => {
       </section>
 
       {/* Recently Viewed */}
-      <div className="block">
-        <RecentlyViewed products={initialProducts} />
-      </div>
+      <LazySection placeholderHeight={550}>
+        <RecentlyViewed products={allProducts} />
+      </LazySection>
 
       {/* VIDEO SECTION */}
       <section className="bg-[#fffaf6] py-8">
@@ -224,7 +235,9 @@ const Home = async () => {
           </h2>
         </div>
 
-        <HomeVideos />
+        <LazySection placeholderHeight={700}>
+          <HomeVideos />
+        </LazySection>
       </section>
 
       {/* BLOG */}
@@ -247,7 +260,9 @@ const Home = async () => {
             </div>
           </ScrollReveal>
 
-          <BlogPreviewGrid limit={3} />
+          <LazySection placeholderHeight={700}>
+            <BlogPreviewGrid limit={3} />
+          </LazySection>
 
           <div className="flex justify-center mt-16">
             <Link
@@ -264,7 +279,9 @@ const Home = async () => {
       {/* <SocialSection /> */}
 
       {/* SOCIAL PROOF */}
-      <SocialProofClient />
+      <LazySection placeholderHeight={450}>
+        <SocialProofClient />
+      </LazySection>
     </section>
   );
 };

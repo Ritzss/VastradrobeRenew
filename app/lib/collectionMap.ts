@@ -43,3 +43,12 @@ export const collectionDescriptions: Record<string, string> = {
   "🧒 Kids Collection":
     "Comfortable and playful outfits designed for growing kids.",
 };
+
+export const collectionOrder = [
+  "👗 Co-Ord Collection",
+  "☀️ Summer Collection",
+  "❄️ Winter Collection",
+  "🎉 Ethnic Collection",
+  "👔 Office Wear",
+  "🧒 Kids Collection",
+];

@@ -1,7 +1,11 @@
 "use client";
 
 import ProductCard from "@/components/Global/ProductCard";
-import { collectionDescriptions, collectionMap } from "@/lib/collectionMap";
+import {
+  collectionDescriptions,
+  collectionMap,
+  collectionOrder,
+} from "@/lib/collectionMap";
 import { IMSProduct } from "@/Types/Product";
 
 type Props = {
@@ -44,29 +48,38 @@ const AllProductClient = ({ sections }: Props) => {
   // };
 
   const groupedCollections: Record<
-  string,
-  {
-    description: string;
-    products: IMSProduct[];
-  }
-> = {};
+    string,
+    {
+      description: string;
+      products: IMSProduct[];
+    }
+  > = {};
 
-sections.forEach((section) => {
-  const collection =
-    collectionMap[section.subcategory] ??
-    `✨ ${section.subcategory}`;
+  sections.forEach((section) => {
+    const collection =
+      collectionMap[section.subcategory] ?? `✨ ${section.subcategory}`;
 
-  if (!groupedCollections[collection]) {
-    groupedCollections[collection] = {
-      description:
-        collectionDescriptions[collection] ??
-        `Discover our latest ${section.subcategory.toLowerCase()} collection crafted for every occasion.`,
-      products: [],
-    };
-  }
+    if (!groupedCollections[collection]) {
+      groupedCollections[collection] = {
+        description:
+          collectionDescriptions[collection] ??
+          `Discover our latest ${section.subcategory.toLowerCase()} collection crafted for every occasion.`,
+        products: [],
+      };
+    }
 
-  groupedCollections[collection].products.push(...section.products);
-});
+    groupedCollections[collection].products.push(...section.products);
+  });
+
+  const orderedCollections = [
+    ...collectionOrder
+      .filter((name) => groupedCollections[name])
+      .map((name) => [name, groupedCollections[name]] as const),
+
+    ...Object.entries(groupedCollections).filter(
+      ([name]) => !collectionOrder.includes(name),
+    ),
+  ];
 
   return (
     <section className="w-full pt-5 px-12 bg-[#f9f5ef]">
@@ -83,8 +96,7 @@ sections.forEach((section) => {
         </p>
       </div>
 
-      {Object.entries(groupedCollections).map(
-  ([collection, data]) => (
+      {orderedCollections.map(([collection, data]) => (
         <section key={collection} className="mb-10">
           <div className="mb-2">
             <h2 className="text-3xl font-light text-[#5f5143] capitalize">
@@ -92,7 +104,7 @@ sections.forEach((section) => {
             </h2>
 
             <p className="mt-2 max-w-3xl text-[#7a6a5c] leading-7">
-               {data.description}
+              {data.description}
             </p>
 
             <p className="mt-2 text-sm text-[#9b8a79]">
