@@ -17,7 +17,7 @@ import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";
 import LandingSlider from "./components/Home/LandingSlider";
 import RecentlyViewed from "./components/Home/RecentlyViewed";
 import FeaturedCollections from "./components/Home/FeaturedCollections";
-import ShopByColor from "./components/Home/ShopbyColor";
+// import ShopByColor from "./components/Home/ShopbyColor";
 import LazySection from "./components/Global/LazySection";
 
 // const BlogClient = dynamic(() => import("./blog/BlogsClient"));
