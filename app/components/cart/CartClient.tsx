@@ -78,22 +78,22 @@ const CartClient = () => {
   /* ---------------- EMPTY ---------------- */
   if (!cartEntries.length) {
     return (
-      <div className="min-h-screen bg-[#f9f5ef] flex items-center justify-center px-6">
+      <div className="min-h-screen light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] flex items-center justify-center px-6">
         <div className="text-center max-w-lg space-y-6">
           <div className="text-5xl">🛍️</div>
 
-          <h1 className="text-3xl font-semibold text-[#5f5143]">
+          <h1 className="text-3xl font-semibold text-[#b68351]">
             Your cart feels light.
           </h1>
 
-          <p className="text-[#7a6a5c] leading-relaxed">
+          <p className="text-[#b68351] leading-relaxed">
             Looks like you haven’t added anything yet. Discover timeless pieces
             crafted for everyday elegance.
           </p>
 
           <Link href="/">
             <button
-              className=" mt-4 px-8 py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition"
+              className=" mt-4 px-8 py-4 rounded-full bg-[#b68351] text-white hover:bg-[#6a0f1f] transition"
             >
               Explore Collection
             </button>
@@ -105,7 +105,7 @@ const CartClient = () => {
 
   /* ---------------- UI ---------------- */
   return (
-    <div className="min-h-screen bg-[#f9f5ef] px-6 md:px-16 py-16 pt-28">
+    <div className="min-h-screen light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-semibold text-[#5f5143] mb-12">
           Your Cart
@@ -123,10 +123,10 @@ const CartClient = () => {
               return (
                 <div
                   key={`${entry.productId}_${entry.size}`}
-                  className=" bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-6 flex gap-6"
+                  className="dark:bg-black/85 border border-white light:bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-6 flex gap-6"
                 >
                   {/* Image */}
-                  <div className="relative w-28 h-36 rounded-2xl overflow-hidden bg-[#f3e7d8] shrink-0">
+                  <div className="relative w-28 h-36 rounded-2xl overflow-hidden light:bg-[#f3e7d8] shrink-0">
                     <Image
                       src={
                         product.variants.find((v) => v.color === entry.color)
@@ -170,7 +170,7 @@ const CartClient = () => {
                               entry.color,
                             )
                           }
-                          className="px-4 py-2 hover:bg-[#f3e7d8] transition"
+                          className="px-4 py-2 dark:text-[#5f5143] hover:bg-[#f3e7d8] transition"
                         >
                           −
                         </button>
@@ -185,7 +185,7 @@ const CartClient = () => {
                               entry.color,
                             )
                           }
-                          className="px-4 py-2 hover:bg-[#f3e7d8] transition"
+                          className="px-4 py-2 dark:text-[#5f5143] hover:bg-[#f3e7d8] transition"
                         >
                           +
                         </button>
@@ -218,7 +218,7 @@ const CartClient = () => {
 
           {/* RIGHT – SUMMARY */}
           <div className="md:col-span-1">
-            <div className="  bg-white  rounded-4xl  shadow-[0_30px_80px_rgba(149,127,106,0.15)]  p-8  sticky top-28  space-y-6">
+            <div className="dark:bg-black/85 border border-white  bg-white  rounded-4xl  shadow-[0_30px_80px_rgba(149,127,106,0.15)]  p-8  sticky top-28  space-y-6">
               <h3 className="text-xl font-semibold text-[#5f5143]">
                 Order Summary
               </h3>

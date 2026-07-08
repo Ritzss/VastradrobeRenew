@@ -7,7 +7,7 @@ type Props = {
 
 const layout = ({ children }: Props) => {
   return (
-    <section className="min-h-screen w-full bg-[#f9f5ef]">
+    <section className="min-h-screen w-full">
         {children}
     </section>
   );

@@ -192,19 +192,19 @@ const CheckoutClient = () => {
 
   /* UI */
   return (
-    <div className="min-h-screen bg-[#f9f5ef] px-6 md:px-16 py-16 pt-28">
+    <div className="min-h-screen light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
         {/* LEFT: DETAILS */}
         <div className="space-y-10">
           <h1 className="text-3xl font-semibold text-[#5f5143]">Checkout</h1>
 
-          <div className="bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
+          <div className="dark:bg-black/85 border border-white light:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
             <div>
               <label className="text-sm text-[#7a6a5c]">Phone Number</label>
               <input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full mt-2 px-4 py-3 rounded-full border border-[#e6d8c8] focus:outline-none"
+                className="w-full mt-2 px-4 py-3 text-[#7a6a5c] rounded-full border border-[#e6d8c8] focus:outline-none"
               />
             </div>
 
@@ -214,14 +214,14 @@ const CheckoutClient = () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 rows={4}
-                className="w-full mt-2 px-4 py-3 rounded-2xl border border-[#e6d8c8] focus:outline-none"
+                className="w-full mt-2 px-4 py-3 text-[#7a6a5c] rounded-2xl border border-[#e6d8c8] focus:outline-none"
               />
             </div>
           </div>
         </div>
 
         {/* RIGHT: SUMMARY */}
-        <div className="bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] h-fit space-y-6">
+        <div className="dark:bg-black/85 border border-white light:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] h-fit space-y-6">
           <h2 className="text-xl font-semibold text-[#5f5143]">
             Order Summary
           </h2>

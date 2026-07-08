@@ -13,7 +13,7 @@ const BlogClient = ({ limit, showTitle = true }: BlogClientProps) => {
   const items = limit ? blogs.slice(0, limit) : blogs;
 
   return (
-    <section className="min-h-screen bg-[#f8f5f1] pt-32 pb-24 px-6">
+    <section className="min-h-screen light:bg-[#f8f5f1] pt-32 pb-24 px-6">
       <div className="max-w-6xl mx-auto">
         {showTitle && (
           <div className="text-center mb-20">

@@ -72,7 +72,7 @@ export default function CampaignSection() {
   return (
     <>
       {/* ================= HERO SECTION ================= */}
-      <section className="bg-[#f8f4ef] py-10 lg:py-5">
+      <section className=" dark:bg-black bg-[#fff8f8] py-10 lg:py-5">
         <div className="mx-auto px-4">
           {/* Heading
 
@@ -176,7 +176,7 @@ export default function CampaignSection() {
 
               <button
                 onClick={() => setShowVideo(true)}
-                className="group flex items-center gap-3 rounded-full border border-[#6a0f1f] px-9 py-3 text-sm uppercase tracking-[0.25em] text-[#6a0f1f] transition duration-300 hover:bg-[#6a0f1f] hover:text-white"
+                className="group flex items-center gap-3 rounded-full border border-[#6a0f1f] px-9 py-3 text-sm uppercase tracking-[0.25em] dark:text-white text-[#6a0f1f] transition duration-300 hover:bg-[#6a0f1f] hover:text-white"
               >
                 <FaPlay
                   size={12}
@@ -244,7 +244,7 @@ export default function CampaignSection() {
                 key={banner.title}
                 className="group"
               >
-                <div className="relative aspect-video overflow-hidden rounded-2xl">
+                <div className="relative aspect-2/1 overflow-hidden rounded-2xl">
                   <Image
                     src={banner.image}
                     alt={banner.title}

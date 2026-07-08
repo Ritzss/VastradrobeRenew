@@ -16,7 +16,7 @@ export default function LandingSlider() {
   const topLandingPages = landingPages.filter((page) => page.featured);
 
   return (
-    <section className="px-6 md:px-10 py-10 bg-[#fffaf6]">
+    <section className="px-6 md:px-10 py-10  dark:bg-black bg-[#fffaf6]">
       <Swiper
         modules={[Autoplay, Pagination]}
         slidesPerView={1}

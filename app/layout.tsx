@@ -242,7 +242,7 @@ export default function RootLayout({
         </noscript>
       </head>
 
-      <body className="bg-[#f9f5ef] overflow-hidden" cz-shortcut-listen="true">
+      <body className="dark:bg-black light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] overflow-hidden" cz-shortcut-listen="true">
         {/* <Script id="facebook-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)

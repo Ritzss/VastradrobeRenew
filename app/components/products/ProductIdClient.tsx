@@ -419,7 +419,7 @@ export default function ProductPDPClient({
                   <button
                     key={variant.color}
                     onClick={() => setSelectedVariant(variant)}
-                    className={`px-5 py-2 rounded-full border text-sm capitalize transition ${selectedVariant?.color === variant.color ? "bg-[#5f5143] text-white border-[#5f5143]" : "border-[#e6d8c8] hover:bg-[#f3e7d8]"}`}
+                    className={`px-5 py-2 rounded-full border text-sm capitalize transition ${selectedVariant?.color === variant.color ? "bg-[#5f5143] text-white border-[#5f5143]" : "dark:text-[#5f5143] border-[#e6d8c8] hover:bg-[#f3e7d8]"}`}
                   >
                     {variant.color}
                   </button>
@@ -439,7 +439,7 @@ export default function ProductPDPClient({
                     key={size}
                     disabled={qty === 0}
                     onClick={() => setSelectedSize(size)}
-                    className={`px-5 py-2 rounded-full border border-[#e6d8c8] text-sm transition ${selectedSize === size ? "bg-[#5f5143] text-white border-[#5f5143]" : "hover:bg-[#f3e7d8]"} ${qty === 0 ? "opacity-40 cursor-not-allowed" : ""}`}
+                    className={`px-5 py-2 rounded-full border border-[#e6d8c8] text-sm transition ${selectedSize === size ? "bg-[#5f5143] text-white border-[#5f5143]" : "dark:text-[#5f5143] hover:bg-[#f3e7d8]"} ${qty === 0 ? "opacity-40 cursor-not-allowed" : ""}`}
                   >
                     {size}
                     {stockMap[size] !== undefined && stockMap[size] < 10 && (
@@ -535,7 +535,7 @@ export default function ProductPDPClient({
           <div className="mt-6 border-t pt-6">
             <button
               onClick={() => setShowProductDetails((prev) => !prev)}
-              className="w-full flex items-center justify-between text-sm font-medium bg-[#2b2b2b10] px-4 py-3 rounded-xl hover:bg-[#2b2b2b20] transition-all duration-300"
+              className="w-full flex items-center justify-between text-sm font-medium bg-[#2b2b2b10] dark:bg-white px-4 py-3 rounded-xl hover:bg-[#2b2b2b20] dark:hover:bg-[#ffffffc0] transition-all duration-300"
             >
               <span>
                 {showProductDetails

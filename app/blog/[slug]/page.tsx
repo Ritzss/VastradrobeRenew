@@ -13,7 +13,7 @@ export default async function BlogDetailPage({
   if (!blog) return null;
 
   return (
-    <article className="bg-[#f9f5ef] min-h-screen py-28">
+    <article className="light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen py-28">
       <div className="max-w-4xl mx-auto px-6">
         {/* TITLE */}
         <ScrollReveal>

@@ -57,7 +57,7 @@ const FeaturedCollections = ({ sections }: Props) => {
   ];
 
   return (
-    <section className="py-14 bg-[#f9f5ef]">
+    <section className="py-14 dark:bg-black light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-end mb-10">
           <div>
@@ -94,7 +94,7 @@ const FeaturedCollections = ({ sections }: Props) => {
                   href={`/collections/${currentCollection!.slug}`}
                   className="group shrink-0 snap-start"
                 >
-                  <div className="relative w-105 h-80 rounded-3xl overflow-hidden bg-linear-to-br from-[#f7f2eb] to-[#ece3d5] border border-[#e6d9c8]">
+                  <div className="relative w-105 h-80 rounded-3xl overflow-hidden bg-linear-to-br dark:from-black from-[#f7f2eb] to-[#ece3d5] border border-[#e6d9c8]">
                     <Image
                       src={first.variants[0].images[0]}
                       alt={first.name}
@@ -119,7 +119,7 @@ const FeaturedCollections = ({ sections }: Props) => {
                       className="absolute right-8 top-12 h-45 w-32.5 rounded-xl object-cover rotate-[8deg] transition duration-500 group-hover:-translate-y-3"
                     />
 
-                    <div className="absolute bottom-0 left-0 w-full bg-white/85 backdrop-blur-md p-6">
+                    <div className="absolute bottom-0 left-0 w-full dark:bg-black/85 bg-white/85 backdrop-blur-md p-6">
                       <h3 className="text-2xl font-semibold text-[#5f5143]">
                         {collection}
                       </h3>

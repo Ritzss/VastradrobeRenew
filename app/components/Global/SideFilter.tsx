@@ -102,7 +102,7 @@ const SideFilter = ({
       )}
 
       <aside
-        className={`fixed md:static top-0 right-0 h-full w-80 z-50 bg-[#f9f5ef] transform transition-transform duration-300 ease-in-out ${onClose ? "translate-x-0" : ""} p-8 overflow-y-auto`} >
+        className={`fixed md:static top-0 right-0 h-full w-80 z-50 light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] transform transition-transform duration-300 ease-in-out ${onClose ? "translate-x-0" : ""} p-8 overflow-y-auto`} >
         {/* TITLE */}
         <div className="mb-12 flex items-center justify-between">
           <div>

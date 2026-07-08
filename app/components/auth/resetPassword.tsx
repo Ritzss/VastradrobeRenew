@@ -93,7 +93,7 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="w-full flex justify-center px-6 py-16 bg-[#f9f5ef] h-full">
+    <div className="w-full flex justify-center px-6 py-16 bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] h-full">
       <div className="w-full max-w-5xl rounded-4xl overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
         {/* LEFT PANEL */}
         <aside className="md:w-[45%] bg-[#efe3d3] p-10 flex flex-col justify-between">

@@ -323,17 +323,17 @@ const ProductQuickView = ({
           </div>
 
           {/* DETAILS */}
-          <div className="flex flex-col overflow-y-auto p-6 md:p-10">
+          <div className="flex flex-col overflow-y-auto p-6 md:p-10 dark:bg-black dark:text-[#b68351] scrollbar-hide light:white">
             <p className="text-xs uppercase tracking-[0.3em] text-[#9a8571]">
               {product.category}
             </p>
 
-            <h2 className="mt-4 text-2xl sm:text-3xl md:text-5xl font-light tracking-tight text-[#2e2924]">
+            <h2 className="mt-4 text-2xl sm:text-3xl md:text-5xl font-light tracking-tight light:text-[#2e2924]">
               {product.name}
             </h2>
 
             <div className="flex items-end gap-4 mt-6">
-              <span className="text-2xl font-semibold text-[#3d342d]">
+              <span className="text-2xl font-semibold light:text-[#3d342d]">
                 ₹{product.price}
               </span>
 
@@ -394,7 +394,7 @@ const ProductQuickView = ({
                         setSelectedSize("");
                         setActiveImage(0);
                       }}
-                      className={`px-4 py-2 rounded-md border ${selectedColor === index ? "bg-[#6A0F1F] text-white border-white" : "border-gray-300"}`}
+                      className={`px-4 py-2 rounded-md border ${selectedColor === index ? "bg-[#6A0F1F] text-white border-white dark:border-[#b68351]" : "border-gray-300"}`}
                     >
                       <>
                         {variant.color}
@@ -422,7 +422,7 @@ const ProductQuickView = ({
                         key={size}
                         disabled={outOfStock}
                         onClick={() => setSelectedSize(size)}
-                        className={`relative px-4 py-2 rounded-md border transition ${selectedSize === size? "bg-[#6A0F1F] text-white border-[#6A0F1F]": "border-gray-300"} ${outOfStock? "opacity-40 cursor-not-allowed line-through": "hover:border-[#6A0F1F]"}`}
+                        className={`relative px-4 py-2 rounded-md border transition ${selectedSize === size? "bg-[#6A0F1F] text-white border-[#6A0F1F] dark:border-[#b68351]": "border-gray-300"} ${outOfStock? "opacity-40 cursor-not-allowed line-through": "hover:border-[#6A0F1F]"}`}
                       >
                         {size}
                         {!outOfStock && stock < 10 && (
@@ -449,7 +449,7 @@ const ProductQuickView = ({
             </Link>
 
             {(product.stock ?? 0) > 0 ? (
-              <div className="sticky bottom-0 bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
+              <div className="sticky bottom-0 dark:bg-black light:bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
                 <button
                   onClick={handleCartToggle}
                   disabled={!selectedSize}
@@ -461,7 +461,7 @@ const ProductQuickView = ({
                 <button
                   onClick={handleBuyNow}
                   disabled={!selectedSize}
-                  className="w-full border border-[#2d2722] text-[#2d2722] py-4 rounded-xl hover:bg-[#2d2722] hover:text-white transition disabled:opacity-50"
+                  className="w-full border border-[#2d2722] dark:text-[#9a8571] text-[#2d2722] py-4 rounded-xl hover:bg-[#2d2722] hover:text-white transition disabled:opacity-50"
                 >
                   ⚡ Buy Instantly
                 </button>

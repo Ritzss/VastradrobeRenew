@@ -97,10 +97,10 @@ export default function LatestArrivals({ products }: LatestArrivalsProps,text: s
 
       <section className="relative w-full">
         {/* Left Fade */}
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-linear-to-r from-[#fffaf6] to-transparent" />
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-linear-to-r dark:from-black from-[#fffaf6] to-transparent" />
 
         {/* Right Fade */}
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l from-[#fffaf6] to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l dark:from-black from-[#fffaf6] to-transparent" />
 
         {filteredProducts.length > 3 ? (
           <InfiniteScrollWrapper key={selectedCategory}>

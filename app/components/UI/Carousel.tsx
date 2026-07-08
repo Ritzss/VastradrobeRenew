@@ -37,9 +37,9 @@ type CarouselVariant = "review" | "media";
 export const DEFAULT_ITEMS: CarouselItem[] = [
   {
     id: 1,
-    title: "Aditi Sharma",
+    title: "Sonam Gaur",
     description:
-      "Loved the quality and fit. Delivery was faster than expected.",
+      "Thank you Vastradrobe for beautiful set. Very comfortable cotton shorts co-ord set for easy going. Love the fabric. I stay in singapore perfect for summer and humid weather. Looking to buy again.",
     icon: (
       <div className="flex gap-5 w-full justify-center">
         <AiFillStar className="h-4 w-4 text-yellow-400" />
@@ -49,15 +49,15 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image: "/Assets/Images/Profiles/profile.jpg",
+    image: "",
     // proof: {
     //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
     // },
   },
   {
     id: 2,
-    title: "Rahul Verma",
-    description: "Great designs and premium feel. Worth the price. ",
+    title: "Aarav",
+    description: "Bought clothes from Vastradrobe a few weeks ago and I’m really impressed! The quality was better than expected, great fabric and perfect finishing.",
     icon: (
       <div className="flex gap-5 w-full justify-center">
         <AiFillStar className="h-4 w-4 text-yellow-400" />
@@ -67,15 +67,15 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image: "/Assets/Images/Profiles/profile.jpg",
+    image: "",
     // proof: {
     //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
     // },
   },
   {
     id: 3,
-    title: "Neha Gupta",
-    description: "Customer support was very helpful. Will order again.",
+    title: "Mukesh Sharma",
+    description: "Good quality apparels at reasonable prices. The company believes in long term relationships with the customers and clients.",
     icon: (
       <div className="flex gap-5 w-full justify-center">
         <AiFillStar className="h-4 w-4 text-yellow-400" />
@@ -85,7 +85,7 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image: "/Assets/Images/Profiles/profile.jpg",
+    image: "",
     // proof: {
     //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
     // },
@@ -103,7 +103,7 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image: "/Assets/Images/Profiles/profile.jpg",
+    image: "",
     // proof: {
     //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
     // },
@@ -121,7 +121,7 @@ export const DEFAULT_ITEMS: CarouselItem[] = [
         <AiFillStar className="h-4 w-4 text-yellow-400" />
       </div>
     ),
-    image: "/Assets/Images/Profiles/profile.jpg",
+    image: "",
     // proof: {
     //   videos: ["/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4","/Assets/Videos/Tax & Corporate Compliance Video.mp4"],
     // },

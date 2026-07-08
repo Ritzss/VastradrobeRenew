@@ -32,8 +32,8 @@ export default function RecentlyViewed({ products }: Props) {
   if (recentProducts.length < 2) return null;
 
   return (
-    <section className="py-8 bg-[#fffaf6]">
-      <div className="container mx-auto">
+    <section className="py-8  dark:bg-black bg-[#fffaf6]">
+      <div className="w-full mx-auto">
 
         <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-3 text-center">
           Continue Exploring
@@ -49,9 +49,9 @@ export default function RecentlyViewed({ products }: Props) {
 
         <div className="relative">
 
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-linear-to-r from-[#fffaf6] to-transparent" />
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-linear-to-r dark:from-black from-[#fffaf6] to-transparent" />
 
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l from-[#fffaf6] to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l dark:from-black from-[#fffaf6] to-transparent" />
 
           {recentProducts.length > 3 ? (
             <InfiniteScrollWrapper>

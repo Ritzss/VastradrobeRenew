@@ -46,7 +46,7 @@ const OrdersPageClient = () => {
 
   if (orders.length === 0) {
     return (
-      <div className="min-h-screen bg-[#f9f5ef] flex items-center justify-center">
+      <div className="min-h-screen bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] flex items-center justify-center">
         <EmptyState
           label="No Orders Yet"
           title="Your Wardrobe Awaits"
@@ -78,7 +78,7 @@ const OrdersPageClient = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9f5ef] px-6 md:px-16 py-16 pt-28">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
       <div className="max-w-6xl mx-auto">
         {/* Heading */}
         <div className="mb-14">

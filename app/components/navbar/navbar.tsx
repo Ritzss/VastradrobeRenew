@@ -167,9 +167,9 @@ const Navbar = () => {
     <nav aria-label="Main navigation">
       <div className="">
         <div
-          className="w-full p-2 flex items-center gap-6 shadow-[0_10px_25px_rgba(149,127,106,0.08)]"
+          className="w-full p-2 flex items-center gap-6 shadow-[0_10px_25px_rgba(149,127,106,0.08)] dark:bg-black/85 bg-[#fffdfd]"
           style={{
-            background: "#f5f1e7",
+            // background: "#fffdfd",
             border: "1px solid rgba(0,0,0,0.04)",
             backdropFilter: "blur(6px)",
           }}
@@ -177,20 +177,51 @@ const Navbar = () => {
           {/* LOGO */}
           <Link
             href="/"
-            className="relative nav-logo w-13.5 aspect-square mx-4 rounded-full shrink-0 overflow-hidden flex items-center"
+            className="relative nav-logo mx-4 shrink-0"
+            style={{ perspective: "1000px" }}
           >
             <motion.div
-              layoutId="brand-logo"
+              initial={false}
+              whileHover={{ rotateY: 180, scale: 1.08 }}
               transition={{
-                layout: {
-                  type: "spring",
-                  stiffness: 60,
-                  damping: 22,
-                  mass: 1.2,
-                },
+                duration: 0.7,
+                ease: "easeInOut",
+              }}
+              className="relative w-14 h-14"
+              style={{
+                transformStyle: "preserve-3d",
               }}
             >
-              <Image src={img} alt="Logo" width={48} height={48} priority />
+              {/* Front */}
+              <div
+                className="absolute inset-0 flex items-center w-20 h-20 -top-2.5 justify-center"
+                style={{
+                  backfaceVisibility: "hidden",
+                  WebkitBackfaceVisibility: "hidden",
+                }}
+              >
+                <Image
+                  src={img}
+                  alt="Logo"
+                  fill
+                  priority
+                  className="object-contain drop-shadow-xl"
+                />
+              </div>
+
+              {/* Back */}
+              <div
+                className="absolute inset-0 rounded-full bg-[#cd0000] w-20 h-20 -top-3.5 -left-5 flex items-center justify-center shadow-xl"
+                style={{
+                  transform: "rotateY(180deg)",
+                  backfaceVisibility: "hidden",
+                  WebkitBackfaceVisibility: "hidden",
+                }}
+              >
+                <span className="text-3xl border-2 p-3 border-dashed rounded-full border-white aspect-square flex justify-center items-center inter font-bold text-white tracking-wider">
+                  VD
+                </span>
+              </div>
             </motion.div>
           </Link>
 
@@ -223,63 +254,122 @@ const Navbar = () => {
 
               {showCategoryDropdown && dropdownOpen && (
                 <div className="absolute left-0 top-full pt-5 z-50">
-                  {/* Arrow */}
-                  <div className="absolute left-10 top-3 w-5 h-5 bg-white rotate-45"></div>
+                  <div className="w-180 rounded-3xl bg-white dark:bg-neutral-950 shadow-[0_20px_80px_rgba(0,0,0,0.12)] border border-[#f3ebe5] p-8">
+                    {/* Header */}
+                    <div className="mb-8">
+                      <p className="text-xs uppercase tracking-[0.35em] text-[#9b8570]">
+                        Shop Collections
+                      </p>
 
-                  <div className="w-205 rounded-[48px] p-5 bg-white">
-                    <div className="grid grid-cols-3 gap-6">
+                      <h3 className="mt-2 text-2xl font-semibold text-[#4b4035] dark:text-white">
+                        Find Your Style
+                      </h3>
+                    </div>
+
+                    <div className="space-y-5">
                       {/* WOMEN */}
                       <Link
                         href="/women#categoryPage"
-                        className="flex flex-col items-center text-center group"
+                        className="group flex items-center gap-5 rounded-2xl p-3 transition-all duration-300 hover:bg-[#faf5ef] dark:hover:bg-white/5"
                       >
-                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
+                        <div className="relative w-48 h-28 rounded-2xl overflow-hidden shrink-0">
                           <Image
                             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770977218/products/ocktsxwyzhi2rzwoantd.jpg"
-                            alt="Women's Co-ords"
+                            alt="Women"
                             fill
                             className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
-                        <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Women&apos;s Co-ords
-                        </span>
+
+                        <div className="flex-1">
+                          <h4 className="text-lg font-semibold text-[#4b4035] dark:text-white">
+                            Women
+                          </h4>
+
+                          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-sm text-[#8a7b6c] dark:text-neutral-400">
+                            <span>Dresses</span>
+                            <span>•</span>
+                            <span>Co-ords</span>
+                            <span>•</span>
+                            <span>Tops</span>
+                            <span>•</span>
+                            <span>Ethnic Wear</span>
+                          </div>
+
+                          <p className="mt-3 text-sm font-medium text-[#4b4035] group-hover:translate-x-1 transition-transform">
+                            Explore →
+                          </p>
+                        </div>
                       </Link>
 
                       {/* MEN */}
                       <Link
                         href="/men#categoryPage"
-                        className="flex flex-col items-center text-center group"
+                        className="group flex items-center gap-5 rounded-2xl p-3 transition-all duration-300 hover:bg-[#faf5ef] dark:hover:bg-white/5"
                       >
-                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
+                        <div className="relative w-48 h-28 rounded-2xl overflow-hidden shrink-0">
                           <Image
                             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771238559/products/miaelyvxljqatr8prk9v.jpg"
-                            alt="Men's Linen Essentials"
+                            alt="Men"
                             fill
                             className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
-                        <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Men&apos;s Fashion & Clothing
-                        </span>
+
+                        <div className="flex-1">
+                          <h4 className="text-lg font-semibold text-[#4b4035] dark:text-white">
+                            Men
+                          </h4>
+
+                          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-sm text-[#8a7b6c] dark:text-neutral-400">
+                            <span>Shirts</span>
+                            <span>•</span>
+                            <span>T-Shirts</span>
+                            <span>•</span>
+                            <span>Jeans</span>
+                            <span>•</span>
+                            <span>Ethnic Wear</span>
+                          </div>
+
+                          <p className="mt-3 text-sm font-medium text-[#4b4035] group-hover:translate-x-1 transition-transform">
+                            Explore →
+                          </p>
+                        </div>
                       </Link>
 
                       {/* KIDS */}
                       <Link
                         href="/kids#categoryPage"
-                        className="flex flex-col items-center text-center group"
+                        className="group flex items-center gap-5 rounded-2xl p-3 transition-all duration-300 hover:bg-[#faf5ef] dark:hover:bg-white/5"
                       >
-                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
+                        <div className="relative w-48 h-28 rounded-2xl overflow-hidden shrink-0">
                           <Image
                             src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770292098/products/uiyy3o3gztwnx5et7oiy.jpg"
-                            alt="Kids' Comfort Wear"
+                            alt="Kids"
                             fill
                             className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
-                        <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Kid&apos;s Comfort Wear
-                        </span>
+
+                        <div className="flex-1">
+                          <h4 className="text-lg font-semibold text-[#4b4035] dark:text-white">
+                            Kids
+                          </h4>
+
+                          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-sm text-[#8a7b6c] dark:text-neutral-400">
+                            <span>Boys</span>
+                            <span>•</span>
+                            <span>Girls</span>
+                            <span>•</span>
+                            <span>Casual Wear</span>
+                            <span>•</span>
+                            <span>New Arrivals</span>
+                          </div>
+
+                          <p className="mt-3 text-sm font-medium text-[#4b4035] group-hover:translate-x-1 transition-transform">
+                            Explore →
+                          </p>
+                        </div>
                       </Link>
                     </div>
                   </div>
@@ -493,8 +583,8 @@ const Navbar = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              className="rounded-[28px] p-5 space-y-6 shadow-[0_30px_80px_rgba(149,127,106,0.18)]"
-              style={{ background: "#f5f1e7" }}
+              className="rounded-[28px] p-5 space-y-6 shadow-[0_8px_30px_rgba(122,16,32,0.08)]"
+              style={{ background: "#fffdfd" }}
             >
               {/* SEARCH */}
               <div className="relative">

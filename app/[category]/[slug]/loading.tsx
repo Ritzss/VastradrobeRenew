@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="min-h-dvh bg-[#f9f5ef] px-6 md:px-12 py-12 animate-pulse pt-28">
+    <div className="min-h-dvh bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-12 py-12 animate-pulse pt-28">
       {/* Breadcrumb */}
       <div className="h-4 w-40 bg-[#e6d8c8] rounded mb-12" />
 

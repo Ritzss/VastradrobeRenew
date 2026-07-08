@@ -165,7 +165,7 @@ export default async function ColorPage({
         }}
       />
 
-      <section className="bg-[#f9f5ef] pt-5 pb-20 px-6">
+      <section className="light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] pt-5 pb-20 px-6">
 
         <h1 className="sr-only">
           {selectedColor.name} Clothing Collection | VastraDrobe
