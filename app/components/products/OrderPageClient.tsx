@@ -78,7 +78,7 @@ const OrdersPageClient = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
+    <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
       <div className="max-w-6xl mx-auto">
         {/* Heading */}
         <div className="mb-14">
@@ -96,7 +96,7 @@ const OrdersPageClient = () => {
           return (
             <div
               key={order._id}
-              className=" bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 mb-12 transition"
+              className="bg-[#1a1a1a] not-dark:bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 mb-12 transition"
             >
               {/* Header */}
               <div className="flex justify-between items-center mb-6">

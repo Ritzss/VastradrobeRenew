@@ -48,7 +48,7 @@ const FavoritesClient = () => {
   );
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20 space-y-16 pt-28 bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen">
+    <section className="max-w-7xl mx-auto px-6 py-20 space-y-16 pt-28 not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen">
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <h1 className="text-4xl font-semibold tracking-tight text-[#5f5143]">

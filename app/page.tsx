@@ -165,7 +165,7 @@ const Home = async () => {
           category="women"
           title=""
           text="#5f5143"
-          color="#fff5f5"
+          color="text-[#fff5f5] dark:text-[#1a1a1a]"
         />
       </section>
 
@@ -185,7 +185,7 @@ const Home = async () => {
           products={kidsProducts}
           category="kids"
           title=""
-          color="#fff8f8"
+          color="text-[#fff8f8] dark:text-[#1a1a1a]"
         />
       </section>
 
@@ -206,7 +206,7 @@ const Home = async () => {
           category="men"
           title=""
           text="#5f5143"
-          color="#fff5f5"
+          color="text-[#fff5f5] dark:text-[#1a1a1a]"
         />
       </section>
 

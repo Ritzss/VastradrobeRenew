@@ -73,7 +73,7 @@ const HorizontalScroll = ({ children, className, color, customclass }: Horizonta
   };
 
   return (
-    <div ref={wrapperRef} className={`latest-slider-wrapper relative mx-auto md:w-full ${customclass ?? ""} w-[20rem]`} style={{color:`${color}`}}>
+    <div ref={wrapperRef} className={`latest-slider-wrapper relative mx-auto md:w-full ${color} ${customclass ?? ""} w-[20rem]`}>
       <div
         ref={sliderRef}
         onScroll={updateFades}

@@ -201,14 +201,15 @@ export default function CampaignSection() {
           >
             {HERO_BANNERS.map((banner) => (
               <SwiperSlide key={banner.title}>
-                <div className="relative h-70 sm:h-130 md:h-auto md:aspect-21/9 overflow-hidden rounded-2xl md:rounded-3xl">
+                <div className="relative h-120 sm:h-130 md:h-auto md:aspect-21/9 overflow-hidden rounded-2xl md:rounded-3xl">
                   <Image
                     src={banner.image}
                     alt={banner.title}
                     fill
                     priority
-                    className="object-contain md:object-cover"
+                    className="object-cover"
                   />
+                  {/* phone banner 393 x 480 */}
 
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-linear-to-r md:from-black/70 md:via-black/20 from-black/65 via-black/45 to-black/20" />
