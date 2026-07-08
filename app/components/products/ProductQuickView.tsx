@@ -323,17 +323,17 @@ const ProductQuickView = ({
           </div>
 
           {/* DETAILS */}
-          <div className="flex flex-col overflow-y-auto p-6 md:p-10 dark:bg-black dark:text-[#b68351] scrollbar-hide light:white">
+          <div className="flex flex-col overflow-y-auto p-6 md:p-10 dark:bg-black dark:text-[#b68351] scrollbar-hide bg-white">
             <p className="text-xs uppercase tracking-[0.3em] text-[#9a8571]">
               {product.category}
             </p>
 
-            <h2 className="mt-4 text-2xl sm:text-3xl md:text-5xl font-light tracking-tight light:text-[#2e2924]">
+            <h2 className="mt-4 text-2xl sm:text-3xl md:text-5xl font-light tracking-tight dark:text-[#b68351] text-[#2e2924]">
               {product.name}
             </h2>
 
             <div className="flex items-end gap-4 mt-6">
-              <span className="text-2xl font-semibold light:text-[#3d342d]">
+              <span className="text-2xl font-semibold dark:text-[#b68351] text-[#3d342d]">
                 ₹{product.price}
               </span>
 
@@ -449,7 +449,7 @@ const ProductQuickView = ({
             </Link>
 
             {(product.stock ?? 0) > 0 ? (
-              <div className="sticky bottom-0 dark:bg-black light:bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
+              <div className="sticky bottom-0 dark:bg-black bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
                 <button
                   onClick={handleCartToggle}
                   disabled={!selectedSize}
