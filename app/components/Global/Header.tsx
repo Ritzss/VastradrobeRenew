@@ -126,7 +126,7 @@ export default function CampaignSection() {
               </span>
             </h1>
 
-            <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-[#7b6a58]">
+            <p className="hidden md:block mx-auto mt-8 max-w-2xl text-lg leading-8 text-[#7b6a58]">
               Discover refined silhouettes, luxurious fabrics, and timeless
               pieces created for every occasion. Fashion that feels effortless
               today and unforgettable tomorrow.
@@ -134,10 +134,10 @@ export default function CampaignSection() {
 
             {/* Stats */}
 
-            <div className="mt-10 flex flex-wrap justify-center gap-8 text-center">
+            <div className="mt-10 flex md:flex-wrap justify-center gap-2 md:gap-8 text-center">
               <div>
-                <h3 className="text-2xl font-semibold text-[#6a0f1f]">50+</h3>
-                <p className="mt-1 text-sm uppercase tracking-widest text-[#957f6a]">
+                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">50+</h3>
+                <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
                   Premium Styles
                 </p>
               </div>
@@ -145,8 +145,8 @@ export default function CampaignSection() {
               <div className="h-10 w-px bg-[#d7c8b6]" />
 
               <div>
-                <h3 className="text-2xl font-semibold text-[#6a0f1f]">300+</h3>
-                <p className="mt-1 text-sm uppercase tracking-widest text-[#957f6a]">
+                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">300+</h3>
+                <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
                   Happy Customers
                 </p>
               </div>
@@ -154,8 +154,8 @@ export default function CampaignSection() {
               <div className="h-10 w-px bg-[#d7c8b6]" />
 
               <div>
-                <h3 className="text-2xl font-semibold text-[#6a0f1f]">100%</h3>
-                <p className="mt-1 text-sm uppercase tracking-widest text-[#957f6a]">
+                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">100%</h3>
+                <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
                   Premium Quality
                 </p>
               </div>

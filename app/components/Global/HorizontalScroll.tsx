@@ -6,9 +6,10 @@ type HorizontalScrollProps = {
   children: React.ReactNode;
   className?: string;
   color?:string;
+  customclass?:string;
 };
 
-const HorizontalScroll = ({ children, className, color }: HorizontalScrollProps) => {
+const HorizontalScroll = ({ children, className, color, customclass }: HorizontalScrollProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -72,7 +73,7 @@ const HorizontalScroll = ({ children, className, color }: HorizontalScrollProps)
   };
 
   return (
-    <div ref={wrapperRef} className={`latest-slider-wrapper relative mx-auto md:w-full w-[20rem]`} style={{color:`${color}`}}>
+    <div ref={wrapperRef} className={`latest-slider-wrapper relative mx-auto md:w-full ${customclass ?? ""} w-[20rem]`} style={{color:`${color}`}}>
       <div
         ref={sliderRef}
         onScroll={updateFades}

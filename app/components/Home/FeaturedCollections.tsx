@@ -78,7 +78,7 @@ const FeaturedCollections = ({ sections }: Props) => {
           </Link>
         </div>
 
-        <HorizontalScroll className="gap-0" color={`#00000000`}>
+        <HorizontalScroll customclass="w-[24rem]" className="gap-0" color={`#00000000`}>
           <div className="flex flex-nowrap gap-6 scrollbar-hide pb-4">
             {orderedCollections.map(([collection, data]) => {
               const first = data.products[0];

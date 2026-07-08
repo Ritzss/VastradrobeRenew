@@ -75,7 +75,7 @@ export default async function CollectionPage({
   );
 
   return (
-    <section className="bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen pt-5">
+    <section className="dark:bg-black not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen pt-5">
 
       <div className="max-w-7xl mx-auto px-6">
 
