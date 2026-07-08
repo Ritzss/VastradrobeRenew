@@ -57,7 +57,7 @@ const FeaturedCollections = ({ sections }: Props) => {
   ];
 
   return (
-    <section className="py-14 dark:bg-black light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
+    <section className="py-14 dark:bg-black not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-end mb-10">
           <div>

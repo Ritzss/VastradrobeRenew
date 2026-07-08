@@ -26,7 +26,7 @@ const Footer = () => {
     text.toLowerCase().replace(/&/g, "and").replace(/\s+/g, "-");
 
   return (
-    <footer className="light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] text-[#5f5143]">
+    <footer className="not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] text-[#5f5143]">
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-14 md:pt-20 pb-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-10">
           {/* BRAND */}

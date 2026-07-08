@@ -17,7 +17,7 @@ export default function ShopByColor({ products }: Props) {
   };
 
   return (
-    <section className="py-20 light:bg-[#fffaf6]">
+    <section className="py-20 not-dark:bg-[#fffaf6]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <p className="uppercase tracking-[0.35em] text-xs text-[#957f6a]">

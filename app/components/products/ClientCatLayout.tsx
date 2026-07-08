@@ -7,7 +7,7 @@ const ClientCatLayout = ({ children }: { children: ReactNode }) => {
   const [showFilter, setShowFilter] = useState(false);
 
   return (
-    <section className="min-h-screen w-full light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
+    <section className="min-h-screen w-full not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
       {/* MOBILE */}
       <div className="md:hidden relative">
         <button

@@ -28,7 +28,7 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full flex justify-center px-6 py-16 h-full light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
+    <div className="w-full flex justify-center px-6 py-16 h-full not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
       <div className="w-full max-w-5xl rounded-4xl overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
         {/* LEFT PANEL */}
         <aside className="hidden md:w-[45%] bg-[#efe3d3] p-10 md:flex flex-col justify-between">
@@ -56,7 +56,7 @@ const Register = () => {
         </aside>
 
         {/* RIGHT PANEL */}
-        <aside className="h-full md:w-[55%] light:bg-white p-10 flex flex-col justify-center">
+        <aside className="h-full md:w-[55%] not-dark:bg-white p-10 flex flex-col justify-center">
           <form
             onSubmit={onSubmit}
             className="max-w-md w-full dark:text-[#5f5143] mx-auto space-y-6"

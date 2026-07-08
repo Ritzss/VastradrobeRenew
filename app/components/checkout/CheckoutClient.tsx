@@ -192,13 +192,13 @@ const CheckoutClient = () => {
 
   /* UI */
   return (
-    <div className="min-h-screen light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
+    <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
         {/* LEFT: DETAILS */}
         <div className="space-y-10">
           <h1 className="text-3xl font-semibold text-[#5f5143]">Checkout</h1>
 
-          <div className="dark:bg-black/85 border border-white light:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
+          <div className="dark:bg-black/85 border border-white not-dark:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
             <div>
               <label className="text-sm text-[#7a6a5c]">Phone Number</label>
               <input
@@ -221,7 +221,7 @@ const CheckoutClient = () => {
         </div>
 
         {/* RIGHT: SUMMARY */}
-        <div className="dark:bg-black/85 border border-white light:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] h-fit space-y-6">
+        <div className="dark:bg-black/85 border border-white not-dark:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] h-fit space-y-6">
           <h2 className="text-xl font-semibold text-[#5f5143]">
             Order Summary
           </h2>

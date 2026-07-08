@@ -13,7 +13,7 @@ export default async function BlogDetailPage({
   if (!blog) return null;
 
   return (
-    <article className="light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen py-28">
+    <article className="not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen py-28">
       <div className="max-w-4xl mx-auto px-6">
         {/* TITLE */}
         <ScrollReveal>
@@ -40,7 +40,7 @@ export default async function BlogDetailPage({
           </div>
 
           <ScrollReveal direction="up">
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
+            <div className="relative aspect-4/5 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
               <Image
                 src={blog.coverImage}
                 alt={blog.title}
@@ -116,7 +116,7 @@ export default async function BlogDetailPage({
                       </p>
                     )}
 
-                    <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
+                    <div className="relative aspect-4/5 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
                       <Image
                         src={section.src}
                         alt={blog.title}

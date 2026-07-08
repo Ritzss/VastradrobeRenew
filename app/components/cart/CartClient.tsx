@@ -78,7 +78,7 @@ const CartClient = () => {
   /* ---------------- EMPTY ---------------- */
   if (!cartEntries.length) {
     return (
-      <div className="min-h-screen light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] flex items-center justify-center px-6">
+      <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] flex items-center justify-center px-6">
         <div className="text-center max-w-lg space-y-6">
           <div className="text-5xl">🛍️</div>
 
@@ -105,7 +105,7 @@ const CartClient = () => {
 
   /* ---------------- UI ---------------- */
   return (
-    <div className="min-h-screen light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
+    <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-semibold text-[#5f5143] mb-12">
           Your Cart
@@ -123,10 +123,10 @@ const CartClient = () => {
               return (
                 <div
                   key={`${entry.productId}_${entry.size}`}
-                  className="dark:bg-black/85 border border-white light:bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-6 flex gap-6"
+                  className="dark:bg-black/85 border border-white not-dark:bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-6 flex gap-6"
                 >
                   {/* Image */}
-                  <div className="relative w-28 h-36 rounded-2xl overflow-hidden light:bg-[#f3e7d8] shrink-0">
+                  <div className="relative w-28 h-36 rounded-2xl overflow-hidden not-dark:bg-[#f3e7d8] shrink-0">
                     <Image
                       src={
                         product.variants.find((v) => v.color === entry.color)

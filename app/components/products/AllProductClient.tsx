@@ -82,7 +82,7 @@ const AllProductClient = ({ sections }: Props) => {
   ];
 
   return (
-    <section className="w-full pt-5 px-12 light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
+    <section className="w-full pt-5 px-12 not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
       <h1 className="sr-only">All Fashion Products | VastraDrobe</h1>
 
       <div className="flex flex-col items-center">
