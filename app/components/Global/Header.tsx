@@ -36,25 +36,25 @@ const HERO_BANNERS = [
   //   previewHref: "/collection/new",
   // },
   {
-  id: 2,
-  image: "/Assets/Images/banner1.png",
-  title: "Ethnic Wear Collection",
-  subtitle:
-    "Shop premium ethnic wear for women including kurta sets, festive outfits, elegant suits, and traditional styles for every celebration.",
-  buttonText: "Shop Ethnic Wear",
-  href: "/collections/ethnic-collection",
-  previewHref: "/collections/ethnic-collection",
-},
-{
-  id: 3,
-  image: "/Assets/Images/banner2.png",
-  title: "Co-Ord Sets Online",
-  subtitle:
-    "Discover stylish women's co-ord sets, office wear co-ord sets, cotton co-ord sets, and western outfits designed for everyday comfort and elegance.",
-  buttonText: "Shop Co-Ord Sets",
-  href: "/collections/co-ord-collection",
-  previewHref: "/collections/co-ord-collection",
-},
+    id: 2,
+    image: "/Assets/Images/banner1.png",
+    title: "Ethnic Wear Collection",
+    subtitle:
+      "Shop premium ethnic wear for women including kurta sets, festive outfits, elegant suits, and traditional styles for every celebration.",
+    buttonText: "Shop Ethnic Wear",
+    href: "/collections/ethnic-collection",
+    previewHref: "/collections/ethnic-collection",
+  },
+  {
+    id: 3,
+    image: "/Assets/Images/banner2.png",
+    title: "Co-Ord Sets Online",
+    subtitle:
+      "Discover stylish women's co-ord sets, office wear co-ord sets, cotton co-ord sets, and western outfits designed for everyday comfort and elegance.",
+    buttonText: "Shop Co-Ord Sets",
+    href: "/collections/co-ord-collection",
+    previewHref: "/collections/co-ord-collection",
+  },
 ];
 
 export default function CampaignSection() {
@@ -197,38 +197,44 @@ export default function CampaignSection() {
               disableOnInteraction: false,
             }}
             loop
-            className="rounded-3xl"
+            className="rounded-2xl md:rounded-3xl"
           >
             {HERO_BANNERS.map((banner) => (
               <SwiperSlide key={banner.title}>
-                <div className="relative aspect-21/9 overflow-hidden rounded-3xl">
+                <div className="relative h-70 sm:h-130 md:h-auto md:aspect-21/9 overflow-hidden rounded-2xl md:rounded-3xl">
                   <Image
                     src={banner.image}
                     alt={banner.title}
                     fill
                     priority
-                    className="object-cover"
+                    className="object-contain md:object-cover"
                   />
 
-                  <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/20 to-transparent" />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-linear-to-r md:from-black/70 md:via-black/20 from-black/65 via-black/45 to-black/20" />
 
-                  <div className="absolute left-8 top-1/2 max-w-lg -translate-y-1/2 text-white">
-                    <p className="mb-2 uppercase tracking-[0.3em] text-sm">
-                      Featured
-                    </p>
+                  {/* Content */}
+                  <div className="absolute inset-0 flex items-end md:items-center">
+                    <div className="w-full max-w-xl p-6 pb-10 md:p-8 lg:p-12 text-white">
+                      <p className="mb-2 text-[10px] md:text-sm uppercase tracking-[0.25em]">
+                        Featured
+                      </p>
 
-                    <h2 className="text-4xl font-semibold lg:text-6xl">
-                      {banner.title}
-                    </h2>
+                      <h2 className="md:text-3xl font-semibold leading-tight sm:text-4xl lg:text-6xl">
+                        {banner.title}
+                      </h2>
 
-                    <p className="mt-4 text-white/80">{banner.subtitle}</p>
+                      <p className="hidden md:block mt-3 text-sm md:text-base text-white/85 max-w-md">
+                        {banner.subtitle}
+                      </p>
 
-                    <Link
-                      href={banner.href}
-                      className="mt-8 inline-block rounded-full bg-white px-6 py-3 text-sm font-medium text-[#6a0f1f] transition hover:scale-105"
-                    >
-                      {banner.buttonText}
-                    </Link>
+                      <Link
+                        href={banner.href}
+                        className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-5 py-1 md:py-3 text-sm font-medium text-[#6a0f1f] transition-all hover:scale-105"
+                      >
+                        {banner.buttonText}
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </SwiperSlide>
