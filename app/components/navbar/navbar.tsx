@@ -583,15 +583,14 @@ const Navbar = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              className="rounded-[28px] p-5 space-y-6 shadow-[0_8px_30px_rgba(122,16,32,0.08)]"
-              style={{ background: "#fffdfd" }}
+              className="rounded-[28px] p-5 space-y-6 dark:bg-[#1a1a1a] bg-[#fffdfd] shadow-[0_8px_30px_rgba(122,16,32,0.08)]"
+              
             >
               {/* SEARCH */}
               <div className="relative">
                 <div
-                  className="flex items-center gap-3 rounded-full px-4 py-3"
+                  className="flex items-center gap-3 dark:bg-black bg-white rounded-full px-4 py-3"
                   style={{
-                    background: "#ffffff",
                     boxShadow: "inset 0 1px 4px rgba(0,0,0,0.04)",
                   }}
                 >
@@ -602,7 +601,7 @@ const Navbar = () => {
                   />
 
                   <input
-                    className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#b99f84]"
+                    className="flex-1 bg-transparent outline-none dark:text-[#b99f84] text-sm placeholder:text-[#b99f84]"
                     placeholder="Search products..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -639,7 +638,7 @@ const Navbar = () => {
               </div>
 
               {/* PRIMARY LINKS */}
-              <div className="rounded-2xl overflow-hidden bg-white divide-y divide-black/5">
+              <div className="rounded-2xl overflow-hidden dark:bg-black bg-white divide-y divide-black/5">
                 <Link
                   href="/"
                   className="flex items-center gap-4 px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
@@ -669,7 +668,7 @@ const Navbar = () => {
                 </button>
 
                 {open && (
-                  <div className="bg-[#faf7f2]">
+                  <div className="dark:bg-black bg-[#faf7f2]">
                     <Link
                       href="/women#categoryPage"
                       onClick={() => setOpen(false)}
@@ -712,7 +711,7 @@ const Navbar = () => {
               </div>
 
               {/* ACCOUNT SECTION */}
-              <div className="rounded-2xl overflow-hidden bg-white divide-y divide-black/5">
+              <div className="rounded-2xl overflow-hidden dark:bg-black bg-white divide-y divide-black/5">
                 {!authLoading && !isLogged && (
                   <Link
                     href="/account/login"
