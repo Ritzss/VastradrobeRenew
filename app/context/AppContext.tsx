@@ -27,7 +27,6 @@ export type PriceRange = {
   max: number | "";
 };
 
-
 export interface AppContextType {
   /* 🔍 Search & Filter */
   selectGender: string;
@@ -47,12 +46,16 @@ export interface AppContextType {
 
   /* 🛒 Cart */
   cartItems: CartItem[];
+  savedForLater: CartItem[];
   cartCount: number;
+  saveForLater: (productId: number, size: string, color: string,)=> Promise<void>;
+  moveToCart: (productId: number, size: string, color: string) => Promise<void>;
+  removeSavedForLater: (productId: number, size: string, color: string)=> Promise<void>;
   clearCart: () => void;
-  addToCart: (productId: number, size: string,color:string) => void;
-  removeFromCart: (productId: number, size: string,color:string) => void;
-  incrementQty: (productId: number, size: string,color:string) => void;
-  decrementQty: (productId: number, size: string,color:string) => void;
+  addToCart: (productId: number, size: string, color: string) => void;
+  removeFromCart: (productId: number, size: string, color: string) => void;
+  incrementQty: (productId: number, size: string, color: string) => void;
+  decrementQty: (productId: number, size: string, color: string) => void;
 
   /* ❤️ Favorites (DB-backed) */
   favCollections: Record<string, Set<number>>;
@@ -75,9 +78,7 @@ export interface AppContextType {
   loadUser: () => Promise<void>;
   authLoading: boolean;
   user: AuthUser | null;
-  setUser:Dispatch<SetStateAction<AuthUser | null>>;
+  setUser: Dispatch<SetStateAction<AuthUser | null>>;
 }
 
-export const AppContext = createContext<AppContextType | undefined>(
-  undefined
-);
+export const AppContext = createContext<AppContextType | undefined>(undefined);

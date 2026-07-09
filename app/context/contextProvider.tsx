@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -37,6 +38,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   /* 🛒 Cart */
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [savedForLater, setSavedForLater] = useState<CartItem[]>([]);
 
   /*Product Details */
   const [showVariants, setShowVariants] = useState<boolean>(true);
@@ -116,6 +118,91 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         )
         .filter((i) => i.qty > 0),
     );
+  };
+
+  const saveForLater = async (
+    productId: number,
+    size: string,
+    color: string,
+  ) => {
+    const res = await fetch("/api/cart/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId,
+        size,
+        color,
+      }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.message || "Failed");
+      return;
+    }
+
+    setCartItems(data.cart);
+    setSavedForLater(data.savedForLater);
+
+    toast.success("Moved to Saved for Later");
+  };
+
+  const moveToCart = async (productId: number, size: string, color: string) => {
+    const res = await fetch("/api/cart/move", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId,
+        size,
+        color,
+      }),
+    });
+
+    if (!res.ok) {
+      toast.error("Failed");
+      return;
+    }
+
+    const data = await res.json();
+
+    setCartItems(data.cart);
+    setSavedForLater(data.savedForLater);
+
+    toast.success("Moved to Cart");
+  };
+
+  const removeSavedForLater = async (
+    productId: number,
+    size: string,
+    color: string,
+  ) => {
+    const res = await fetch("/api/cart/remove-saved", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId,
+        size,
+        color,
+      }),
+    });
+
+    if (!res.ok) {
+      toast.error("Failed to remove item");
+      return;
+    }
+
+    const data = await res.json();
+
+    setCartItems(data.cart);
+    setSavedForLater(data.savedForLater);
+
+    toast.success("Removed from Saved for Later");
   };
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
@@ -322,6 +409,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
           // ✅ cart is ARRAY
           setCartItems(Array.isArray(data.cart) ? data.cart : []);
+          setSavedForLater(
+            Array.isArray(data.savedForLater) ? data.savedForLater : [],
+          );
         } catch (err) {
           console.error("Failed to load cart from DB", err);
         }
@@ -354,9 +444,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         "Content-Type": "application/json",
         authorization: `Bearer ${document.cookie}`, // or however you pass token
       },
-      body: JSON.stringify({ cart: cartItems }),
+      body: JSON.stringify({ cart: cartItems, savedForLater }),
     });
-  }, [cartItems, user]);
+  }, [cartItems, savedForLater, user]);
 
   useEffect(() => {
     if (!user) return;
@@ -386,6 +476,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         removeFromCart,
         incrementQty,
         decrementQty,
+        savedForLater,
+        saveForLater,
+        moveToCart,
+        removeSavedForLater,
 
         favCollections,
         createCollection,

@@ -23,11 +23,53 @@ const UserSchema = new mongoose.Schema(
     avatar: { type: String },
 
     /* 🛒 CART */
+    /* 🛒 CART */
     cart: [
       {
-        productId: Number,
-        size: String,
-        qty: Number,
+        productId: {
+          type: Number,
+          required: true,
+        },
+
+        color: {
+          type: String,
+          required: true,
+        },
+
+        size: {
+          type: String,
+          required: true,
+        },
+
+        qty: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
+
+    /* 💾 SAVED FOR LATER */
+    savedForLater: [
+      {
+        productId: {
+          type: Number,
+          required: true,
+        },
+
+        color: {
+          type: String,
+          required: true,
+        },
+
+        size: {
+          type: String,
+          required: true,
+        },
+
+        qty: {
+          type: Number,
+          default: 1,
+        },
       },
     ],
 
