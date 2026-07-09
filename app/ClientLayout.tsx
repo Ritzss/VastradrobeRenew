@@ -23,7 +23,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
         requestAnimationFrame(() => {
         setLoading(false);
     });
-      }, 1800);
+      }, 180);
     };
 
     load();

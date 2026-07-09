@@ -157,17 +157,23 @@ const Footer = () => {
 
 function FooterLink({ href, label }: { href: string; label: string }) {
   return (
-    <Link
-      href={href}
-      className="group flex items-center gap-2 hover:text-[#6a0f1f] transition"
-    >
-      <span>{label}</span>
+    <>
+      <Link
+        href={href}
+        className="group flex items-center gap-2 hover:text-[#6a0f1f] transition"
+        title={label}
+      >
+        <span>{label}</span>
 
-      <ArrowUpRight
-        size={15}
-        className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
-      />
-    </Link>
+        <ArrowUpRight
+          size={15}
+          className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+        />
+      </Link>
+      <Link href={href} className="sr-only">
+        go
+      </Link>
+    </>
   );
 }
 
