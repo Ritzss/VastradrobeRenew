@@ -744,37 +744,56 @@ export default function ProductPDPClient({
 
             {/* Main Image */}
 
-            <div className="relative flex items-center justify-center bg-[#fafafa]">
+            <div className="relative flex items-center justify-center overflow-hidden rounded-2xl">
+              {/* Blurred Background */}
               <Image
                 src={selectedVariant.images[selectedImage]}
                 fill
                 alt=""
-                className="object-cover p-8"
+                aria-hidden
+                className="object-cover scale-100 opacity-100"
               />
 
+              {/* Optional overlay for better contrast */}
+              <div className="absolute inset-0 bg-white/40 dark:bg-black/30 backdrop-blur-sm rounded-xl" />
+
+              {/* Main Product */}
+              <div className="relative z-10 aspect-square w-full">
+                <Image
+                  src={selectedVariant.images[selectedImage]}
+                  fill
+                  alt={selectedVariant.color}
+                  className="object-contain p-8"
+                  priority
+                />
+              </div>
+
+              {/* Left Button */}
               <button
                 onClick={() =>
                   setSelectedImage((prev) =>
                     prev === 0 ? selectedVariant.images.length - 1 : prev - 1,
                   )
                 }
-                className="absolute left-6 bg-white rounded-full shadow p-3"
+                className="absolute left-6 z-20 rounded-full bg-white/80 p-3 shadow-lg backdrop-blur dark:bg-neutral-900/80"
               >
                 <ChevronLeft size={24} />
               </button>
 
+              {/* Right Button */}
               <button
                 onClick={() =>
                   setSelectedImage((prev) =>
                     prev === selectedVariant.images.length - 1 ? 0 : prev + 1,
                   )
                 }
-                className="absolute right-6 bg-white rounded-full shadow p-3"
+                className="absolute right-6 z-20 rounded-full bg-white/80 p-3 shadow-lg backdrop-blur dark:bg-neutral-900/80"
               >
                 <ChevronRight size={24} />
               </button>
 
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full">
+              {/* Counter */}
+              <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/70 px-4 py-2 text-white backdrop-blur">
                 {selectedImage + 1} / {selectedVariant.images.length}
               </div>
             </div>
