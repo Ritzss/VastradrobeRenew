@@ -114,7 +114,7 @@ export default function CampaignSection() {
             </div>
           </div> */}
           {/* Heading */}
-          <div className="mx-auto mb-16 max-w-4xl text-center">
+          <div className="hidden md:block mx-auto mb-16 max-w-4xl text-center">
             <div className="mb-4 flex items-center justify-center gap-4">
               <span className="h-px w-12 bg-[#c7b29b]" />
 
@@ -258,7 +258,7 @@ export default function CampaignSection() {
 
           {/* Preview Cards */}
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <div className="hidden md:grid mt-8 gap-6 md:grid-cols-2">
             {HERO_BANNERS.slice(0).map((banner) => (
               <Link
                 href={banner.previewHref}
