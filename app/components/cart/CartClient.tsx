@@ -290,14 +290,14 @@ const CartClient = () => {
                     return (
                       <div
                         key={`${item.productId}-${item.color}-${item.size}`}
-                        className="flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-950"
+                        className="flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-white dark:bg-black/85"
                       >
                         <div className="flex items-center gap-5">
                           <Image
                             src={variant.images[0]}
                             alt={product.name}
                             width={96}
-                            height={112}
+                            height={96}
                             className="rounded-xl object-cover"
                           />
 
