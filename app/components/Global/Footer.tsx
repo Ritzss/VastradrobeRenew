@@ -114,12 +114,18 @@ const Footer = () => {
               >
                 +91 9910953926
               </a>
+              <a href="tel:+918800513926" className="sr-only">
+                click here
+              </a>
 
               <a
                 href="mailto:support@vastradrobe.com"
                 className="block hover:text-[#6a0f1f]"
               >
                 support@vastradrobe.com
+              </a>
+              <a href="mailto:support@vastradrobe.com" className="sr-only">
+                click here
               </a>
             </div>
 
@@ -185,13 +191,18 @@ function SocialIcon({
   children: React.ReactNode;
 }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      className="w-10 h-10 flex items-center justify-center rounded-full bg-[#efe3d3] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white transition duration-300"
-    >
-      {children}
-    </a>
+    <>
+      <a
+        href={href}
+        target="_blank"
+        className="w-10 h-10 flex items-center justify-center rounded-full bg-[#efe3d3] text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white transition duration-300"
+      >
+        {children}
+      </a>
+      <a href={href} className="sr-only">
+        click here
+      </a>
+    </>
   );
 }
 
