@@ -36,8 +36,11 @@ const HERO_BANNERS = [
   //   previewHref: "/collection/new",
   // },
   {
-    id: 2,
-    image: "/Assets/Images/banner1.png",
+    id: 1,
+    image:
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_1920,c_limit/v1783584189/banner1_f58cni.png",
+    mobileimage:
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_768,c_limit/v1783584186/mobilebanner1_vxjcjw.png",
     title: "Ethnic Wear Collection",
     subtitle:
       "Shop premium ethnic wear for women including kurta sets, festive outfits, elegant suits, and traditional styles for every celebration.",
@@ -46,8 +49,11 @@ const HERO_BANNERS = [
     previewHref: "/collections/ethnic-collection",
   },
   {
-    id: 3,
-    image: "/Assets/Images/banner2.png",
+    id: 2,
+    image:
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_1920,c_limit/v1783584187/banner2_aqoqvy.png",
+    mobileimage:
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_768,c_limit/v1783584186/mobilebanner2_o3dtk9.png",
     title: "Co-Ord Sets Online",
     subtitle:
       "Discover stylish women's co-ord sets, office wear co-ord sets, cotton co-ord sets, and western outfits designed for everyday comfort and elegance.",
@@ -136,7 +142,9 @@ export default function CampaignSection() {
 
             <div className="mt-10 flex md:flex-wrap justify-center gap-2 md:gap-8 text-center">
               <div>
-                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">50+</h3>
+                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">
+                  50+
+                </h3>
                 <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
                   Premium Styles
                 </p>
@@ -145,7 +153,9 @@ export default function CampaignSection() {
               <div className="h-10 w-px bg-[#d7c8b6]" />
 
               <div>
-                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">300+</h3>
+                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">
+                  300+
+                </h3>
                 <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
                   Happy Customers
                 </p>
@@ -154,7 +164,9 @@ export default function CampaignSection() {
               <div className="h-10 w-px bg-[#d7c8b6]" />
 
               <div>
-                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">100%</h3>
+                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">
+                  100%
+                </h3>
                 <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
                   Premium Quality
                 </p>
@@ -202,13 +214,15 @@ export default function CampaignSection() {
             {HERO_BANNERS.map((banner) => (
               <SwiperSlide key={banner.title}>
                 <div className="relative h-120 sm:h-130 md:h-auto md:aspect-21/9 overflow-hidden rounded-2xl md:rounded-3xl">
-                  <Image
-                    src={banner.image}
-                    alt={banner.title}
-                    fill
-                    priority
-                    className="object-cover"
-                  />
+                  <picture>
+                    <source media="(min-width:768px)" srcSet={banner.image} />
+
+                    <img
+                      src={banner.mobileimage}
+                      alt={banner.title}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  </picture>
                   {/* phone banner 393 x 480 */}
 
                   {/* Overlay */}
