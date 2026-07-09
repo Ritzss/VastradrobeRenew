@@ -62,9 +62,9 @@ export default function ColorCard({
           y: -6,
         }}
         transition={{
-          duration: 0.35,
+          duration: 0.15,
         }}
-        className="group relative h-full overflow-hidden rounded-4xl bg-white shadow-sm"
+        className="group relative h-full overflow-hidden rounded-4xl dark:bg-black/85 not-dark:bg-white shadow-sm"
       >
         <AnimatePresence mode="wait">
           <motion.div
