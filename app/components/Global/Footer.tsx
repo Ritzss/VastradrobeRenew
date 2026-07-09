@@ -171,7 +171,7 @@ function FooterLink({ href, label }: { href: string; label: string }) {
         />
       </Link>
       <Link href={href} className="sr-only">
-        go
+        click here
       </Link>
     </>
   );
