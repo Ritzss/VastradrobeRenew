@@ -251,13 +251,13 @@ export default async function ProductPage({
   return (
     <>
       <WhatsAppPageMessage
-        message={whatsappMessages.product({
-          name: product.name,
-          url: `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
+        message={whatsappMessages.product(
+          product.name,
+          `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
             product.name,
             product.productId,
           )}`,
-        })}
+        )}
       />
       <script
         type="application/ld+json"
