@@ -14,7 +14,7 @@ export default async function BlogDetailPage({
 
   return (
     <article className="not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen py-28">
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         {/* TITLE */}
         <ScrollReveal>
           <h1 className="text-4xl md:text-5xl font-semibold text-[#5f5143] mb-16 leading-tight">

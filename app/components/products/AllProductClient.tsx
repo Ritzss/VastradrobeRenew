@@ -7,6 +7,9 @@ import {
   collectionOrder,
 } from "@/lib/collectionMap";
 import { IMSProduct } from "@/Types/Product";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { RiArrowDownWideFill } from "react-icons/ri";
 
 type Props = {
   sections: {
@@ -47,6 +50,8 @@ const AllProductClient = ({ sections }: Props) => {
   //   return `${opening} ${totalProducts} ${quality} ${subcategory.toLowerCase()} at VastraDrobe. Shop quality designs, comfortable fits, and timeless styles perfect for ${occasion}.`;
   // };
 
+  const [openCollections, setOpenCollections] = useState<string[]>([]);
+
   const groupedCollections: Record<
     string,
     {
@@ -54,6 +59,14 @@ const AllProductClient = ({ sections }: Props) => {
       products: IMSProduct[];
     }
   > = {};
+
+  const toggleCollection = (collection: string) => {
+    setOpenCollections((prev) =>
+      prev.includes(collection)
+        ? prev.filter((c) => c !== collection)
+        : [...prev, collection],
+    );
+  };
 
   sections.forEach((section) => {
     const collection =
@@ -96,29 +109,63 @@ const AllProductClient = ({ sections }: Props) => {
         </p>
       </div>
 
-      {orderedCollections.map(([collection, data]) => (
-        <section key={collection} className="mb-10">
-          <div className="mb-2">
-            <h2 className="text-3xl font-light text-[#5f5143] capitalize">
-              {collection}
-            </h2>
+      {orderedCollections.map(([collection, data]) => {
+        const isOpen = openCollections.includes(collection);
 
-            <p className="mt-2 max-w-3xl text-[#7a6a5c] leading-7">
-              {data.description}
-            </p>
+        return (
+          <section key={collection} className="border-b border-[#ece5db] py-6">
+            <button
+              onClick={() => toggleCollection(collection)}
+              className="flex w-full items-center justify-between text-left"
+            >
+              <h2 className="text-2xl font-light capitalize text-[#5f5143]">
+                {collection}
+              </h2>
 
-            <p className="mt-2 text-sm text-[#9b8a79]">
-              {data.products.length} Products Products
-            </p>
-          </div>
+              <span
+                className={`transition-transform duration-900 dark:text-[#5f5143] ${
+                  isOpen ? "rotate-180" : ""
+                }`}
+              >
+                <RiArrowDownWideFill size={32} />
 
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 lg:gap-2">
-            {data.products.map((product) => (
-              <ProductCard key={product.productId} product={product} Linked />
-            ))}
-          </div>
-        </section>
-      ))}
+              </span>
+            </button>
+
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="overflow-hidden"
+                >
+                  <div className="pt-6">
+                    <p className="max-w-3xl text-[#7a6a5c]">
+                      {data.description}
+                    </p>
+
+                    <p className="mt-2 text-sm text-[#9b8a79]">
+                      {data.products.length} Products
+                    </p>
+
+                    <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+                      {data.products.map((product) => (
+                        <ProductCard
+                          key={product.productId}
+                          product={product}
+                          Linked
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </section>
+        );
+      })}
     </section>
   );
 };

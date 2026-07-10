@@ -9,8 +9,8 @@ interface Props {
   limit?: number;
 }
 
-export default function BlogPreviewGrid({ limit = 3 }: Props) {
-  const items = blogs.slice(0, limit);
+export default function BlogPreviewGrid({ limit }: Props) {
+  const items = limit ? blogs.slice(0, limit) : blogs;
 
   const gridCols =
     items.length === 1
