@@ -208,7 +208,7 @@ export default function CampaignSection() {
               delay: 4000,
               disableOnInteraction: false,
             }}
-            loop
+            loop={false}
             className="rounded-2xl md:rounded-3xl"
           >
             {HERO_BANNERS.map((banner) => (
@@ -270,6 +270,7 @@ export default function CampaignSection() {
                     src={banner.image}
                     alt={banner.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover transition duration-700 group-hover:scale-105"
                   />
 

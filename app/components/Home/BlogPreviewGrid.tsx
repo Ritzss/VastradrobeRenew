@@ -29,6 +29,7 @@ export default function BlogPreviewGrid({ limit }: Props) {
               <Image
                 src={blog.coverImage}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 alt={blog.title}
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />

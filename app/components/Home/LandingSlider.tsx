@@ -20,7 +20,7 @@ export default function LandingSlider() {
       <Swiper
         modules={[Autoplay, Pagination]}
         slidesPerView={1}
-        loop={true}
+        loop={topLandingPages.length > 4}
         autoplay={{
           delay: 4000,
           disableOnInteraction: false,

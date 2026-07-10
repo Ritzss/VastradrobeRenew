@@ -204,6 +204,7 @@ const Navbar = () => {
                   src={img}
                   alt="Logo"
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   priority
                   className="object-contain drop-shadow-xl"
                 />
@@ -378,7 +379,7 @@ const Navbar = () => {
             </div>
 
             <Link href="/blog" className="hover:text-[#6a0f1f]">
-              Blog
+              Blogs
             </Link>
           </div>
 
