@@ -7,6 +7,8 @@ import { Toaster } from "sonner";
 import Footer from "./components/Global/Footer";
 import { LayoutGroup } from "framer-motion";
 import LandingLoader from "./components/Loaders/LandingLoaders";
+import WhatsAppButton from "./components/Global/WhatsappButton";
+import { WhatsAppProvider } from "./context/WhatsAppContext";
 
 const ClientLayout = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
@@ -21,8 +23,8 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
 
       setTimeout(() => {
         requestAnimationFrame(() => {
-        setLoading(false);
-    });
+          setLoading(false);
+        });
       }, 180);
     };
 
@@ -68,43 +70,48 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <AppProvider>
-      <Toaster position="bottom-left" richColors />
-      <LayoutGroup>
-        <LandingLoader loading={loading} />
-        <div
-          className={`max-h-screen overflow-y-scroll scrollbar-hide ${
-            loading ? "pointer-events-none" : ""
-          }`}
-        >
-          <section
-            aria-label="Store announcements"
-            className="overflow-hidden bg-linear-to-r from-[#7a2a2a] via-[#db4237] to-[#ff0000] text-[#ffffff] border-b border-[#7B6A58]"
-            // className="overflow-hidden bg-[#5F5143] text-[#F8F5F1] border-b border-[#6f5f4f]"
+      <WhatsAppProvider>
+        <WhatsAppButton />
+
+        <Toaster position="bottom-left" richColors />
+        <LayoutGroup>
+          <LandingLoader loading={loading} />
+          <div
+            className={`max-h-screen overflow-y-scroll scrollbar-hide ${
+              loading ? "pointer-events-none" : ""
+            }`}
           >
-            <div className="flex w-max animate-marquee whitespace-nowrap py-2">
-              {[...announcements, ...announcements].map((text, index) => (
-                <span
-                  key={index}
-                  className="mx-8 flex justify-center items-center gap-15 text-[8px] font-light uppercase tracking-[0.18em]"
-                >
-                  <span>{text}</span>
-                  <span aria-hidden="true" className="text-[#ffffff]">
-                    ✦
+            <section
+              aria-label="Store announcements"
+              className="overflow-hidden bg-linear-to-r from-[#7a2a2a] via-[#db4237] to-[#ff0000] text-[#ffffff] border-b border-[#7B6A58]"
+              // className="overflow-hidden bg-[#5F5143] text-[#F8F5F1] border-b border-[#6f5f4f]"
+            >
+              <div className="flex w-max animate-marquee whitespace-nowrap py-2">
+                {[...announcements, ...announcements].map((text, index) => (
+                  <span
+                    key={index}
+                    className="mx-8 flex justify-center items-center gap-15 text-[8px] font-light uppercase tracking-[0.18em]"
+                  >
+                    <span>{text}</span>
+                    <span aria-hidden="true" className="text-[#ffffff]">
+                      ✦
+                    </span>
                   </span>
-                </span>
-              ))}
-            </div>
-          </section>
-          <header className="sticky top-0 left-0 w-full z-50 transition-all duration-1000 h-0">
-            {/* Announcement Bar */}
-            <Navbar />
-          </header>
+                ))}
+              </div>
+            </section>
+            <header className="sticky top-0 left-0 w-full z-50 transition-all duration-1000 h-0">
+              {/* Announcement Bar */}
+              <Navbar />
+            </header>
 
-          <main className="min-h-screen mt-18">{children}</main>
+            <main className="min-h-screen mt-18">{children}</main>
 
-          <Footer />
-        </div>
-      </LayoutGroup>
+            <Footer />
+          </div>
+          
+        </LayoutGroup>
+      </WhatsAppProvider>
     </AppProvider>
   );
 };

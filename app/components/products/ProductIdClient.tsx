@@ -17,6 +17,8 @@ import { toast } from "sonner";
 import { fbPixel } from "@/lib/facebookpixel";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Dialog, DialogContent } from "../UI/dialog";
+import { whatsappMessages } from "@/lib/whatsapp";
+import { useWhatsApp } from "@/context/WhatsAppContext";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -76,6 +78,21 @@ export default function ProductPDPClient({
 
   // const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+
+  const { setMessage } = useWhatsApp();
+
+  // const { setMessage } = useWhatsApp();
+
+  useEffect(() => {
+    setMessage(
+      whatsappMessages.product(
+        product.name,
+        selectedVariant?.color,
+        selectedSize ?? undefined,
+        window.location.href,
+      ),
+    );
+  }, [product.name, selectedVariant?.color, selectedSize, setMessage]);
 
   // useEffect(() => {
   //   setActiveIndex(0);

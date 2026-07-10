@@ -1,16 +1,15 @@
 "use client";
 
-import { blogs } from "../../lib/blog";
-import AnimatedList from "../UI/AnimatedList";
+// import { blogs } from "../../lib/blog";
+// import AnimatedList from "../UI/AnimatedList";
 import BlogPreviewGrid from "@/components/Home/BlogPreviewGrid";
 
 interface BlogClientProps {
-  limit?: number;
   showTitle?: boolean;
 }
 
-const BlogClient = ({ limit, showTitle = true }: BlogClientProps) => {
-  const items = limit ? blogs.slice(0, limit) : blogs;
+const BlogClient = ({  showTitle = true }: BlogClientProps) => {
+  // const items = limit ? blogs.slice(0, limit) : blogs;
 
   return (
     <section className="min-h-screen not-dark:bg-[#f8f5f1] pt-32 pb-24 px-6">

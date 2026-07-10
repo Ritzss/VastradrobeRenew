@@ -39,7 +39,9 @@ const Footer = () => {
               className="w-36 sm:w-44 md:w-48 h-auto"
             />
 
-            <h3 className="text-2xl font-semibold mt-2">VastraDrobe</h3>
+            <h3 className="text-xs font-semibold mt-2">
+              VastraDrobe - Your Morden Indian Wardrobe
+            </h3>
 
             <p className="mt-4 text-sm text-[#7a6a5c] max-w-sm">
               Crafted for everyday elegance. Designed with intention. Worn with

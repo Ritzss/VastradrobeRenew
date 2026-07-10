@@ -6,6 +6,8 @@ import ProductPDPClient from "../../components/products/ProductIdClient";
 import { IMSProduct } from "@/Types/Product";
 import { createSlug, getProductIdFromSlug } from "@/lib/slug";
 import { redirect } from "next/navigation";
+import WhatsAppPageMessage from "@/components/Global/WhatsAppPageMessage";
+import { whatsappMessages } from "@/lib/whatsapp";
 
 async function getProduct(id: number): Promise<IMSProduct | null> {
   const res = await fetch(
@@ -130,8 +132,6 @@ export async function generateMetadata({
   };
 }
 
-
-
 export default async function ProductPage({
   params,
 }: {
@@ -250,6 +250,15 @@ export default async function ProductPage({
 
   return (
     <>
+      <WhatsAppPageMessage
+        message={whatsappMessages.product({
+          name: product.name,
+          url: `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
+            product.name,
+            product.productId,
+          )}`,
+        })}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
