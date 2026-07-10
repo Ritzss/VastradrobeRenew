@@ -79,10 +79,14 @@ export async function POST(req: Request) {
     }
 
     /* ---------------- TOTAL ---------------- */
-    const totalAmount = products.reduce(
+    const subtotal = products.reduce(
       (sum: number, p: any) => sum + p.price * p.qty,
       0,
     );
+
+    const shipping = subtotal >= 450 ? 0 : 150;
+
+    const totalAmount = subtotal + shipping;
 
     /* ---------------- CREATE ORDER ---------------- */
     const order = await Order.create({

@@ -79,6 +79,13 @@ const CartClient = () => {
     [cartEntries, products],
   );
 
+  const shippingCharge = useMemo(() => {
+    if (cartEntries.length === 0) return 0;
+    return cartTotal >= 450 ? 0 : 150;
+  }, [cartTotal, cartEntries.length]);
+
+  const finalTotal = cartTotal + shippingCharge;
+
   /* ---------------- EMPTY ---------------- */
   // if (!cartEntries.length) {
   //   return (
@@ -144,10 +151,10 @@ const CartClient = () => {
                   return (
                     <div
                       key={`${entry.productId}_${entry.size}`}
-                      className="dark:bg-black/85 border border-white not-dark:bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-6 flex gap-6"
+                      className="dark:bg-black/85 border border-white not-dark:bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-4 sm:p-6 flex gap-4 sm:gap-6"
                     >
                       {/* Image */}
-                      <div className="relative w-28 h-36 rounded-2xl overflow-hidden not-dark:bg-[#f3e7d8] shrink-0">
+                      <div className="relative w-24 h-32 sm:w-28 sm:h-36 rounded-2xl overflow-hidden not-dark:bg-[#f3e7d8] shrink-0">
                         <Image
                           src={
                             product.variants.find(
@@ -157,95 +164,97 @@ const CartClient = () => {
                             "/Assets/Images/Newplaceholder.png"
                           }
                           fill
-                          sizes="120px"
+                          sizes="(max-width:640px) 96px, 112px"
                           alt={product.name}
                           className="object-cover"
                         />
                       </div>
 
                       {/* Details */}
-                      <div className="flex flex-col flex-1 justify-between">
+                      <div className="flex flex-col flex-1 justify-between min-w-0">
                         <div>
-                          <h2 className="text-lg font-medium text-[#5f5143]">
+                          <h2 className="text-base sm:text-lg font-medium text-[#5f5143] line-clamp-2">
                             {product.name}
                           </h2>
 
-                          <div className="text-sm text-[#7a6a5c] mt-1">
+                          <div className="text-sm text-[#7a6a5c] mt-2 space-y-1">
                             {entry.color && <p>Color: {entry.color}</p>}
-                            Size: {entry.size}
+                            <p>Size: {entry.size}</p>
+                            <p>₹{product.price} each</p>
                           </div>
-
-                          <p className="text-sm text-[#7a6a5c]">
-                            ₹{product.price} each
-                          </p>
                         </div>
 
-                        {/* Bottom Row */}
-                        <div className="flex items-center justify-between mt-4">
-                          {/* Quantity */}
-                          <div className="flex items-center border border-[#e6d8c8] rounded-full overflow-hidden">
-                            <button
-                              onClick={() =>
-                                decrementQty(
-                                  entry.productId,
-                                  entry.size,
-                                  entry.color,
-                                )
-                              }
-                              className="px-4 py-2 dark:text-[#5f5143] hover:bg-[#f3e7d8] transition"
-                            >
-                              −
-                            </button>
+                        {/* Bottom */}
+                        <div className="mt-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                          {/* Quantity + Price */}
+                          <div className="flex items-center justify-between gap-4 flex-wrap">
+                            {/* Quantity */}
+                            <div className="flex items-center border border-[#e6d8c8] rounded-full overflow-hidden">
+                              <button
+                                onClick={() =>
+                                  decrementQty(
+                                    entry.productId,
+                                    entry.size,
+                                    entry.color,
+                                  )
+                                }
+                                className="px-4 py-2 dark:text-[#5f5143] hover:bg-[#f3e7d8] transition"
+                              >
+                                −
+                              </button>
 
-                            <div className="px-4 text-[#5f5143]">
-                              {entry.qty}
+                              <div className="px-4 text-[#5f5143]">
+                                {entry.qty}
+                              </div>
+
+                              <button
+                                onClick={() =>
+                                  incrementQty(
+                                    entry.productId,
+                                    entry.size,
+                                    entry.color,
+                                  )
+                                }
+                                className="px-4 py-2 dark:text-[#5f5143] hover:bg-[#f3e7d8] transition"
+                              >
+                                +
+                              </button>
                             </div>
 
+                            {/* Price */}
+                            <div className="text-lg font-semibold text-[#5f5143]">
+                              ₹{product.price * entry.qty}
+                            </div>
+                          </div>
+
+                          {/* Actions */}
+                          <div className="flex flex-wrap gap-4 sm:gap-6 text-sm">
                             <button
                               onClick={() =>
-                                incrementQty(
+                                saveForLater(
                                   entry.productId,
                                   entry.size,
                                   entry.color,
                                 )
                               }
-                              className="px-4 py-2 dark:text-[#5f5143] hover:bg-[#f3e7d8] transition"
+                              className="font-medium text-[#957f6a] hover:text-[#6a0f1f] transition"
                             >
-                              +
+                              Save for later
+                            </button>
+
+                            <button
+                              onClick={() =>
+                                removeFromCart(
+                                  entry.productId,
+                                  entry.size,
+                                  entry.color,
+                                )
+                              }
+                              className="text-[#957f6a] hover:text-[#6a0f1f] transition"
+                            >
+                              Remove
                             </button>
                           </div>
-
-                          {/* Price */}
-                          <div className="text-lg font-semibold text-[#5f5143]">
-                            ₹{product.price * entry.qty}
-                          </div>
-
-                          <button
-                            onClick={() =>
-                              saveForLater(
-                                entry.productId,
-                                entry.size,
-                                entry.color,
-                              )
-                            }
-                            className="text-sm font-medium  text-[#957f6a] hover:text-[#6a0f1f] transition"
-                          >
-                            Save for later
-                          </button>
-
-                          {/* Remove */}
-                          <button
-                            onClick={() =>
-                              removeFromCart(
-                                entry.productId,
-                                entry.size,
-                                entry.color,
-                              )
-                            }
-                            className="text-sm text-[#957f6a] hover:text-[#6a0f1f] transition"
-                          >
-                            Remove
-                          </button>
                         </div>
                       </div>
                     </div>
@@ -263,7 +272,8 @@ const CartClient = () => {
                     <h2 className="text-2xl font-semibold">Saved for Later</h2>
 
                     <p className="mt-1 text-sm text-neutral-500">
-                      We&apos;ll keep these items ready whenever you&apos;re ready.
+                      We&apos;ll keep these items ready whenever you&apos;re
+                      ready.
                     </p>
                   </div>
 
@@ -290,54 +300,68 @@ const CartClient = () => {
                     return (
                       <div
                         key={`${item.productId}-${item.color}-${item.size}`}
-                        className="flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-white dark:bg-black/85"
+                        className="rounded-[28px] border border-neutral-200 bg-white p-4 sm:p-6 shadow-[0_20px_60px_rgba(149,127,106,0.12)] dark:border-white dark:bg-black/85"
                       >
-                        <div className="flex items-center gap-5">
-                          <Image
-                            src={variant.images[0]}
-                            alt={product.name}
-                            width={96}
-                            height={96}
-                            className="rounded-xl object-cover"
-                          />
+                        <div className="flex flex-col gap-5 md:items-end sm:justify-between">
+                          {/* Left */}
+                          <div className="flex gap-4 sm:gap-5">
+                            <div className="relative h-28 w-24 sm:h-32 sm:w-28 shrink-0 overflow-hidden rounded-2xl">
+                              <Image
+                                src={variant.images[0]}
+                                alt={product.name}
+                                fill
+                                sizes="(max-width:640px) 96px, 112px"
+                                className="object-cover"
+                              />
+                            </div>
 
-                          <div className="dark:text-[#5f5143]">
-                            <h3 className="text-lg font-semibold">
-                              {product.name}
-                            </h3>
+                            <div className="min-w-0">
+                              <h3 className="text-lg font-semibold text-[#5f5143] line-clamp-2">
+                                {product.name}
+                              </h3>
 
-                            <p className="mt-1 text-sm">
-                              {item.color} • {item.size}
-                            </p>
+                              <p className="mt-2 text-sm text-[#7a6a5c]">
+                                Color: {item.color}
+                              </p>
 
-                            <p className="mt-2 text-xl font-bold">
-                              ₹{product.price}
-                            </p>
+                              <p className="text-sm text-[#7a6a5c]">
+                                Size: {item.size}
+                              </p>
+
+                              <p className="mt-3 text-xl font-bold text-[#5f5143]">
+                                ₹{product.price}
+                              </p>
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="flex gap-3 self-end">
-                          <button
-                            onClick={() =>
-                              moveToCart(item.productId, item.size, item.color)
-                            }
-                            className="rounded-full bg-black px-5 py-2 text-white transition hover:opacity-90 dark:bg-white dark:text-black"
-                          >
-                            Move to Cart
-                          </button>
+                          {/* Right */}
+                          <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+                            <button
+                              onClick={() =>
+                                moveToCart(
+                                  item.productId,
+                                  item.size,
+                                  item.color,
+                                )
+                              }
+                              className="rounded-full bg-black px-6 py-3 text-sm font-medium text-white transition hover:opacity-90 dark:bg-white dark:text-black"
+                            >
+                              Move to Cart
+                            </button>
 
-                          <button
-                            onClick={() =>
-                              removeSavedForLater(
-                                item.productId,
-                                item.size,
-                                item.color,
-                              )
-                            }
-                            className="rounded-full border border-red-500 px-5 py-2 text-red-500 transition hover:bg-red-500 hover:text-white"
-                          >
-                            Remove
-                          </button>
+                            <button
+                              onClick={() =>
+                                removeSavedForLater(
+                                  item.productId,
+                                  item.size,
+                                  item.color,
+                                )
+                              }
+                              className="rounded-full border border-red-500 px-6 py-3 text-sm font-medium text-red-500 transition hover:bg-red-500 hover:text-white"
+                            >
+                              Remove
+                            </button>
+                          </div>
                         </div>
                       </div>
                     );
@@ -349,26 +373,63 @@ const CartClient = () => {
 
           {/* RIGHT – SUMMARY */}
           <div className="md:col-span-1">
-            <div className="dark:bg-black/85 border border-white  bg-white  rounded-4xl  shadow-[0_30px_80px_rgba(149,127,106,0.15)]  p-8  sticky top-28  space-y-6">
+            <div className="rounded-4xl border border-white bg-white dark:bg-black/85 p-6 sm:p-8 shadow-[0_30px_80px_rgba(149,127,106,0.15)] lg:sticky lg:top-28">
               <h3 className="text-xl font-semibold text-[#5f5143]">
                 Order Summary
               </h3>
 
-              <div className="flex justify-between text-[#7a6a5c]">
-                <span>Subtotal</span>
-                <span>₹{cartTotal}</span>
+              <div className="mt-6 space-y-4">
+                <div className="flex items-center justify-between text-[#7a6a5c]">
+                  <span>Subtotal</span>
+                  <span className="font-medium">₹{cartTotal}</span>
+                </div>
+
+                <div className="flex items-center justify-between text-[#7a6a5c]">
+                  <span>Shipping</span>
+                  {shippingCharge === 0 ? (
+                    <span className="font-medium text-green-600">Free</span>
+                  ) : (
+                    <span className="font-medium">₹{shippingCharge}</span>
+                  )}
+                </div>
+                {shippingCharge > 0 && (
+                  <div className="rounded-xl bg-amber-50 p-3 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
+                    Add <strong>₹{450 - cartTotal}</strong> more to your cart
+                    and get
+                    <strong> FREE shipping</strong>.
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between text-[#7a6a5c]">
+                  <span>Taxes</span>
+                  <span>Calculated at checkout</span>
+                </div>
+
+                <div className="border-t border-[#e6d8c8] pt-5 flex items-center justify-between">
+                  <span className="text-lg font-semibold text-[#5f5143]">
+                    Total
+                  </span>
+
+                  <span className="text-2xl font-bold text-[#5f5143]">
+                    ₹{finalTotal}
+                  </span>
+                </div>
               </div>
 
-              <div className="border-t border-[#e6d8c8] pt-4 flex justify-between text-lg font-semibold text-[#5f5143]">
-                <span>Total</span>
-                <span>₹{cartTotal}</span>
-              </div>
-
-              <Link href="/checkout">
-                <button className=" w-full py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition">
-                  Proceed to Checkout
+              <Link href="/checkout" className="block mt-8">
+                <button className="w-full rounded-full bg-[#5f5143] py-4 font-medium text-white transition-all duration-300 hover:bg-[#6a0f1f] hover:shadow-lg active:scale-[0.98]">
+                  Proceed to Checkout →
                 </button>
               </Link>
+
+              <div className="mt-6 rounded-2xl bg-[#f8f3ee] dark:bg-neutral-900 p-4">
+                <p className="text-sm text-[#7a6a5c] leading-6">
+                  ✓ Secure Checkout
+                  <br />
+                  ✓ Free Shipping Available
+                  <br />✓ Easy Returns & Exchanges
+                </p>
+              </div>
             </div>
           </div>
         </div>

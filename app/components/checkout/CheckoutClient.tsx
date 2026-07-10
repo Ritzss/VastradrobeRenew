@@ -84,7 +84,14 @@ const CheckoutClient = () => {
     );
   }
 
-  const total = checkoutProducts.reduce((sum, p) => sum + p.price * p.qty, 0);
+  const subtotal = checkoutProducts.reduce(
+    (sum, p) => sum + p.price * p.qty,
+    0,
+  );
+
+  const shipping = subtotal >= 450 ? 0 : 150;
+
+  const total = subtotal + shipping;
 
   /* Razorpay */
   const loadRazorpayScript = () =>
@@ -259,9 +266,43 @@ const CheckoutClient = () => {
             </div>
           ))}
 
-          <div className="border-t pt-4 flex justify-between text-lg font-semibold text-[#5f5143]">
-            <span>Total</span>
-            <span>₹{total}</span>
+          <div className="space-y-4 border-t pt-4">
+            {/* Subtotal */}
+            <div className="flex items-center justify-between text-[#7a6a5c]">
+              <span>Subtotal</span>
+              <span>₹{subtotal}</span>
+            </div>
+
+            {/* Shipping */}
+            <div className="flex items-center justify-between text-[#7a6a5c]">
+              <span>Shipping</span>
+
+              {shipping === 0 ? (
+                <span className="font-medium text-green-600">Free</span>
+              ) : (
+                <span className="font-medium">₹150</span>
+              )}
+            </div>
+
+            {/* Free Shipping Message */}
+            {shipping > 0 && (
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700">
+                Add products worth <strong>₹{450 - subtotal}</strong> more to
+                get
+                <strong> FREE Shipping.</strong>
+              </div>
+            )}
+
+            {/* Total */}
+            <div className="flex items-center justify-between border-t border-[#e6d8c8] pt-4">
+              <span className="text-lg font-semibold text-[#5f5143]">
+                Total
+              </span>
+
+              <span className="text-2xl font-bold text-[#5f5143]">
+                ₹{total}
+              </span>
+            </div>
           </div>
 
           <button

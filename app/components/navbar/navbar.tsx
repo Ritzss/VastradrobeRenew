@@ -180,26 +180,9 @@ const Navbar = () => {
             className="relative nav-logo mx-4 shrink-0"
             style={{ perspective: "1000px" }}
           >
-            <motion.div
-              initial={false}
-              whileHover={{ rotateY: 180, scale: 1.08 }}
-              transition={{
-                duration: 0.7,
-                ease: "easeInOut",
-              }}
-              className="relative w-14 h-14"
-              style={{
-                transformStyle: "preserve-3d",
-              }}
-            >
+            <div className="relative w-14 h-14">
               {/* Front */}
-              <div
-                className="absolute inset-0 flex items-center w-20 h-20 -top-2.5 justify-center"
-                style={{
-                  backfaceVisibility: "hidden",
-                  WebkitBackfaceVisibility: "hidden",
-                }}
-              >
+              <div className="absolute inset-0 flex items-center w-20 h-20 -top-2.5 justify-center">
                 <Image
                   src={img}
                   alt="Logo"
@@ -210,7 +193,7 @@ const Navbar = () => {
                 />
               </div>
 
-              {/* Back */}
+              {/* Back
               <div
                 className="absolute inset-0 rounded-full bg-[#cd0000] w-20 h-20 -top-3.5 -left-5 flex items-center justify-center shadow-xl"
                 style={{
@@ -222,8 +205,8 @@ const Navbar = () => {
                 <span className="text-3xl border-2 p-3 border-dashed rounded-full border-white aspect-square flex justify-center items-center inter font-bold text-white tracking-wider">
                   VD
                 </span>
-              </div>
-            </motion.div>
+              </div> */}
+            </div>
           </Link>
 
           {/* NAV LINKS (desktop) */}
@@ -583,10 +566,7 @@ const Navbar = () => {
             className="fixed inset-x-4 top-24 z-50 md:hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div
-              className="rounded-[28px] p-5 space-y-6 dark:bg-[#1a1a1a] bg-[#fffdfd] shadow-[0_8px_30px_rgba(122,16,32,0.08)]"
-              
-            >
+            <div className="rounded-[28px] p-5 space-y-6 dark:bg-[#1a1a1a] bg-[#fffdfd] shadow-[0_8px_30px_rgba(122,16,32,0.08)]">
               {/* SEARCH */}
               <div className="relative">
                 <div

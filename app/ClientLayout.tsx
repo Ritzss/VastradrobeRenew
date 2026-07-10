@@ -68,7 +68,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <AppProvider>
-      <Toaster position="top-right" richColors />
+      <Toaster position="bottom-left" richColors />
       <LayoutGroup>
         <LandingLoader loading={loading} />
         <div
