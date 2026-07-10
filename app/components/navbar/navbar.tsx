@@ -12,7 +12,7 @@ import { FaRegHeart } from "react-icons/fa6";
 import { MdSupportAgent } from "react-icons/md";
 import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
 import { Dock, Home, LogOut, Menu, ShoppingBag, X } from "lucide-react";
-import img from "../../../public/Assets/Images/logoV2.png";
+import img from "../../../public/Assets/Images/logoV4.png";
 import { useAppContext } from "@/hooks/useAppContext";
 import { FaRegListAlt } from "react-icons/fa";
 // import TypingEffect from "../UI/TypingEffect";
