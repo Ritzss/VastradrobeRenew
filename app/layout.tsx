@@ -166,7 +166,7 @@ export const metadata: Metadata = {
 
   manifest: "/site.webmanifest",
 
-  themeColor: "#6a0f1f",
+  // themeColor: "#6a0f1f",
 };
 
 
