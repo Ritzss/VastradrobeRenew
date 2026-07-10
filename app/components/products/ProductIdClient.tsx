@@ -554,7 +554,7 @@ export default function ProductPDPClient({
             <div
               className={`overflow-hidden transition-all duration-500 ${
                 showProductDetails
-                  ? "max-h-150 opacity-100 mt-6"
+                  ? "max-h-170 opacity-100 mt-6"
                   : "max-h-0 opacity-0"
               }`}
             >
