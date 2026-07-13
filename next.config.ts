@@ -3,8 +3,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
+  // next.config.js
+
+  allowedDevOrigins: ["192.168.1.70"],
+
   images: {
-      remotePatterns: [
+    remotePatterns: [
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
@@ -20,7 +24,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
- 
 };
 
 export default nextConfig;

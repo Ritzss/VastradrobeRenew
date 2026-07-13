@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
@@ -6,7 +7,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { IoSearch, IoCart } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa6";
 import { MdSupportAgent } from "react-icons/md";
@@ -16,7 +17,7 @@ import img from "../../../public/Assets/Images/logoV4.png";
 import { useAppContext } from "@/hooks/useAppContext";
 import { FaRegListAlt } from "react-icons/fa";
 // import TypingEffect from "../UI/TypingEffect";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import RotatingText from "../UI/RotatingText";
 import { ShoppingBagIcon, ShoppingBagOpenIcon } from "@phosphor-icons/react";
 
@@ -34,10 +35,11 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-  const [showCategoryDropdown, setShowCategoryDropdown] = useState(true);
+  // const [showCategoryDropdown, setShowCategoryDropdown] = useState(true);
   const [open, setOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false); // <-- small UI state to keep dropdown open while interacting
+  // const [dropdownOpen, setDropdownOpen] = useState(false); // <-- small UI state to keep dropdown open while interacting
   const menuRef = useRef<HTMLDivElement>(null);
+  const [collectionOpen, setCollectionOpen] = useState(false);
 
   const searchItems = [
     "Pants",
@@ -210,155 +212,51 @@ const Navbar = () => {
           </Link>
 
           {/* NAV LINKS (desktop) */}
-          <div className="hidden md:flex flex-1 items-center gap-3 text-sm font-medium text-[#957f6a]">
+          <div className="items-center gap-4 hidden md:flex flex-1 text-sm font-medium text-[#957f6a]">
             <Link href="/" className="hover:text-[#6a0f1f]">
               Home
             </Link>
 
-            {/* COLLECTION with improved open behaviour */}
-            <div
-              className="relative"
-              onMouseEnter={() => setDropdownOpen(true)}
-              onMouseLeave={() => setDropdownOpen(false)}
-            >
-              <Link
-                href="/collection"
-                className="flex items-center gap-2 hover:text-[#6a0f1f]"
-                aria-haspopup="true"
-                aria-expanded={dropdownOpen}
-              >
+            <div className="flex items-center">
+              <Link href="/collection" className="hover:text-[#6a0f1f]">
                 Our Collection
-                <IoIosArrowDown
-                  size={16}
-                  className={`transform transition-transform duration-200 ${
-                    dropdownOpen ? "rotate-180" : "rotate-0"
-                  }`}
-                />
               </Link>
 
-              {showCategoryDropdown && dropdownOpen && (
-                <div className="absolute left-0 top-full pt-5 z-50">
-                  <div className="w-180 rounded-3xl bg-white dark:bg-neutral-950 shadow-[0_20px_80px_rgba(0,0,0,0.12)] border border-[#f3ebe5] p-8">
-                    {/* Header */}
-                    <div className="mb-8">
-                      <p className="text-xs uppercase tracking-[0.35em] text-[#9b8570]">
-                        Shop Collections
-                      </p>
+              <button
+                onClick={() => setCollectionOpen(!collectionOpen)}
+                className="ml-1 p-1 rounded-full hover:bg-[#f4f2dd] transition"
+              >
+                <IoIosArrowForward
+                  size={14}
+                  className={`transition-transform duration-300 ${
+                    collectionOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+            </div>
 
-                      <h3 className="mt-2 text-2xl font-semibold text-[#4b4035] dark:text-white">
-                        Find Your Style
-                      </h3>
-                    </div>
+            <div
+              className={`flex items-center gap-4 overflow-hidden transition-all duration-500 ${collectionOpen ? "max-w-100 opacity-100 ml-2" : "max-w-0 opacity-0"}`}>
+              <Link
+                href="/women#categoryPage"
+                className="whitespace-nowrap hover:text-[#6a0f1f]"
+              >
+                Women
+              </Link>
 
-                    <div className="space-y-5">
-                      {/* WOMEN */}
-                      <Link
-                        href="/women#categoryPage"
-                        className="group flex items-center gap-5 rounded-2xl p-3 transition-all duration-300 hover:bg-[#faf5ef] dark:hover:bg-white/5"
-                      >
-                        <div className="relative w-48 h-28 rounded-2xl overflow-hidden shrink-0">
-                          <Image
-                            src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770977218/products/ocktsxwyzhi2rzwoantd.jpg"
-                            alt="Women"
-                            fill
-                            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
+              <Link
+                href="/men"
+                className="whitespace-nowrap hover:text-[#6a0f1f]"
+              >
+                Men
+              </Link>
 
-                        <div className="flex-1">
-                          <h4 className="text-lg font-semibold text-[#4b4035] dark:text-white">
-                            Women
-                          </h4>
-
-                          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-sm text-[#8a7b6c] dark:text-neutral-400">
-                            <span>Dresses</span>
-                            <span>•</span>
-                            <span>Co-ords</span>
-                            <span>•</span>
-                            <span>Tops</span>
-                            <span>•</span>
-                            <span>Ethnic Wear</span>
-                          </div>
-
-                          <p className="mt-3 text-sm font-medium text-[#4b4035] group-hover:translate-x-1 transition-transform">
-                            Explore →
-                          </p>
-                        </div>
-                      </Link>
-
-                      {/* MEN */}
-                      <Link
-                        href="/men#categoryPage"
-                        className="group flex items-center gap-5 rounded-2xl p-3 transition-all duration-300 hover:bg-[#faf5ef] dark:hover:bg-white/5"
-                      >
-                        <div className="relative w-48 h-28 rounded-2xl overflow-hidden shrink-0">
-                          <Image
-                            src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771238559/products/miaelyvxljqatr8prk9v.jpg"
-                            alt="Men"
-                            fill
-                            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-
-                        <div className="flex-1">
-                          <h4 className="text-lg font-semibold text-[#4b4035] dark:text-white">
-                            Men
-                          </h4>
-
-                          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-sm text-[#8a7b6c] dark:text-neutral-400">
-                            <span>Shirts</span>
-                            <span>•</span>
-                            <span>T-Shirts</span>
-                            <span>•</span>
-                            <span>Jeans</span>
-                            <span>•</span>
-                            <span>Ethnic Wear</span>
-                          </div>
-
-                          <p className="mt-3 text-sm font-medium text-[#4b4035] group-hover:translate-x-1 transition-transform">
-                            Explore →
-                          </p>
-                        </div>
-                      </Link>
-
-                      {/* KIDS */}
-                      <Link
-                        href="/kids#categoryPage"
-                        className="group flex items-center gap-5 rounded-2xl p-3 transition-all duration-300 hover:bg-[#faf5ef] dark:hover:bg-white/5"
-                      >
-                        <div className="relative w-48 h-28 rounded-2xl overflow-hidden shrink-0">
-                          <Image
-                            src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770292098/products/uiyy3o3gztwnx5et7oiy.jpg"
-                            alt="Kids"
-                            fill
-                            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-
-                        <div className="flex-1">
-                          <h4 className="text-lg font-semibold text-[#4b4035] dark:text-white">
-                            Kids
-                          </h4>
-
-                          <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-sm text-[#8a7b6c] dark:text-neutral-400">
-                            <span>Boys</span>
-                            <span>•</span>
-                            <span>Girls</span>
-                            <span>•</span>
-                            <span>Casual Wear</span>
-                            <span>•</span>
-                            <span>New Arrivals</span>
-                          </div>
-
-                          <p className="mt-3 text-sm font-medium text-[#4b4035] group-hover:translate-x-1 transition-transform">
-                            Explore →
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <Link
+                href="/kids"
+                className="whitespace-nowrap hover:text-[#6a0f1f]"
+              >
+                Kids
+              </Link>
             </div>
 
             <Link href="/blog" className="hover:text-[#6a0f1f]">
@@ -462,16 +360,16 @@ const Navbar = () => {
               href="/cart"
               className="group relative text-[#957f6a] hover:text-[#6a0f1f]"
             >
-              <div className="relative h-8 w-8">
+              <div className="relative h-10 w-10">
                 <ShoppingBagIcon
-                  size={32}
+                  size={42}
                   color="#ff0000"
                   weight="duotone"
                   className="absolute inset-0 transition-all duration-300 group-hover:scale-75 group-hover:opacity-0"
                 />
 
                 <ShoppingBagOpenIcon
-                  size={32}
+                  size={42}
                   color="#ff0000"
                   weight="duotone"
                   className="absolute inset-0 scale-125 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100"

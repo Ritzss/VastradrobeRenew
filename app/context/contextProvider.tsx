@@ -22,7 +22,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   /* 🔍 Search & Filter */
   const [searchQuery, setSearchQuery] = useState("");
   const [selectGender, setSelectGender] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
+  const [sortBy, setSortBy] = useState("featured");
   const [priceRange, setPriceRange] = useState<PriceRange>({
     min: "",
     max: "",
@@ -462,12 +464,16 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setSearchQuery,
         selectGender,
         setSelectGender,
+        selectedCategory,
+        setSelectedCategory,
         subCategory,
         setSubCategory,
         priceRange,
         setPriceRange,
         sizes,
         setSizes,
+        sortBy,
+        setSortBy,
 
         cartItems,
         cartCount,

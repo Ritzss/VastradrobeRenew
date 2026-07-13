@@ -9,29 +9,69 @@ type PageProps = {
 };
 
 const CATEGORY_MAP: Record<string, string[]> = {
+  all: ["men", "women", "boys", "girls"],
   men: ["men"],
   women: ["women"],
   kids: ["boys", "girls"],
 };
 
+type Category = "all" | "men" | "women" | "kids";
+
 const CATEGORY_META: Record<
   string,
-  { title: string; description: string }
+  { title: string; description: string; keywords: string[] }
 > = {
+  all: {
+    title: "Online Fashion Store",
+    description:
+      "Shop the latest men's, women's and kids fashion online at VastraDrobe. Discover premium clothing, ethnic wear, western wear and accessories.",
+    keywords: [
+      "online fashion store",
+      "fashion shopping india",
+      "vastradrobe",
+      "men clothing",
+      "women clothing",
+      "kids clothing",
+    ],
+  },
+
   men: {
     title: "Men's Fashion",
     description:
-      "Shop the latest men's fashion, clothing, and accessories at VastraDrobe.",
+      "Shop premium men's shirts, t-shirts, jeans, trousers, ethnic wear and accessories online at VastraDrobe.",
+    keywords: [
+      "men clothing",
+      "men shirts",
+      "men jeans",
+      "men fashion",
+      "vastradrobe men",
+    ],
   },
+
   women: {
     title: "Women's Fashion",
     description:
-      "Discover trendy women's fashion, clothing, and accessories at VastraDrobe.",
+      "Discover women's dresses, tops, co-ords, ethnic wear, kurtis and trendy fashion online at VastraDrobe.",
+    keywords: [
+      "women clothing",
+      "women dresses",
+      "women tops",
+      "ethnic wear",
+      "vastradrobe women",
+    ],
   },
+
   kids: {
     title: "Kids Fashion",
     description:
-      "Explore comfortable and stylish clothing for kids at VastraDrobe.",
+      "Explore stylish clothing for boys and girls including casual wear, festive wear and everyday essentials.",
+    keywords: [
+      "kids clothing",
+      "boys fashion",
+      "girls fashion",
+      "kids wear",
+      "vastradrobe kids",
+    ],
   },
 };
 
@@ -40,19 +80,57 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { category } = await params;
 
-  const meta =
-    CATEGORY_META[category.toLowerCase()] ?? {
-      title: "Fashion",
-      description: "Shop fashion online at VastraDrobe.",
-    };
+  const normalizedCategory = category.toLowerCase();
+
+  const meta = CATEGORY_META[normalizedCategory] ?? CATEGORY_META.all;
+
+  const url = `https://vastradrobe.com/${normalizedCategory}`;
 
   return {
     title: `${meta.title} | VastraDrobe`,
     description: meta.description,
+
+    keywords: meta.keywords,
+
+    metadataBase: new URL("https://vastradrobe.com"),
+
+    alternates: {
+      canonical: url,
+    },
+
     openGraph: {
       title: `${meta.title} | VastraDrobe`,
       description: meta.description,
+      url,
+      siteName: "VastraDrobe",
+      locale: "en_IN",
       type: "website",
+
+      images: [
+        {
+          url: `/Assets/Banners/${normalizedCategory}.webp`,
+          width: 1200,
+          height: 630,
+          alt: meta.title,
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: `${meta.title} | VastraDrobe`,
+      description: meta.description,
+
+      images: [`/Assets/Banners/${normalizedCategory}.webp`],
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
     },
   };
 }
@@ -69,7 +147,7 @@ export default async function Page({ params }: PageProps) {
     `${process.env.IMS_BASE_URL}/api/ims/public/products?limit=20`,
     {
       next: { revalidate: 120 },
-    }
+    },
   );
 
   if (!res.ok) {
@@ -81,8 +159,38 @@ export default async function Page({ params }: PageProps) {
   const categoryFilters = CATEGORY_MAP[normalizedCategory];
 
   const products = data.products.filter((p: any) =>
-    categoryFilters.includes(p.category)
+    categoryFilters.includes(p.category),
   );
 
-  return <ProductClient products={products} />;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: CATEGORY_META[normalizedCategory]?.title,
+    description: CATEGORY_META[normalizedCategory]?.description,
+    url: `https://vastradrobe.com/${normalizedCategory}`,
+    publisher: {
+      "@type": "Organization",
+      name: "VastraDrobe",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://vastradrobe.com/logo.png",
+      },
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema),
+        }}
+      />
+
+      <ProductClient
+        products={products}
+        category={normalizedCategory as Category}
+      />
+    </>
+  );
 }

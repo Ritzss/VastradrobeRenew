@@ -26,11 +26,14 @@ export type PriceRange = {
   min: number | "";
   max: number | "";
 };
-
 export interface AppContextType {
   /* 🔍 Search & Filter */
   selectGender: string;
   setSelectGender: Dispatch<SetStateAction<string>>;
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
+  sortBy: string;
+  setSortBy: Dispatch<SetStateAction<string>>;
   searchQuery: string;
   setSearchQuery: Dispatch<SetStateAction<string>>;
   subCategory: string;

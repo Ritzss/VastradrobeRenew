@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import EmptyState from "@/components/Global/EmptyState";
@@ -8,6 +9,7 @@ import ProductStackMobile from "@/components/products/ProductQuickViewMobile";
 import { useAppContext } from "@/hooks/useAppContext";
 import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
+import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import {
   startTransition,
@@ -16,6 +18,12 @@ import {
   useMemo,
   useState,
 } from "react";
+import CategoryHero from "../category/CategoryHero";
+import CategoryTabs from "../category/CategoryTabs";
+import FeaturedCollection from "../category/FeaturedCollection";
+import TrustSection from "../category/TrustSection";
+import ProductToolbar from "../category/ProductToolbar";
+import SideFilter from "../Global/SideFilter";
 
 const ProductQuickView = dynamic(
   () => import("@/components/products/ProductQuickView"),
@@ -24,9 +32,16 @@ const ProductQuickView = dynamic(
   },
 );
 
-const ProductClient = ({ products }: { products: IMSProduct[] }) => {
-  const { searchQuery, subCategory, priceRange, sizes } = useAppContext();
-
+const ProductClient = ({
+  products,
+  category,
+}: {
+  products: IMSProduct[];
+  category: "all" | "women" | "men" | "kids";
+}) => {
+  const { searchQuery, subCategory, priceRange, sizes, sortBy } =
+    useAppContext();
+  const [showFilters, setShowFilters] = useState(false);
   const normalizedSub = normalize(subCategory);
   const normalizedSearch = searchQuery?.toLowerCase() || "";
 
@@ -78,19 +93,51 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   ]);
 
   const groupedProducts = useMemo(() => {
-    return Object.values(
+    const grouped = Object.values(
       filteredProducts.reduce(
         (acc, product) => {
           const key = product.name.trim().toLowerCase();
+
           if (!acc[key]) acc[key] = product;
+
           return acc;
         },
         {} as Record<string, IMSProduct>,
       ),
     );
-  }, [filteredProducts]);
 
-  const resultCount = groupedProducts.length;
+    switch (sortBy) {
+      case "price-low":
+        grouped.sort((a, b) => a.price - b.price);
+        break;
+
+      case "price-high":
+        grouped.sort((a, b) => b.price - a.price);
+        break;
+
+      case "name-asc":
+        grouped.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+
+      case "name-desc":
+        grouped.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+
+      case "newest":
+        grouped.sort(
+          (a: any, b: any) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        );
+        break;
+
+      default:
+        break;
+    }
+
+    return grouped;
+  }, [filteredProducts, sortBy]);
+
+  // const resultCount = groupedProducts.length;
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
@@ -133,7 +180,7 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
   return (
     <section id="categoryPage" className="w-full space-y-12">
       {/* RESULT HEADER */}
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <p className="text-xs uppercase tracking-[0.35em] text-[#957f6a]">
           {resultCount} {resultCount === 1 ? "Item" : "Items"}
         </p>
@@ -146,31 +193,66 @@ const ProductClient = ({ products }: { products: IMSProduct[] }) => {
             </span>
           </p>
         )}
-      </div>
+      </div> */}
 
-      <div className="h-px bg-[#e6d8c8]" />
+      <CategoryHero category={category} />
+
+      <CategoryTabs current={category} />
+
+      <FeaturedCollection products={groupedProducts} category={category} />
+
+      <TrustSection />
+
+      <ProductToolbar
+        count={groupedProducts.length}
+        onFilter={() => setShowFilters(true)}
+      />
+
+      {showFilters && <SideFilter onClose={() => setShowFilters(false)} />}
+
+      {/* <div className="h-px bg-[#e6d8c8]" /> */}
 
       {/* PRODUCT GRID */}
-      <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 lg:gap-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-14">
         {groupedProducts.map((item, index) => (
-          <div
+          <motion.div
             key={`${item.productId}-${index}`}
             onClick={() => openProduct(index)}
             className="cursor-pointer"
+            initial={{
+              opacity: 0,
+              y: 40,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.2,
+            }}
+            transition={{
+              duration: 0.5,
+              delay: index * 0.04,
+            }}
           >
             <ProductCard Linked={false} product={item} />
-          </div>
+          </motion.div>
         ))}
       </div>
+
       {/* Desktop */}
       <div className="hidden md:block">
         <ProductQuickView
-          product={selectedIndex !== null ? groupedProducts[selectedIndex] : null}
+          product={
+            selectedIndex !== null ? groupedProducts[selectedIndex] : null
+          }
           isOpen={selectedIndex !== null}
           onClose={closeProduct}
           onNext={nextProduct}
-          onPrev={prevProduct} 
-          inventory={[]}        />
+          onPrev={prevProduct}
+          inventory={[]}
+        />
       </div>
 
       {/* Mobile */}
