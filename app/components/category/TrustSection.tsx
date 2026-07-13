@@ -32,7 +32,7 @@ const items = [
 
 export default function TrustSection() {
   return (
-    <section className="rounded-3xl dark:bg-[#00000085] bg-[#faf8f5] border not-dark:border-[#ece6df] py-10 px-8">
+    <section className="rounded-3xl dark:bg-[#00000085] border not-dark:border-transparent py-10 px-8">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
         {items.map((item) => {
           const Icon = item.icon;
