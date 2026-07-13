@@ -32,13 +32,15 @@ const ProductQuickView = dynamic(
   },
 );
 
+type ProductClientProps = {
+  products: IMSProduct[];
+  category?: "all" | "women" | "men" | "kids";
+};
+
 const ProductClient = ({
   products,
-  category,
-}: {
-  products: IMSProduct[];
-  category: "all" | "women" | "men" | "kids";
-}) => {
+  category = "all",
+}: ProductClientProps) => {
   const { searchQuery, subCategory, priceRange, sizes, sortBy } =
     useAppContext();
   const [showFilters, setShowFilters] = useState(false);
