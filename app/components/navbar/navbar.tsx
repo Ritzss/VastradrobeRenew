@@ -236,7 +236,7 @@ const Navbar = () => {
             </div>
 
             <div
-              className={`flex items-center gap-4 overflow-hidden transition-all duration-500 ${collectionOpen ? "max-w-100 opacity-100 ml-2" : "max-w-0 opacity-0"}`}>
+              className={`flex items-center gap-4 overflow-hidden transition-all duration-500 ${collectionOpen ? "max-w-100 opacity-100" : "max-w-0 opacity-0"}`}>
               <Link
                 href="/women#categoryPage"
                 className="whitespace-nowrap hover:text-[#6a0f1f]"
