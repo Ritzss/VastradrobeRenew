@@ -13,7 +13,7 @@ export default function FeaturedCollection({
   products,
   category,
 }: Props) {
-  const featured = products.slice(0, 4);
+  const featured = products.slice(0, 5);
 
   return (
     <section className="space-y-8">
