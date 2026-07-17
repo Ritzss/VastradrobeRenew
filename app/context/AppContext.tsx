@@ -5,13 +5,14 @@ import { IMSProduct } from "@/Types/Product";
 import { AuthUser } from "@/Types/AuthUser";
 
 export type LoginData = {
-  email: string;
+  identifier: string;
   password: string;
 };
 
 export type RegisterData = {
   username: string;
   email: string;
+  mobile: string;
   password: string;
 };
 

@@ -6,46 +6,76 @@ import User from "@/model/User";
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
+    const { identifier, password } = await req.json();
 
-    if (!email || !password) {
+    if (!identifier || !password) {
       return NextResponse.json(
-        { message:"Email and password are required" },
-        { status: 400 }
+        {
+          message: "Email/Mobile and password are required",
+        },
+        {
+          status: 400,
+        },
       );
     }
 
     await connectDB();
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      $or: [
+        {
+          email: identifier.toLowerCase(),
+        },
+        {
+          mobile: identifier,
+        },
+      ],
+    });
+
     if (!user) {
       return NextResponse.json(
-        { message: "No User Found GO!!! and please register" },
-        { status: 401 }
+        {
+          message: "No user found. Please register first.",
+        },
+        {
+          status: 401,
+        },
       );
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
       return NextResponse.json(
-        { message: "Please check credentials/ID theft is a serious crime" },
-        { status: 401 }
+        {
+          message: "Invalid credentials",
+        },
+        {
+          status: 401,
+        },
       );
     }
 
     const token = jwt.sign(
       {
         id: user._id,
-        email: user.email,
         username: user.username,
+        email: user.email,
+        mobile: user.mobile,
       },
       process.env.JWT_SECRET!,
-      { expiresIn: "7d" }
+      {
+        expiresIn: "7d",
+      },
     );
 
     const response = NextResponse.json(
-      { message: "Login successful" },
-      { status: 200 }
+      {
+        message: "Login successful",
+      },
+      {
+        status: 200,
+      },
     );
 
     response.cookies.set({
@@ -61,9 +91,14 @@ export async function POST(req: Request) {
     return response;
   } catch (error) {
     console.error("LOGIN ERROR:", error);
+
     return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
+      {
+        message: "Internal server error",
+      },
+      {
+        status: 500,
+      },
     );
   }
 }

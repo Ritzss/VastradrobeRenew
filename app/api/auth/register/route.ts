@@ -6,60 +6,92 @@ import User from "@/model/User";
 
 export async function POST(req: Request) {
   try {
-    // 1️⃣ Read body
-    const { username, email, password } = await req.json();
+    // Read body
+    const { username, email, mobile, password } = await req.json();
 
-    if (!username || !email || !password) {
+    if (!username || !email || !mobile || !password) {
       return NextResponse.json(
-        { message: "Username, email and password are required" },
+        {
+          message: "Username, email, mobile number and password are required",
+        },
         { status: 400 }
       );
     }
 
-    // 2️⃣ Connect DB
+    // Mobile validation
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+      return NextResponse.json(
+        {
+          message: "Please enter a valid 10-digit mobile number",
+        },
+        { status: 400 }
+      );
+    }
+
+    // Password validation
+    if (password.length < 8) {
+      return NextResponse.json(
+        {
+          message: "Password must be at least 8 characters",
+        },
+        { status: 400 }
+      );
+    }
+
+    // Connect DB
     await connectDB();
 
-    // 3️⃣ Check if user exists
+    // Check existing user
     const existingUser = await User.findOne({
-      $or: [{ email }, { username }],
+      $or: [
+        { email },
+        { username },
+        { mobile },
+      ],
     });
 
     if (existingUser) {
       return NextResponse.json(
-        { message: "Username or email already exists" },
+        {
+          message: "Username, email or mobile number already exists",
+        },
         { status: 409 }
       );
     }
 
-    if (!password || password.length < 8) {
-          return NextResponse.json(
-            { error: "Password must be at least 8 characters" },
-            { status: 400 }
-          );
-        }
-    
-
-    // 4️⃣ Hash password
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 5️⃣ Create user
+    // Create user
     const user = await User.create({
       username,
       email,
+      mobile,
       password: hashedPassword,
     });
 
-    // 6️⃣ Create JWT
+    // Create JWT
     const token = jwt.sign(
-      { id: user._id, email: user.email, username: user.username },
+      {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        mobile: user.mobile,
+      },
       process.env.JWT_SECRET!,
-      { expiresIn: "7d" }
+      {
+        expiresIn: "7d",
+      }
     );
 
-    // 7️⃣ Set cookie
+    // Response
     const response = NextResponse.json(
-      { message: "User registered successfully" },
-      { status: 201 }
+      {
+        message: "User registered successfully",
+      },
+      {
+        status: 201,
+      }
     );
 
     response.cookies.set({
@@ -69,15 +101,20 @@ export async function POST(req: Request) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7,
     });
 
     return response;
   } catch (error) {
     console.error("REGISTER ERROR:", error);
+
     return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
+      {
+        message: "Internal server error",
+      },
+      {
+        status: 500,
+      }
     );
   }
 }

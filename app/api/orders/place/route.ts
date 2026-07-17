@@ -5,6 +5,7 @@ import crypto from "crypto";
 import { connectDB } from "@/lib/db";
 import User from "@/model/User";
 import Order from "@/model/Order";
+import Transaction from "@/model/Transaction";
 
 export async function POST(req: Request) {
   try {
@@ -23,6 +24,9 @@ export async function POST(req: Request) {
 
     /* ---------------- BODY ---------------- */
     const { address, phone, products, payment } = await req.json();
+
+    console.log("Incoming Products");
+    console.log(JSON.stringify(products, null, 2));
 
     if (!address || !phone || !products?.length) {
       return NextResponse.json(
@@ -78,29 +82,139 @@ export async function POST(req: Request) {
       razorpay_payment_id = `dev_payment_${Date.now()}`;
     }
 
+    /* ---------------- ORDER ITEMS ---------------- */
+
+    const orderItems = products.map((item: any) => ({
+      productId: item.productId,
+
+      name: item.name,
+
+      sku: item.sku || "",
+
+      color: item.color || "",
+
+      size: item.size,
+
+      quantity: item.qty,
+
+      price: item.price,
+
+      total: item.price * item.qty,
+
+      image: Array.isArray(item.image)
+        ? item.image
+        : item.image
+          ? [item.image]
+          : [],
+    }));
+
+    console.log("ORDER ITEMS");
+    console.log(JSON.stringify(orderItems, null, 2));
+
     /* ---------------- TOTAL ---------------- */
-    const subtotal = products.reduce(
-      (sum: number, p: any) => sum + p.price * p.qty,
+
+    const subtotal = orderItems.reduce(
+      (sum: number, item: any) => sum + item.total,
       0,
     );
 
-    const shipping = subtotal >= 450 ? 0 : 150;
+    const shippingCharge = subtotal >= 450 ? 0 : 150;
 
-    const totalAmount = subtotal + shipping;
+    const discount = 0;
+
+    // GST @ 5%
+    const tax = Number((subtotal * 0.05).toFixed(2));
+
+    const totalAmount = subtotal + shippingCharge + tax - discount;
+
+    const now = new Date();
+
+    const random = Math.floor(1000 + Math.random() * 9000);
+
+    const date =
+      now.getFullYear().toString().slice(-2) +
+      String(now.getMonth() + 1).padStart(2, "0") +
+      String(now.getDate()).padStart(2, "0");
+
+    const orderNumber = `VDORD${date}${random}`;
+
+    const invoiceNumber = `VDINV${date}${random}`;
+
+    const transactionNumber = `VDTXN${date}${random}`;
 
     /* ---------------- CREATE ORDER ---------------- */
     const order = await Order.create({
       userId: user._id,
-      items: products,
-      deliveryAddress: { address, phone },
+
+      orderNumber,
+      invoiceNumber,
+
+      items: orderItems,
+
+      subtotal,
+
+      shippingCharge,
+
+      discount,
+
+      tax,
+
       totalAmount,
+
+      deliveryAddress: {
+        name: user.username,
+        email: user.email,
+        address,
+        phone,
+      },
+
+      paymentMethod: "Razorpay",
+
+      paymentStatus: "Paid",
+
       status: "paid",
+
       payment: {
         provider: "razorpay",
         orderId: razorpay_order_id,
         paymentId: razorpay_payment_id,
       },
     });
+
+    /* ---------------- CREATE TRANSACTION ---------------- */
+    const transaction = await Transaction.create({
+      transactionNumber,
+
+      orderId: order._id,
+      userId: user._id,
+
+      provider: "razorpay",
+
+      razorpayOrderId: razorpay_order_id,
+      razorpayPaymentId: razorpay_payment_id,
+      razorpaySignature:
+        process.env.NODE_ENV !== "development"
+          ? payment.razorpay_signature
+          : "",
+
+      subtotal,
+      shippingCharge,
+      discount,
+      tax,
+      totalAmount,
+
+      paymentMethod: "Razorpay",
+
+      status: "paid",
+
+      invoiceNumber,
+      invoiceUrl: `/api/orders/${order._id}/invoice`,
+
+      currency: "INR",
+    });
+    order.transactionId = transaction._id;
+
+    await order.save();
 
     /* ---------------- SAVE USER ---------------- */
     user.deliveryAddress = { address, phone };

@@ -91,7 +91,10 @@ const CheckoutClient = () => {
 
   const shipping = subtotal >= 450 ? 0 : 150;
 
-  const total = subtotal + shipping;
+  // GST @ 5%
+  const gst = Number((subtotal * 0.05).toFixed(2));
+
+  const total = subtotal + shipping + gst;
 
   /* Razorpay */
   const loadRazorpayScript = () =>
@@ -164,13 +167,13 @@ const CheckoutClient = () => {
           productId: p.productId,
           name: p.name,
           price: p.price,
-          color: p.color,
           qty: p.qty,
+          color: p.color,
           size: p.size,
           image:
-            p.variants.find((v) => v.color === p.color)?.images?.[0] ||
-            p.variants[0]?.images?.[0] ||
-            null,
+            p.variants.find((v) => v.color === p.color)?.images ??
+            p.variants[0]?.images ??
+            [],
         })),
       }),
     });
@@ -292,6 +295,12 @@ const CheckoutClient = () => {
                 <strong> FREE Shipping.</strong>
               </div>
             )}
+
+            <div className="flex items-center justify-between text-[#7a6a5c]">
+              <span>GST (5%)</span>
+
+              <span>₹{gst}</span>
+            </div>
 
             {/* Total */}
             <div className="flex items-center justify-between border-t border-[#e6d8c8] pt-4">

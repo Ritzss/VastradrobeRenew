@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useAppContext } from "@/hooks/useAppContext";
@@ -5,14 +6,14 @@ import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OtpInput from "./OtpInput";
 import { toast } from "sonner";
 
 const Login = () => {
   const { loginForm, setLoginForm, handleLogin, loadUser } = useAppContext();
   const [visible, setVisible] = useState(false);
-  const [useOtp, setUseOtp] = useState(false);
+  const [useOtp, setUseOtp] = useState(true);
   const [loading, setLoading] = useState(false);
   const [otpDigits, setOtpDigits] = useState<string[]>(Array(6).fill(""));
 
@@ -33,36 +34,156 @@ const Login = () => {
   };
 
   const sendOtp = async () => {
-    if (!loginForm.email) return toast.error("Email Required");
+    if (!isEmail && !isMobile) {
+      return toast.error("Enter a valid email or mobile number");
+    }
 
     setLoading(true);
-    await fetch("/api/auth/login-otp-send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: loginForm.email }),
-    });
-    setLoading(false);
+
+    // EMAIL OTP
+    if (isEmail) {
+      const res = await fetch("/api/auth/login-otp-send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier,
+        }),
+      });
+
+      setLoading(false);
+
+      if (!res.ok) {
+        return toast.error("Unable to send OTP");
+      }
+
+      toast.success("OTP sent to your email");
+
+      return;
+    }
+
+    if (typeof window.sendOtp !== "function") {
+      setLoading(false);
+      return toast.error("MSG91 SDK not initialized.");
+    }
+
+    // MOBILE OTP (MSG91)
+
+    window.sendOtp(
+      `91${identifier}`,
+
+      () => {
+        setLoading(false);
+        toast.success("OTP sent to your mobile");
+      },
+
+      (err) => {
+        console.error(err);
+
+        setLoading(false);
+
+        toast.error(err?.message || "Unable to send OTP");
+      },
+    );
   };
 
   const verifyOtp = async (otpParam?: string) => {
     const otp = otpParam || otpDigits.join("");
+
     if (otp.length !== 6) return;
 
     setLoading(true);
-    const res = await fetch("/api/auth/login-otp-verify", {
-      method: "POST",
-      body: JSON.stringify({ email: loginForm.email, otp }),
-    });
 
-    setLoading(false);
+    // EMAIL OTP
+    if (isEmail) {
+      const res = await fetch("/api/auth/login-otp-verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier,
+          otp,
+        }),
+      });
 
-    if (res.ok) {
-      toast.success("Otp Validated");
-      await loadUser();
-      router.replace(safeRedirect);
-    } else {
-      toast.error("Otp is Invalid");
+      setLoading(false);
+
+      if (res.ok) {
+        toast.success("OTP Verified");
+
+        await loadUser();
+
+        router.replace(safeRedirect);
+      } else {
+        toast.error("Invalid OTP");
+      }
+
+      return;
     }
+
+    // MOBILE OTP
+
+    window.verifyOtp(
+      otp,
+
+      async (data) => {
+        console.log("MSG91 Verify Response:", data);
+        console.log("MSG91 Verify Response:", JSON.stringify(data, null, 2));
+        console.dir(data);
+
+        if (data.type !== "success") {
+          setLoading(false);
+          return toast.error("OTP verification failed");
+        }
+
+        const accessToken =
+          data.message ??
+          data["access-token"] ??
+          data.accessToken ??
+          data.token;
+
+        if (!accessToken) {
+          setLoading(false);
+          return toast.error("MSG91 did not return an access token.");
+        }
+
+        const res = await fetch("/api/auth/msg91-login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            identifier,
+            token: accessToken,
+          }),
+        });
+
+        setLoading(false);
+
+        const result = await res.json();
+
+        if (!res.ok) {
+          console.error(result);
+          return toast.error(result.message || "Login failed");
+        }
+
+        toast.success("Logged in successfully");
+
+        await loadUser();
+
+        router.replace(safeRedirect);
+      },
+
+      (err) => {
+        console.error("MSG91 Verify Error:", err);
+
+        setLoading(false);
+
+        toast.error(err?.message || "Invalid OTP");
+      },
+    );
   };
 
   const toggleMode = () => {
@@ -70,6 +191,56 @@ const Login = () => {
     setOtpDigits(Array(6).fill(""));
     setLoginForm((prev) => ({ ...prev, password: "" }));
   };
+
+  const identifier = loginForm.identifier.trim();
+
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+
+  const isMobile = /^[6-9]\d{9}$/.test(identifier);
+
+  // useEffect(() => {
+  // const timer = setInterval(() => {
+  //   if (window.initSendOTP) {
+  //     clearInterval(timer);
+
+  //     window.initSendOTP({
+  //       widgetId: process.env.NEXT_PUBLIC_MSG91_WIDGET_ID!,
+  //       tokenAuth: process.env.NEXT_PUBLIC_MSG91_TOKEN!,
+  //       exposeMethods: true,
+  //     });
+  //   }
+  // }, 300);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!window.initSendOTP) return;
+
+      clearInterval(timer);
+
+      window.initSendOTP({
+        widgetId: process.env.NEXT_PUBLIC_MSG91_WIDGET_ID!,
+        tokenAuth: process.env.NEXT_PUBLIC_MSG91_TOKEN!,
+        exposeMethods: true,
+
+        success: (data: any) => {
+          console.log("MSG91 Success:", data);
+        },
+
+        failure: (err: any) => {
+          console.error("MSG91 Failure:", err);
+        },
+      });
+
+      setTimeout(() => {
+        console.log("initSendOTP:", typeof window.initSendOTP);
+        console.log("sendOtp:", typeof window.sendOtp);
+        console.log("verifyOtp:", typeof window.verifyOtp);
+        console.log("Widget Data:", window.getWidgetData?.());
+      }, 1000);
+    }, 300);
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="w-full h-full flex justify-center px-6 py-16 not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
@@ -103,11 +274,12 @@ const Login = () => {
         <aside className="md:w-[55%] h-full dark:text-[#5f5143] not-dark:bg-white p-10 flex flex-col justify-center">
           <div className="max-w-md w-full mx-auto space-y-6">
             <input
-              type="email"
-              name="email"
-              value={loginForm.email}
+              type="text"
+              name="identifier"
+              value={loginForm.identifier}
               onChange={handleInputChange}
-              placeholder="Email"
+              placeholder="Email Address or Mobile Number"
+              autoComplete="username"
               className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
             />
 

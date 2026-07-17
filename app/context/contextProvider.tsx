@@ -273,13 +273,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   /* ---------------- AUTH ---------------- */
 
   const [loginForm, setLoginForm] = useState<LoginData>({
-    email: "",
+    identifier: "",
     password: "",
   });
 
   const [registerForm, setRegisterForm] = useState<RegisterData>({
     username: "",
     email: "",
+    mobile: "",
     password: "",
   });
 
@@ -320,7 +321,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
       toast.success("Account created");
 
-      setRegisterForm({ username: "", email: "", password: "" });
+      setRegisterForm({ username: "", email: "", password: "", mobile: "" });
 
       // hydrate auth state FIRST
       await loadUser();

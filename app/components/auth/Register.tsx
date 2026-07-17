@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useAppContext } from "@/hooks/useAppContext";
@@ -6,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 const Register = () => {
   const [visible, setVisible] = useState(false);
@@ -23,6 +25,11 @@ const Register = () => {
   };
 
   const onSubmit = async (e: React.FormEvent) => {
+    if (!/^[6-9]\d{9}$/.test(registerForm.mobile)) {
+      return toast.error("Please enter a valid 10-digit mobile number.");
+    }
+
+    // const success = await handleRegister(e);
     const success = await handleRegister(e);
     if (success) router.replace(safeRedirect);
   };
@@ -76,6 +83,17 @@ const Register = () => {
               value={registerForm.email}
               onChange={handleInputChange}
               placeholder="Email"
+              className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
+            />
+
+            <input
+              type="tel"
+              name="mobile"
+              value={registerForm.mobile}
+              onChange={handleInputChange}
+              placeholder="Mobile Number"
+              inputMode="numeric"
+              maxLength={10}
               className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
             />
 

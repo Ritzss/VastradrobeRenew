@@ -5,11 +5,10 @@ import { geistMono, geistSans } from "./font";
 import ClientLayout from "./ClientLayout";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 // import Image from "next/image";
 // import FacebookPixel from "./components/Global/FacebookPixel";
 // import { Suspense } from "react";
-
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://vastradrobe.com"),
@@ -25,76 +24,76 @@ export const metadata: Metadata = {
   applicationName: "VastraDrobe",
 
   keywords: [
-  "VastraDrobe",
+    "VastraDrobe",
 
-  // Brand
-  "VastraDrobe fashion",
-  "VastraDrobe online shopping",
+    // Brand
+    "VastraDrobe fashion",
+    "VastraDrobe online shopping",
 
-  // Women's Fashion
-  "women fashion online",
-  "women clothing online India",
-  "ladies clothing online",
-  "women western wear",
-  "western wear for women",
-  "latest women's fashion",
-  "women apparel online",
+    // Women's Fashion
+    "women fashion online",
+    "women clothing online India",
+    "ladies clothing online",
+    "women western wear",
+    "western wear for women",
+    "latest women's fashion",
+    "women apparel online",
 
-  // Co-ord Sets
-  "women co-ord sets online",
-  "women co-ord sets online India",
-  "co-ord sets for women",
-  "formal co-ord sets for women",
-  "office wear co-ord sets",
-  "cotton co-ord sets for women",
-  "printed co-ord sets",
-  "party wear co-ord sets",
-  "summer co-ord sets",
-  "girls co-ord sets online",
+    // Co-ord Sets
+    "women co-ord sets online",
+    "women co-ord sets online India",
+    "co-ord sets for women",
+    "formal co-ord sets for women",
+    "office wear co-ord sets",
+    "cotton co-ord sets for women",
+    "printed co-ord sets",
+    "party wear co-ord sets",
+    "summer co-ord sets",
+    "girls co-ord sets online",
 
-  // Tops
-  "tops for women",
-  "designer tops",
-  "casual tops for women",
-  "office tops for women",
-  "cotton tops for women",
+    // Tops
+    "tops for women",
+    "designer tops",
+    "casual tops for women",
+    "office tops for women",
+    "cotton tops for women",
 
-  // Ethnic
-  "ethnic wear for women",
-  "ethnic dresses",
-  "kurti online",
-  "kurta sets",
-  "Indian ethnic wear",
-  "festive wear for women",
+    // Ethnic
+    "ethnic wear for women",
+    "ethnic dresses",
+    "kurti online",
+    "kurta sets",
+    "Indian ethnic wear",
+    "festive wear for women",
 
-  // Dresses
-  "dresses for women",
-  "party wear dresses",
-  "casual dresses",
-  "maxi dresses",
-  "summer dresses",
+    // Dresses
+    "dresses for women",
+    "party wear dresses",
+    "casual dresses",
+    "maxi dresses",
+    "summer dresses",
 
-  // Occasion
-  "office wear for women",
-  "casual wear for women",
-  "party wear for women",
-  "vacation wear",
-  "everyday fashion",
+    // Occasion
+    "office wear for women",
+    "casual wear for women",
+    "party wear for women",
+    "vacation wear",
+    "everyday fashion",
 
-  // Regional
-  "women western wear in Gurugram",
-  "women clothing in Gurugram",
-  "fashion store Gurugram",
-  "online fashion store India",
+    // Regional
+    "women western wear in Gurugram",
+    "women clothing in Gurugram",
+    "fashion store Gurugram",
+    "online fashion store India",
 
-  // Shopping Intent
-  "buy women clothing online",
-  "premium women's clothing",
-  "designer clothing online",
-  "online fashion shopping India",
-  "best online clothing store",
-  "affordable luxury fashion",
-],
+    // Shopping Intent
+    "buy women clothing online",
+    "premium women's clothing",
+    "designer clothing online",
+    "online fashion shopping India",
+    "best online clothing store",
+    "affordable luxury fashion",
+  ],
 
   authors: [
     {
@@ -169,7 +168,6 @@ export const metadata: Metadata = {
   // themeColor: "#6a0f1f",
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -206,7 +204,39 @@ export default function RootLayout({
             `,
           }}
         />
-        
+        {/* <Script id="msg91" strategy="afterInteractive">
+          {`
+            (function loadOtpScript(urls) {
+              let i = 0;
+
+              function attempt() {
+                const s = document.createElement("script");
+                s.src = urls[i];
+                s.async = true;
+
+                s.onload = () => {
+                  console.log("MSG91 Loaded");
+                };
+
+                s.onerror = () => {
+                  i++;
+
+                  if (i < urls.length) {
+                    attempt();
+                  }
+                };
+
+                document.head.appendChild(s);
+              }
+
+              attempt();
+
+            })([
+              "https://verify.msg91.com/otp-provider.js",
+              "https://verify.phone91.com/otp-provider.js"
+            ]);
+          `}
+        </Script> */}
         <Script
           id="facebook-pixel"
           strategy="afterInteractive"
@@ -242,7 +272,10 @@ export default function RootLayout({
         </noscript>
       </head>
 
-      <body className="dark:bg-black light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] overflow-hidden" cz-shortcut-listen="true">
+      <body
+        className="dark:bg-black light:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] overflow-hidden"
+        cz-shortcut-listen="true"
+      >
         {/* <Script id="facebook-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -274,7 +307,7 @@ export default function RootLayout({
 
         <SpeedInsights />
 
-        <Analytics/>
+        <Analytics />
 
         <noscript>
           <img

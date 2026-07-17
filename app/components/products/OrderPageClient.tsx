@@ -77,6 +77,49 @@ const OrdersPageClient = () => {
     }
   };
 
+  //   const downloadInvoice = async (id: string, invoiceNumber: string) => {
+  //   try {
+  //     console.log("Fetching invoice...");
+
+  //     const response = await fetch(`/api/orders/${id}/invoice`);
+
+  //     console.log("Status:", response.status);
+  //     console.log("Content-Type:", response.headers.get("content-type"));
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP ${response.status}`);
+  //     }
+
+  //     const blob = await response.blob();
+
+  //     console.log("Blob:", blob);
+  //     console.log("Blob size:", blob.size);
+  //     console.log("Blob type:", blob.type);
+
+  //     const url = URL.createObjectURL(blob);
+
+  //     console.log("Blob URL:", url);
+
+  //     const a = document.createElement("a");
+
+  //     a.href = url;
+  //     a.download = `${invoiceNumber}.pdf`;
+
+  //     document.body.appendChild(a);
+
+  //     a.click();
+
+  //     a.remove();
+
+  //     URL.revokeObjectURL(url);
+  //   } catch (err) {
+  //     console.error("DOWNLOAD ERROR", err);
+  //   }
+  // };
+  const downloadInvoice = (id: string) => {
+    window.open(`/api/orders/${id}/invoice`, "_blank");
+  };
+
   return (
     <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
       <div className="max-w-6xl mx-auto">
@@ -89,7 +132,6 @@ const OrdersPageClient = () => {
             Track and manage your purchases.
           </p>
         </div>
-
         {orders.map((order) => {
           const currentStep = STATUS_STEPS.indexOf(order.status);
 
@@ -102,7 +144,7 @@ const OrdersPageClient = () => {
               <div className="flex justify-between items-center mb-6">
                 <div>
                   <p className="font-semibold text-[#5f5143]">
-                    Order #{order._id.slice(-6)}
+                    Order #{order.orderNumber}
                   </p>
                   <p className="text-sm text-[#7a6a5c]">
                     {new Date(order.createdAt).toLocaleDateString()}
@@ -144,10 +186,10 @@ const OrdersPageClient = () => {
                     <div>
                       <p className="font-medium">{item.name}</p>
                       <p className="text-xs text-[#7a6a5c]">
-                        Size: {item.size} · Qty: {item.qty}
+                        Size: {item.size} · Qty: {item.quantity}
                       </p>
                     </div>
-                    <span>₹{Math.round(item.price)}</span>
+                    <span>₹{Math.round(item.total)}</span>
                   </div>
                 ))}
               </div>
@@ -165,25 +207,36 @@ const OrdersPageClient = () => {
               </div>
 
               {/* Expand */}
-              <button
-                onClick={async () => {
-                  if (expandedOrderId === order._id) {
-                    setExpandedOrderId(null);
-                    return;
-                  }
+              <div className="mt-6 flex gap-4">
+                <button
+                  onClick={async () => {
+                    if (expandedOrderId === order._id) {
+                      setExpandedOrderId(null);
+                      return;
+                    }
 
-                  setExpandedOrderId(order._id);
-                  await loadDetailedProducts(order);
-                }}
-                className=" mt-6 text-sm text-[#6a0f1f] hover:underline transition"
-              >
-                {expandedOrderId === order._id
-                  ? "Hide Details"
-                  : "View Details"}
-              </button>
+                    setExpandedOrderId(order._id);
+                    await loadDetailedProducts(order);
+                  }}
+                  className="text-sm text-[#6a0f1f] hover:underline"
+                >
+                  {expandedOrderId === order._id
+                    ? "Hide Details"
+                    : "View Details"}
+                </button>
+
+                <button
+                  onClick={() => {
+                    window.location.href = `/api/orders/${order._id}/invoice`;
+                  }}
+                >
+                  Download Invoice
+                </button>
+              </div>
             </div>
           );
         })}
+        ;
       </div>
     </div>
   );

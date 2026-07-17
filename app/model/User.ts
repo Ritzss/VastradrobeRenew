@@ -21,8 +21,13 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     avatar: { type: String },
+    mobile: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+    },
 
-    /* 🛒 CART */
     /* 🛒 CART */
     cart: [
       {
