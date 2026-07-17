@@ -242,6 +242,20 @@ const Login = () => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+
+    script.src = "https://verify.msg91.com/otp-provider.js";
+
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
+  }, []);
+
   return (
     <div className="w-full h-full flex justify-center px-6 py-16 not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
       <div className="w-full h-full max-w-5xl rounded-4xl overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
