@@ -2,8 +2,12 @@
 import { COMPANY } from "./company";
 import { Order } from "@/Types/Order";
 
-export function invoiceTemplate(order: Order) {
-  const transaction = order.transactionId as any;
+import { ITransaction } from "@/model/Transaction";
+
+export function invoiceTemplate(
+  order: Order,
+  transaction: ITransaction | null
+) {
 
   return `
 <!DOCTYPE html>
@@ -12,6 +16,14 @@ export function invoiceTemplate(order: Order) {
 <head>
 
 <meta charset="UTF-8">
+
+<link
+      rel="icon"
+      type="image/png"
+      href="https://res.cloudinary.com/dwhn5ec09/image/upload/v1780384052/favicon_obm4xc.ico"
+    />
+
+<title></title>
 
 <style>
 
@@ -46,8 +58,8 @@ body{
 /* ================= HEADER ================= */
 
 .header{
-    background:#111;
-    color:#fff;
+    background:#fff;
+    color:#111;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -63,7 +75,7 @@ body{
 
 .brand p{
     font-size:12px;
-    color:#ddd;
+    color:#1a1a1a;
 }
 
 .invoice-meta{
@@ -351,7 +363,7 @@ style="height:60px;object-fit:contain;"
 
                 <br><br>
 
-                📞 ${COMPANY.phone}
+                
 
                 <br>
 

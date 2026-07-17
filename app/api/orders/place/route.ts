@@ -22,6 +22,8 @@ export async function POST(req: Request) {
 
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
 
+    
+
     /* ---------------- BODY ---------------- */
     const { address, phone, products, payment } = await req.json();
 
@@ -208,7 +210,7 @@ export async function POST(req: Request) {
       status: "paid",
 
       invoiceNumber,
-      invoiceUrl: `/api/orders/${order._id}/invoice`,
+      invoiceUrl: `/api/orders/${order.orderNumber}/invoice`,
 
       currency: "INR",
     });

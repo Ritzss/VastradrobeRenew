@@ -46,7 +46,7 @@ const OrdersPageClient = () => {
 
   if (orders.length === 0) {
     return (
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] flex items-center justify-center">
+      <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] flex items-center justify-center">
         <EmptyState
           label="No Orders Yet"
           title="Your Wardrobe Awaits"
@@ -227,7 +227,7 @@ const OrdersPageClient = () => {
 
                 <button
                   onClick={() => {
-                    window.location.href = `/api/orders/${order._id}/invoice`;
+                    window.location.href = `/api/orders/${order.orderNumber}/invoice`;
                   }}
                 >
                   Download Invoice

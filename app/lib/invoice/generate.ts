@@ -1,8 +1,12 @@
 import puppeteer from "puppeteer";
 import { Order } from "@/Types/Order";
 import { invoiceTemplate } from "./template";
+import { ITransaction } from "@/model/Transaction";
 
-export async function generateInvoice(order: Order): Promise<Buffer> {
+export async function generateInvoice(
+  order: Order,
+  transaction: ITransaction | null
+): Promise<Buffer> {
   const browser = await puppeteer.launch({
     headless: true,
 
@@ -12,9 +16,12 @@ export async function generateInvoice(order: Order): Promise<Buffer> {
   try {
     const page = await browser.newPage();
 
-    await page.setContent(invoiceTemplate(order), {
-      waitUntil: "load",
-    });
+    await page.setContent(
+  invoiceTemplate(order, transaction),
+  {
+    waitUntil: "load",
+  }
+);
 
     await page.waitForNetworkIdle();
 
