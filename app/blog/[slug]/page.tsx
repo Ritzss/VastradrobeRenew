@@ -12,127 +12,277 @@ export default async function BlogDetailPage({
 
   if (!blog) return null;
 
+  const blocks: {
+    heading?: string;
+    image?: {
+      src: string;
+      text?: string;
+    };
+    paragraphs: string[];
+    list?: {
+      items: string[];
+      style?: "disc" | "decimal";
+    };
+  }[] = [];
+
+  let current: (typeof blocks)[0] = {
+    paragraphs: [],
+  };
+
+  for (const section of blog.content) {
+    if (section.type === "Intro") continue;
+
+    if (section.type === "heading") {
+      if (
+        current.heading ||
+        current.image ||
+        current.paragraphs.length ||
+        current.list
+      ) {
+        blocks.push(current);
+      }
+
+      current = {
+        heading: section.value,
+        paragraphs: [],
+      };
+    } else if (section.type === "paragraph") {
+      current.paragraphs.push(section.value ?? "");
+    } else if (section.type === "image") {
+      current.image = {
+        src: section.src!,
+        text: section.value,
+      };
+    } else if (section.type === "list") {
+      current.list = {
+        items: section.items ?? [],
+        style: section.style,
+      };
+    }
+  }
+
+  blocks.push(current);
+
+  const intro = blog.content.find((s) => s.type === "Intro")?.value ?? "";
+
+  const shortIntro =
+    intro.length > 220 ? intro.substring(0, 220) + "..." : intro;
+
   return (
-    <article className="not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen py-28">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* TITLE */}
-        <ScrollReveal>
-          <h1 className="text-4xl md:text-5xl font-semibold text-[#5f5143] mb-16 leading-tight">
-            {blog.title}
-          </h1>
-        </ScrollReveal>
+    <article className="min-h-screen bg-[#F8F5F0] dark:bg-[#0F0F10] transition-colors duration-500">
+      {/* ================= HERO ================= */}
 
-        {/* INTRO + COVER */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
-          <div>
-            {blog.content.map((section, index) => {
-              if (section.type === "Intro") {
-                return (
-                  <ScrollReveal key={index} direction="right">
-                    <p className="text-xl text-[#7a6a5c] leading-relaxed">
-                      {section.value}
-                    </p>
-                  </ScrollReveal>
-                );
-              }
-              return null;
-            })}
-          </div>
+      <section className="relative h-screen overflow-hidden">
+        <Image
+          src={blog.coverImage}
+          alt={blog.title}
+          fill
+          priority
+          className="object-cover"
+        />
 
-          <ScrollReveal direction="up">
-            <div className="relative aspect-4/5 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
-              <Image
-                src={blog.coverImage}
-                alt={blog.title}
-                fill
-                className="object-cover"
-                priority
-              />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-black/70" />
+
+        <div className="absolute inset-0 flex items-end">
+          <div className="w-full max-w-7xl mx-auto px-8 lg:px-16 pb-24">
+            <p className="uppercase tracking-[8px] text-[#E4E198] text-xs mb-6">
+              VastraDrobe Journal
+            </p>
+
+            <h1
+              className="
+            font-serif
+            font-light
+            text-white
+            leading-[0.9]
+            tracking-[-0.04em]
+            max-w-5xl
+
+            text-5xl
+            md:text-7xl
+            lg:text-[82px]
+            xl:text-[96px]
+          "
+            >
+              {blog.title}
+            </h1>
+
+            <div className="mt-12 grid lg:grid-cols-2 gap-16 items-end">
+              <div className="w-24 h-[2px] bg-[#889551]" />
+
+              <p className="max-w-xl text-white/90 text-lg leading-9">
+                {shortIntro}
+              </p>
             </div>
-          </ScrollReveal>
+          </div>
         </div>
 
-        {/* BODY CONTENT */}
-        <div className="space-y-20">
-          {blog.content.map((section, index) => {
-            if (section.type === "heading") {
-              return (
-                <ScrollReveal key={index} direction="left">
-                  <h2 className="text-3xl font-semibold text-[#5f5143] mt-16">
-                    {section.value}
-                  </h2>
-                </ScrollReveal>
-              );
-            }
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+          <div className="flex flex-col items-center">
+            <span className="text-white uppercase text-xs tracking-[4px] mb-3">
+              Scroll
+            </span>
 
-            if (section.type === "paragraph") {
-              return (
-                <ScrollReveal key={index} delay={100}>
-                  <p className="text-[#7a6a5c] text-lg leading-relaxed">
-                    {section.value}
-                  </p>
-                </ScrollReveal>
-              );
-            }
+            <div className="w-px h-14 bg-white/30">
+              <div className="w-px h-6 bg-white animate-bounce" />
+            </div>
+          </div>
+        </div>
+      </section>
 
-            if (section.type === "list" && section.items) {
-              const listClass =
-                section.style === "decimal" ? "list-decimal" : "list-disc";
+      {/* BODY CONTENT */}
+      <section className="relative -mt-24 rounded-t-[70px] z-20 bg-[#F8F5F0] dark:bg-[#0F0F10] transition-colors duration-500">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-28">
+          {blocks.map((block, index) => {
+            const layout = block.image ? index % 3 : 3;
 
-              return (
-                <ScrollReveal key={index} direction="up">
-                  <ul
-                    className={`pl-6 text-lg space-y-4 text-[#7a6a5c] ${listClass}`}
-                  >
-                    {section.items.map((item, i) => {
-                      const [boldPart, rest] = item.split(":");
-                      return (
-                        <li key={i}>
-                          {rest ? (
-                            <>
-                              <strong className="text-[#5f5143]">
-                                {boldPart.trim()}:
-                              </strong>{" "}
-                              {rest.trim()}
-                            </>
-                          ) : (
-                            item
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </ScrollReveal>
-              );
-            }
+            return (
+              <ScrollReveal key={index}>
+                <section className="mb-40">
+                  {/* Heading */}
 
-            if (section.type === "image" && section.src) {
-              return (
-                <ScrollReveal key={index} direction="up">
-                  <div className="my-16">
-                    {section.value && (
-                      <p className="text-lg text-[#7a6a5c] mb-10">
-                        {section.value}
-                      </p>
-                    )}
+                  {block.heading && (
+                    <div className="mb-14">
+                      <span className="uppercase tracking-[6px] text-xs text-[#889551] dark:text-[#A8C37A]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
 
-                    <div className="relative aspect-4/5 rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(149,127,106,0.15)]">
-                      <Image
-                        src={section.src}
-                        alt={blog.title}
-                        fill
-                        className="object-cover"
-                      />
+                      <h2 className="mt-4 font-serif text-4xl md:text-6xl font-light leading-tight max-w-4xl text-[#231f1b] dark:text-white">
+                        {block.heading}
+                      </h2>
                     </div>
-                  </div>
-                </ScrollReveal>
-              );
-            }
+                  )}
 
-            return null;
+                  {/* LAYOUT 1 */}
+
+                  {layout === 0 && block.image && (
+                    <div className="grid lg:grid-cols-12 gap-20 items-center">
+                      <div className="lg:col-span-5">
+                        <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
+                          <Image
+                            src={block.image.src}
+                            alt=""
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="lg:col-span-7 space-y-8">
+                        {block.image.text && (
+                          <p className="italic text-[#889551] dark:text-[#A8C37A]">
+                            {block.image.text}
+                          </p>
+                        )}
+
+                        {block.paragraphs.map((p, i) => (
+                          <p
+                            key={i}
+                            className="max-w-2xl text-lg leading-9 text-[#665d54]"
+                          >
+                            {p}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* LAYOUT 2 */}
+
+                  {layout === 1 && (
+                    <div className="max-w-5xl mx-auto">
+                      {block.paragraphs.map((p, i) => (
+                        <p
+                          key={i}
+                          className={`leading-10 text-[#665d54] ${
+                            i === 0
+                              ? "text-2xl md:text-3xl font-serif"
+                              : "mt-8 text-lg"
+                          }`}
+                        >
+                          {p}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* LAYOUT 3 */}
+
+                  {layout === 2 && block.image && (
+                    <>
+                      <div className="relative aspect-[16/8] rounded-2xl overflow-hidden">
+                        <Image
+                          src={block.image.src}
+                          alt=""
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+
+                      <div className="max-w-5xl mx-auto mt-12">
+                        {block.paragraphs.map((p, i) => (
+                          <p
+                            key={i}
+                            className="text-lg leading-9 text-[#665d54] mb-8"
+                          >
+                            {p}
+                          </p>
+                        ))}
+                      </div>
+                    </>
+                  )}
+
+                  {/* LAYOUT 4 */}
+
+                  {layout === 3 && (
+                    <div className="grid lg:grid-cols-2 gap-16 items-start">
+                      <div className="space-y-8">
+                        {block.paragraphs.map((p, i) => (
+                          <p
+                            key={i}
+                            className="text-lg leading-9 text-[#665d54] dark:text-neutral-300"
+                          >
+                            {p}
+                          </p>
+                        ))}
+                      </div>
+
+                      {block.list && (
+                        <div className="rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-xl overflow-hidden transition-colors duration-500">
+                          <div className="px-8 py-5 border-b border-neutral-200 dark:border-neutral-800">
+                            <span className="uppercase tracking-[4px] text-xs text-[#889551] dark:text-[#A8C37A]">
+                              Key Points
+                            </span>
+                          </div>
+
+                          <div className="p-8 md:p-10">
+                            <ul
+                              className={`space-y-5 pl-6 marker:text-[#889551] dark:marker:text-[#A8C37A] ${
+                                block.list.style === "decimal"
+                                  ? "list-decimal"
+                                  : "list-disc"
+                              }`}
+                            >
+                              {block.list.items.map((item, i) => (
+                                <li
+                                  key={i}
+                                  className="text-[17px] leading-8 text-[#665d54] dark:text-neutral-300"
+                                >
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </section>
+              </ScrollReveal>
+            );
           })}
         </div>
-      </div>
+      </section>
     </article>
   );
 }
