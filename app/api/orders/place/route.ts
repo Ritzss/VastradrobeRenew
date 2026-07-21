@@ -10,25 +10,38 @@ import Transaction from "@/model/Transaction";
 export async function POST(req: Request) {
   try {
     /* ---------------- AUTH ---------------- */
+    await connectDB();
+
+    let user = null;
+
     const token = req.headers
       .get("cookie")
       ?.split("; ")
       .find((c) => c.startsWith("token="))
       ?.split("=")[1];
 
-    if (!token) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (token) {
+      try {
+        const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+        user = await User.findById(decoded.id);
+      } catch {
+        user = null;
+      }
     }
 
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
-
-    
-
     /* ---------------- BODY ---------------- */
-    const { address, phone, products, payment } = await req.json();
+    const {
+      name,
+      address,
+      phone,
+      products,
+      payment,
+      paymentMethod,
+      shippingCharge,
+    } = await req.json();
 
-    console.log("Incoming Products");
-    console.log(JSON.stringify(products, null, 2));
+    // console.log("Incoming Products");
+    // console.log(JSON.stringify(products, null, 2));
 
     if (!address || !phone || !products?.length) {
       return NextResponse.json(
@@ -39,7 +52,7 @@ export async function POST(req: Request) {
 
     // console.log(JSON.stringify(products, null, 2));
 
-    if (!payment) {
+    if (paymentMethod !== "COD" && !payment) {
       return NextResponse.json(
         { message: "Payment data missing" },
         { status: 400 },
@@ -47,41 +60,43 @@ export async function POST(req: Request) {
     }
 
     /* ---------------- DB ---------------- */
-    await connectDB();
+    // await connectDB();
 
-    const user = await User.findById(decoded.id);
-    if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
+    // const user = await User.findById(decoded.id);
+    // if (!user) {
+    //   return NextResponse.json({ message: "User not found" }, { status: 404 });
+    // }
 
     /* ---------------- PAYMENT VERIFY ---------------- */
     let razorpay_order_id = null;
     let razorpay_payment_id = null;
 
-    if (process.env.NODE_ENV !== "development") {
-      const {
-        razorpay_order_id: orderId,
-        razorpay_payment_id: paymentId,
-        razorpay_signature,
-      } = payment;
+    if (paymentMethod !== "COD") {
+      if (process.env.NODE_ENV !== "development") {
+        const {
+          razorpay_order_id: orderId,
+          razorpay_payment_id: paymentId,
+          razorpay_signature,
+        } = payment;
 
-      const generatedSignature = crypto
-        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
-        .update(orderId + "|" + paymentId)
-        .digest("hex");
+        const generatedSignature = crypto
+          .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+          .update(orderId + "|" + paymentId)
+          .digest("hex");
 
-      if (generatedSignature !== razorpay_signature) {
-        return NextResponse.json(
-          { message: "Invalid payment signature" },
-          { status: 400 },
-        );
+        if (generatedSignature !== razorpay_signature) {
+          return NextResponse.json(
+            { message: "Invalid payment signature" },
+            { status: 400 },
+          );
+        }
+
+        razorpay_order_id = orderId;
+        razorpay_payment_id = paymentId;
+      } else {
+        razorpay_order_id = `dev_order_${Date.now()}`;
+        razorpay_payment_id = `dev_payment_${Date.now()}`;
       }
-
-      razorpay_order_id = orderId;
-      razorpay_payment_id = paymentId;
-    } else {
-      razorpay_order_id = `dev_order_${Date.now()}`;
-      razorpay_payment_id = `dev_payment_${Date.now()}`;
     }
 
     /* ---------------- ORDER ITEMS ---------------- */
@@ -110,8 +125,8 @@ export async function POST(req: Request) {
           : [],
     }));
 
-    console.log("ORDER ITEMS");
-    console.log(JSON.stringify(orderItems, null, 2));
+    // console.log("ORDER ITEMS");
+    // console.log(JSON.stringify(orderItems, null, 2));
 
     /* ---------------- TOTAL ---------------- */
 
@@ -120,14 +135,19 @@ export async function POST(req: Request) {
       0,
     );
 
-    const shippingCharge = subtotal >= 450 ? 0 : 150;
+    const finalShipping =
+      typeof shippingCharge === "number"
+        ? shippingCharge
+        : subtotal >= 450
+          ? 0
+          : 150;
 
     const discount = 0;
 
     // GST @ 5%
     const tax = Number((subtotal * 0.05).toFixed(2));
 
-    const totalAmount = subtotal + shippingCharge + tax - discount;
+    const totalAmount = subtotal + finalShipping + tax - discount;
 
     const now = new Date();
 
@@ -146,7 +166,7 @@ export async function POST(req: Request) {
 
     /* ---------------- CREATE ORDER ---------------- */
     const order = await Order.create({
-      userId: user._id,
+      userId: user?._id || null,
 
       orderNumber,
       invoiceNumber,
@@ -155,7 +175,7 @@ export async function POST(req: Request) {
 
       subtotal,
 
-      shippingCharge,
+      shippingCharge: finalShipping,
 
       discount,
 
@@ -164,64 +184,72 @@ export async function POST(req: Request) {
       totalAmount,
 
       deliveryAddress: {
-        name: user.username,
-        email: user.email,
+        name: name || user?.username || "",
+        email: user?.email || "",
         address,
         phone,
       },
 
-      paymentMethod: "Razorpay",
+      paymentMethod: paymentMethod === "COD" ? "COD" : "Razorpay",
 
-      paymentStatus: "Paid",
+      paymentStatus: paymentMethod === "COD" ? "Pending" : "Paid",
 
-      status: "paid",
+      status: paymentMethod === "COD" ? "pending" : "paid",
 
       payment: {
-        provider: "razorpay",
+        provider: paymentMethod === "COD" ? "COD" : "razorpay",
         orderId: razorpay_order_id,
         paymentId: razorpay_payment_id,
       },
     });
 
     /* ---------------- CREATE TRANSACTION ---------------- */
-    const transaction = await Transaction.create({
-      transactionNumber,
 
-      orderId: order._id,
-      userId: user._id,
+    let transaction = null;
 
-      provider: "razorpay",
+    if (paymentMethod !== "COD") {
+      transaction = await Transaction.create({
+        transactionNumber,
 
-      razorpayOrderId: razorpay_order_id,
-      razorpayPaymentId: razorpay_payment_id,
-      razorpaySignature:
-        process.env.NODE_ENV !== "development"
-          ? payment.razorpay_signature
-          : "",
+        orderId: order._id,
+        userId: user?._id || null,
 
-      subtotal,
-      shippingCharge,
-      discount,
-      tax,
-      totalAmount,
+        provider: "razorpay",
 
-      paymentMethod: "Razorpay",
+        razorpayOrderId: razorpay_order_id,
+        razorpayPaymentId: razorpay_payment_id,
+        razorpaySignature:
+          process.env.NODE_ENV !== "development"
+            ? payment.razorpay_signature
+            : "",
 
-      status: "paid",
+        subtotal,
+        shippingCharge: finalShipping,
+        discount,
+        tax,
+        totalAmount,
 
-      invoiceNumber,
-      invoiceUrl: `/api/orders/${order.orderNumber}/invoice`,
+        paymentMethod: "Razorpay",
 
-      currency: "INR",
-    });
-    order.transactionId = transaction._id;
+        status: "paid",
+
+        invoiceNumber,
+        invoiceUrl: `/api/orders/${order.orderNumber}/invoice`,
+
+        currency: "INR",
+      });
+    }
+
+    order.transactionId = transaction?._id || null;
 
     await order.save();
 
     /* ---------------- SAVE USER ---------------- */
-    user.deliveryAddress = { address, phone };
-    user.cart = [];
-    await user.save();
+   if (user) {
+  user.deliveryAddress = { address, phone };
+  user.cart = [];
+  await user.save();
+}
 
     return NextResponse.json(
       {

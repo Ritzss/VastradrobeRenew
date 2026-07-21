@@ -12,6 +12,9 @@ import { fbPixel } from "@/lib/facebookpixel";
 
 const CheckoutClient = () => {
   const { products, cartItems, clearCart, loadUser, user } = useAppContext();
+  const [paymentMethod, setPaymentMethod] = useState<"ONLINE" | "COD">(
+    "ONLINE",
+  );
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -22,12 +25,17 @@ const CheckoutClient = () => {
 
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
 
   /* PREFILL */
   useEffect(() => {
-    if (user?.deliveryAddress) {
-      setAddress(user.deliveryAddress.address ?? "");
-      setPhone(user.deliveryAddress.phone ?? "");
+    if (user) {
+      setName(user.username ?? "");
+
+      if (user.deliveryAddress) {
+        setAddress(user.deliveryAddress.address ?? "");
+        setPhone(user.deliveryAddress.phone ?? "");
+      }
     }
   }, [user]);
 
@@ -89,7 +97,7 @@ const CheckoutClient = () => {
     0,
   );
 
-  const shipping = subtotal >= 450 ? 0 : 150;
+  const shipping = paymentMethod === "COD" ? 70 : subtotal >= 450 ? 0 : 150;
 
   // GST @ 5%
   const gst = Number((subtotal * 0.05).toFixed(2));
@@ -108,8 +116,8 @@ const CheckoutClient = () => {
     });
 
   const handlePlaceOrder = async () => {
-    if (!address || !phone) {
-      toast.error("Please enter address and phone number");
+    if (!name.trim() || !address.trim() || !phone.trim()) {
+      toast.error("Please fill all delivery details");
       return;
     }
 
@@ -160,9 +168,13 @@ const CheckoutClient = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        name,
         address,
         phone,
         payment,
+        paymentMethod,
+        shippingCharge: shipping,
+
         products: checkoutProducts.map((p) => ({
           productId: p.productId,
           name: p.name,
@@ -197,7 +209,11 @@ const CheckoutClient = () => {
       total: total,
     });
     router.push("/orders");
-    toast.success("Payment successful 🎉");
+    toast.success(
+      paymentMethod === "COD"
+        ? "Order placed successfully 🎉"
+        : "Payment successful 🎉",
+    );
   };
 
   /* UI */
@@ -209,6 +225,16 @@ const CheckoutClient = () => {
           <h1 className="text-3xl font-semibold text-[#5f5143]">Checkout</h1>
 
           <div className="dark:bg-black/85 border border-white not-dark:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
+            <div>
+              <label className="text-sm text-[#7a6a5c]">Name</label>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your full name"
+                className="w-full mt-2 px-4 py-3 text-[#7a6a5c] rounded-full border border-[#e6d8c8] focus:outline-none"
+              />
+            </div>
+
             <div>
               <label className="text-sm text-[#7a6a5c]">Phone Number</label>
               <input
@@ -283,12 +309,12 @@ const CheckoutClient = () => {
               {shipping === 0 ? (
                 <span className="font-medium text-green-600">Free</span>
               ) : (
-                <span className="font-medium">₹150</span>
+                <span className="font-medium">₹{shipping}</span>
               )}
             </div>
 
             {/* Free Shipping Message */}
-            {shipping > 0 && (
+            {shipping > 0 && paymentMethod === "ONLINE" && (
               <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700">
                 Add products worth <strong>₹{450 - subtotal}</strong> more to
                 get
@@ -314,11 +340,51 @@ const CheckoutClient = () => {
             </div>
           </div>
 
+          <div className="space-y-3">
+            <label className="text-sm font-medium text-[#7a6a5c]">
+              Payment Method
+            </label>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setPaymentMethod("ONLINE")}
+                className={`flex-1 rounded-xl border p-3 transition ${
+                  paymentMethod === "ONLINE"
+                    ? "bg-[#5f5143] text-white border-[#5f5143]"
+                    : "border-gray-300"
+                }`}
+              >
+                Pay Online
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setPaymentMethod("COD")}
+                className={`flex-1 rounded-xl border p-3 transition ${
+                  paymentMethod === "COD"
+                    ? "bg-[#5f5143] text-white border-[#5f5143]"
+                    : "border-gray-300"
+                }`}
+              >
+                Cash on Delivery
+              </button>
+            </div>
+          </div>
+
           <button
-            onClick={handlePlaceOrder}
+            onClick={() => {
+              if (paymentMethod === "COD") {
+                verifyAndPlaceOrder({
+                  paymentMethod: "COD",
+                });
+              } else {
+                handlePlaceOrder();
+              }
+            }}
             className=" w-full py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition"
           >
-            Complete Payment
+            {paymentMethod === "COD" ? "Place Order" : "Complete Payment"}
           </button>
 
           <div className="text-xs text-center text-[#957f6a] pt-2">

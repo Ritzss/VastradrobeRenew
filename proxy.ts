@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
-const protectedRoutes = ["/cart", "/checkout", "/favorites", "/profile"];
+// const protectedRoutes = ["/cart", "/checkout", "/favorites", "/profile"];
+const protectedRoutes = [ "/favorites", "/profile"];
 const authRoutes = ["/account/login", "/account/register"];
 
 if (!process.env.JWT_SECRET) {
@@ -68,8 +69,8 @@ export async function proxy(req: NextRequest) {
 /* 🔥 VERY IMPORTANT */
 export const config = {
   matcher: [
-    "/cart/:path*",
-    "/checkout/:path*",
+    // "/cart/:path*",
+    // "/checkout/:path*",
     "/favorites/:path*",
     "/profile/:path*",
     "/account/login",

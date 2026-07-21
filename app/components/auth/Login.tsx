@@ -16,6 +16,7 @@ const Login = () => {
   const [useOtp, setUseOtp] = useState(true);
   const [loading, setLoading] = useState(false);
   const [otpDigits, setOtpDigits] = useState<string[]>(Array(6).fill(""));
+  const [otpSent, setOtpSent] = useState(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -59,6 +60,7 @@ const Login = () => {
       }
 
       toast.success("OTP sent to your email");
+      setOtpSent(true);
 
       return;
     }
@@ -75,6 +77,7 @@ const Login = () => {
 
       () => {
         setLoading(false);
+        setOtpSent(true);
         toast.success("OTP sent to your mobile");
       },
 
@@ -189,7 +192,12 @@ const Login = () => {
   const toggleMode = () => {
     setUseOtp((prev) => !prev);
     setOtpDigits(Array(6).fill(""));
-    setLoginForm((prev) => ({ ...prev, password: "" }));
+    setOtpSent(false);
+
+    setLoginForm((prev) => ({
+      ...prev,
+      password: "",
+    }));
   };
 
   const identifier = loginForm.identifier.trim();
@@ -292,6 +300,7 @@ const Login = () => {
               name="identifier"
               value={loginForm.identifier}
               onChange={handleInputChange}
+              disabled={otpSent}
               placeholder="Email Address or Mobile Number"
               autoComplete="username"
               className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
@@ -339,15 +348,29 @@ const Login = () => {
               </>
             )}
 
-            {useOtp && (
+            {useOtp && !otpSent && (
+              <button
+                onClick={sendOtp}
+                disabled={loading}
+                className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
+              >
+                {loading ? "Sending OTP..." : "Continue"}
+              </button>
+            )}
+
+            {useOtp && otpSent && (
               <>
-                <button
-                  onClick={sendOtp}
-                  disabled={loading}
-                  className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
-                >
-                  {loading ? "Sending..." : "Send OTP"}
-                </button>
+                <div className="text-center space-y-2">
+                  <h3 className="text-lg font-semibold text-[#5f5143]">
+                    Verify OTP
+                  </h3>
+
+                  <p className="text-sm text-[#7a6a5c]">
+                    We&apos;ve sent a 6-digit OTP to
+                  </p>
+
+                  <p className="font-medium break-all">{identifier}</p>
+                </div>
 
                 <OtpInput
                   value={otpDigits}
@@ -361,7 +384,28 @@ const Login = () => {
                   disabled={loading}
                   className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
                 >
-                  {loading ? "Verifying..." : "Login with OTP"}
+                  {loading ? "Verifying..." : "Verify OTP"}
+                </button>
+
+                <div className="text-center text-sm">
+                  Didn&apos;t receive the OTP?
+                  <button
+                    onClick={sendOtp}
+                    className="ml-1 font-medium text-[#6a0f1f] hover:underline"
+                  >
+                    Resend
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOtpSent(false);
+                    setOtpDigits(Array(6).fill(""));
+                  }}
+                  className="w-full text-sm text-[#7a6a5c] hover:text-[#6a0f1f]"
+                >
+                  ← Change Email / Mobile
                 </button>
               </>
             )}
