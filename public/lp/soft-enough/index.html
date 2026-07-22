@@ -2887,6 +2887,8 @@
       const V = [
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "olive",
           hex: "#6B7A5A",
           imgs: [
@@ -2899,6 +2901,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "pink",
           hex: "#D47D8A",
           imgs: [
@@ -2911,6 +2915,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "rust brown",
           hex: "#B5653A",
           imgs: [
@@ -2923,6 +2929,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "red brown",
           hex: "#9B4A4A",
           imgs: [
@@ -2935,6 +2943,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "rose pink",
           hex: "#E8A0A8",
           imgs: [
@@ -2947,6 +2957,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "blue",
           hex: "#3D5A80",
           imgs: [
@@ -2959,6 +2971,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "baby pink",
           hex: "#F0B8C0",
           imgs: [
@@ -2971,6 +2985,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "beige",
           hex: "#D4C4B0",
           imgs: [
@@ -2983,6 +2999,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "green",
           hex: "#4A7C59",
           imgs: [
@@ -2995,6 +3013,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "coffee brown",
           hex: "#7B5E4A",
           imgs: [
@@ -3007,6 +3027,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "black",
           hex: "#2C2825",
           imgs: [
@@ -3019,6 +3041,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "wine",
           hex: "#7D3B3B",
           imgs: [
@@ -3031,6 +3055,8 @@
         },
         {
           productId: 1,
+          category: "women",
+          slug: "womens-solid-cotton-half-co-ord-set-summer-lounge-set-1",
           c: "light brown",
           hex: "#C4A882",
           imgs: [
@@ -3217,7 +3243,7 @@
       function goProduct(i) {
         const product = V[i];
 
-        window.location.href = `/product/${product.productId}`;
+        window.location.href = `/${product.category}/${product.slug}?color=${encodeURIComponent(product.c)}`;
       }
 
       /* CART */
@@ -3301,7 +3327,7 @@
       //   document.getElementById("ham").classList.remove("open");
       //   document.getElementById("navMenu").classList.remove("open");
       // }
-      
+
       function tFaq(btn) {
         const a = btn.nextElementSibling,
           open = a.classList.contains("open");

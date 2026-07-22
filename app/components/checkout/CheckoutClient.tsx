@@ -164,6 +164,29 @@ const CheckoutClient = () => {
   };
 
   const verifyAndPlaceOrder = async (payment: any) => {
+    if (!user) {
+      const registerRes = await fetch("/api/auth/register-checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: name,
+          mobile: phone,
+          address,
+        }),
+      });
+
+      const registerData = await registerRes.json();
+
+      if (!registerRes.ok) {
+        toast.error(registerData.message);
+        return;
+      }
+
+      await loadUser();
+    }
+
     const res = await fetch("/api/orders/place", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -352,7 +375,7 @@ const CheckoutClient = () => {
                 className={`flex-1 rounded-xl border p-3 transition ${
                   paymentMethod === "ONLINE"
                     ? "bg-[#5f5143] text-white border-[#5f5143]"
-                    : "border-gray-300"
+                    : "border-gray-300 dark:text-white"
                 }`}
               >
                 Pay Online
@@ -364,7 +387,7 @@ const CheckoutClient = () => {
                 className={`flex-1 rounded-xl border p-3 transition ${
                   paymentMethod === "COD"
                     ? "bg-[#5f5143] text-white border-[#5f5143]"
-                    : "border-gray-300"
+                    : "border-gray-300 dark:text-white"
                 }`}
               >
                 Cash on Delivery
