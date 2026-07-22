@@ -19,8 +19,13 @@ export default function ProductCardStatic({
   latest,
   children,
 }: Props) {
-  const imageSrc =
-    product.variants?.[0]?.images?.[0] || "/Assets/Images/Newplaceholder.png";
+  const firstVariant = product.variants?.[0];
+const firstDesign = firstVariant?.designs?.[0];
+
+const imageSrc =
+  firstDesign?.images?.[0] ||
+  firstVariant?.images?.[0] ||
+  "/Assets/Images/Newplaceholder.png";
 
   return (
     <div className={`flex flex-col group ${className ?? ""}`}>

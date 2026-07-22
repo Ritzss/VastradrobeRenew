@@ -47,6 +47,9 @@ export default function ProductPDPClient({
     null;
 
   const [selectedVariant, setSelectedVariant] = useState(initialVariant);
+  const [selectedDesign, setSelectedDesign] = useState(
+    initialVariant?.designs?.[0] || null,
+  );
   // const [activeImage, setActiveImage] = useState(
   //   product.variants?.[0]?.images?.[0] || "/Assets/Images/Newplaceholder.png",
   // );
@@ -146,7 +149,7 @@ export default function ProductPDPClient({
   //   if (!selectedVariant) return;
 
   //   setActiveImage(
-  //     selectedVariant.images?.[0] || "/Assets/Images/Newplaceholder.png",
+  //     activeImages?.[0] || "/Assets/Images/Newplaceholder.png",
   //   );
   //   setSelectedSize(null);
   // }, [selectedVariant]);
@@ -185,9 +188,15 @@ export default function ProductPDPClient({
 
   // console.log("PDP product variants:", product.variants);
 
-  const sizes = selectedVariant?.sizes?.length
-    ? selectedVariant.sizes
-    : FALLBACK_SIZES;
+  const activeImages = selectedDesign?.images?.length
+    ? selectedDesign.images
+    : selectedVariant?.images || [];
+
+  const sizes = selectedDesign?.sizes?.length
+    ? selectedDesign.sizes
+    : selectedVariant?.sizes?.length
+      ? selectedVariant.sizes
+      : FALLBACK_SIZES;
 
   const stockMap = useMemo(() => {
     return inventory.reduce((acc: any, item: any) => {
@@ -216,10 +225,10 @@ export default function ProductPDPClient({
 
   useEffect(() => {
     if (!selectedVariant) return;
-    // setActiveImage(
-    //   selectedVariant.images?.[0] || "/Assets/Images/Newplaceholder.png",
-    // );
+
+    setSelectedDesign(selectedVariant.designs?.[0] || null);
     setSelectedSize(null);
+    setSelectedImage(0);
   }, [selectedVariant]);
 
   const isInCart = cartItems.some(
@@ -337,7 +346,7 @@ export default function ProductPDPClient({
           {/* MAIN IMAGE - NO CROPPING */}
           <div className="md:grid gap-4 sticky top-24">
             <div className="grid grid-cols-2 gap-4">
-              {selectedVariant.images.slice(0, 3).map((image, index) => (
+              {activeImages.slice(0, 3).map((image, index) => (
                 <div
                   key={index}
                   onClick={() => {
@@ -357,7 +366,7 @@ export default function ProductPDPClient({
               ))}
 
               {/* Last Image */}
-              {selectedVariant.images.length > 3 && (
+              {activeImages.length > 3 && (
                 <button
                   onClick={() => {
                     setSelectedImage(3);
@@ -366,7 +375,7 @@ export default function ProductPDPClient({
                   className="relative aspect-3/5 overflow-hidden rounded-2xl group"
                 >
                   <Image
-                    src={selectedVariant.images[3]}
+                    src={activeImages[3]}
                     alt={product.name}
                     fill
                     sizes="(max-width:768px) 100vw, 50vw"
@@ -375,7 +384,7 @@ export default function ProductPDPClient({
 
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
                     <span className="text-5xl font-bold">
-                      +{selectedVariant.images.length - 3}
+                      +{activeImages.length - 3}
                     </span>
 
                     <span className="mt-2 text-sm tracking-[0.25em] uppercase">
@@ -444,6 +453,31 @@ export default function ProductPDPClient({
               </div>
             </div>
           )}
+
+          {selectedVariant?.designs?.length ? (
+            <div>
+              <p className="mb-3 text-sm font-medium text-[#5f5143]">Design</p>
+
+              <div className="flex gap-3 flex-wrap">
+                {selectedVariant.designs.map((design) => (
+                  <button
+                    key={design.design}
+                    onClick={() => {
+                      setSelectedDesign(design);
+                      setSelectedImage(0);
+                    }}
+                    className={`px-5 py-2 rounded-full border text-sm transition ${
+                      selectedDesign?.design === design.design
+                        ? "bg-[#5f5143] text-white border-[#5f5143]"
+                        : "dark:text-[#5f5143] border-[#e6d8c8] hover:bg-[#f3e7d8]"
+                    }`}
+                  >
+                    {design.design}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
 
           {/* SIZES */}
           <div>
@@ -744,7 +778,7 @@ export default function ProductPDPClient({
             {/* Thumbnails */}
 
             <div className="hidden lg:flex flex-col gap-3 scrollbar-hide overflow-y-auto p-4 border-r">
-              {selectedVariant.images.map((img, index) => (
+              {activeImages.map((img, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -764,7 +798,7 @@ export default function ProductPDPClient({
             <div className="relative flex items-center justify-center overflow-hidden rounded-2xl">
               {/* Blurred Background */}
               <Image
-                src={selectedVariant.images[selectedImage]}
+                src={activeImages[selectedImage]}
                 fill
                 alt=""
                 aria-hidden
@@ -777,7 +811,7 @@ export default function ProductPDPClient({
               {/* Main Product */}
               <div className="relative z-10 aspect-square w-full">
                 <Image
-                  src={selectedVariant.images[selectedImage]}
+                  src={activeImages[selectedImage]}
                   fill
                   alt={selectedVariant.color}
                   className="object-contain p-8"
@@ -789,7 +823,7 @@ export default function ProductPDPClient({
               <button
                 onClick={() =>
                   setSelectedImage((prev) =>
-                    prev === 0 ? selectedVariant.images.length - 1 : prev - 1,
+                    prev === 0 ? activeImages.length - 1 : prev - 1,
                   )
                 }
                 className="absolute left-6 z-20 rounded-full bg-white/80 p-3 shadow-lg backdrop-blur dark:bg-neutral-900/80"
@@ -801,7 +835,7 @@ export default function ProductPDPClient({
               <button
                 onClick={() =>
                   setSelectedImage((prev) =>
-                    prev === selectedVariant.images.length - 1 ? 0 : prev + 1,
+                    prev === activeImages.length - 1 ? 0 : prev + 1,
                   )
                 }
                 className="absolute right-6 z-20 rounded-full bg-white/80 p-3 shadow-lg backdrop-blur dark:bg-neutral-900/80"
@@ -811,7 +845,7 @@ export default function ProductPDPClient({
 
               {/* Counter */}
               <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/70 px-4 py-2 text-white backdrop-blur">
-                {selectedImage + 1} / {selectedVariant.images.length}
+                {selectedImage + 1} / {activeImages.length}
               </div>
             </div>
           </div>

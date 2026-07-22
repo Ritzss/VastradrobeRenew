@@ -33,10 +33,15 @@ export default function ProductCard({
   const { cartItems, addToCart, removeFromCart } = useAppContext();
 
   const firstVariant = variants?.[0];
-  const imageSrc =
-    firstVariant?.images?.[0] || "/Assets/Images/Newplaceholder.png";
+  const firstDesign = firstVariant?.designs?.[0];
 
-  const defaultSize = firstVariant?.sizes?.[0] || "FREE";
+  const imageSrc =
+    firstDesign?.images?.[0] ||
+    firstVariant?.images?.[0] ||
+    "/Assets/Images/Newplaceholder.png";
+
+  const defaultSize =
+    firstDesign?.sizes?.[0] || firstVariant?.sizes?.[0] || "FREE";
   const defaultColor = firstVariant?.color || null;
 
   const isInCart = cartItems.some(

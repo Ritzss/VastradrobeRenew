@@ -78,7 +78,11 @@ const FeaturedCollections = ({ sections }: Props) => {
           </Link>
         </div>
 
-        <HorizontalScroll customclass="w-[24rem]" className="gap-0" color={`dark:text-[#1a1a1a] text-white`}>
+        <HorizontalScroll
+          customclass="w-[24rem]"
+          className="gap-0"
+          color={`dark:text-[#1a1a1a] text-white`}
+        >
           <div className="flex flex-nowrap gap-6 scrollbar-hide pb-4">
             {orderedCollections.map(([collection, data]) => {
               const first = data.products[0];
@@ -88,6 +92,17 @@ const FeaturedCollections = ({ sections }: Props) => {
                 (c) => c.label === collection,
               );
 
+              const getProductImage = (product: IMSProduct) => {
+                const variant = product.variants?.[0];
+                const design = variant?.designs?.[0];
+
+                return (
+                  design?.images?.[0] ||
+                  variant?.images?.[0] ||
+                  "/Assets/Images/Newplaceholder.png"
+                );
+              };
+
               return (
                 <Link
                   key={collection}
@@ -96,7 +111,7 @@ const FeaturedCollections = ({ sections }: Props) => {
                 >
                   <div className="relative w-105 h-80 rounded-3xl overflow-hidden bg-linear-to-br dark:from-black from-[#f7f2eb] to-[#ece3d5] border border-[#e6d9c8]">
                     <Image
-                      src={first.variants[0].images[0]}
+                      src={getProductImage(first)}
                       alt={first.name}
                       width={140}
                       height={190}
@@ -104,7 +119,7 @@ const FeaturedCollections = ({ sections }: Props) => {
                     />
 
                     <Image
-                      src={second.variants[0].images[0]}
+                      src={getProductImage(second)}
                       alt={second.name}
                       width={130}
                       height={180}
@@ -112,7 +127,7 @@ const FeaturedCollections = ({ sections }: Props) => {
                     />
 
                     <Image
-                      src={third.variants[0].images[0]}
+                      src={getProductImage(third)}
                       alt={third.name}
                       width={130}
                       height={180}

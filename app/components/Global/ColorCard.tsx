@@ -26,11 +26,17 @@ export default function ColorCard({
       const variant =
         product.variants.find((v) =>
           variants.some((c) => c.toLowerCase() === v.color.toLowerCase()),
-        ) ?? product.variants[0];
+        ) ?? product.variants?.[0];
+
+      const firstDesign = variant?.designs?.[0];
 
       return {
         ...product,
         displayVariant: variant,
+        displayImage:
+          firstDesign?.images?.[0] ||
+          variant?.images?.[0] ||
+          "/Assets/Images/Newplaceholder.png",
       };
     });
   }, [products, variants]);
@@ -87,7 +93,7 @@ export default function ColorCard({
             className="absolute inset-0"
           >
             <Image
-              src={product.displayVariant.images[0]}
+              src={product.displayImage}
               alt={product.name}
               // sizes="(max-width: 768px) 100vw, 25vw"
               sizes="(max-width:768px) 100vw, 50vw"
