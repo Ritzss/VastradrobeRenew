@@ -116,9 +116,9 @@ const OrdersPageClient = () => {
   //     console.error("DOWNLOAD ERROR", err);
   //   }
   // };
-  const downloadInvoice = (id: string) => {
-    window.open(`/api/orders/${id}/invoice`, "_blank");
-  };
+  // const downloadInvoice = (id: string) => {
+  //   window.open(`/api/orders/${id}/invoice`, "_blank");
+  // };
 
   return (
     <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
