@@ -7,7 +7,7 @@ export const collectionMap: Record<string, string> = {
   "Women Summer Cord Set": "☀️ Summer Collection",
   "women denim cordset": "☀️ Summer Collection",
   "Western Tops": "☀️ Summer Collection",
-  "Crop Tops": "☀️ Summer Collection",
+  "Tank Tops": "☀️ Summer Collection",
 
   "Co-ord Sets": "👗 Co-Ord Collection",
   "lounge co-ord set": "👗 Co-Ord Collection",
