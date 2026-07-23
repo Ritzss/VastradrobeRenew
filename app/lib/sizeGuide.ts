@@ -189,6 +189,15 @@ export const sizeGuide = {
       weight: "14-17 kg",
     },
     {
+      size: "4-5 Years",
+      height: "40-43.3 in",
+      chest: 29,
+      bust: 28.5,
+      length: 17.5,
+      sleeve: 15.75,
+      weight: "15-18 kg",
+    },
+    {
       size: "5-6 Years",
       height: "43.3-45 in",
       chest: 30,
@@ -198,6 +207,15 @@ export const sizeGuide = {
       weight: "17-20 kg",
     },
     {
+      size: "6-7 Years",
+      height: "45-48 in",
+      chest: 31,
+      bust: 30.5,
+      length: 18.75,
+      sleeve: 18.75,
+      weight: "18-22 kg",
+    },
+    {
       size: "7-8 Years",
       height: "48-50 in",
       chest: 32,
@@ -205,6 +223,15 @@ export const sizeGuide = {
       length: 19.5,
       sleeve: 21,
       weight: "20-25 kg",
+    },
+    {
+      size: "8-9 Years",
+      height: "50-52.8 in",
+      chest: 33,
+      bust: 32.5,
+      length: 20.25,
+      sleeve: 21,
+      weight: "22-27 kg",
     },
     {
       size: "9-10 Years",
