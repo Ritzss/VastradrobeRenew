@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import OtpInput from "./OtpInput";
 import { toast } from "sonner";
+import Script from "next/script";
 
 const Login = () => {
   const { loginForm, setLoginForm, handleLogin, loadUser } = useAppContext();
@@ -17,6 +18,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [otpDigits, setOtpDigits] = useState<string[]>(Array(6).fill(""));
   const [otpSent, setOtpSent] = useState(false);
+  const [sdkLoaded, setSdkLoaded] = useState(false);
+  const [sdkInitialized, setSdkInitialized] = useState(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -64,6 +67,13 @@ const Login = () => {
 
       return;
     }
+
+    if (!sdkLoaded) {
+      setLoading(false);
+      return toast.error("OTP service is still loading. Please try again.");
+    }
+
+    initMsg91();
 
     if (typeof window.sendOtp !== "function") {
       setLoading(false);
@@ -219,50 +229,30 @@ const Login = () => {
   //   }
   // }, 300);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (!window.initSendOTP) return;
+  const initMsg91 = () => {
+    if (sdkInitialized) return;
 
-      clearInterval(timer);
+    if (typeof window.initSendOTP !== "function") {
+      console.error("MSG91 initSendOTP not available");
+      return;
+    }
 
-      window.initSendOTP({
-        widgetId: process.env.NEXT_PUBLIC_MSG91_WIDGET_ID!,
-        tokenAuth: process.env.NEXT_PUBLIC_MSG91_TOKEN!,
-        exposeMethods: true,
+    window.initSendOTP({
+      widgetId: process.env.NEXT_PUBLIC_MSG91_WIDGET_ID!,
+      tokenAuth: process.env.NEXT_PUBLIC_MSG91_TOKEN!,
+      exposeMethods: true,
 
-        success: (data: any) => {
-          console.log("MSG91 Success:", data);
-        },
+      success: (data: any) => {
+        console.log("MSG91 Success:", data);
+      },
 
-        failure: (err: any) => {
-          console.error("MSG91 Failure:", err);
-        },
-      });
+      failure: (err: any) => {
+        console.error("MSG91 Failure:", err);
+      },
+    });
 
-      setTimeout(() => {
-        console.log("initSendOTP:", typeof window.initSendOTP);
-        console.log("sendOtp:", typeof window.sendOtp);
-        console.log("verifyOtp:", typeof window.verifyOtp);
-        console.log("Widget Data:", window.getWidgetData?.());
-      }, 1000);
-    }, 300);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const script = document.createElement("script");
-
-    script.src = "https://verify.msg91.com/otp-provider.js";
-
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    return () => {
-      script.remove();
-    };
-  }, []);
+    setSdkInitialized(true);
+  };
 
   return (
     <div className="w-full h-full flex justify-center px-6 py-16 not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
@@ -287,7 +277,7 @@ const Login = () => {
               height={250}
               alt="Fashion Visual"
               className="object-contain"
-              priority
+              loading="lazy"
             />
           </div>
         </aside>
@@ -428,6 +418,15 @@ const Login = () => {
           </div>
         </aside>
       </div>
+      <Script
+        src="https://verify.msg91.com/otp-provider.js"
+        strategy="afterInteractive"
+        onLoad={() => {
+          console.log("MSG91 Loaded");
+          setSdkLoaded(true);
+          initMsg91();
+        }}
+      />
     </div>
   );
 };
