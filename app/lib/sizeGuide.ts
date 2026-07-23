@@ -189,7 +189,7 @@ export const sizeGuide = {
       weight: "14-17 kg",
     },
     {
-      size: "4-5 Years",
+      size: "4- 5 Years",
       height: "40-43.3 in",
       chest: 29,
       bust: 28.5,
