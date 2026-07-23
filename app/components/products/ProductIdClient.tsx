@@ -603,7 +603,7 @@ export default function ProductPDPClient({
             </button>
 
             <div
-              className={`overflow-hidden transition-all duration-500 ${
+              className={`overflow-scroll scrollbar-hide transition-all duration-500 ${
                 showProductDetails
                   ? "max-h-170 opacity-100 mt-6"
                   : "max-h-0 opacity-0"
@@ -800,7 +800,7 @@ export default function ProductPDPClient({
               <Image
                 src={activeImages[selectedImage]}
                 fill
-                alt=""
+                alt={selectedVariant.color}
                 aria-hidden
                 className="object-cover scale-100 opacity-100"
               />
