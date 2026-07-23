@@ -103,9 +103,7 @@ const Home = async () => {
 
   return (
     <>
-    <WhatsAppPageMessage
-        message={whatsappMessages.home()}
-      />
+      <WhatsAppPageMessage message={whatsappMessages.home()} />
       <section className="w-full dark:bg-black bg-[#fff8f8] text-black ">
         {/* HERO */}
         <Slider />
@@ -127,7 +125,9 @@ const Home = async () => {
       </section> */}
 
         {/* Featured Collection */}
-        <FeaturedCollections sections={featuredCollections} />
+        <LazySection placeholderHeight={450}>
+          <FeaturedCollections sections={featuredCollections} />
+        </LazySection>
 
         {/* LATEST ARRIVALS */}
         <section
@@ -151,7 +151,7 @@ const Home = async () => {
         </section>
 
         {/* Shop by Color */}
-        <LazySection placeholderHeight={900}>
+        <LazySection placeholderHeight={450}>
           <ShopByColor products={allProducts} />
         </LazySection>
 
