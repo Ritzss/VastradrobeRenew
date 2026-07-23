@@ -186,6 +186,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://maps.googleapis.com" />
         <link rel="preconnect" href="https://vastradrobe-ims.vercel.app" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         {/* <!-- Google tag (gtag.js) --> */}
         <Script
           async

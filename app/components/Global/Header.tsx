@@ -40,7 +40,7 @@ const HERO_BANNERS = [
     image:
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_1920,c_limit/v1783584189/banner1_f58cni.png",
     mobileimage:
-      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_768,c_limit/v1783584186/mobilebanner1_vxjcjw.png",
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1783584186/mobilebanner1_vxjcjw.png",
     title: "Ethnic Wear Collection",
     subtitle:
       "Shop premium ethnic wear for women including kurta sets, festive outfits, elegant suits, and traditional styles for every celebration.",
@@ -53,7 +53,7 @@ const HERO_BANNERS = [
     image:
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_1920,c_limit/v1783584187/banner2_aqoqvy.png",
     mobileimage:
-      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_768,c_limit/v1783584186/mobilebanner2_o3dtk9.png",
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1783584186/mobilebanner2_o3dtk9.png",
     title: "Co-Ord Sets Online",
     subtitle:
       "Discover stylish women's co-ord sets, office wear co-ord sets, cotton co-ord sets, and western outfits designed for everyday comfort and elegance.",
@@ -205,7 +205,7 @@ export default function CampaignSection() {
             modules={[Pagination, Autoplay]}
             pagination={{ clickable: true }}
             autoplay={{
-              delay: 4000,
+              delay: 2000,
               disableOnInteraction: false,
             }}
             loop={false}
@@ -214,15 +214,27 @@ export default function CampaignSection() {
             {HERO_BANNERS.map((banner) => (
               <SwiperSlide key={banner.title}>
                 <div className="relative h-120 sm:h-130 md:h-auto md:aspect-21/9 overflow-hidden rounded-2xl md:rounded-3xl">
-                  <picture>
-                    <source media="(min-width:768px)" srcSet={banner.image} />
+                  <Image
+                    src={banner.mobileimage}
+                    alt={banner.title}
+                    fill
+                    priority={banner.id === 1}
+                    fetchPriority={banner.id === 1 ? "high" : "auto"}
+                    loading={banner.id === 1 ? "eager" : "lazy"}
+                    sizes="100vw"
+                    className="object-cover md:hidden"
+                  />
 
-                    <img
-                      src={banner.mobileimage}
-                      alt={banner.title}
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
-                  </picture>
+                  <Image
+                    src={banner.image}
+                    alt={banner.title}
+                    fill
+                    priority={banner.id === 1}
+                    fetchPriority={banner.id === 1 ? "high" : "auto"}
+                    loading={banner.id === 1 ? "eager" : "lazy"}
+                    sizes="100vw"
+                    className="object-cover hidden md:block"
+                  />
                   {/* phone banner 393 x 480 */}
 
                   {/* Overlay */}
@@ -270,6 +282,7 @@ export default function CampaignSection() {
                     src={banner.image}
                     alt={banner.title}
                     fill
+                    loading="lazy"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover transition duration-700 group-hover:scale-105"
                   />
