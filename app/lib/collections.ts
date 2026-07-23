@@ -17,6 +17,7 @@ export const COLLECTIONS: Collection[] = [
       "Women Summer Cord Set",
       "women denim cordset",
       "Western Tops",
+      "Crop Tops",
     ],
   },
 
