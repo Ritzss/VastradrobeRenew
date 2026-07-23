@@ -618,9 +618,13 @@ export default function ProductPDPClient({
                     {product.productDetails?.material && (
                       <>
                         <span className="text-xl text-black">Material</span>
-                        <span className="ml-2 font-medium">
-                          {product.productDetails.material}
-                        </span>
+                        <ul className="ml-6 list-disc space-y-1 font-medium">
+                          {product.productDetails.material
+                            .split(",")
+                            .map((item, index) => (
+                              <li key={index}>{item.trim()}</li>
+                            ))}
+                        </ul>
                       </>
                     )}
 
@@ -661,18 +665,26 @@ export default function ProductPDPClient({
                         <span className="text-xl text-black">
                           Care Instructions
                         </span>
-                        <span className="ml-2 font-medium">
-                          {product.productDetails.careInstructions}
-                        </span>
+                        <ul className="ml-6 list-disc space-y-1 font-medium">
+                          {product.productDetails.careInstructions
+                            .split(",")
+                            .map((item, index) => (
+                              <li key={index}>{item.trim()}</li>
+                            ))}
+                        </ul>
                       </>
                     )}
 
                     {product.productDetails?.style && (
                       <>
                         <span className="text-xl text-black">Style</span>
-                        <span className="ml-2 font-medium">
-                          {product.productDetails.style}
-                        </span>
+                        <ul className="ml-6 list-disc space-y-1 font-medium">
+                          {product.productDetails.style
+                            .split(",")
+                            .map((item, index) => (
+                              <li key={index}>{item.trim()}</li>
+                            ))}
+                        </ul>
                       </>
                     )}
 
