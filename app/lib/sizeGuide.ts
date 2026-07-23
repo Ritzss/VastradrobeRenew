@@ -61,6 +61,7 @@ export const sizeGuide = {
     { size: "M", bust: 36, waist: 30 },
     { size: "L", bust: 38, waist: 32 },
     { size: "XL", bust: 40, waist: 34 },
+    // { size: "XXL", bust: 42, waist: 36 }, FUTURE 
   ],
 
   kidstopbottom: [
