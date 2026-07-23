@@ -163,7 +163,11 @@ const CartClient = () => {
                             src={
                               product.variants.find(
                                 (v) => v.color === entry.color,
+                              )?.designs?.[0]?.images?.[0] ??
+                              product.variants.find(
+                                (v) => v.color === entry.color,
                               )?.images?.[0] ??
+                              product.variants[0]?.designs?.[0]?.images?.[0] ??
                               product.variants[0]?.images?.[0] ??
                               "/Assets/Images/Newplaceholder.png"
                             }
@@ -313,7 +317,11 @@ const CartClient = () => {
                             <div className="flex gap-4 sm:gap-5">
                               <div className="relative h-28 w-24 sm:h-32 sm:w-28 shrink-0 overflow-hidden rounded-2xl">
                                 <Image
-                                  src={variant.images[0]}
+                                  src={
+                                    variant.designs?.[0]?.images?.[0] ||
+                                    variant.images?.[0] ||
+                                    "/Assets/Images/Newplaceholder.png"
+                                  }
                                   alt={product.name}
                                   fill
                                   sizes="(max-width:640px) 96px, 112px"

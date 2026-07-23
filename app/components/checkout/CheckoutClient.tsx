@@ -206,7 +206,9 @@ const CheckoutClient = () => {
           color: p.color,
           size: p.size,
           image:
+            p.variants.find((v) => v.color === p.color)?.designs?.[0]?.images ??
             p.variants.find((v) => v.color === p.color)?.images ??
+            p.variants[0]?.designs?.[0]?.images ??
             p.variants[0]?.images ??
             [],
         })),
@@ -294,9 +296,12 @@ const CheckoutClient = () => {
                 <Image
                   src={
                     item.variants.find((v) => v.color === item.color)
+                      ?.designs?.[0]?.images?.[0] ||
+                    item.variants.find((v) => v.color === item.color)
                       ?.images?.[0] ||
+                    item.variants[0]?.designs?.[0]?.images?.[0] ||
                     item.variants[0]?.images?.[0] ||
-                    "/Assets/Images/placeholder.png"
+                    "/Assets/Images/Newplaceholder.png"
                   }
                   fill
                   alt={item.name}
