@@ -16,7 +16,8 @@ export async function generateInvoice(
     // Production (Vercel): Use serverless-optimized headless Chromium
     try {
       const puppeteerCore = await import("puppeteer-core");
-      const chromium = (await import("@sparticuz/chromium")).default;
+      // Cast the dynamic import as any to bypass incomplete TypeScript type-checking definitions
+      const chromium = (await import("@sparticuz/chromium")).default as any;
 
       browser = await puppeteerCore.launch({
         args: [
@@ -26,9 +27,8 @@ export async function generateInvoice(
           "--disable-dev-shm-usage",
           "--disable-gpu",
         ],
-        defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath(),
-        headless: chromium.headless === "shell" ? true : chromium.headless,
+        headless: chromium.headless,
       });
     } catch (err) {
       console.error(
