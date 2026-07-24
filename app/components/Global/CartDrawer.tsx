@@ -109,7 +109,7 @@ export default function CartDrawer() {
         <>
           {/* 🔒 FIXED BACKDROP: Reactivated the blurred backdrop. Clicking outside now closes the drawer. */}
           <motion.div
-            className="fixed inset-0 bg-black/40 backdrop-blur-xs z-40"
+            className="fixed inset-0 bg-neutral-950/40 backdrop-blur-xs z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

@@ -219,7 +219,7 @@ const ProductQuickView = ({
 
   return (
     <div
-      className="fixed inset-0 z-9999 bg-black/70 backdrop-blur-sm flex items-center justify-center p-2 md:p-6"
+      className="fixed inset-0 z-9999 bg-neutral-950/70 backdrop-blur-sm flex items-center justify-center p-2 md:p-6"
       onClick={onClose}
     >
       <div
@@ -256,7 +256,7 @@ const ProductQuickView = ({
           {/* IMAGE */}
           <div className="relative bg-linear-to-br from-[#f8f4ef] to-[#efe7dc] h-[40vh] md:h-full overflow-hidden">
             {product.mrp && product.mrp > product.price && (
-              <div className="absolute top-5 left-5 z-20 bg-black text-white px-4 py-2 rounded-full text-xs font-medium tracking-[0.15em] uppercase">
+              <div className="absolute top-5 left-5 z-20 bg-neutral-950 text-white px-4 py-2 rounded-full text-xs font-medium tracking-[0.15em] uppercase">
                 {Math.round(
                   ((product.mrp - product.price) / product.mrp) * 100,
                 )}
@@ -323,7 +323,7 @@ const ProductQuickView = ({
           </div>
 
           {/* DETAILS */}
-          <div className="flex flex-col overflow-y-auto p-6 md:p-10 dark:bg-black dark:text-[#b68351] scrollbar-hide bg-white">
+          <div className="flex flex-col overflow-y-auto p-6 md:p-10 dark:bg-neutral-950 dark:text-[#b68351] scrollbar-hide bg-white">
             <p className="text-xs uppercase tracking-[0.3em] text-[#9a8571]">
               {product.category}
             </p>
@@ -449,7 +449,7 @@ const ProductQuickView = ({
             </Link>
 
             {(product.stock ?? 0) > 0 ? (
-              <div className="sticky bottom-0 dark:bg-black bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
+              <div className="sticky bottom-0 dark:bg-neutral-950 bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
                 <button
                   onClick={handleCartToggle}
                   disabled={!selectedSize}

@@ -59,7 +59,7 @@ export default function ColorCard({
   if (displayProducts.length === 0) {
     return (
       <Link href={href}>
-        <div className="group relative h-full overflow-hidden rounded-4xl dark:bg-black/85 not-dark:bg-white shadow-sm flex flex-col justify-end p-7 border border-neutral-100 dark:border-neutral-900">
+        <div className="group relative h-full overflow-hidden rounded-4xl dark:bg-neutral-950/85 not-dark:bg-white shadow-sm flex flex-col justify-end p-7 border border-neutral-100 dark:border-neutral-900">
           <div className="absolute inset-0 bg-neutral-100 dark:bg-neutral-900/40 flex items-center justify-center text-neutral-400/80 dark:text-neutral-600 font-medium text-sm">
             No Products Available
           </div>
@@ -102,7 +102,7 @@ export default function ColorCard({
         transition={{
           duration: 0.15,
         }}
-        className="group relative h-full overflow-hidden rounded-4xl dark:bg-black/85 not-dark:bg-white shadow-sm"
+        className="group relative h-full overflow-hidden rounded-4xl dark:bg-neutral-950/85 not-dark:bg-white shadow-sm"
       >
         <AnimatePresence mode="wait">
           <motion.div

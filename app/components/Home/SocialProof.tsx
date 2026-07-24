@@ -24,7 +24,7 @@ const SocialProof = () => {
   ];
 
   return (
-    <section className=" dark:bg-black bg-[#fff8f8] py-28">
+    <section className=" dark:bg-neutral-950 bg-[#fff8f8] py-28">
       <div className="max-w-7xl mx-auto px-6 text-center">
         {/* Heading */}
         <motion.div
@@ -53,7 +53,7 @@ const SocialProof = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 viewport={{ once: true }}
-                className="dark:bg-black/85 border border-[#FFF0F0] bg-[#FFF0F0] rounded-3xl p-8 text-left"
+                className="dark:bg-neutral-950/85 border border-[#FFF0F0] bg-[#FFF0F0] rounded-3xl p-8 text-left"
               >
                 {/* Stars */}
                 <div className="flex gap-1 text-[#ffa600] mb-6">
@@ -109,7 +109,7 @@ const SocialProof = () => {
                   )}
                   {showVideo && item.proof && (
                     <div
-                      className="fixed inset-0 bg-black/9 flex items-center justify-center z-100 animate-fadeIn"
+                      className="fixed inset-0 bg-neutral-950/9 flex items-center justify-center z-100 animate-fadeIn"
                       onClick={() => setShowVideo(false)}
                     >
                       <div

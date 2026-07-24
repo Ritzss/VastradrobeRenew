@@ -31,7 +31,7 @@ const Footer = () => {
     text.toLowerCase().replace(/&/g, "and").replace(/\s+/g, "-");
 
   return (
-    <footer className="not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] dark:bg-black/90 text-[#5f5143] dark:text-neutral-300 border-t border-neutral-100 dark:border-neutral-900 transition duration-300">
+    <footer className="not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] dark:bg-neutral-950/90 text-[#5f5143] dark:text-neutral-300 border-t border-neutral-100 dark:border-neutral-900 transition duration-300">
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-14 md:pt-20 pb-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-10">
           {/* BRAND */}
@@ -97,7 +97,7 @@ const Footer = () => {
             </h4>
 
             <div className="relative rounded-3xl overflow-hidden border border-[#e6d8c8] dark:border-neutral-800 shadow-[0_20px_60px_rgba(149,127,106,0.12)]">
-              <div className="absolute inset-0 bg-[#f3e7d8]/40 dark:bg-black/40 pointer-events-none mix-blend-multiply z-10" />
+              <div className="absolute inset-0 bg-[#f3e7d8]/40 dark:bg-neutral-950/40 pointer-events-none mix-blend-multiply z-10" />
 
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3508.188857139117!2d77.09748757545684!3d28.44372279262982!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19053c00df5f%3A0x190bb5aedb9410d1!2sVastradrobe%20India%20Private%20Limited!5e0!3m2!1sen!2sin!4v1770965132563!5m2!1sen!2sin"

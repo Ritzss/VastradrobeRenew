@@ -156,7 +156,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 inset-x-0 z-40 bg-white dark:bg-black flex flex-col transition-all duration-300">
+    <header className="fixed top-0 inset-x-0 z-40 bg-white dark:bg-neutral-950 flex flex-col transition-all duration-300">
       {/* 1. TOP ANNOUNCEMENT BAR (Sleek Wine-Red Sliding Marquee) */}
       <div className="bg-[#6A0F1F] h-8 flex items-center overflow-hidden w-full relative">
         <div className="flex w-max animate-marquee whitespace-nowrap">
@@ -176,7 +176,7 @@ const Navbar = () => {
 
       {/* 2. MAIN BRAND NAVIGATION HEADER (Shrinks dynamically on scroll + fully Dark-Mode styled) */}
       <nav
-        className={`border-b border-neutral-100 dark:border-neutral-900 bg-white/95 dark:bg-black/95 backdrop-blur-md transition-all duration-300 ${
+        className={`border-b border-neutral-100 dark:border-neutral-900 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md transition-all duration-300 ${
           scrolled ? "h-14 sm:h-15 shadow-sm" : "h-18 sm:h-20"
         }`}
         aria-label="Main Navigation"
@@ -438,7 +438,7 @@ const Navbar = () => {
       {menuOpen && (
         <div
           ref={menuRef}
-          className="fixed inset-x-0 top-[112px] bottom-0 z-30 md:hidden bg-white dark:bg-black flex flex-col justify-between border-t border-neutral-100 dark:border-neutral-900 shadow-2xl transition duration-300"
+          className="fixed inset-x-0 top-[112px] bottom-0 z-30 md:hidden bg-white dark:bg-neutral-950 flex flex-col justify-between border-t border-neutral-100 dark:border-neutral-900 shadow-2xl transition duration-300"
         >
           <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
             {/* Primary Category Links */}

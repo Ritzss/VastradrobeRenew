@@ -148,16 +148,16 @@ const SideFilter = ({ onClose }: { onClose?: () => void }) => {
       {onClose && (
         <div
           onClick={onClose}
-          className="fixed inset-0 h-screen bg-black/50 backdrop-blur-sm z-40"
+          className="fixed inset-0 h-screen bg-neutral-950/50 backdrop-blur-sm z-40"
         />
       )}
 
       <aside
-        className={`fixed right-0 top-0 h-screen w-95 max-w-[95vw] dark:bg-[#1a1a1a] dark:text-white bg-white z-50 shadow-2xl rounded-l-3xl overflow-y-auto transition-all duration-500`}
+        className={`fixed right-0 top-0 h-screen w-95 max-w-[95vw] dark:bg-[#1d1416] dark:text-white bg-white z-50 shadow-2xl rounded-l-3xl overflow-y-auto transition-all duration-500`}
       >
         {/* HEADER */}
 
-        <div className="sticky top-0 dark:bg-[#1a1a1a] bg-white border-b dark:border-[#1a1a1a] border-neutral-200 px-7 py-6 z-20">
+        <div className="sticky top-0 dark:bg-[#1d1416] bg-white border-b dark:border-[#1d1416] border-neutral-200 px-7 py-6 z-20">
           <div className="flex justify-between items-center">
             <div>
               <p className="uppercase tracking-[0.35em] text-xs text-[#957f6a]">
@@ -203,7 +203,7 @@ const SideFilter = ({ onClose }: { onClose?: () => void }) => {
                     className={`px-5 py-2 rounded-full transition ${
                       selectedCategory === item.value
                         ? "bg-[#5f5143] text-white"
-                        : "dark:bg-[#1a1a1a] bg-[#f5f2ef] dark:hover:bg-[#2c2c2c] hover:bg-[#ece6df]"
+                        : "dark:bg-[#1d1416] bg-[#f5f2ef] dark:hover:bg-[#2c1e21] hover:bg-[#ece6df]"
                     }`}
                   >
                     {item.label}
@@ -249,7 +249,7 @@ const SideFilter = ({ onClose }: { onClose?: () => void }) => {
                       setSubCategory(slug);
                       onClose?.();
                     }}
-                    className={`rounded-full px-5 py-2 transition ${active ? "bg-[#5f5143] text-white" : "dark:bg-[#1a1a1a] bg-[#f5f2ef] dark:hover:bg-[#2c2c2c] hover:bg-[#ece6df]"}`}
+                    className={`rounded-full px-5 py-2 transition ${active ? "bg-[#5f5143] text-white" : "dark:bg-[#1d1416] bg-[#f5f2ef] dark:hover:bg-[#2c1e21] hover:bg-[#ece6df]"}`}
                   >
                     {sub}
                   </button>
@@ -300,7 +300,7 @@ const SideFilter = ({ onClose }: { onClose?: () => void }) => {
                     <button
                       key={size}
                       onClick={() => toggleSize(size)}
-                      className={`min-w-12 rounded-full border px-4 py-2 text-sm transition-all duration-300 ${active ? "bg-[#5f5143] border-[#5f5143] text-white" : "dark:bg-[#1a1a1a] bg-[#f5f2ef] dark:hover:bg-[#2c2c2c] hover:bg-[#ece6df]"}`}
+                      className={`min-w-12 rounded-full border px-4 py-2 text-sm transition-all duration-300 ${active ? "bg-[#5f5143] border-[#5f5143] text-white" : "dark:bg-[#1d1416] bg-[#f5f2ef] dark:hover:bg-[#2c1e21] hover:bg-[#ece6df]"}`}
                     >
                       {size}
                     </button>
@@ -313,7 +313,7 @@ const SideFilter = ({ onClose }: { onClose?: () => void }) => {
           {/* ACTIVE FILTERS */}
 
           <section>
-            <div className="rounded-2xl dark:bg-[#1a1a1a] dark:hover:bg-[#2c2c2c] hover:bg-[#ece6df] bg-[#faf8f5] border border-[#ece6df] p-5">
+            <div className="rounded-2xl dark:bg-[#1d1416] dark:hover:bg-[#2c1e21] hover:bg-[#ece6df] bg-[#faf8f5] border border-[#ece6df] p-5">
               <p className="uppercase tracking-[0.25em] text-xs text-[#957f6a]">
                 Active Filters
               </p>
@@ -361,7 +361,7 @@ const SideFilter = ({ onClose }: { onClose?: () => void }) => {
 
         {/* FOOTER */}
 
-        <div className="sticky bottom-0 dark:bg-[#1a1a1a] bg-white border-t border-neutral-200 p-6">
+        <div className="sticky bottom-0 dark:bg-[#1d1416] bg-white border-t border-neutral-200 p-6">
           <button
             onClick={clearFilters}
             className="w-full rounded-full border border-[#5f5143] py-3 dark:text-white text-[#5f5143] font-medium hover:bg-[#5f5143] hover:text-white transition"

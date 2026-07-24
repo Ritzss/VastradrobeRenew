@@ -32,7 +32,7 @@ export default function RecentlyViewed({ products }: Props) {
   if (recentProducts.length < 2) return null;
 
   return (
-    <section className="py-8  dark:bg-black bg-[#fffaf6]">
+    <section className="py-8  dark:bg-neutral-950 bg-[#fffaf6]">
       <div className="w-full mx-auto">
 
         <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-3 text-center">

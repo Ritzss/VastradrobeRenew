@@ -753,7 +753,7 @@ export default function ProductPDPClient({
         </div>
       </section>
       {showSizeGuide && (
-        <div className="fixed h-full inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed h-full inset-0 bg-neutral-950/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl max-w-3xl w-full relative">
             <button
               onClick={() => setShowSizeGuide(false)}
@@ -818,7 +818,7 @@ export default function ProductPDPClient({
               />
 
               {/* Optional overlay for better contrast */}
-              <div className="absolute inset-0 bg-white/40 dark:bg-black/30 backdrop-blur-sm rounded-xl" />
+              <div className="absolute inset-0 bg-white/40 dark:bg-neutral-950/30 backdrop-blur-sm rounded-xl" />
 
               {/* Main Product */}
               <div className="relative z-10 aspect-square w-full">
@@ -856,7 +856,7 @@ export default function ProductPDPClient({
               </button>
 
               {/* Counter */}
-              <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full bg-black/70 px-4 py-2 text-white backdrop-blur">
+              <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full bg-neutral-950/70 px-4 py-2 text-white backdrop-blur">
                 {selectedImage + 1} / {activeImages.length}
               </div>
             </div>

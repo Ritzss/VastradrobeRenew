@@ -112,7 +112,7 @@ export default function ProductCard({
             )}
             {/* Overlay */}
             {(product?.stock ?? 0) <= 0 && (
-              <div className="absolute inset-0 bg-black/15 z-10" />
+              <div className="absolute inset-0 bg-neutral-950/15 z-10" />
             )}
           </Link>
         )}
@@ -138,7 +138,7 @@ export default function ProductCard({
             )}
             {/* Overlay */}
             {(product?.stock ?? 0) <= 0 && (
-              <div className="absolute inset-0 bg-black/15 z-10" />
+              <div className="absolute inset-0 bg-neutral-950/15 z-10" />
             )}
           </>
           // </Link>
@@ -157,7 +157,7 @@ export default function ProductCard({
         </button> */}
 
         {/* Hover Cart Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 dark:bg-black/85 not-dark:bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition-all duration-300 p-4">
+        <div className="absolute bottom-0 left-0 right-0 dark:bg-neutral-950/85 not-dark:bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition-all duration-300 p-4">
           {(product?.stock ?? 0) > 0 ? (
             <button
               onClick={handleCartToggle}

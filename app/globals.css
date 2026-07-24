@@ -1,4 +1,19 @@
 @import "tailwindcss";
+
+@theme {
+  --color-black: #150e10;            /* Overrides black with luxury dark cacao */
+  --color-neutral-950: #110a0b;      /* Deep rich velvet black-cacao */
+  --color-neutral-900: #1d1416;      /* Overrides neutral-900 with warm espresso */
+  --color-neutral-800: #2c1e21;      /* Overrides neutral-800 with warm dark rosewood */
+  --color-neutral-700: #3f2e30;
+  --color-neutral-600: #553c40;
+  --color-neutral-500: #735157;
+  --color-neutral-400: #b3a2a6;      /* Soft warm sand-pink text */
+  --color-neutral-300: #dfcbd0;      /* Creamy highlight */
+  --color-neutral-200: #f4eaee;      /* Very soft cream */
+  --color-neutral-100: #faf6f7;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 body.scroll-lock {

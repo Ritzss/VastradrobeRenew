@@ -29,7 +29,7 @@ export default function VideoStrip({ videos }: { videos: VideoItem[] }) {
               key={video.id}
               layoutId={video.videoUrl}
               onClick={() => setActiveVideo(video.videoUrl)}
-              className=" relative min-w-70 md:min-w-90 h-160 rounded-4xl overflow-hidden shadow-[0_30px_80px_rgba(149,127,106,0.18)] bg-black cursor-pointer"
+              className=" relative min-w-70 md:min-w-90 h-160 rounded-4xl overflow-hidden shadow-[0_30px_80px_rgba(149,127,106,0.18)] bg-neutral-950 cursor-pointer"
             >
               <video
                 src={video.videoUrl}
@@ -39,7 +39,7 @@ export default function VideoStrip({ videos }: { videos: VideoItem[] }) {
                 className="w-full h-full object-cover"
               />
 
-              <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+              <div className="absolute inset-0 bg-neutral-950/20 flex items-center justify-center">
                 <div className="w-14 h-14 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-[#5f5143] text-lg">
                   ▶
                 </div>
@@ -54,7 +54,7 @@ export default function VideoStrip({ videos }: { videos: VideoItem[] }) {
           <>
             {/* Background Fade */}
             <motion.div
-              className="fixed inset-0 bg-black/90 backdrop-blur-sm z-100"
+              className="fixed inset-0 bg-neutral-950/90 backdrop-blur-sm z-100"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -71,7 +71,7 @@ export default function VideoStrip({ videos }: { videos: VideoItem[] }) {
                 src={activeVideo}
                 autoPlay
                 controls
-                className="w-full max-w-6xl max-h-[90vh] object-contain rounded-2xl bg-black"
+                className="w-full max-w-6xl max-h-[90vh] object-contain rounded-2xl bg-neutral-950"
                 onClick={(e) => e.stopPropagation()}
               />
             </motion.div>

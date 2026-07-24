@@ -69,7 +69,7 @@ export default async function BlogDetailPage({
     intro.length > 220 ? intro.substring(0, 220) + "..." : intro;
 
   return (
-    <article className="min-h-screen bg-[#F8F5F0] dark:bg-[#0F0F10] transition-colors duration-500">
+    <article className="min-h-screen bg-[#F8F5F0] dark:bg-[#150e10] transition-colors duration-500">
       {/* ================= HERO ================= */}
 
       <section className="relative h-screen overflow-hidden">
@@ -131,7 +131,7 @@ export default async function BlogDetailPage({
       </section>
 
       {/* BODY CONTENT */}
-      <section className="relative -mt-24 rounded-t-[70px] z-20 bg-[#F8F5F0] dark:bg-[#0F0F10] transition-colors duration-500">
+      <section className="relative -mt-24 rounded-t-[70px] z-20 bg-[#F8F5F0] dark:bg-[#150e10] transition-colors duration-500">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-28">
           {blocks.map((block, index) => {
             const layout = block.image ? index % 3 : 3;
