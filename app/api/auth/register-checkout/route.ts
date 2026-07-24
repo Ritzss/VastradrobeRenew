@@ -49,7 +49,8 @@ export async function POST(req: Request) {
     } else {
       // 🔒 SECURITY CHECK: If this user is an active registered member with a password set,
       // prevent unauthenticated takeovers. Force them to log in through normal channels.
-      if (user.password !== null && user.isPasswordSet) {
+      // We check user.password !== null directly because some registered users have user.isPasswordSet as false by default.
+      if (user.password !== null) {
         return NextResponse.json(
           {
             message:

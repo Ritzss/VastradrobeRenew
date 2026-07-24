@@ -11,6 +11,7 @@
   "dependencies": {
     "@next/third-parties": "^16.2.9",
     "@phosphor-icons/react": "^2.1.10",
+    "@sparticuz/chromium": "^149.0.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^1.3.1",
     "bcryptjs": "^3.0.3",
@@ -29,6 +30,7 @@
     "phosphor": "^0.7.1",
     "postmark": "^4.0.5",
     "puppeteer": "^25.3.0",
+    "puppeteer-core": "^25.3.0",
     "radix-ui": "^1.6.1",
     "razorpay": "^2.9.6",
     "react": "^18.3.1",
