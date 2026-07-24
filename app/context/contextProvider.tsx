@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   AppContext,
   CartItem,
@@ -37,6 +37,80 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   /* 🔐 Auth */
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+
+  /* 🌗 Theme (Circular Grow Transition) */
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  // Load and apply theme on mount
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("vastradrobe_theme") as
+      | "light"
+      | "dark"
+      | null;
+    const initialTheme = storedTheme || "light";
+    setTheme(initialTheme);
+    if (initialTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  // Perform the circular clip-path expansion View Transition
+  const toggleTheme = (event: React.MouseEvent) => {
+    const targetTheme = theme === "light" ? "dark" : "light";
+
+    // Fallback if browser doesn't support the View Transition API
+    if (!(document as any).startViewTransition) {
+      setTheme(targetTheme);
+      localStorage.setItem("vastradrobe_theme", targetTheme);
+      if (targetTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      return;
+    }
+
+    // Get click coordinate relative to page for circle's anchor point
+    const x = event.clientX;
+    const y = event.clientY;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    const transition = (document as any).startViewTransition(() => {
+      setTheme(targetTheme);
+      localStorage.setItem("vastradrobe_theme", targetTheme);
+      if (targetTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    });
+
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`,
+      ];
+
+      document.documentElement.animate(
+        {
+          clipPath: targetTheme === "dark" ? clipPath : clipPath.reverse(),
+        },
+        {
+          duration: 400,
+          easing: "ease-in-out",
+          pseudoElement:
+            targetTheme === "dark"
+              ? "::view-transition-new(root)"
+              : "::view-transition-old(root)",
+        },
+      );
+    });
+  };
 
   /* 🛒 Cart */
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -497,6 +571,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setSizes,
         sortBy,
         setSortBy,
+        theme,
+        toggleTheme,
 
         cartItems,
         cartCount,

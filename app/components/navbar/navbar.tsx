@@ -24,10 +24,11 @@ import { useAppContext } from "@/hooks/useAppContext";
 /**
  * 👑 LUXURY REDESIGN: Navbar (Nangalia Ruchira Theme)
  *
- * Optimized for flawless mobile responsiveness:
- * - Hides redundant "Wishlist" and "Account" icons on mobile screens (since they are fully accessible inside the mobile Hamburger Menu).
- * - Keeps only "Search" and "Cart" on the right side on mobile, guaranteeing the centered logo NEVER overlaps with icons even on small 320px screens.
- * - Retains the gorgeous complete icon suite on desktop viewports.
+ * Advanced Features Implemented:
+ * - 🌗 Full dark-mode support styling (using class-based selectors with Tailwind v4).
+ * - ⚡ Shrinking Header on Scroll (height contracts from 80px to 56px with a floating shadow).
+ * - 🌀 Sliding marquee announcements inside the wine-red top bar.
+ * - 📱 Overlap-proof mobile responsiveness.
  */
 const Navbar = () => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const Navbar = () => {
   const [searchActive, setSearchOpen] = useState(false);
   const [collectionOpen, setCollectionOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -53,6 +55,27 @@ const Navbar = () => {
 
   const isLogged = !!user;
   const [value, setValue] = useState(searchQuery);
+
+  const announcements = [
+    "Free Shipping Over ₹999 | Handcrafted Luxury Clothing",
+    "Where Elegance Meets Everyday Wear",
+    "Designed with Intention. Worn with Confidence.",
+    "Easy 15-Day Returns | Secure Checkout",
+    "Complimentary Shipping Above ₹999",
+  ];
+
+  // 1. Shrink header when user scrolls down
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Close menus on page navigation
   useEffect(() => {
@@ -133,25 +156,37 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 inset-x-0 z-40 bg-white flex flex-col">
-      {/* 1. TOP ANNOUNCEMENT BAR */}
-      <div className="bg-[#6A0F1F] h-8 flex items-center justify-center text-center px-4 w-full">
-        <p className="text-[10px] sm:text-[11px] font-medium text-white tracking-[0.25em] uppercase">
-          Free Shipping Over ₹999 | Handcrafted Luxury Clothing
-        </p>
+    <header className="fixed top-0 inset-x-0 z-40 bg-white dark:bg-black flex flex-col transition-all duration-300">
+      {/* 1. TOP ANNOUNCEMENT BAR (Sleek Wine-Red Sliding Marquee) */}
+      <div className="bg-[#6A0F1F] h-8 flex items-center overflow-hidden w-full relative">
+        <div className="flex w-max animate-marquee whitespace-nowrap">
+          {[...announcements, ...announcements].map((text, index) => (
+            <span
+              key={index}
+              className="mx-8 flex justify-center items-center gap-4 text-[9px] sm:text-[10px] font-medium text-white tracking-[0.25em] uppercase"
+            >
+              <span>{text}</span>
+              <span aria-hidden="true" className="text-white/60">
+                ✦
+              </span>
+            </span>
+          ))}
+        </div>
       </div>
 
-      {/* 2. MAIN BRAND NAVIGATION HEADER */}
+      {/* 2. MAIN BRAND NAVIGATION HEADER (Shrinks dynamically on scroll + fully Dark-Mode styled) */}
       <nav
-        className="border-b border-neutral-100 bg-white"
+        className={`border-b border-neutral-100 dark:border-neutral-900 bg-white/95 dark:bg-black/95 backdrop-blur-md transition-all duration-300 ${
+          scrolled ? "h-14 sm:h-15 shadow-sm" : "h-18 sm:h-20"
+        }`}
         aria-label="Main Navigation"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 sm:h-20 flex items-center justify-between relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between relative">
           {/* LEFT: Menu Hamburg (Mobile) & Desktop Links */}
           <div className="flex items-center">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2 -ml-2 rounded-full text-neutral-800 hover:bg-neutral-50 transition"
+              className="md:hidden p-2 -ml-2 rounded-full text-neutral-800 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition"
               aria-label="Toggle Menu"
             >
               {menuOpen ? (
@@ -162,10 +197,10 @@ const Navbar = () => {
             </button>
 
             {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center gap-8 text-[11px] font-semibold text-neutral-800 uppercase tracking-[0.2em] relative">
+            <div className="hidden md:flex items-center gap-8 text-[11px] font-semibold text-neutral-800 dark:text-neutral-200 uppercase tracking-[0.2em] relative">
               <Link
                 href="/"
-                className="hover:text-[#6A0F1F] transition duration-200"
+                className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
               >
                 Home
               </Link>
@@ -178,34 +213,34 @@ const Navbar = () => {
               >
                 <Link
                   href="/collection"
-                  className="hover:text-[#6A0F1F] transition duration-200"
+                  className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
                 >
                   Collections
                 </Link>
                 <ChevronDown
                   size={12}
-                  className={`transition-transform duration-200 ${collectionOpen ? "rotate-180 text-[#6A0F1F]" : ""}`}
+                  className={`transition-transform duration-200 ${collectionOpen ? "rotate-180 text-[#6A0F1F] dark:text-[#e4e198]" : ""}`}
                 />
 
                 {/* Collections Dropdown Panel */}
                 {collectionOpen && (
                   <div className="absolute left-0 top-full pt-4 w-48 z-50">
-                    <div className="bg-white border border-neutral-100 rounded-xl shadow-lg py-2 divide-y divide-neutral-50">
+                    <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-xl shadow-lg py-2 divide-y divide-neutral-50 dark:divide-neutral-900">
                       <Link
                         href="/women#categoryPage"
-                        className="block px-5 py-3 text-[10px] tracking-wider uppercase font-semibold text-neutral-600 hover:bg-neutral-50 hover:text-[#6A0F1F] transition"
+                        className="block px-5 py-3 text-[10px] tracking-wider uppercase font-semibold text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition"
                       >
                         Women Collection
                       </Link>
                       <Link
                         href="/men"
-                        className="block px-5 py-3 text-[10px] tracking-wider uppercase font-semibold text-neutral-600 hover:bg-neutral-50 hover:text-[#6A0F1F] transition"
+                        className="block px-5 py-3 text-[10px] tracking-wider uppercase font-semibold text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition"
                       >
                         Men Collection
                       </Link>
                       <Link
                         href="/kids"
-                        className="block px-5 py-3 text-[10px] tracking-wider uppercase font-semibold text-neutral-600 hover:bg-neutral-50 hover:text-[#6A0F1F] transition"
+                        className="block px-5 py-3 text-[10px] tracking-wider uppercase font-semibold text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition"
                       >
                         Kids Collection
                       </Link>
@@ -216,17 +251,23 @@ const Navbar = () => {
 
               <Link
                 href="/blog"
-                className="hover:text-[#6A0F1F] transition duration-200"
+                className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
               >
                 Blogs
               </Link>
             </div>
           </div>
 
-          {/* CENTER: BRAND LOGO (Absolutely Centered) */}
+          {/* CENTER: BRAND LOGO (Shrinks dynamically on scroll) */}
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-auto">
             <Link href="/" className="flex items-center gap-2">
-              <div className="relative w-9 h-9 sm:w-11 sm:h-11">
+              <div
+                className={`relative transition-all duration-300 ${
+                  scrolled
+                    ? "w-8 h-8 sm:w-9 sm:h-9"
+                    : "w-10 h-10 sm:w-11 sm:h-11"
+                }`}
+              >
                 <Image
                   src={img}
                   alt="VastraDrobe Logo"
@@ -236,33 +277,37 @@ const Navbar = () => {
                   className="object-contain"
                 />
               </div>
-              <span className="hidden sm:inline font-serif text-lg tracking-[0.1em] text-neutral-900 font-semibold uppercase">
+              <span
+                className={`hidden sm:inline font-serif tracking-[0.1em] text-neutral-900 dark:text-white font-semibold uppercase transition-all duration-300 ${
+                  scrolled ? "text-base" : "text-lg"
+                }`}
+              >
                 VastraDrobe
               </span>
             </Link>
           </div>
 
-          {/* RIGHT: SEARCH, WISHLIST (Desktop Only), ACCOUNT (Desktop Only), CART Drawer Trigger */}
-          <div className="flex items-center gap-0.5 sm:gap-2 text-neutral-800">
+          {/* RIGHT: SEARCH, WISHLIST (Desktop), ACCOUNT (Desktop), CART Trigger */}
+          <div className="flex items-center gap-0.5 sm:gap-2 text-neutral-800 dark:text-neutral-200">
             {/* SEARCH PANEL TRIGGER */}
             <button
               onClick={() => setSearchOpen(!searchActive)}
-              className="p-2 rounded-full hover:bg-neutral-50 transition cursor-pointer text-neutral-800 hover:text-[#6A0F1F]"
+              className="p-2 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 transition cursor-pointer hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
               aria-label="Toggle Search"
             >
               <Search size={19} strokeWidth={1.5} />
             </button>
 
-            {/* WISHLIST LINK (Hidden on Mobile, fully accessible inside mobile Hamburger menu) */}
+            {/* WISHLIST LINK (Desktop Only) */}
             <Link
               href="/favorites"
-              className="hidden md:inline-flex p-2.5 rounded-full hover:bg-neutral-50 transition text-neutral-800 hover:text-[#6A0F1F]"
+              className="hidden md:inline-flex p-2.5 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 transition hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
               aria-label="Wishlist"
             >
               <Heart size={19} strokeWidth={1.5} />
             </Link>
 
-            {/* ACCOUNT / PROFILE (Hidden on Mobile, fully accessible inside mobile Hamburger menu) */}
+            {/* ACCOUNT / PROFILE (Desktop Only) */}
             <div
               className="hidden md:block relative"
               onMouseEnter={() => setProfileOpen(true)}
@@ -271,7 +316,7 @@ const Navbar = () => {
               {!authLoading && !isLogged ? (
                 <Link
                   href="/account/login"
-                  className="p-2.5 rounded-full hover:bg-neutral-50 flex items-center justify-center text-neutral-800 hover:text-[#6A0F1F]"
+                  className="p-2.5 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 flex items-center justify-center hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
                   aria-label="Login"
                 >
                   <User size={19} strokeWidth={1.5} />
@@ -279,7 +324,7 @@ const Navbar = () => {
               ) : (
                 <>
                   <button
-                    className="p-2.5 rounded-full hover:bg-neutral-50 flex items-center justify-center text-neutral-800 hover:text-[#6A0F1F]"
+                    className="p-2.5 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 flex items-center justify-center hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
                     aria-label="User Profile"
                   >
                     <User size={19} strokeWidth={1.5} />
@@ -287,25 +332,25 @@ const Navbar = () => {
 
                   {profileOpen && isLogged && (
                     <div className="absolute right-0 top-full pt-4 w-44 z-50">
-                      <div className="bg-white border border-neutral-100 rounded-xl shadow-lg py-2">
-                        <div className="px-4 py-2 border-b border-neutral-50">
+                      <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-xl shadow-lg py-2">
+                        <div className="px-4 py-2 border-b border-neutral-50 dark:border-neutral-900">
                           <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium">
                             Hello,
                           </p>
-                          <p className="text-xs font-bold text-neutral-800 truncate">
+                          <p className="text-xs font-bold text-neutral-800 dark:text-white truncate">
                             {user?.username}
                           </p>
                         </div>
                         <Link
                           href="/profile"
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-neutral-700 hover:bg-neutral-50 hover:text-[#6A0F1F] transition"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition"
                         >
                           <User size={14} strokeWidth={1.5} />
                           My Profile
                         </Link>
                         <button
                           onClick={handleLogout}
-                          className="w-full flex items-center gap-2.5 px-4 py-2.5 cursor-pointer text-xs font-medium text-red-600 hover:bg-neutral-50 transition"
+                          className="w-full flex items-center gap-2.5 px-4 py-2.5 cursor-pointer text-xs font-medium text-red-600 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition"
                         >
                           <LogOut size={14} strokeWidth={1.5} />
                           Log out
@@ -320,7 +365,7 @@ const Navbar = () => {
             {/* CART (Triggers slide-out CartDrawer on click) */}
             <button
               onClick={() => setCartDrawerOpen(true)}
-              className="group relative p-2 rounded-full hover:bg-neutral-50 transition cursor-pointer text-neutral-800 hover:text-[#6A0F1F]"
+              className="group relative p-2 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 transition cursor-pointer hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
               aria-label="Cart"
             >
               <ShoppingBag size={19} strokeWidth={1.5} />
@@ -335,7 +380,7 @@ const Navbar = () => {
 
         {/* 3. FLOATING SEARCH DRAWER */}
         {searchActive && (
-          <div className="border-t border-neutral-100 bg-neutral-50/50 py-4 px-4 shadow-inner transition duration-300">
+          <div className="border-t border-neutral-100 dark:border-neutral-900 bg-neutral-50/50 dark:bg-neutral-950 py-4 px-4 shadow-inner transition duration-300">
             <div className="max-w-3xl mx-auto">
               <form
                 onSubmit={handleSearchSubmit}
@@ -344,7 +389,7 @@ const Navbar = () => {
                 <input
                   type="text"
                   placeholder="SEARCH FOR CO-ORD SETS, DRESSES, ETS..."
-                  className="w-full bg-white border border-neutral-200 rounded-full px-5 py-3 text-xs uppercase tracking-widest font-semibold text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-[#6A0F1F] shadow-xs"
+                  className="w-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-full px-5 py-3 text-xs uppercase tracking-widest font-semibold text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 focus:outline-none focus:border-[#6A0F1F] dark:focus:border-[#e4e198] shadow-xs"
                   value={value}
                   onChange={(e) => {
                     setValue(e.target.value);
@@ -354,7 +399,7 @@ const Navbar = () => {
                 />
                 <button
                   type="submit"
-                  className="absolute right-4 p-1.5 text-neutral-400 hover:text-[#6A0F1F]"
+                  className="absolute right-4 p-1.5 text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
                 >
                   <Search size={18} strokeWidth={1.5} />
                 </button>
@@ -362,7 +407,7 @@ const Navbar = () => {
 
               {/* Suggestions dropdown */}
               {searchQuery && (
-                <div className="mt-2 bg-white border border-neutral-100 rounded-2xl shadow-lg max-h-56 overflow-y-auto divide-y divide-neutral-50">
+                <div className="mt-2 bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-2xl shadow-lg max-h-56 overflow-y-auto divide-y divide-neutral-50 dark:divide-neutral-850">
                   {loadingSuggestions && (
                     <div className="px-5 py-3 text-xs text-neutral-400 tracking-wider">
                       Searching...
@@ -377,7 +422,7 @@ const Navbar = () => {
                     <div
                       key={item.productId}
                       onClick={() => handleSelectSuggestion(item.productId)}
-                      className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-neutral-700 hover:bg-neutral-50 hover:text-[#6A0F1F] cursor-pointer transition"
+                      className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] cursor-pointer transition"
                     >
                       {item.name}
                     </div>
@@ -393,7 +438,7 @@ const Navbar = () => {
       {menuOpen && (
         <div
           ref={menuRef}
-          className="fixed inset-x-0 top-[112px] bottom-0 z-30 md:hidden bg-white flex flex-col justify-between border-t border-neutral-100 shadow-2xl transition duration-300"
+          className="fixed inset-x-0 top-[112px] bottom-0 z-30 md:hidden bg-white dark:bg-black flex flex-col justify-between border-t border-neutral-100 dark:border-neutral-900 shadow-2xl transition duration-300"
         >
           <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
             {/* Primary Category Links */}
@@ -401,46 +446,49 @@ const Navbar = () => {
               <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
                 Categories
               </p>
-              <div className="flex flex-col gap-3 font-semibold text-sm uppercase tracking-widest text-neutral-800">
+              <div className="flex flex-col gap-3 font-semibold text-sm uppercase tracking-widest text-neutral-800 dark:text-neutral-200">
                 <Link
                   href="/"
-                  className="hover:text-[#6A0F1F] py-1 border-b border-neutral-50"
+                  className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
                 >
                   Home
                 </Link>
                 <Link
                   href="/women#categoryPage"
-                  className="hover:text-[#6A0F1F] py-1 border-b border-neutral-50"
+                  className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
                 >
                   Women Collection
                 </Link>
                 <Link
                   href="/men"
-                  className="hover:text-[#6A0F1F] py-1 border-b border-neutral-50"
+                  className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
                 >
                   Men Collection
                 </Link>
                 <Link
                   href="/kids"
-                  className="hover:text-[#6A0F1F] py-1 border-b border-neutral-50"
+                  className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
                 >
                   Kids Collection
                 </Link>
-                <Link href="/blog" className="hover:text-[#6A0F1F] py-1">
+                <Link
+                  href="/blog"
+                  className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1"
+                >
                   Vastra Journal
                 </Link>
               </div>
             </div>
 
             {/* System / Help Links */}
-            <div className="space-y-4 pt-4 border-t border-neutral-100">
+            <div className="space-y-4 pt-4 border-t border-neutral-100 dark:border-neutral-900">
               <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
                 Customer Support
               </p>
-              <div className="flex flex-col gap-3 font-semibold text-xs uppercase tracking-widest text-neutral-600">
+              <div className="flex flex-col gap-3 font-semibold text-xs uppercase tracking-widest text-neutral-600 dark:text-neutral-400">
                 <Link
                   href="/support"
-                  className="flex items-center gap-2 hover:text-[#6A0F1F]"
+                  className="flex items-center gap-2 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
                 >
                   <HelpCircle size={15} strokeWidth={1.5} />
                   Contact Support
@@ -449,43 +497,49 @@ const Navbar = () => {
             </div>
 
             {/* Profile / Account Area */}
-            <div className="space-y-4 pt-4 border-t border-neutral-100">
+            <div className="space-y-4 pt-4 border-t border-neutral-100 dark:border-neutral-900">
               <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
                 Account
               </p>
               {!authLoading && !isLogged ? (
                 <Link
                   href="/account/login"
-                  className="flex items-center gap-2 font-semibold text-xs uppercase tracking-widest text-neutral-700 hover:text-[#6A0F1F]"
+                  className="flex items-center gap-2 font-semibold text-xs uppercase tracking-widest text-neutral-700 dark:text-neutral-300 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
                 >
                   <User size={15} strokeWidth={1.5} />
                   Login / Signup
                 </Link>
               ) : (
-                <div className="space-y-3 font-semibold text-xs uppercase tracking-widest text-neutral-700">
-                  <div className="flex items-center gap-2 text-neutral-900 border-b border-neutral-50 pb-2">
+                <div className="space-y-3 font-semibold text-xs uppercase tracking-widest text-neutral-700 dark:text-neutral-300">
+                  <div className="flex items-center gap-2 text-neutral-900 dark:text-white border-b border-neutral-50 dark:border-neutral-900 pb-2">
                     <User
                       size={15}
                       strokeWidth={1.5}
-                      className="text-[#6A0F1F]"
+                      className="text-[#6A0F1F] dark:text-[#e4e198]"
                     />
                     <span>Hello, {user?.username}</span>
                   </div>
-                  <Link href="/profile" className="block hover:text-[#6A0F1F]">
+                  <Link
+                    href="/profile"
+                    className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                  >
                     My Profile
                   </Link>
                   <Link
                     href="/favorites"
-                    className="block hover:text-[#6A0F1F]"
+                    className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
                   >
                     My Wishlist
                   </Link>
-                  <Link href="/orders" className="block hover:text-[#6A0F1F]">
+                  <Link
+                    href="/orders"
+                    className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                  >
                     Track Orders
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left font-bold text-red-600 flex items-center gap-2 pt-2 border-t border-neutral-50 cursor-pointer"
+                    className="w-full text-left font-bold text-red-600 flex items-center gap-2 pt-2 border-t border-neutral-50 dark:border-neutral-900 cursor-pointer"
                   >
                     <LogOut size={15} strokeWidth={1.5} />
                     Log Out
@@ -496,7 +550,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Footer branding */}
-          <div className="bg-neutral-50 border-t border-neutral-100 px-6 py-5 text-center">
+          <div className="bg-neutral-50 dark:bg-neutral-950 border-t border-neutral-100 dark:border-neutral-900 px-6 py-5 text-center">
             <p className="text-[9px] text-neutral-400 tracking-widest font-semibold uppercase">
               © 2026 VastraDrobe Label. All Rights Reserved.
             </p>
