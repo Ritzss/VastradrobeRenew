@@ -22,9 +22,10 @@ export default function ColorCard({
   variants = [],
 }: Props) {
   const displayProducts = useMemo(() => {
+    if (!products || !Array.isArray(products)) return [];
     return products.map((product) => {
       const variant =
-        product.variants.find((v) =>
+        product.variants?.find((v: any) =>
           variants.some((c) => c.toLowerCase() === v.color.toLowerCase()),
         ) ?? product.variants?.[0];
 
@@ -54,11 +55,42 @@ export default function ColorCard({
     return () => clearInterval(timer);
   }, [displayProducts.length, pause]);
 
+  // Handle empty products state (prevent crashes during fallback)
+  if (displayProducts.length === 0) {
+    return (
+      <Link href={href}>
+        <div className="group relative h-full overflow-hidden rounded-4xl dark:bg-black/85 not-dark:bg-white shadow-sm flex flex-col justify-end p-7 border border-neutral-100 dark:border-neutral-900">
+          <div className="absolute inset-0 bg-neutral-100 dark:bg-neutral-900/40 flex items-center justify-center text-neutral-400/80 dark:text-neutral-600 font-medium text-sm">
+            No Products Available
+          </div>
+
+          <div className="absolute inset-0 bg-linear-to-t from-black/5 via-transparent to-transparent" />
+
+          <div className="relative z-10 text-neutral-800 dark:text-white">
+            <div
+              className="mb-5 h-5 w-5 rounded-full border border-neutral-200 dark:border-neutral-700"
+              style={{
+                background: color,
+              }}
+            />
+            <h3 className="text-3xl font-semibold">{title}</h3>
+            <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+              0 Products
+            </p>
+            <span className="mt-6 inline-flex font-medium text-[#5f5143] dark:text-neutral-300">
+              Explore →
+            </span>
+          </div>
+        </div>
+      </Link>
+    );
+  }
+
   const product = displayProducts[index];
 
   return (
     <Link
-      href={`${href}?color=${product.displayVariant.color}`}
+      href={`${href}?color=${product.displayVariant?.color || ""}`}
       onMouseEnter={() => setPause(true)}
       onMouseLeave={() => setPause(false)}
     >
@@ -95,7 +127,6 @@ export default function ColorCard({
             <Image
               src={product.displayImage}
               alt={product.name}
-              // sizes="(max-width: 768px) 100vw, 25vw"
               sizes="(max-width:768px) 100vw, 50vw"
               fill
               className="object-cover duration-700 group-hover:scale-105"

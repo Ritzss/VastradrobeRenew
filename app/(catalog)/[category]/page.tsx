@@ -2,7 +2,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductClient from "../../components/products/ProductClient";
-// import ProductClient from "./ProductClient";
 
 type PageProps = {
   params: Promise<{ category: string }>;
@@ -143,24 +142,32 @@ export default async function Page({ params }: PageProps) {
     notFound();
   }
 
-  const res = await fetch(
-    `${process.env.IMS_BASE_URL}/api/ims/public/products?limit=20`,
-    {
-      next: { revalidate: 120 },
-    },
-  );
+  let products: any[] = [];
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch products");
+  try {
+    const res = await fetch(
+      `${process.env.IMS_BASE_URL}/api/ims/public/products?limit=20`,
+      {
+        next: { revalidate: 120 },
+      },
+    );
+
+    if (res.ok) {
+      const data = await res.json();
+      const categoryFilters = CATEGORY_MAP[normalizedCategory];
+      const fetchedProducts = data.products || [];
+      products = fetchedProducts.filter((p: any) =>
+        categoryFilters.includes(p.category),
+      );
+    } else {
+      console.warn("Category products fetch returned non-200:", res.status);
+    }
+  } catch (err) {
+    console.error(
+      "CATEGORY PRODUCTS FETCH FAILED (Graceful fallback to empty):",
+      err,
+    );
   }
-
-  const data = await res.json();
-
-  const categoryFilters = CATEGORY_MAP[normalizedCategory];
-
-  const products = data.products.filter((p: any) =>
-    categoryFilters.includes(p.category),
-  );
 
   const schema = {
     "@context": "https://schema.org",

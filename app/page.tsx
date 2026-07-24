@@ -14,92 +14,42 @@ import ShopByColor from "./components/Home/ShopbyColor";
 import WhatsAppPageMessage from "./components/Global/WhatsAppPageMessage";
 import { whatsappMessages } from "./lib/whatsapp";
 
-// const BlogClient = dynamic(() => import("./blog/BlogsClient"));
 const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"), {
   loading: () => <div className="h-125 w-full bg-gray-200 animate-pulse" />,
 });
-// const SocialProof = dynamic(() => import("./components/Home/SocialProof"),
-//   { ssr: false }
-// );
-// const SocialSection = dynamic(() => import("./components/Home/SocialSection"));
-
-// const CATEGORY_MAP: Record<string, string[]> = {
-//   men: ["men"],
-//   women: ["women"],
-//   kids: ["boys", "girls"],
-//   ethnic: ["ethnic"],
-// };
-
-// export const dynamic = "force-dynamic";
-// async function getProductsByMainCategory(
-//   mainCategory: string,
-//   limit = 8,
-// ): Promise<IMSProduct[]> {
-//   try {
-//     const categories = CATEGORY_MAP[mainCategory.toLowerCase()] || [];
-
-//     if (categories.length === 0) return [];
-
-//     const responses = await Promise.all(
-//       categories.map((cat) =>
-//         fetch(
-//           `${process.env.IMS_BASE_URL}/api/ims/public/products?category=${cat}&limit=${limit}`,
-//           { next: { revalidate: 120 } },
-//         ),
-//       ),
-//     );
-
-//     const results = await Promise.all(
-//       responses.map((res) =>
-//         res.ok ? res.json() : Promise.resolve({ products: [] }),
-//       ),
-//     );
-
-//     return results.flatMap((r) => r.products || []);
-//   } catch (err) {
-//     console.error(`${mainCategory.toUpperCase()} FETCH ERROR:`, err);
-//     return [];
-//   }
-// }
-
-// async function getLatestProducts(): Promise<IMSProduct[]> {
-//   try {
-//     const res = await fetch(
-//       `${process.env.IMS_BASE_URL}/api/ims/public/products/latest`,
-//       { next: { revalidate: 60 } },
-//     );
-
-//     if (!res.ok) return [];
-
-//     const data = await res.json();
-//     return data.products || [];
-//   } catch (err) {
-//     console.error("LATEST PRODUCTS FETCH ERROR:", err);
-//     return [];
-//   }
-// }
 
 const Home = async () => {
-  const res = await fetch(`${process.env.IMS_BASE_URL}/api/ims/public/home`, {
-    next: {
-      revalidate: 120,
-    },
-  });
+  let latestProducts = [];
+  let womenProducts = [];
+  let menProducts = [];
+  let kidsProducts = [];
+  let featuredCollections = [];
+  let allProducts = [];
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch homepage");
+  try {
+    const res = await fetch(`${process.env.IMS_BASE_URL}/api/ims/public/home`, {
+      next: {
+        revalidate: 120,
+      },
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      latestProducts = data.latestProducts || [];
+      womenProducts = data.womenProducts || [];
+      menProducts = data.menProducts || [];
+      kidsProducts = data.kidsProducts || [];
+      featuredCollections = data.featuredCollections || [];
+      allProducts = data.allProducts || [];
+    } else {
+      console.warn("Homepage fetch returned non-200 status:", res.status);
+    }
+  } catch (err) {
+    console.error(
+      "HOMEPAGE IMS FETCH FAILED (Graceful fallback to empty state):",
+      err,
+    );
   }
-
-  const {
-    latestProducts,
-    womenProducts,
-    menProducts,
-    kidsProducts,
-    featuredCollections,
-    allProducts,
-  } = await res.json();
-
-  // const data = await featuredRes.json();
 
   return (
     <>
@@ -112,17 +62,6 @@ const Home = async () => {
         <div className="hidden md:block">
           <LandingSlider />
         </div>
-
-        {/* CATEGORY */}
-        {/* <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
-        <p className="uppercase tracking-[0.35em]  text-sm text-[#25272D] mb-4">
-          Explore
-        </p>
-        <h2 className="text-4xl text-[#6a0f1f] font-semibold mb-12">
-          Shop by Category
-        </h2>
-        <CategorySlider />
-      </section> */}
 
         {/* Featured Collection */}
         <LazySection placeholderHeight={450}>
@@ -272,9 +211,6 @@ const Home = async () => {
             </div>
           </div>
         </section>
-
-        {/* Social Media */}
-        {/* <SocialSection /> */}
 
         {/* SOCIAL PROOF */}
         <LazySection placeholderHeight={450}>
