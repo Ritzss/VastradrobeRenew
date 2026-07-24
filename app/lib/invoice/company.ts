@@ -9,7 +9,7 @@ export const COMPANY = {
   phone: "+91 9910953926",
   email: "support@vastradrobe.com",
   website: "https://vastradrobe.com",
-  gst: "GST_NUMBER",
+  gst: "06AAICV7065J1ZU",
 
   logo: "https://vastradrobe.com/Assets/Images/logoV2.png"
 };

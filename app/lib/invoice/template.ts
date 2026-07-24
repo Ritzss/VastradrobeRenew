@@ -23,7 +23,7 @@ export function invoiceTemplate(
       href="https://res.cloudinary.com/dwhn5ec09/image/upload/v1780384052/favicon_obm4xc.ico"
     />
 
-<title></title>
+<title>Invoice ${order.invoiceNumber} | VastraDrobe</title>
 
 <style>
 

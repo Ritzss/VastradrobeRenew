@@ -51,10 +51,10 @@ const transaction = await Transaction.findById(order.transactionId);
 
     // ---------------- OWNER CHECK ----------------
 
-    console.log("Decoded Token:", decoded);
-    console.log("Order User:", order.userId.toString());
-    console.log("Token User:", decoded.id);
-    console.log("Order Number:", order.orderNumber);
+    // console.log("Decoded Token:", decoded);
+    // console.log("Order User:", order.userId.toString());
+    // console.log("Token User:", decoded.id);
+    // console.log("Order Number:", order.orderNumber);
 
     if (order.userId.toString() !== decoded.id) {
       return new Response("Forbidden", {
