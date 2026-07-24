@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: false,
       unique: true,
-      sparse: true, // 🔒 FIXED: Allows multiple guest checkouts without emails (prevents duplicate key null index crashes)
+      sparse: true,
       lowercase: true,
       trim: true,
     },

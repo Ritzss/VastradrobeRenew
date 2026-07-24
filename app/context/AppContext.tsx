@@ -52,14 +52,40 @@ export interface AppContextType {
   cartItems: CartItem[];
   savedForLater: CartItem[];
   cartCount: number;
-  saveForLater: (productId: number, size: string, color: string,)=> Promise<void>;
+  saveForLater: (
+    productId: number,
+    size: string,
+    color: string,
+  ) => Promise<void>;
   moveToCart: (productId: number, size: string, color: string) => Promise<void>;
-  removeSavedForLater: (productId: number, size: string, color: string)=> Promise<void>;
+  removeSavedForLater: (
+    productId: number,
+    size: string,
+    color: string,
+  ) => Promise<void>;
   clearCart: () => void;
   addToCart: (productId: number, size: string, color: string) => void;
   removeFromCart: (productId: number, size: string, color: string) => void;
   incrementQty: (productId: number, size: string, color: string) => void;
   decrementQty: (productId: number, size: string, color: string) => void;
+  /* 🛍 Cart Drawer */
+  cartDrawerOpen: boolean;
+  setCartDrawerOpen: Dispatch<SetStateAction<boolean>>;
+  lastAddedProduct: {
+    product: IMSProduct;
+    variant: IMSProduct["variants"][number];
+    size: string;
+    qty: number;
+  } | null;
+
+  setLastAddedProduct: Dispatch<
+    SetStateAction<{
+      product: IMSProduct;
+      variant: IMSProduct["variants"][number];
+      size: string;
+      qty: number;
+    } | null>
+  >;
 
   /* ❤️ Favorites (DB-backed) */
   favCollections: Record<string, Set<number>>;

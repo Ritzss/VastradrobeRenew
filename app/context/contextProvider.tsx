@@ -41,6 +41,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   /* 🛒 Cart */
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [savedForLater, setSavedForLater] = useState<CartItem[]>([]);
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
+  const [lastAddedProduct, setLastAddedProduct] = useState<{
+    product: IMSProduct;
+    variant: IMSProduct["variants"][number];
+    size: string;
+    qty: number;
+  } | null>(null);
 
   /*Product Details */
   const [showVariants, setShowVariants] = useState<boolean>(true);
@@ -57,6 +64,21 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const addToCart = (productId: number, size: string, color: string) => {
     const product = products.find((p) => p.productId === productId);
+    if (product) {
+      const selectedVariant =
+        product.variants.find(
+          (v) => v.color.toLowerCase() === color.toLowerCase(),
+        ) ?? product.variants[0];
+
+      setLastAddedProduct({
+        product,
+        variant: selectedVariant,
+        size,
+        qty: 1,
+      });
+
+      setCartDrawerOpen(true);
+    }
 
     fbPixel.addToCart({
       id: String(productId),
@@ -487,6 +509,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         saveForLater,
         moveToCart,
         removeSavedForLater,
+        cartDrawerOpen,
+        setCartDrawerOpen,
+        lastAddedProduct,
+        setLastAddedProduct,
 
         favCollections,
         createCollection,

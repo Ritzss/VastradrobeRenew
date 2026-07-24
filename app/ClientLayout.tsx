@@ -9,6 +9,7 @@ import { LayoutGroup } from "framer-motion";
 import LandingLoader from "./components/Loaders/LandingLoaders";
 import WhatsAppButton from "./components/Global/WhatsappButton";
 import { WhatsAppProvider } from "./context/WhatsAppContext";
+import CartDrawer from "./components/Global/CartDrawer";
 
 const ClientLayout = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
@@ -73,6 +74,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
       <WhatsAppProvider>
         <WhatsAppButton />
 
+        <CartDrawer />
         <Toaster position="bottom-left" richColors />
         <LayoutGroup>
           <LandingLoader loading={loading} />

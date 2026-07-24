@@ -265,6 +265,7 @@ const CheckoutClient = () => {
               <input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                placeholder="Enter your phone number"
                 className="w-full mt-2 px-4 py-3 text-[#7a6a5c] rounded-full border border-[#e6d8c8] focus:outline-none"
               />
             </div>
@@ -275,6 +276,7 @@ const CheckoutClient = () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 rows={4}
+                placeholder="Enter your Address"
                 className="w-full mt-2 px-4 py-3 text-[#7a6a5c] rounded-2xl border border-[#e6d8c8] focus:outline-none"
               />
             </div>
@@ -410,9 +412,13 @@ const CheckoutClient = () => {
                 handlePlaceOrder();
               }
             }}
-            className=" w-full py-4 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition"
+            className="group relative w-full overflow-hidden rounded-full bg-[#5f5143] py-4 text-white"
           >
-            {paymentMethod === "COD" ? "Place Order" : "Complete Payment"}
+            <span className="absolute inset-0 -translate-x-full -skew-x-12 bg-[#6a0f1f] transition-transform duration-500 ease-out group-hover:translate-x-0" />
+
+            <span className="relative z-10">
+              {paymentMethod === "COD" ? "Place Order" : "Complete Payment"}
+            </span>
           </button>
 
           <div className="text-xs text-center text-[#957f6a] pt-2">

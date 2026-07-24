@@ -221,7 +221,7 @@ export default function CampaignSection() {
                     priority={banner.id === 1}
                     fetchPriority={banner.id === 1 ? "high" : "auto"}
                     loading={banner.id === 1 ? "eager" : "lazy"}
-                    sizes="100vw"
+                    sizes="(max-width: 767px) calc(100vw - 2rem), 0px"
                     className="object-cover md:hidden"
                   />
 
@@ -232,8 +232,8 @@ export default function CampaignSection() {
                     priority={banner.id === 1}
                     fetchPriority={banner.id === 1 ? "high" : "auto"}
                     loading={banner.id === 1 ? "eager" : "lazy"}
-                    sizes="100vw"
-                    className="object-cover hidden md:block"
+                    sizes="(max-width: 767px) 0px, calc(100vw - 2rem)"
+                    className="hidden object-cover md:block"
                   />
                   {/* phone banner 393 x 480 */}
 

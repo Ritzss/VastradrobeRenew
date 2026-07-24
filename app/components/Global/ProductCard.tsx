@@ -161,19 +161,23 @@ export default function ProductCard({
           {(product?.stock ?? 0) > 0 ? (
             <button
               onClick={handleCartToggle}
-              className="w-full py-2 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition flex items-center justify-center gap-2"
+              className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-white py-2 text-white"
             >
-              {isInCart ? (
-                <>
-                  <MdOutlineRemoveShoppingCart />
-                  Remove
-                </>
-              ) : (
-                <>
-                  <FaCartArrowDown />
-                  Add to Cart
-                </>
-              )}
+              <span className="absolute -left-10 top-0 h-full w-[140%] -translate-x-full -skew-x-12 bg-[#6a0f1f] transition-transform duration-500 ease-out group-hover:translate-x-0" />
+
+              <span className="relative z-10 flex items-center gap-2">
+                {isInCart ? (
+                  <>
+                    <MdOutlineRemoveShoppingCart />
+                    Remove
+                  </>
+                ) : (
+                  <>
+                    <FaCartArrowDown />
+                    Add to Cart
+                  </>
+                )}
+              </span>
             </button>
           ) : (
             <button
