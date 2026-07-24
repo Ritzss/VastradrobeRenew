@@ -28,7 +28,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 
   return (
     <div
-      className={` w-full bg-[#1a1a1a] not-dark:bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 flex flex-col md:flex-row items-center gap-8 ${className}`}
+      className={` w-full bg-[#1d1416] not-dark:bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 flex flex-col md:flex-row items-center gap-8 ${className}`}
     >
       {/* Avatar */}
       <div className="relative w-32 h-32 rounded-full overflow-hidden bg-[#f3e7d8] shrink-0">

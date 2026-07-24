@@ -54,7 +54,7 @@ const Home = async () => {
   return (
     <>
       <WhatsAppPageMessage message={whatsappMessages.home()} />
-      <section className="w-full dark:bg-black bg-[#fff8f8] text-black ">
+      <section className="w-full dark:bg-neutral-950 bg-[#fff8f8] text-black ">
         {/* HERO */}
         <Slider />
 
@@ -71,7 +71,7 @@ const Home = async () => {
         {/* LATEST ARRIVALS */}
         <section
           id="latestArrival"
-          className="mx-auto py-5 text-center dark:bg-black bg-[#fff5f5]"
+          className="mx-auto py-5 text-center dark:bg-neutral-950 bg-[#fff5f5]"
         >
           <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
             New This Season
@@ -95,7 +95,7 @@ const Home = async () => {
         </LazySection>
 
         {/* WOMEN */}
-        <section id="collection" className=" dark:bg-black bg-[#fff0f0] py-8">
+        <section id="collection" className=" dark:bg-neutral-950 bg-[#fff0f0] py-8">
           <div className="max-w-7xl mx-auto px-6 text-center mb-5">
             <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
               Women
@@ -110,12 +110,12 @@ const Home = async () => {
             category="women"
             title=""
             text="#5f5143"
-            color="text-[#fff5f5] dark:text-[#1a1a1a]"
+            color="text-[#fff5f5] dark:text-[#1d1416]"
           />
         </section>
 
         {/* Kids */}
-        <section className=" dark:bg-black bg-[#fff5f5] py-8">
+        <section className=" dark:bg-neutral-950 bg-[#fff5f5] py-8">
           <div className="max-w-7xl mx-auto px-6 text-center mb-5">
             <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
               Kids
@@ -130,12 +130,12 @@ const Home = async () => {
             products={kidsProducts}
             category="kids"
             title=""
-            color="text-[#fff8f8] dark:text-[#1a1a1a]"
+            color="text-[#fff8f8] dark:text-[#1d1416]"
           />
         </section>
 
         {/* MEN */}
-        <section className=" dark:bg-black bg-[#fff0f0] py-8">
+        <section className=" dark:bg-neutral-950 bg-[#fff0f0] py-8">
           <div className="max-w-7xl mx-auto px-6 text-center mb-5">
             <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
               Men
@@ -151,7 +151,7 @@ const Home = async () => {
             category="men"
             title=""
             text="#5f5143"
-            color="text-[#fff5f5] dark:text-[#1a1a1a]"
+            color="text-[#fff5f5] dark:text-[#1d1416]"
           />
         </section>
 
@@ -161,7 +161,7 @@ const Home = async () => {
         </LazySection>
 
         {/* VIDEO SECTION */}
-        <section className=" dark:bg-black bg-[#fff5f5] py-8">
+        <section className=" dark:bg-neutral-950 bg-[#fff5f5] py-8">
           <div className="max-w-7xl mx-auto px-6 text-center mb-16">
             <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
               Craftsmanship
@@ -178,7 +178,7 @@ const Home = async () => {
         </section>
 
         {/* BLOG */}
-        <section className=" dark:bg-black bg-[#fff0f0] py-8">
+        <section className=" dark:bg-neutral-950 bg-[#fff0f0] py-8">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <div className="text-center mb-20">

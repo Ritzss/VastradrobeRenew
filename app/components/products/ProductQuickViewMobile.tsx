@@ -55,7 +55,7 @@ export default function ProductStackMobile({
 
   return (
     <div
-      className="fixed inset-0 z-9999 bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-9999 bg-neutral-950/50 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
@@ -123,8 +123,8 @@ export default function ProductStackMobile({
                     }
                   }}
                 >
-                  <div className="overflow-hidden rounded-3xl dark:bg-black dark:border-white dark:border dark:text-[#b68351] bg-white shadow-2xl">
-                    <div className="grid grid-cols-2 gap-2 dark:bg-[#1a1a1a] bg-[#f7f4ef] p-2">
+                  <div className="overflow-hidden rounded-3xl dark:bg-neutral-950 dark:border-white dark:border dark:text-[#b68351] bg-white shadow-2xl">
+                    <div className="grid grid-cols-2 gap-2 dark:bg-[#1d1416] bg-[#f7f4ef] p-2">
                       {variantImages.map((image, idx) => (
                         <div
                           key={idx}
@@ -147,7 +147,7 @@ export default function ProductStackMobile({
                           )}
                           {/* Overlay */}
                           {(product?.stock ?? 0) <= 0 && (
-                            <div className="absolute inset-0 bg-black/15 z-10" />
+                            <div className="absolute inset-0 bg-neutral-950/15 z-10" />
                           )}
                         </div>
                       ))}
@@ -199,7 +199,7 @@ export default function ProductStackMobile({
                         onClick={() =>
                           router.push(`/product/${product.productId}`)
                         }
-                        className="mt-4 w-full rounded-xl dark:bg-white/85 dark:text-black bg-black py-3 text-white"
+                        className="mt-4 w-full rounded-xl dark:bg-white/85 dark:text-black bg-neutral-950 py-3 text-white"
                       >
                         View Product
                       </button>

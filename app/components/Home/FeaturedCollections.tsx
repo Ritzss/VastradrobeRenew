@@ -57,7 +57,7 @@ const FeaturedCollections = ({ sections }: Props) => {
   ];
 
   return (
-    <section className="py-14 dark:bg-black not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
+    <section className="py-14 dark:bg-neutral-950 not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-end mb-10">
           <div>
@@ -81,7 +81,7 @@ const FeaturedCollections = ({ sections }: Props) => {
         <HorizontalScroll
           customclass="w-[24rem]"
           className="gap-0"
-          color={`dark:text-[#1a1a1a] text-white`}
+          color={`dark:text-[#1d1416] text-white`}
         >
           <div className="flex flex-nowrap gap-6 scrollbar-hide pb-4">
             {orderedCollections.map(([collection, data]) => {
@@ -134,7 +134,7 @@ const FeaturedCollections = ({ sections }: Props) => {
                       className="absolute right-8 top-12 h-45 w-32.5 rounded-xl object-cover rotate-[8deg] transition duration-500 group-hover:-translate-y-3"
                     />
 
-                    <div className="absolute bottom-0 left-0 w-full dark:bg-black/85 bg-white/85 backdrop-blur-md p-6">
+                    <div className="absolute bottom-0 left-0 w-full dark:bg-neutral-950/85 bg-white/85 backdrop-blur-md p-6">
                       <h3 className="text-2xl font-semibold text-[#5f5143]">
                         {collection}
                       </h3>

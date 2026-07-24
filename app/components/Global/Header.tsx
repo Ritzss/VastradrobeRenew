@@ -78,7 +78,7 @@ export default function CampaignSection() {
   return (
     <>
       {/* ================= HERO SECTION ================= */}
-      <section className=" dark:bg-black bg-[#fff8f8] py-10 lg:py-5">
+      <section className=" dark:bg-neutral-950 bg-[#fff8f8] py-10 lg:py-5">
         <div className="mx-auto px-4">
           {/* Heading
 
@@ -287,7 +287,7 @@ export default function CampaignSection() {
                     className="object-cover transition duration-700 group-hover:scale-105"
                   />
 
-                  <div className="absolute inset-0 bg-black/30 transition group-hover:bg-black/20" />
+                  <div className="absolute inset-0 bg-neutral-950/30 transition group-hover:bg-neutral-950/20" />
 
                   <div className="absolute bottom-6 left-6 text-white">
                     <h3 className="text-2xl font-semibold">{banner.title}</h3>
@@ -304,7 +304,7 @@ export default function CampaignSection() {
       {/* ================= VIDEO OVERLAY ================= */}
       {showVideo && (
         <div
-          className="fixed inset-0 bg-black/90 flex items-center justify-center z-100 animate-fadeIn"
+          className="fixed inset-0 bg-neutral-950/90 flex items-center justify-center z-100 animate-fadeIn"
           onClick={() => setShowVideo(false)}
         >
           <div

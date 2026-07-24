@@ -23,11 +23,17 @@ export default function CartDrawer() {
     lastAddedProduct,
   } = useAppContext();
 
+  // 🔒 FIXED LAYOUT ISSUE: Instead of adding a 420px right padding (which shifts and breaks the site on mobile),
+  // we lock the body scroll dynamically to prevent background scrolling when the drawer is active.
   useEffect(() => {
-    document.body.style.paddingRight = cartDrawerOpen ? "420px" : "";
+    if (cartDrawerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
 
     return () => {
-      document.body.style.paddingRight = "";
+      document.body.style.overflow = "";
     };
   }, [cartDrawerOpen]);
 
@@ -63,18 +69,6 @@ export default function CartDrawer() {
 
   const progress = Math.min((subtotal / FREE_SHIPPING) * 100, 100);
 
-  // const getCollections = (subCategories?: string | string[]) => {
-  //   const categories = Array.isArray(subCategories)
-  //     ? subCategories
-  //     : subCategories
-  //       ? [subCategories]
-  //       : [];
-
-  //   return [
-  //     ...new Set(categories.map((sub) => collectionMap[sub]).filter(Boolean)),
-  //   ];
-  // };
-
   const getCollections = (subCategories?: string | string[]) => {
     const categories = Array.isArray(subCategories)
       ? subCategories
@@ -83,36 +77,9 @@ export default function CartDrawer() {
         : [];
 
     return [
-      ...new Set(
-        categories
-          .map((sub) => collectionMap[sub])
-          .filter(Boolean),
-      ),
+      ...new Set(categories.map((sub) => collectionMap[sub]).filter(Boolean)),
     ];
   };
-
-  // const suggestions = useMemo(() => {
-  //   if (!lastAddedProduct) return [];
-
-  //   // Collections of the added product
-  //   const currentCollections = getCollections(
-  //     lastAddedProduct.product.subcategory,
-  //   );
-
-  //   return products
-  //     .filter((product) => {
-  //       if (product.productId === lastAddedProduct.product.productId) {
-  //         return false;
-  //       }
-
-  //       const productCollections = getCollections(product.subcategory);
-
-  //       return productCollections.some((collection) =>
-  //         currentCollections.includes(collection),
-  //       );
-  //     })
-  //     .slice(0, 8);
-  // }, [products, lastAddedProduct]);
 
   const suggestionGroups = useMemo(() => {
     if (!lastAddedProduct) return [];
@@ -140,19 +107,21 @@ export default function CartDrawer() {
     <AnimatePresence>
       {cartDrawerOpen && (
         <>
-          {/* <motion.div
-            className="fixed inset-0 bg-black/40 z-40"
+          {/* 🔒 FIXED BACKDROP: Reactivated the blurred backdrop. Clicking outside now closes the drawer. */}
+          <motion.div
+            className="fixed inset-0 bg-neutral-950/40 backdrop-blur-xs z-40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setCartDrawerOpen(false)}
-          /> */}
+          />
 
           <motion.aside
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{
+              type: "tween",
               duration: 0.3,
             }}
             className="fixed right-0 top-0 z-50 h-screen w-full sm:w-105 bg-white shadow-2xl flex flex-col"
@@ -313,82 +282,6 @@ export default function CartDrawer() {
 
                 {/* RECOMMENDATIONS */}
 
-                {/* {suggestions.length > 0 && (
-                  <div>
-                    <div className="mb-4 px-1">
-                      <h3 className="text-lg font-semibold">
-                        You May Also Like
-                      </h3>
-                    </div>
-
-                    <div className="-mx-5 overflow-x-auto px-5 pb-2">
-                      <div className="flex gap-4 snap-x snap-mandatory">
-                        {suggestions.map((product) => {
-                          const variant = product.variants[0];
-
-                          return (
-                            <Link
-                              key={product.productId}
-                              href={{
-                                pathname: `/${product.category.toLowerCase()}/${createSlug(
-                                  product.name,
-                                  product.productId,
-                                )}`,
-                                query: {
-                                  color: product.variants[0].color,
-                                },
-                              }}
-                              onClick={() => setCartDrawerOpen(false)}
-                              className="min-w-67.5 max-w-67.5 shrink-0 snap-start rounded-2xl border bg-white overflow-hidden hover:shadow-lg transition"
-                            >
-                              <div className="flex">
-                                <div className="relative h-32 w-28 shrink-0 overflow-hidden">
-                                  <Image
-                                    src={
-                                      variant.designs?.[0]?.images?.[0] ??
-                                      variant.images?.[0] ??
-                                      "/Assets/Images/Newplaceholder.png"
-                                    }
-                                    alt={product.name}
-                                    fill
-                                    sizes="112px"
-                                    className="object-cover"
-                                  />
-                                </div>
-
-                                <div className="flex flex-1 flex-col justify-between p-2">
-                                  <div>
-                                    <p className="line-clamp-2 text-sm font-medium">
-                                      {product.name}
-                                    </p>
-
-                                    <p className="mt-2 text-xs text-neutral-500">
-                                      {variant.color}
-                                    </p>
-                                  </div>
-
-                                  <div>
-                                    <p className="text-lg font-bold">
-                                      ₹{product.price}
-                                    </p>
-
-                                    <p className="mt-1 text-xs text-neutral-500">
-                                      {product.variants.length} Color
-                                      {product.variants.length > 1 ? "s" : ""}
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                )} */}
-
-                {/* RECOMMENDATIONS */}
-
                 {suggestionGroups.map((group) => (
                   <div key={group.collection}>
                     <div className="mb-4 px-1">
@@ -485,13 +378,13 @@ export default function CartDrawer() {
 
               <div className="space-y-3">
                 <Link href="/checkout" onClick={() => setCartDrawerOpen(false)}>
-                  <button className="w-full rounded-xl bg-[#6A0F1F] py-3.5 font-semibold text-white transition hover:opacity-90">
+                  <button className="w-full rounded-xl bg-[#6A0F1F] py-3.5 font-semibold text-white transition hover:opacity-90 cursor-pointer">
                     Checkout
                   </button>
                 </Link>
 
                 <Link href="/cart" onClick={() => setCartDrawerOpen(false)}>
-                  <button className="w-full rounded-xl border border-neutral-300 py-3.5 font-medium transition hover:bg-neutral-100">
+                  <button className="w-full rounded-xl border border-neutral-300 py-3.5 font-medium transition hover:bg-neutral-100 cursor-pointer">
                     View Cart
                   </button>
                 </Link>

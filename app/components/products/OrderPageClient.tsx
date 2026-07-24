@@ -138,7 +138,7 @@ const OrdersPageClient = () => {
           return (
             <div
               key={order._id}
-              className="bg-[#1a1a1a] not-dark:bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 mb-12 transition"
+              className="bg-[#1d1416] not-dark:bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 mb-12 transition"
             >
               {/* Header */}
               <div className="flex justify-between items-center mb-6">

@@ -155,7 +155,7 @@ const CartClient = () => {
                     return (
                       <div
                         key={`${entry.productId}_${entry.size}`}
-                        className="dark:bg-black/85 border border-white not-dark:bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-4 sm:p-6 flex gap-4 sm:gap-6"
+                        className="dark:bg-neutral-950/85 border border-white not-dark:bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-4 sm:p-6 flex gap-4 sm:gap-6"
                       >
                         {/* Image */}
                         <div className="relative w-24 h-32 sm:w-28 sm:h-36 rounded-2xl overflow-hidden not-dark:bg-[#f3e7d8] shrink-0">
@@ -310,7 +310,7 @@ const CartClient = () => {
                       return (
                         <div
                           key={`${item.productId}-${item.color}-${item.size}`}
-                          className="rounded-[28px] border border-neutral-200 bg-white p-4 sm:p-6 shadow-[0_20px_60px_rgba(149,127,106,0.12)] dark:border-white dark:bg-black/85"
+                          className="rounded-[28px] border border-neutral-200 bg-white p-4 sm:p-6 shadow-[0_20px_60px_rgba(149,127,106,0.12)] dark:border-white dark:bg-neutral-950/85"
                         >
                           <div className="flex flex-col gap-5 md:items-end sm:justify-between">
                             {/* Left */}
@@ -358,7 +358,7 @@ const CartClient = () => {
                                     item.color,
                                   )
                                 }
-                                className="rounded-full bg-black px-6 py-3 text-sm font-medium text-white transition hover:opacity-90 dark:bg-white dark:text-black"
+                                className="rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition hover:opacity-90 dark:bg-white dark:text-black"
                               >
                                 Move to Cart
                               </button>
@@ -387,7 +387,7 @@ const CartClient = () => {
 
             {/* RIGHT – SUMMARY */}
             <div className="md:col-span-1">
-              <div className="rounded-4xl border border-white bg-white dark:bg-black/85 p-6 sm:p-8 shadow-[0_30px_80px_rgba(149,127,106,0.15)] lg:sticky lg:top-28">
+              <div className="rounded-4xl border border-white bg-white dark:bg-neutral-950/85 p-6 sm:p-8 shadow-[0_30px_80px_rgba(149,127,106,0.15)] lg:sticky lg:top-28">
                 <h3 className="text-xl font-semibold text-[#5f5143]">
                   Order Summary
                 </h3>

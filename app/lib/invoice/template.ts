@@ -75,7 +75,7 @@ body{
 
 .brand p{
     font-size:12px;
-    color:#1a1a1a;
+    color:#1d1416;
 }
 
 .invoice-meta{

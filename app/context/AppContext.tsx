@@ -48,6 +48,10 @@ export interface AppContextType {
   showProductDeatils: boolean;
   setShowProductDeatils: Dispatch<SetStateAction<boolean>>;
 
+  /* 🌗 Theme Toggle (Circle Grow Transition) */
+  theme: "light" | "dark";
+  toggleTheme: (event: React.MouseEvent) => void;
+
   /* 🛒 Cart */
   cartItems: CartItem[];
   savedForLater: CartItem[];

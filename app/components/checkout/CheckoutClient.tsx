@@ -249,7 +249,7 @@ const CheckoutClient = () => {
         <div className="space-y-10">
           <h1 className="text-3xl font-semibold text-[#5f5143]">Checkout</h1>
 
-          <div className="dark:bg-black/85 border border-white not-dark:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
+          <div className="dark:bg-neutral-950/85 border border-white not-dark:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] space-y-6">
             <div>
               <label className="text-sm text-[#7a6a5c]">Name</label>
               <input
@@ -284,7 +284,7 @@ const CheckoutClient = () => {
         </div>
 
         {/* RIGHT: SUMMARY */}
-        <div className="dark:bg-black/85 border border-white not-dark:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] h-fit space-y-6">
+        <div className="dark:bg-neutral-950/85 border border-white not-dark:bg-white rounded-4xl p-8 shadow-[0_20px_60px_rgba(149,127,106,0.15)] h-fit space-y-6">
           <h2 className="text-xl font-semibold text-[#5f5143]">
             Order Summary
           </h2>
