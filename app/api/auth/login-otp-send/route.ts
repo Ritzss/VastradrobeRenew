@@ -3,9 +3,26 @@ import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/db";
 import User from "@/model/User";
 import { sendOtpEmail } from "@/lib/mail";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
 
 export async function POST(req: Request) {
   try {
+    const ip = getClientIp(req);
+
+    // 🔒 RATE LIMIT: Max 3 requests per minute per IP to prevent SMS/Email spamming and billing exhaustions
+    const isAllowed = rateLimit(ip, 3, 60 * 1000);
+    if (!isAllowed) {
+      return NextResponse.json(
+        {
+          message:
+            "Too many OTP requests. Please wait 60 seconds before trying again.",
+        },
+        {
+          status: 429, // Too Many Requests
+        },
+      );
+    }
+
     const { identifier } = await req.json();
 
     if (!identifier) {
@@ -15,7 +32,7 @@ export async function POST(req: Request) {
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -39,16 +56,12 @@ export async function POST(req: Request) {
         });
       }
 
-      const otp = Math.floor(
-        100000 + Math.random() * 900000
-      ).toString();
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
       const hashedOtp = await bcrypt.hash(otp, 10);
 
       user.loginOtp = hashedOtp;
-      user.loginOtpExpiry = new Date(
-        Date.now() + 10 * 60 * 1000
-      );
+      user.loginOtpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
       user.loginOtpAttempts = 0;
 
@@ -76,7 +89,7 @@ export async function POST(req: Request) {
       },
       {
         status: 400,
-      }
+      },
     );
   } catch (error) {
     console.error("LOGIN OTP SEND:", error);
@@ -87,7 +100,7 @@ export async function POST(req: Request) {
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }

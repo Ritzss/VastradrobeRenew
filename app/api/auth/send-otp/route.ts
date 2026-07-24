@@ -3,9 +3,24 @@ import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/db";
 import User from "@/model/User";
 import { sendOtpEmail } from "@/lib/mail";
+import { rateLimit, getClientIp } from "@/lib/rateLimit";
 
 export async function POST(req: Request) {
   try {
+    const ip = getClientIp(req);
+
+    // 🔒 RATE LIMIT: Max 3 OTP requests per minute per IP to prevent spam and billing exhaustion
+    const isAllowed = rateLimit(ip, 3, 60 * 1000);
+    if (!isAllowed) {
+      return NextResponse.json(
+        {
+          error:
+            "Too many OTP requests. Please wait 60 seconds before trying again.",
+        },
+        { status: 429 }, // Too Many Requests
+      );
+    }
+
     const { email } = await req.json();
 
     if (!email) {
