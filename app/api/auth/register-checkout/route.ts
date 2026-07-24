@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/db";
 import User from "@/model/User";
@@ -35,11 +34,7 @@ export async function POST(req: Request) {
     let user = await User.findOne({ mobile });
 
     if (!user) {
-      // Random password because checkout users don't create one
-      //   const randomPassword = Math.random().toString(36).slice(-12);
-
-      //   const hashedPassword = await bcrypt.hash(randomPassword, 10);
-
+      // Create a fresh guest user with no password
       user = await User.create({
         username,
         mobile,
@@ -52,7 +47,23 @@ export async function POST(req: Request) {
         },
       });
     } else {
-      // Keep latest delivery details
+      // 🔒 SECURITY CHECK: If this user is an active registered member with a password set,
+      // prevent unauthenticated takeovers. Force them to log in through normal channels.
+      if (user.password !== null && user.isPasswordSet) {
+        return NextResponse.json(
+          {
+            message:
+              "An active account with this mobile number already exists. Please log in to your account.",
+            code: "AUTH_REQUIRED",
+          },
+          {
+            status: 409, // Conflict
+          },
+        );
+      }
+
+      // If the existing user is only a guest checkout account (no password),
+      // we can safely update their latest delivery details and proceed.
       user.username = username;
       user.deliveryAddress = {
         address,
