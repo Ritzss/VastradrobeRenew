@@ -2,39 +2,17 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { FaPlay, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+import { Play } from "lucide-react";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, EffectFade } from "swiper/modules";
 
-// const banners = [
-//   {
-//     image: "/Assets/Images/banner3.png",
-//     title: "New Collection",
-//     subtitle: "Discover timeless elegance.",
-//   },
-//   {
-//     image: "/Assets/Images/banner1.png",
-//     title: "Festive Edit",
-//     subtitle: "Celebrate in style.",
-//   },
-//   {
-//     image: "/Assets/Images/banner2.png",
-//     title: "Everyday Luxe",
-//     subtitle: "Designed for every moment.",
-//   },
-// ];
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-fade";
 
 const HERO_BANNERS = [
-  // {
-  //   id: 1,
-  //   image: "/Assets/Images/banner3.png",
-  //   title: "New Collection",
-  //   subtitle: "Discover timeless elegance.",
-  //   buttonText: "Shop Collection",
-  //   href: "/collection/new",
-  //   previewHref: "/collection/new",
-  // },
   {
     id: 1,
     image:
@@ -43,10 +21,9 @@ const HERO_BANNERS = [
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1783584186/mobilebanner1_vxjcjw.png",
     title: "Ethnic Wear Collection",
     subtitle:
-      "Shop premium ethnic wear for women including kurta sets, festive outfits, elegant suits, and traditional styles for every celebration.",
-    buttonText: "Shop Ethnic Wear",
+      "Thoughtfully handcrafted silhouettes, breathable fabrics, and elegant everyday essentials. Curated for timeless celebrations.",
+    buttonText: "Shop Collection",
     href: "/collections/ethnic-collection",
-    previewHref: "/collections/ethnic-collection",
   },
   {
     id: 2,
@@ -54,19 +31,18 @@ const HERO_BANNERS = [
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_1920,c_limit/v1783584187/banner2_aqoqvy.png",
     mobileimage:
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1783584186/mobilebanner2_o3dtk9.png",
-    title: "Co-Ord Sets Online",
+    title: "Modern Co-Ord Sets",
     subtitle:
-      "Discover stylish women's co-ord sets, office wear co-ord sets, cotton co-ord sets, and western outfits designed for everyday comfort and elegance.",
-    buttonText: "Shop Co-Ord Sets",
+      "Elegantly coordinated Western and fusion wear sets designed for effortless style and premium comfort.",
+    buttonText: "Explore Co-Ords",
     href: "/collections/co-ord-collection",
-    previewHref: "/collections/co-ord-collection",
   },
 ];
 
 export default function CampaignSection() {
   const [showVideo, setShowVideo] = useState(false);
 
-  // Close on ESC
+  // Close video modal on ESC
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setShowVideo(false);
@@ -77,251 +53,117 @@ export default function CampaignSection() {
 
   return (
     <>
-      {/* ================= HERO SECTION ================= */}
-      <section className=" dark:bg-neutral-950 bg-[#fff8f8] py-10 lg:py-5">
-        <div className="mx-auto px-4">
-          {/* Heading
-
-          <div className="mx-auto mb-12 max-w-3xl text-center">
-            <p className="text-xs uppercase tracking-[0.35em] text-[#957f6a]">
-              New Collection
-            </p>
-
-            <h1 className="mt-4 text-4xl font-semibold text-[#5f5143] md:text-6xl">
-              Timeless Elegance
-            </h1>
-
-            <p className="mt-6 text-[#7b6a58]">
-              Curated silhouettes crafted for modern expression and refined
-              presence.
-            </p>
-
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link
-                href="/collection"
-                className="rounded-full bg-[#6a0f1f] px-8 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:bg-[#4d0b18]"
-              >
-                Explore Collection
-              </Link>
-
-              <button
-                onClick={() => setShowVideo(true)}
-                className="flex items-center gap-3 rounded-full border border-[#6a0f1f] px-8 py-3 text-sm uppercase tracking-[0.2em] text-[#6a0f1f] transition hover:bg-[#6a0f1f] hover:text-white"
-              >
-                <FaPlay size={12} />
-                Watch Video
-              </button>
-            </div>
-          </div> */}
-          {/* Heading */}
-          <div className="hidden md:block mx-auto mb-16 max-w-4xl text-center">
-            <div className="mb-4 flex items-center justify-center gap-4">
-              <span className="h-px w-12 bg-[#c7b29b]" />
-
-              <p className="text-xs font-medium uppercase tracking-[0.45em] text-[#957f6a]">
-                Autumn · Winter 2026
-              </p>
-
-              <span className="h-px w-12 bg-[#c7b29b]" />
-            </div>
-
-            <h1 className="text-5xl font-semibold leading-tight text-[#5f5143] md:text-7xl">
-              Designed to
-              <span className="block italic font-light text-[#8c5d4d]">
-                Be Remembered
-              </span>
-            </h1>
-
-            <p className="hidden md:block mx-auto mt-8 max-w-2xl text-lg leading-8 text-[#7b6a58]">
-              Discover refined silhouettes, luxurious fabrics, and timeless
-              pieces created for every occasion. Fashion that feels effortless
-              today and unforgettable tomorrow.
-            </p>
-
-            {/* Stats */}
-
-            <div className="mt-10 flex md:flex-wrap justify-center gap-2 md:gap-8 text-center">
-              <div>
-                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">
-                  50+
-                </h3>
-                <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
-                  Premium Styles
-                </p>
-              </div>
-
-              <div className="h-10 w-px bg-[#d7c8b6]" />
-
-              <div>
-                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">
-                  300+
-                </h3>
-                <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
-                  Happy Customers
-                </p>
-              </div>
-
-              <div className="h-10 w-px bg-[#d7c8b6]" />
-
-              <div>
-                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">
-                  100%
-                </h3>
-                <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
-                  Premium Quality
-                </p>
-              </div>
-            </div>
-
-            {/* Buttons */}
-
-            <div className="mt-12 flex flex-wrap justify-center gap-5">
-              <Link
-                href="/collection"
-                className="group rounded-full bg-[#6a0f1f] px-9 py-3 text-sm uppercase tracking-[0.25em] text-white transition duration-300 hover:scale-105 hover:bg-[#4d0b18]"
-              >
-                Explore Collection
-                <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1 inline-block">
-                  →
-                </span>
-              </Link>
-
-              <button
-                onClick={() => setShowVideo(true)}
-                className="group flex items-center gap-3 rounded-full border border-[#6a0f1f] px-9 py-3 text-sm uppercase tracking-[0.25em] dark:text-white text-[#6a0f1f] transition duration-300 hover:bg-[#6a0f1f] hover:text-white"
-              >
-                <FaPlay
-                  size={12}
-                  className="transition-transform duration-300 group-hover:scale-125"
+      {/* 👑 GEOMETRIC SANS-SERIF HERO CAROUSEL (Full-Bleed Luxury Slider) */}
+      <section className="relative w-full overflow-hidden bg-white">
+        <Swiper
+          modules={[Autoplay, EffectFade]}
+          effect={"fade"}
+          autoplay={{
+            delay: 4500,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          className="h-[65vh] sm:h-[75vh] md:h-[85vh] w-full"
+        >
+          {HERO_BANNERS.map((banner) => (
+            <SwiperSlide
+              key={banner.id}
+              className="relative w-full h-full overflow-hidden"
+            >
+              {/* Mobile Image */}
+              <div className="absolute inset-0 block md:hidden">
+                <Image
+                  src={banner.mobileimage}
+                  alt={banner.title}
+                  fill
+                  priority={banner.id === 1}
+                  fetchPriority={banner.id === 1 ? "high" : "auto"}
+                  loading={banner.id === 1 ? "eager" : "lazy"}
+                  className="object-cover"
+                  sizes="100vw"
                 />
-                Brand Story
-              </button>
-            </div>
-          </div>
+              </div>
 
-          {/* Main Slider */}
+              {/* Desktop Image */}
+              <div className="absolute inset-0 hidden md:block">
+                <Image
+                  src={banner.image}
+                  alt={banner.title}
+                  fill
+                  priority={banner.id === 1}
+                  fetchPriority={banner.id === 1 ? "high" : "auto"}
+                  loading={banner.id === 1 ? "eager" : "lazy"}
+                  className="object-cover"
+                  sizes="100vw"
+                />
+              </div>
 
-          <Swiper
-            modules={[Pagination, Autoplay]}
-            pagination={{ clickable: true }}
-            autoplay={{
-              delay: 2000,
-              disableOnInteraction: false,
-            }}
-            loop={false}
-            className="rounded-2xl md:rounded-3xl"
-          >
-            {HERO_BANNERS.map((banner) => (
-              <SwiperSlide key={banner.title}>
-                <div className="relative h-120 sm:h-130 md:h-auto md:aspect-21/9 overflow-hidden rounded-2xl md:rounded-3xl">
-                  <Image
-                    src={banner.mobileimage}
-                    alt={banner.title}
-                    fill
-                    priority={banner.id === 1}
-                    fetchPriority={banner.id === 1 ? "high" : "auto"}
-                    loading={banner.id === 1 ? "eager" : "lazy"}
-                    sizes="(max-width: 767px) calc(100vw - 2rem), 0px"
-                    className="object-cover md:hidden"
-                  />
+              {/* Premium Gradient Overlay (Makes white text highly readable while keeping right side bright) */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
 
-                  <Image
-                    src={banner.image}
-                    alt={banner.title}
-                    fill
-                    priority={banner.id === 1}
-                    fetchPriority={banner.id === 1 ? "high" : "auto"}
-                    loading={banner.id === 1 ? "eager" : "lazy"}
-                    sizes="(max-width: 767px) 0px, calc(100vw - 2rem)"
-                    className="hidden object-cover md:block"
-                  />
-                  {/* phone banner 393 x 480 */}
+              {/* Content Overlay */}
+              <div className="absolute inset-0 flex items-center justify-start px-6 sm:px-12 md:px-20 lg:px-28">
+                {/* 🔒 FIXED FONT COMPATIBILITY: All typography uses your website's elegant, clean geometric sans-serif (GeistSans) with premium uppercase tracked spacing instead of generic serif fonts */}
+                <div className="w-full max-w-2xl text-white text-left space-y-4 md:space-y-6 z-10 font-sans">
+                  <p className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-white/90 font-medium">
+                    Autumn / Winter Edit
+                  </p>
 
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-linear-to-r md:from-black/70 md:via-black/20 from-black/65 via-black/45 to-black/20" />
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-wider uppercase leading-none text-white drop-shadow-sm">
+                    {banner.title}
+                  </h2>
 
-                  {/* Content */}
-                  <div className="absolute inset-0 flex items-end md:items-center">
-                    <div className="w-full max-w-xl p-6 pb-10 md:p-8 lg:p-12 text-white">
-                      <p className="mb-2 text-[10px] md:text-sm uppercase tracking-[0.25em]">
-                        Featured
-                      </p>
+                  <p className="text-xs sm:text-sm md:text-base text-white/85 max-w-lg leading-relaxed font-light tracking-wide">
+                    {banner.subtitle}
+                  </p>
 
-                      <h2 className="md:text-3xl font-semibold leading-tight sm:text-4xl lg:text-6xl">
-                        {banner.title}
-                      </h2>
+                  <div className="flex flex-wrap items-center gap-4 pt-2">
+                    <Link
+                      href={banner.href}
+                      className="border border-white hover:bg-white hover:text-neutral-900 transition-all duration-300 px-7 sm:px-8 py-3 text-[10px] sm:text-xs tracking-widest uppercase font-semibold inline-flex rounded-xs"
+                    >
+                      {banner.buttonText}
+                    </Link>
 
-                      <p className="hidden md:block mt-3 text-sm md:text-base text-white/85 max-w-md">
-                        {banner.subtitle}
-                      </p>
-
-                      <Link
-                        href={banner.href}
-                        className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-5 py-1 md:py-3 text-sm font-medium text-[#6a0f1f] transition-all hover:scale-105"
+                    {/* Integrated Brand Story Button Inside Slider */}
+                    {banner.id === 1 && (
+                      <button
+                        onClick={() => setShowVideo(true)}
+                        className="flex items-center gap-2 border border-white/40 hover:border-white hover:bg-white/10 transition-all duration-300 px-6 sm:px-7 py-3 text-[10px] sm:text-xs tracking-widest uppercase font-semibold inline-flex cursor-pointer"
                       >
-                        {banner.buttonText}
-                      </Link>
-                    </div>
+                        <Play size={11} fill="white" strokeWidth={0} />
+                        Brand Story
+                      </button>
+                    )}
                   </div>
                 </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-
-          {/* Preview Cards */}
-
-          <div className="hidden md:grid mt-8 gap-6 md:grid-cols-2">
-            {HERO_BANNERS.slice(0).map((banner) => (
-              <Link
-                href={banner.previewHref}
-                key={banner.title}
-                className="group"
-              >
-                <div className="relative aspect-2/1 overflow-hidden rounded-2xl">
-                  <Image
-                    src={banner.image}
-                    alt={banner.title}
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition duration-700 group-hover:scale-105"
-                  />
-
-                  <div className="absolute inset-0 bg-neutral-950/30 transition group-hover:bg-neutral-950/20" />
-
-                  <div className="absolute bottom-6 left-6 text-white">
-                    <h3 className="text-2xl font-semibold">{banner.title}</h3>
-
-                    <p className="mt-2 text-white/80">{banner.buttonText} →</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </section>
 
-      {/* ================= VIDEO OVERLAY ================= */}
+      {/* ================= VIDEO OVERLAY MODAL ================= */}
       {showVideo && (
         <div
-          className="fixed inset-0 bg-neutral-950/90 flex items-center justify-center z-100 animate-fadeIn"
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-100"
           onClick={() => setShowVideo(false)}
         >
           <div
-            className="relative w-[90vw] max-w-5xl"
+            className="relative w-[90vw] max-w-4xl"
             onClick={(e) => e.stopPropagation()}
           >
             <video
               src="https://res.cloudinary.com/dwhn5ec09/video/upload/q_auto,f_auto,w_1600/v1771305979/main-video_a4rarc.mp4"
               autoPlay
               controls
-              className="w-full rounded-xl"
+              className="w-full rounded-2xl shadow-2xl border border-white/5"
             />
 
             {/* Close Button */}
             <button
               onClick={() => setShowVideo(false)}
-              className="absolute -top-12 right-0 text-white text-xl"
+              className="absolute -top-12 right-0 text-white hover:text-[#6A0F1F] transition text-2xl p-2 cursor-pointer"
             >
               <FaTimes />
             </button>
