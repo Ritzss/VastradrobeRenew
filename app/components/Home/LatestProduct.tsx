@@ -18,7 +18,18 @@ const categories = [
   { key: "boys", label: "Boys" },
 ] as const;
 
-export default function LatestArrivals({ products }: LatestArrivalsProps,text: string) {
+/**
+ * 👑 LUXURY REDESIGN: Latest Arrivals Grid Navigator (Nangalia Ruchira Theme)
+ *
+ * Featuring:
+ * - Ultra-clean, uppercase wide-tracked category selectors.
+ * - Crimson line indicator (#6A0F1F) under selected categories.
+ * - Smooth transition states.
+ */
+export default function LatestArrivals(
+  { products }: LatestArrivalsProps,
+  text: string,
+) {
   const [selectedCategory, setSelectedCategory] =
     useState<(typeof categories)[number]["key"]>("women");
 
@@ -26,15 +37,12 @@ export default function LatestArrivals({ products }: LatestArrivalsProps,text: s
     return categories.filter(({ key }) => {
       return products.some((product) => {
         const category = product.category.toLowerCase();
-        // const subcategory = product.subcategory?.toLowerCase() ?? "";
 
         switch (key) {
           case "girls":
-          return category === "girls";
-
-        case "boys":
-          return category === "boys";
-
+            return category === "girls";
+          case "boys":
+            return category === "boys";
           default:
             return category === key;
         }
@@ -45,15 +53,12 @@ export default function LatestArrivals({ products }: LatestArrivalsProps,text: s
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const category = product.category.toLowerCase();
-      // const subcategory = product?.subcategory?.toLowerC///ase();
 
       switch (selectedCategory) {
         case "girls":
-          return category === "girls" ;
-
+          return category === "girls";
         case "boys":
-          return category === "boys" ;
-
+          return category === "boys";
         default:
           return category === selectedCategory;
       }
@@ -70,22 +75,22 @@ export default function LatestArrivals({ products }: LatestArrivalsProps,text: s
 
   return (
     <>
-      {/* Category Navigation */}
-      <div className="flex items-center justify-center gap-8 mb-14">
+      {/* Category Navigation (Elegant tracked links) */}
+      <div className="flex items-center justify-center gap-6 sm:gap-8 mb-12 border-b border-neutral-100 dark:border-neutral-900 pb-3 max-w-lg mx-auto">
         {availableCategories.map((category) => (
           <button
             key={category.key}
             onClick={() => setSelectedCategory(category.key)}
-            className={`relative pb-2 text-sm uppercase tracking-[0.25em] transition-all duration-300 ${
+            className={`relative pb-3 text-[10px] font-bold uppercase tracking-[0.25em] transition-all duration-300 cursor-pointer ${
               selectedCategory === category.key
-                ? "text-[#5f5143]"
-                : "text-[#a89784] hover:text-[#5f5143]"
+                ? "text-[#6A0F1F] dark:text-[#e4e198]"
+                : "text-neutral-400 hover:text-neutral-800 dark:hover:text-white"
             }`}
           >
             {category.label}
 
             <span
-              className={`absolute left-0 bottom-0 h-0.5 bg-[#5f5143] transition-all duration-300 ${
+              className={`absolute left-0 bottom-0 h-0.5 bg-[#6A0F1F] dark:bg-[#e4e198] transition-all duration-300 ${
                 selectedCategory === category.key
                   ? "w-full opacity-100"
                   : "w-0 opacity-0"
@@ -97,27 +102,38 @@ export default function LatestArrivals({ products }: LatestArrivalsProps,text: s
 
       <section className="relative w-full">
         {/* Left Fade */}
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-linear-to-r dark:from-black from-[#fffaf6] to-transparent" />
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-linear-to-r dark:from-black from-[#fcfbfa] to-transparent" />
 
         {/* Right Fade */}
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l dark:from-black from-[#fffaf6] to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l dark:from-black from-[#fcfbfa] to-transparent" />
 
         {filteredProducts.length > 3 ? (
           <InfiniteScrollWrapper key={selectedCategory}>
             {filteredProducts.map((product) => (
-              <div key={product.productId} className="w-55 md:w-72 shrink-0 px-1">
+              <div
+                key={product.productId}
+                className="w-55 md:w-72 shrink-0 px-1"
+              >
                 <ProductCardStatic latest text={text} product={product} />
               </div>
             ))}
           </InfiniteScrollWrapper>
         ) : (
           <div className="flex justify-center">
-            <HorizontalScroll className="md:justify-center" color="#f9f5ef">
-            {filteredProducts.map((product) => (
-              <div key={product.productId} className="w-55 md:w-72 shrink-0 px-1">
-                <ProductCardStatic className="" latest text={text} product={product} />
-              </div>
-            ))}
+            <HorizontalScroll className="md:justify-center" color="#fcfbfa">
+              {filteredProducts.map((product) => (
+                <div
+                  key={product.productId}
+                  className="w-55 md:w-72 shrink-0 px-1"
+                >
+                  <ProductCardStatic
+                    className=""
+                    latest
+                    text={text}
+                    product={product}
+                  />
+                </div>
+              ))}
             </HorizontalScroll>
           </div>
         )}
