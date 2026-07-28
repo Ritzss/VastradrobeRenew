@@ -199,11 +199,27 @@ export default function ProductPDPClient({
       : FALLBACK_SIZES;
 
   const stockMap = useMemo(() => {
-    return inventory.reduce((acc: any, item: any) => {
-      acc[item.size] = item.quantity;
-      return acc;
-    }, {});
-  }, [inventory]);
+    if (!inventory?.length || !selectedVariant) return {};
+
+    const inventoryRecord = inventory.find(
+      (item: any) =>
+        item.color.toLowerCase() === selectedVariant.color.toLowerCase(),
+    );
+
+    if (!inventoryRecord) return {};
+
+    // Product with designs
+    if (
+      selectedDesign &&
+      inventoryRecord.designs &&
+      Object.keys(inventoryRecord.designs).length > 0
+    ) {
+      return inventoryRecord.designs[selectedDesign.design] ?? {};
+    }
+
+    // Product without designs
+    return inventoryRecord.sizes ?? {};
+  }, [inventory, selectedVariant, selectedDesign]);
 
   // console.log(inventory);
 
@@ -238,15 +254,21 @@ export default function ProductPDPClient({
       item.color === selectedVariant?.color,
   );
 
-  const getStock = (size: string) => stockMap[size] ?? null;
+  const getStock = (size: string) => Number(stockMap[size] ?? 0);
 
   const handleCartToggle = () => {
     if (!selectedSize || !selectedVariant) return;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    isInCart
-      ? removeFromCart(productId, selectedSize, selectedVariant.color)
-      : addToCart(productId, selectedSize, selectedVariant.color);
+    if (getStock(selectedSize) <= 0) {
+      toast.error("This size is out of stock.");
+      return;
+    }
+
+    if (isInCart) {
+      removeFromCart(productId, selectedSize, selectedVariant.color);
+    } else {
+      addToCart(productId, selectedSize, selectedVariant.color);
+    }
   };
 
   const categoryLabel = ["boys", "girls"].includes(
@@ -502,12 +524,21 @@ export default function ProductPDPClient({
                 );
               })}
             </div>
-            {selectedSize &&
-              (stockMap[selectedSize] > 0 ? (
-                <p className="mt-3 text-green-600 text-sm">In Stock</p>
-              ) : (
-                <p className="mt-3 text-red-600 text-sm">Out of Stock</p>
-              ))}
+            {selectedSize && (
+              <p
+                className={`mt-3 text-sm font-medium ${
+                  (getStock(selectedSize) ?? 0) > 0
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {(getStock(selectedSize) ?? 0) > 0
+                  ? (getStock(selectedSize) ?? 0) <= 10
+                    ? `Only ${getStock(selectedSize)} left`
+                    : "In Stock"
+                  : "Out of Stock"}
+              </p>
+            )}
             {selectedSizeData && (
               <div className="mt-4 border rounded-xl p-4 bg-gray-50 text-sm space-y-2">
                 <h4 className="font-medium">
@@ -537,7 +568,7 @@ export default function ProductPDPClient({
           </div>
 
           {/* BUTTONS */}
-          {(product?.stock ?? 0) > 0 ? (
+          {selectedSize && (getStock(selectedSize) ?? 0) > 0 ? (
             <div className="flex gap-4 pt-4">
               <button
                 disabled={!selectedSize}
