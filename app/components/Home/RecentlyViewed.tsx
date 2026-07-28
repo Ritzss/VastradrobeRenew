@@ -10,13 +10,18 @@ type Props = {
   products: IMSProduct[];
 };
 
+/**
+ * 👑 LUXURY REDESIGN: Recently Viewed (Nangalia Ruchira Theme)
+ *
+ * Styled for premium single-theme look:
+ * - Standardized section header with our classic uppercase tracked typography.
+ * - Backdrop: bg-[#fcfbfa] with neutral-100 borders.
+ */
 export default function RecentlyViewed({ products }: Props) {
   const [ids, setIds] = useState<number[]>([]);
 
   useEffect(() => {
-    const stored = JSON.parse(
-      localStorage.getItem("recentlyViewed") || "[]"
-    );
+    const stored = JSON.parse(localStorage.getItem("recentlyViewed") || "[]");
 
     if (stored.length > 0) {
       setIds(stored);
@@ -32,26 +37,28 @@ export default function RecentlyViewed({ products }: Props) {
   if (recentProducts.length < 2) return null;
 
   return (
-    <section className="py-8  dark:bg-neutral-950 bg-[#fffaf6]">
+    <section className="py-16 bg-[#fcfbfa] dark:bg-black border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
       <div className="w-full mx-auto">
+        {/* HEADER BLOCK */}
+        <div className="text-center mb-12 space-y-1">
+          <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+            Continue Exploring
+          </p>
 
-        <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-3 text-center">
-          Continue Exploring
-        </p>
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase">
+            Recently Viewed
+          </h2>
 
-        <h2 className="text-4xl md:text-5xl font-semibold text-[#5f5143] text-center mb-6">
-          Recently Viewed
-        </h2>
-
-        <p className="text-[#957f6a] text-center max-w-xl mx-auto mb-10">
-          Pick up right where you left off.
-        </p>
+          <p className="text-neutral-500 dark:text-neutral-400 max-w-xl mx-auto text-xs font-light font-sans tracking-wide">
+            Pick up right where you left off.
+          </p>
+        </div>
 
         <div className="relative">
+          {/* Fades */}
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-linear-to-r dark:from-black from-[#fcfbfa] to-transparent" />
 
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-linear-to-r dark:from-black from-[#fffaf6] to-transparent" />
-
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l dark:from-black from-[#fffaf6] to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l dark:from-black from-[#fcfbfa] to-transparent" />
 
           {recentProducts.length > 3 ? (
             <InfiniteScrollWrapper>
@@ -65,19 +72,15 @@ export default function RecentlyViewed({ products }: Props) {
               ))}
             </InfiniteScrollWrapper>
           ) : (
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-4">
               {recentProducts.map((product) => (
-                <div
-                  key={product.productId}
-                  className="w-55 md:w-72 px-1"
-                >
+                <div key={product.productId} className="w-55 md:w-72 px-1">
                   <ProductCardStatic product={product} text={""} />
                 </div>
               ))}
             </div>
           )}
         </div>
-
       </div>
     </section>
   );

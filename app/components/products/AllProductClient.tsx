@@ -7,9 +7,8 @@ import {
   collectionOrder,
 } from "@/lib/collectionMap";
 import { IMSProduct } from "@/Types/Product";
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { RiArrowDownWideFill } from "react-icons/ri";
+import { COLLECTIONS } from "@/lib/collections";
+import Link from "next/link";
 
 type Props = {
   sections: {
@@ -19,39 +18,17 @@ type Props = {
   }[];
 };
 
+/**
+ * 👑 LUXURY REDESIGN: All Collections Page (Nangalia Ruchira Theme)
+ *
+ * Elegant, spacious, expanded lookbook layout:
+ * - Each collection is rendered as a standalone, spacious, fully expanded section (no hidden accordions!).
+ * - Every section features:
+ *    - An elegant, minimalist serif header block with the collection's narrative story description.
+ *    - A clean, modern geometric 4-column grid displaying its top 4 featured products using our newly redesigned ProductCard.
+ *    - A tracked uppercase link trigger prompting them to explore the full collection.
+ */
 const AllProductClient = ({ sections }: Props) => {
-  // const openings = ["Discover", "Explore", "Shop", "Browse", "Find"];
-
-  // const qualities = [
-  //   "premium",
-  //   "trendy",
-  //   "stylish",
-  //   "comfortable",
-  //   "high-quality",
-  // ];
-
-  // const occasions = [
-  //   "everyday wear",
-  //   "casual outings",
-  //   "special occasions",
-  //   "modern wardrobes",
-  //   "all seasons",
-  // ];
-
-  // const getDescription = (subcategory: string, totalProducts: number) => {
-  //   const seed = subcategory
-  //     .split("")
-  //     .reduce((sum, char) => sum + char.charCodeAt(0), 0);
-
-  //   const opening = openings[seed % openings.length];
-  //   const quality = qualities[seed % qualities.length];
-  //   const occasion = occasions[seed % occasions.length];
-
-  //   return `${opening} ${totalProducts} ${quality} ${subcategory.toLowerCase()} at VastraDrobe. Shop quality designs, comfortable fits, and timeless styles perfect for ${occasion}.`;
-  // };
-
-  const [openCollections, setOpenCollections] = useState<string[]>([]);
-
   const groupedCollections: Record<
     string,
     {
@@ -59,14 +36,6 @@ const AllProductClient = ({ sections }: Props) => {
       products: IMSProduct[];
     }
   > = {};
-
-  const toggleCollection = (collection: string) => {
-    setOpenCollections((prev) =>
-      prev.includes(collection)
-        ? prev.filter((c) => c !== collection)
-        : [...prev, collection],
-    );
-  };
 
   sections.forEach((section) => {
     const collection =
@@ -95,78 +64,74 @@ const AllProductClient = ({ sections }: Props) => {
   ];
 
   return (
-    <section className="w-full pt-5 px-12 not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
-      <h1 className="sr-only">All Fashion Products | VastraDrobe</h1>
+    <div className="w-full bg-[#fcfbfa] py-12 transition-colors duration-300">
+      {/* 1. HERO HEADER AREA */}
+      <div className="max-w-7xl mx-auto px-6 text-center space-y-4 mb-20">
+        <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+          Vastra Portfolios
+        </p>
 
-      <div className="flex flex-col items-center">
-        <h1 className="mb-3 text-4xl md:text-5xl font-light tracking-tight text-[#5f5143]">
-          Curated for Every Occasion
+        <h1 className="font-serif text-4xl md:text-5xl font-light text-neutral-800 tracking-wide uppercase leading-tight">
+          Curated Collections
         </h1>
 
-        <p className="mb-16 max-w-3xl text-center leading-7 text-[#7a6a5c]">
-          Browse our complete collection of contemporary fashion, thoughtfully
-          organized by category to help you discover styles for every occasion.
+        <p className="max-w-2xl mx-auto text-sm leading-relaxed text-neutral-500 font-light">
+          Browse our complete clothing portfolios, handcrafted with intention
+          and organized cleanly to help you discover perfect silhouettes for
+          every occasion.
         </p>
       </div>
 
-      {orderedCollections.map(([collection, data]) => {
-        const isOpen = openCollections.includes(collection);
+      {/* 2. COLLECTION SECTIONS (One beautifully styled expanded section per collection) */}
+      <div className="space-y-24 max-w-7xl mx-auto px-6">
+        {orderedCollections.map(([collection, data]) => {
+          const currentCollection = COLLECTIONS.find(
+            (c) => c.label === collection,
+          );
 
-        return (
-          <section key={collection} className="border-b border-[#ece5db] py-6">
-            <button
-              onClick={() => toggleCollection(collection)}
-              className="flex w-full items-center justify-between text-left"
+          if (!currentCollection) return null;
+          const elementId = `collection-${currentCollection.slug}`;
+
+          return (
+            <section
+              key={collection}
+              id={elementId}
+              className="scroll-mt-32 space-y-8 border-b border-neutral-100 pb-16 last:border-b-0 last:pb-0"
             >
-              <h2 className="text-2xl font-light capitalize text-[#5f5143]">
-                {collection}
-              </h2>
+              {/* Collection narrative header */}
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-3 max-w-3xl">
+                  <h2 className="font-serif text-2xl sm:text-3xl font-light text-neutral-800 tracking-wide uppercase">
+                    {collection}
+                  </h2>
+                  <p className="text-xs leading-relaxed text-neutral-500 font-light">
+                    {data.description}
+                  </p>
+                </div>
 
-              <span
-                className={`transition-transform duration-900 dark:text-[#5f5143] ${
-                  isOpen ? "rotate-180" : ""
-                }`}
-              >
-                <RiArrowDownWideFill size={32} />
-
-              </span>
-            </button>
-
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className="overflow-hidden"
+                <Link
+                  href={`/collections/${currentCollection.slug}`}
+                  className="inline-flex text-[10px] tracking-widest font-bold uppercase text-[#6A0F1F] hover:underline underline-offset-4 transition duration-300"
                 >
-                  <div className="pt-6">
-                    <p className="max-w-3xl text-[#7a6a5c]">
-                      {data.description}
-                    </p>
+                  Explore Complete Collection ({data.products.length} items) →
+                </Link>
+              </div>
 
-                    <p className="mt-2 text-sm text-[#9b8a79]">
-                      {data.products.length} Products
-                    </p>
-
-                    <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-                      {data.products.map((product) => (
-                        <ProductCard
-                          key={product.productId}
-                          product={product}
-                          Linked
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </section>
-        );
-      })}
-    </section>
+              {/* Top 4 products grid */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                {data.products.slice(0, 4).map((product) => (
+                  <ProductCard
+                    key={product.productId}
+                    product={product}
+                    Linked
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 
