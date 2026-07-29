@@ -3,10 +3,20 @@
 import { useEffect, useState, useMemo } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import ProductCard from "@/components/Global/ProductCard";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
+/**
+ * 👑 LUXURY REDESIGN: Wishlist / Favorites Page (Nangalia Ruchira Theme)
+ *
+ * Styled for premium look:
+ * - Backdrop: bg-[#fcfbfa] with spacious paddings.
+ * - Header standardized: Classic uppercase tracked tagline, elegant serif titles, and minimal rectangular buttons.
+ * - Filter Swatches: Delicate rectangular selectors with spaced typography.
+ * - Product Grid: Crisp geometric grid columns with clean text link "Remove From Wishlist" triggers.
+ */
 const FavoritesClient = () => {
   const {
     favCollections,
@@ -48,152 +58,171 @@ const FavoritesClient = () => {
   );
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20 space-y-16 pt-28 not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] min-h-screen">
-      {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <h1 className="text-4xl font-semibold tracking-tight text-[#5f5143]">
-          Your Favorites
-        </h1>
+    <div className="min-h-screen bg-[#fcfbfa] px-4 sm:px-6 lg:px-8 py-12 md:py-16 transition-colors duration-300">
+      <div className="max-w-6xl mx-auto space-y-12">
+        {/* HEADER BLOCK */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-neutral-100 pb-6">
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+              Curated Wardrobe
+            </p>
 
-        {!showInput ? (
-          <button
-            onClick={() => setShowInput(true)}
-            className="  flex items-center gap-2  px-5 py-2  rounded-full  bg-[#5f5143]  text-white  text-sm  hover:bg-[#6a0f1f]  transition"
-          >
-            <Plus size={16} />
-            New Collection
-          </button>
-        ) : (
-          <div className="flex gap-3 flex-wrap">
-            <input
-              value={newCollection}
-              onChange={(e) => setNewCollection(e.target.value)}
-              placeholder="Collection name"
-              className=" border border-[#e6d8c8] px-4 py-2 rounded-full text-sm outline-none focus:border-[#5f5143]"
-            />
+            <h1 className="font-serif text-3xl sm:text-4xl font-light text-neutral-800 tracking-wide uppercase">
+              Your Wishlist
+            </h1>
+          </div>
+
+          {/* Action button (Minimal rectangular style) */}
+          {!showInput ? (
             <button
-              onClick={() => {
-                if (!newCollection.trim()) return;
-                createCollection(newCollection.trim());
-                setNewCollection("");
-                setShowInput(false);
-              }}
-              className=" px-4 py-2 rounded-full bg-[#5f5143] text-white text-sm hover:bg-[#6a0f1f] transition"
+              onClick={() => setShowInput(true)}
+              className="px-5 py-3 rounded-md bg-[#6A0F1F] text-white hover:bg-neutral-900 text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shadow-md cursor-pointer transition"
             >
-              Create
+              <Plus size={12} />
+              New Folder
             </button>
+          ) : (
+            <div className="flex gap-2.5 flex-wrap">
+              <input
+                value={newCollection}
+                onChange={(e) => setNewCollection(e.target.value)}
+                placeholder="FOLDER NAME (E.G. SUMMER, FESTIVE)"
+                className="border border-neutral-200 focus:border-neutral-800 px-4 py-2.5 rounded-md text-[10px] uppercase font-bold tracking-wider outline-none bg-white min-w-0"
+                autoFocus
+              />
+              <button
+                onClick={() => {
+                  if (!newCollection.trim()) return;
+                  createCollection(newCollection.trim());
+                  setNewCollection("");
+                  setShowInput(false);
+                }}
+                className="px-5 py-2.5 rounded-md bg-[#6A0F1F] text-white text-[10px] font-bold uppercase tracking-widest cursor-pointer hover:bg-neutral-900 shadow-sm"
+              >
+                Create
+              </button>
+              <button
+                onClick={() => {
+                  setShowInput(false);
+                  setNewCollection("");
+                }}
+                className="px-5 py-2.5 rounded-md border border-neutral-200 text-neutral-500 bg-white text-[10px] font-bold uppercase tracking-widest cursor-pointer hover:bg-neutral-50"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* CATEGORY FILTER (Minimal rectangular selectors) */}
+        {hasAnyFavorites && (
+          <div className="flex flex-wrap gap-2 pt-1">
             <button
-              onClick={() => {
-                setShowInput(false);
-                setNewCollection("");
-              }}
-              className=" px-4 py-2 rounded-full bg-[#e6d8c8] text-[#5f5143] text-sm"
+              onClick={() => setSelectedCategory(null)}
+              className={`px-5 py-2.5 rounded-sm border text-[10px] font-bold uppercase tracking-widest transition cursor-pointer ${
+                !selectedCategory
+                  ? "bg-neutral-900 text-white border-neutral-900 shadow-xs"
+                  : "bg-white border-neutral-200 hover:border-neutral-800 text-neutral-700"
+              }`}
             >
-              Cancel
+              All Categories
             </button>
+
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-5 py-2.5 rounded-sm border text-[10px] font-bold uppercase tracking-widest transition cursor-pointer ${
+                  selectedCategory === cat
+                    ? "bg-neutral-900 text-white border-neutral-900 shadow-xs"
+                    : "bg-white border-neutral-200 hover:border-neutral-800 text-neutral-700"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         )}
-      </div>
 
-      {/* CATEGORY FILTER */}
-      <div className="flex flex-wrap gap-3">
-        <button
-          onClick={() => setSelectedCategory(null)}
-          className={` px-4 py-2 rounded-full text-sm border border-[#e6d8c8] ${!selectedCategory ? "bg-[#5f5143] text-white border-[#5f5143]" : "text-[#5f5143] hover:bg-[#f3e7d8]"}`}
-        >
-          All
-        </button>
-
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={` px-4 py-2 rounded-full text-sm capitalize border border-[#e6d8c8] ${selectedCategory === cat ? "bg-[#5f5143] text-white border-[#5f5143]" : "text-[#5f5143] hover:bg-[#f3e7d8]"}`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* EMPTY STATE */}
-      {!hasAnyFavorites && (
-        <div className="text-center py-28 space-y-6">
-          <h2 className="text-2xl font-medium text-[#5f5143]">
-            Nothing saved yet
-          </h2>
-          <p className="text-[#7a6a5c] max-w-md mx-auto">
-            Start curating your personal style. Your saved pieces will appear
-            here.
-          </p>
-          <Link
-            href="/"
-            className=" inline-block mt-4 px-6 py-3 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition"
-          >
-            Explore Products →
-          </Link>
-        </div>
-      )}
-
-      {/* COLLECTIONS */}
-      {Object.entries(favCollections).map(([collection, ids], index) => {
-        const favProducts = products.filter(
-          (p) =>
-            ids.has(p.productId) &&
-            (!selectedCategory || p.category === selectedCategory),
-        );
-
-        if (!ids.size) return null;
-
-        return (
-          <motion.section
-            key={collection}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              delay: index * 0.1,
-              duration: 0.4,
-            }}
-            className="space-y-8"
-          >
-            <h2 className="text-2xl font-semibold text-[#5f5143]">
-              {collection}
+        {/* EMPTY STATE */}
+        {!hasAnyFavorites && (
+          <div className="text-center py-24 space-y-6">
+            <h2 className="font-serif text-xl sm:text-2xl font-light text-neutral-800 uppercase tracking-wide">
+              Your wishlist is empty
             </h2>
+            <p className="text-xs text-neutral-500 max-w-md mx-auto leading-relaxed font-sans font-light">
+              Start curating your personal VastraDrobe. Browse our catalogs and
+              save your favorite garments here for later.
+            </p>
+            <div className="pt-4">
+              <Link
+                href="/collection"
+                className="bg-[#6A0F1F] text-white hover:bg-[#4d0b18] text-xs font-semibold uppercase tracking-widest px-8 py-3.5 rounded-sm shadow-md transition inline-flex"
+              >
+                Explore Products →
+              </Link>
+            </div>
+          </div>
+        )}
 
-            {favProducts.length === 0 ? (
-              <div className="text-[#957f6a] italic text-sm p-6 border border-[#e6d8c8] rounded-xl bg-white">
-                No products match this category.
-              </div>
-            ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-                {favProducts.map((item) => (
-                  <motion.div
-                    key={item.productId}
-                    whileHover={{ y: -8 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 200,
-                    }}
-                  >
-                    <ProductCard product={item} Linked>
-                      <button
-                        onClick={() =>
-                          removeFromCollection(collection, item.productId)
-                        }
-                        className=" mt-4 w-full py-2 rounded-full bg-[#5f5143] text-white text-sm hover:bg-[#6a0f1f] transition"
-                      >
-                        Remove
-                      </button>
-                    </ProductCard>
-                  </motion.div>
-                ))}
-              </div>
-            )}
+        {/* WISHLIST FOLDERS / SECTIONS */}
+        {Object.entries(favCollections).map(([collection, ids], index) => {
+          const favProducts = products.filter(
+            (p) =>
+              ids.has(p.productId) &&
+              (!selectedCategory || p.category === selectedCategory),
+          );
 
-            <div className="border-t border-[#e6d8c8] pt-8" />
-          </motion.section>
-        );
-      })}
-    </section>
+          if (!ids.size) return null;
+
+          return (
+            <motion.section
+              key={collection}
+              initial={{ opacity: 0, y: 35 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: index * 0.08,
+                duration: 0.5,
+              }}
+              className="space-y-8 border-b border-neutral-100 pb-16 last:border-b-0 last:pb-0 scroll-mt-28"
+            >
+              {/* Folder header title */}
+              <h2 className="font-serif text-xl sm:text-2xl font-light text-neutral-800 tracking-wide uppercase">
+                {collection}
+              </h2>
+
+              {favProducts.length === 0 ? (
+                <div className="text-neutral-400 text-xs font-light italic p-8 border border-neutral-100 rounded-xl bg-[#faf9f6]/40 text-center">
+                  No products in this folder match your selected category
+                  filter.
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                  {favProducts.map((item) => (
+                    <div key={item.productId} className="flex flex-col">
+                      <ProductCard product={item} Linked>
+                        {/* 🔒 FIXED ACTIONS: Swapped the bulky brown button below cards for an elegant uppercase text trigger */}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            removeFromCollection(collection, item.productId);
+                            toast.error("Removed from wishlist");
+                          }}
+                          className="mt-3 text-[9px] tracking-widest font-bold uppercase text-red-600 hover:underline underline-offset-4 cursor-pointer text-center w-full block transition duration-200"
+                        >
+                          Remove From Folder
+                        </button>
+                      </ProductCard>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </motion.section>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 

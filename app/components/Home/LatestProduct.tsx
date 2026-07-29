@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import ProductCardStatic from "@/components/Global/ProductCardStatic";
+import ProductCard from "@/components/Global/ProductCard";
 import { IMSProduct } from "@/Types/Product";
 import InfiniteScrollWrapper from "../Global/InfiniteScrollWrapper";
 import HorizontalScroll from "../Global/HorizontalScroll";
@@ -21,10 +21,8 @@ const categories = [
 /**
  * 👑 LUXURY REDESIGN: Latest Arrivals Grid Navigator (Nangalia Ruchira Theme)
  *
- * Featuring:
- * - Ultra-clean, uppercase wide-tracked category selectors.
- * - Crimson line indicator (#6A0F1F) under selected categories.
- * - Smooth transition states.
+ * Centralized components:
+ * - Replaced legacy duplicate "ProductCardStatic" imports with our unified central "ProductCard"!
  */
 export default function LatestArrivals(
   { products }: LatestArrivalsProps,
@@ -114,7 +112,7 @@ export default function LatestArrivals(
                 key={product.productId}
                 className="w-55 md:w-72 shrink-0 px-1"
               >
-                <ProductCardStatic latest text={text} product={product} />
+                <ProductCard latest product={product} />
               </div>
             ))}
           </InfiniteScrollWrapper>
@@ -126,12 +124,7 @@ export default function LatestArrivals(
                   key={product.productId}
                   className="w-55 md:w-72 shrink-0 px-1"
                 >
-                  <ProductCardStatic
-                    className=""
-                    latest
-                    text={text}
-                    product={product}
-                  />
+                  <ProductCard latest product={product} />
                 </div>
               ))}
             </HorizontalScroll>

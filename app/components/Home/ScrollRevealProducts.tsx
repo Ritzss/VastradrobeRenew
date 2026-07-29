@@ -3,7 +3,7 @@ import { IMSProduct } from "@/Types/Product";
 import EmptyState from "../Global/EmptyState";
 import Link from "next/link";
 import ScrollReveal from "../Global/ScrollReveal";
-import ProductCardStatic from "../Global/ProductCardStatic";
+import ProductCard from "../Global/ProductCard";
 
 type Props = {
   products: IMSProduct[];
@@ -20,6 +20,12 @@ const CATEGORY_MAP: Record<string, string[]> = {
   ethnic: ["ethnic"],
 };
 
+/**
+ * 👑 LUXURY REDESIGN: Category Showcase (Nangalia Ruchira Theme)
+ *
+ * Centralized components:
+ * - Replaced legacy duplicate "ProductCardStatic" imports with our unified central "ProductCard"!
+ */
 export default function ScrollRevealProducts({
   products,
   category,
@@ -52,7 +58,7 @@ export default function ScrollRevealProducts({
         <HorizontalScroll className="gap-0" color={color}>
           {filteredProducts.slice(0, 3).map((product) => (
             <div key={product.productId} className="w-[75%] shrink-0 px-1">
-              <ProductCardStatic product={product} text={text || ""} />
+              <ProductCard product={product} />
             </div>
           ))}
         </HorizontalScroll>
@@ -60,7 +66,7 @@ export default function ScrollRevealProducts({
         <div className="flex justify-center mt-12">
           <Link
             href={`/${encodeURIComponent(category.toLowerCase())}`}
-            className="capitalize px-8 py-3 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
+            className="text-[10px] tracking-widest font-bold uppercase px-8 py-3.5 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
           >
             browse all {category}
           </Link>
@@ -68,21 +74,21 @@ export default function ScrollRevealProducts({
       </div>
 
       {/* ================= DESKTOP ================= */}
-      <div className="hidden md:flex justify-center gap-2">
+      <div className="hidden md:flex justify-center gap-6">
         {filteredProducts.slice(0, 3).map((product) => (
           <ScrollReveal key={product.productId}>
             <div className="w-70">
-              <ProductCardStatic product={product} text={text || ""} />
+              <ProductCard product={product} />
             </div>
           </ScrollReveal>
         ))}
       </div>
 
       {/* Desktop Button */}
-      <div className="hidden md:flex justify-center mt-5">
+      <div className="hidden md:flex justify-center mt-8">
         <Link
           href={`/${encodeURIComponent(category.toLowerCase())}#categoryPage`}
-          className={`px-10 py-3 capitalize rounded-full border border-${text} border-[#5f5143] text-${text} text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition`}
+          className="px-10 py-3.5 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white text-xs font-semibold uppercase tracking-widest transition"
         >
           Browse All {category}
         </Link>

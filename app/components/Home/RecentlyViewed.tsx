@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import ProductCardStatic from "@/components/Global/ProductCardStatic";
+import ProductCard from "@/components/Global/ProductCard";
 import InfiniteScrollWrapper from "@/components/Global/InfiniteScrollWrapper";
 import { IMSProduct } from "@/Types/Product";
 
@@ -13,9 +13,8 @@ type Props = {
 /**
  * 👑 LUXURY REDESIGN: Recently Viewed (Nangalia Ruchira Theme)
  *
- * Styled for premium single-theme look:
- * - Standardized section header with our classic uppercase tracked typography.
- * - Backdrop: bg-[#fcfbfa] with neutral-100 borders.
+ * Centralized components:
+ * - Replaced legacy duplicate "ProductCardStatic" imports with our unified central "ProductCard"!
  */
 export default function RecentlyViewed({ products }: Props) {
   const [ids, setIds] = useState<number[]>([]);
@@ -67,7 +66,7 @@ export default function RecentlyViewed({ products }: Props) {
                   key={product.productId}
                   className="w-55 md:w-72 shrink-0 px-1"
                 >
-                  <ProductCardStatic product={product} text={""} />
+                  <ProductCard product={product} />
                 </div>
               ))}
             </InfiniteScrollWrapper>
@@ -75,7 +74,7 @@ export default function RecentlyViewed({ products }: Props) {
             <div className="flex justify-center gap-4">
               {recentProducts.map((product) => (
                 <div key={product.productId} className="w-55 md:w-72 px-1">
-                  <ProductCardStatic product={product} text={""} />
+                  <ProductCard product={product} />
                 </div>
               ))}
             </div>

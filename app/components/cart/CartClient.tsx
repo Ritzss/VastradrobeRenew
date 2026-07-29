@@ -1,6 +1,5 @@
 "use client";
 
-// import StarBorder from "@/components/UI/StarBorder";
 import { useAppContext } from "@/hooks/useAppContext";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +7,24 @@ import { useEffect, useMemo } from "react";
 import { IMSProduct } from "@/Types/Product";
 import WhatsAppPageMessage from "../Global/WhatsAppPageMessage";
 import { whatsappMessages } from "@/lib/whatsapp";
+import {
+  Plus,
+  Minus,
+  Trash2,
+  ArrowRight,
+  ShieldCheck,
+  Truck,
+  RefreshCw,
+} from "lucide-react";
 
+/**
+ * 👑 LUXURY REDESIGN: Shopping Cart Page (Nangalia Ruchira Theme)
+ *
+ * Styled for premium single-theme look:
+ * - Geometric shape: Swapped bulky rounded-[28px] cards and rounded-full pills for elegant, clean rounded-xl and rounded-md containers.
+ * - Spacious layout: Styled headers using our classic uppercase tracked typography and elegant serif names.
+ * - Backdrop: bg-[#fcfbfa] with white cards and thin borders (border-neutral-100).
+ */
 const CartClient = () => {
   const {
     cartItems,
@@ -83,69 +99,56 @@ const CartClient = () => {
 
   const shippingCharge = useMemo(() => {
     if (cartEntries.length === 0) return 0;
-    return cartTotal >= 450 ? 0 : 150;
+    return cartTotal >= 999 ? 0 : 150;
   }, [cartTotal, cartEntries.length]);
 
   const finalTotal = cartTotal + shippingCharge;
 
-  /* ---------------- EMPTY ---------------- */
-  // if (!cartEntries.length) {
-  //   return (
-  //     <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] flex items-center justify-center px-6">
-  //       <div className="text-center max-w-lg space-y-6">
-  //         <div className="text-5xl">🛍️</div>
-
-  //         <h1 className="text-3xl font-semibold text-[#b68351]">
-  //           Your cart feels light.
-  //         </h1>
-
-  //         <p className="text-[#b68351] leading-relaxed">
-  //           Looks like you haven’t added anything yet. Discover timeless pieces
-  //           crafted for everyday elegance.
-  //         </p>
-
-  //         <Link href="/">
-  //           <button className=" mt-4 px-8 py-4 rounded-full bg-[#b68351] text-white hover:bg-[#6a0f1f] transition">
-  //             Explore Collection
-  //           </button>
-  //         </Link>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  /* ---------------- UI ---------------- */
   return (
     <>
       <WhatsAppPageMessage message={whatsappMessages.cart(cartTotal)} />
-      <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-semibold text-[#5f5143] mb-12">
-            Your Cart
-          </h1>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            {/* LEFT – ITEMS */}
-            <div className="md:col-span-2 space-y-8">
+      <div className="min-h-screen bg-[#fcfbfa] px-4 sm:px-6 lg:px-8 py-12 md:py-16 transition-colors duration-300">
+        <div className="max-w-6xl mx-auto">
+          {/* HEADER BLOCK */}
+          <div className="border-b border-neutral-100 pb-6 mb-12 space-y-1">
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+              Review Bag
+            </p>
+
+            <h1 className="font-serif text-3xl sm:text-4xl font-light text-neutral-800 tracking-wide uppercase">
+              Shopping Cart
+            </h1>
+          </div>
+
+          <div className="grid lg:grid-cols-12 gap-10">
+            {/* LEFT – ITEMS (Spans 8 columns on large screens) */}
+            <div className="lg:col-span-8 space-y-6">
               {/* Empty State */}
               {cartEntries.length === 0 && savedForLater.length === 0 && (
-                <div className="rounded-3xl border border-dashed border-neutral-300 p-16 text-center dark:border-neutral-700">
-                  <h2 className="text-2xl font-semibold">Your cart is empty</h2>
-                  <p className="mt-2 text-neutral-500">
-                    Looks like you haven&apos;t added anything yet.
+                <div className="rounded-2xl border border-dashed border-neutral-200 p-16 text-center bg-white shadow-xs">
+                  <h2 className="font-serif text-xl sm:text-2xl font-light text-neutral-800 uppercase tracking-wide">
+                    Your cart is empty
+                  </h2>
+                  <p className="mt-2 text-xs text-neutral-500 font-sans font-light tracking-wide">
+                    Looks like you haven&apos;t added anything yet. Discover
+                    slow, intentional garments crafted for everyday elegance.
                   </p>
 
-                  <Link
-                    href="/collection"
-                    className="mt-8 inline-flex rounded-full bg-[#6a0f1f] px-8 py-3 text-white"
-                  >
-                    Continue Shopping
-                  </Link>
+                  <div className="pt-6">
+                    <Link
+                      href="/collection"
+                      className="bg-[#6A0F1F] text-white hover:bg-[#4d0b18] text-xs font-semibold uppercase tracking-widest px-8 py-3.5 rounded-sm shadow-md transition inline-flex"
+                    >
+                      Explore Collection
+                    </Link>
+                  </div>
                 </div>
               )}
 
+              {/* Cart Items List */}
               {cartEntries.length > 0 && (
-                <>
+                <div className="space-y-4">
                   {cartEntries.map((entry) => {
                     const product = products.find(
                       (p) => p.productId === entry.productId,
@@ -155,10 +158,10 @@ const CartClient = () => {
                     return (
                       <div
                         key={`${entry.productId}_${entry.size}`}
-                        className="dark:bg-neutral-950/85 border border-white not-dark:bg-white rounded-[28px] shadow-[0_20px_60px_rgba(149,127,106,0.12)] p-4 sm:p-6 flex gap-4 sm:gap-6"
+                        className="bg-white border border-neutral-100 rounded-2xl p-4 sm:p-5 flex gap-4 sm:gap-6 shadow-xs transition duration-300"
                       >
                         {/* Image */}
-                        <div className="relative w-24 h-32 sm:w-28 sm:h-36 rounded-2xl overflow-hidden not-dark:bg-[#f3e7d8] shrink-0">
+                        <div className="relative w-20 h-28 sm:w-24 sm:h-32 rounded-xl overflow-hidden bg-[#faf9f6] shrink-0 border border-neutral-50">
                           <Image
                             src={
                               product.variants.find(
@@ -172,7 +175,7 @@ const CartClient = () => {
                               "/Assets/Images/Newplaceholder.png"
                             }
                             fill
-                            sizes="(max-width:640px) 96px, 112px"
+                            sizes="(max-width:640px) 80px, 96px"
                             alt={product.name}
                             className="object-cover"
                           />
@@ -181,23 +184,40 @@ const CartClient = () => {
                         {/* Details */}
                         <div className="flex flex-col flex-1 justify-between min-w-0">
                           <div>
-                            <h2 className="text-base sm:text-lg font-medium text-[#5f5143] line-clamp-2">
+                            <h2 className="text-sm sm:text-base font-semibold text-neutral-800 uppercase tracking-wide line-clamp-1">
                               {product.name}
                             </h2>
 
-                            <div className="text-sm text-[#7a6a5c] mt-2 space-y-1">
-                              {entry.color && <p>Color: {entry.color}</p>}
-                              <p>Size: {entry.size}</p>
-                              <p>₹{product.price} each</p>
+                            <div className="text-[11px] text-neutral-400 tracking-wide font-medium mt-2 space-y-0.5">
+                              {entry.color && (
+                                <p>
+                                  Color:{" "}
+                                  <span className="text-neutral-600 font-bold capitalize">
+                                    {entry.color}
+                                  </span>
+                                </p>
+                              )}
+                              <p>
+                                Size:{" "}
+                                <span className="text-neutral-600 font-bold">
+                                  {entry.size}
+                                </span>
+                              </p>
+                              <p>
+                                Unit Price:{" "}
+                                <span className="text-neutral-600 font-bold">
+                                  ₹{product.price}
+                                </span>
+                              </p>
                             </div>
                           </div>
 
-                          {/* Bottom */}
-                          <div className="mt-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                          {/* Controls & Actions */}
+                          <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-t border-neutral-50/50 pt-3">
                             {/* Quantity + Price */}
                             <div className="flex items-center justify-between gap-4 flex-wrap">
-                              {/* Quantity */}
-                              <div className="flex items-center border border-[#e6d8c8] rounded-full overflow-hidden">
+                              {/* Quantity Control block */}
+                              <div className="flex items-center border border-neutral-200 rounded-md overflow-hidden bg-white">
                                 <button
                                   onClick={() =>
                                     decrementQty(
@@ -206,12 +226,12 @@ const CartClient = () => {
                                       entry.color,
                                     )
                                   }
-                                  className="px-4 py-2 dark:text-[#5f5143] hover:bg-[#f3e7d8] transition"
+                                  className="px-3 py-1 text-neutral-600 hover:bg-neutral-100 transition cursor-pointer"
                                 >
-                                  −
+                                  <Minus size={12} />
                                 </button>
 
-                                <div className="px-4 text-[#5f5143]">
+                                <div className="px-3 text-xs font-bold text-neutral-800">
                                   {entry.qty}
                                 </div>
 
@@ -223,20 +243,20 @@ const CartClient = () => {
                                       entry.color,
                                     )
                                   }
-                                  className="px-4 py-2 dark:text-[#5f5143] hover:bg-[#f3e7d8] transition"
+                                  className="px-3 py-1 text-neutral-600 hover:bg-neutral-100 transition cursor-pointer"
                                 >
-                                  +
+                                  <Plus size={12} />
                                 </button>
                               </div>
 
                               {/* Price */}
-                              <div className="text-lg font-semibold text-[#5f5143]">
+                              <div className="text-base font-bold text-[#6A0F1F]">
                                 ₹{product.price * entry.qty}
                               </div>
                             </div>
 
-                            {/* Actions */}
-                            <div className="flex flex-wrap gap-4 sm:gap-6 text-sm">
+                            {/* Actions links */}
+                            <div className="flex flex-wrap gap-4 text-[10px] tracking-widest font-bold uppercase text-neutral-400">
                               <button
                                 onClick={() =>
                                   saveForLater(
@@ -245,7 +265,7 @@ const CartClient = () => {
                                     entry.color,
                                   )
                                 }
-                                className="font-medium text-[#957f6a] hover:text-[#6a0f1f] transition"
+                                className="hover:text-[#6a0f1f] transition cursor-pointer"
                               >
                                 Save for later
                               </button>
@@ -258,7 +278,7 @@ const CartClient = () => {
                                     entry.color,
                                   )
                                 }
-                                className="text-[#957f6a] hover:text-[#6a0f1f] transition"
+                                className="hover:text-[#6a0f1f] transition cursor-pointer"
                               >
                                 Remove
                               </button>
@@ -268,54 +288,50 @@ const CartClient = () => {
                       </div>
                     );
                   })}
-                </>
+                </div>
               )}
 
-              {/* ================= Saved For Later ================= */}
-
+              {/* ================= Saved For Later (Fully redesigned) ================= */}
               {savedForLater.length > 0 && (
-                <div className="mt-16 border-t border-neutral-200 pt-10 dark:border-neutral-800">
+                <div className="mt-16 border-t border-neutral-100 pt-10">
                   <div className="mb-8 flex items-center justify-between">
-                    <div>
-                      <h2 className="text-2xl font-semibold">
+                    <div className="space-y-1">
+                      <h2 className="font-serif text-xl sm:text-2xl font-light text-neutral-800 uppercase tracking-wide">
                         Saved for Later
                       </h2>
-
-                      <p className="mt-1 text-sm text-neutral-500">
+                      <p className="text-xs font-light text-neutral-500 font-sans tracking-wide">
                         We&apos;ll keep these items ready whenever you&apos;re
-                        ready.
+                        ready to purchase.
                       </p>
                     </div>
 
-                    <span className="rounded-full bg-neutral-100 px-3 py-1 text-sm dark:bg-neutral-900">
+                    <span className="rounded-full bg-neutral-100 px-3.5 py-1.5 text-[9px] font-bold uppercase tracking-widest text-neutral-400">
                       {savedForLater.length} Item
                       {savedForLater.length > 1 ? "s" : ""}
                     </span>
                   </div>
 
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     {savedForLater.map((item) => {
                       const product = products.find(
                         (p) => p.productId === item.productId,
                       );
-
                       if (!product) return null;
 
                       const variant = product.variants.find(
                         (v) => v.color === item.color,
                       );
-
                       if (!variant) return null;
 
                       return (
                         <div
                           key={`${item.productId}-${item.color}-${item.size}`}
-                          className="rounded-[28px] border border-neutral-200 bg-white p-4 sm:p-6 shadow-[0_20px_60px_rgba(149,127,106,0.12)] dark:border-white dark:bg-neutral-950/85"
+                          className="bg-white border border-neutral-100 rounded-2xl p-4 sm:p-5 flex gap-4 sm:gap-6 shadow-xs transition duration-300"
                         >
-                          <div className="flex flex-col gap-5 md:items-end sm:justify-between">
-                            {/* Left */}
+                          <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-between w-full">
+                            {/* Left details */}
                             <div className="flex gap-4 sm:gap-5">
-                              <div className="relative h-28 w-24 sm:h-32 sm:w-28 shrink-0 overflow-hidden rounded-2xl">
+                              <div className="relative w-20 h-28 sm:w-24 sm:h-32 rounded-xl overflow-hidden bg-[#faf9f6] shrink-0 border border-neutral-50">
                                 <Image
                                   src={
                                     variant.designs?.[0]?.images?.[0] ||
@@ -324,32 +340,39 @@ const CartClient = () => {
                                   }
                                   alt={product.name}
                                   fill
-                                  sizes="(max-width:640px) 96px, 112px"
+                                  sizes="(max-width:640px) 80px, 96px"
                                   className="object-cover"
                                 />
                               </div>
 
-                              <div className="min-w-0">
-                                <h3 className="text-lg font-semibold text-[#5f5143] line-clamp-2">
+                              <div className="min-w-0 space-y-1">
+                                <h3 className="text-sm sm:text-base font-semibold text-neutral-800 uppercase tracking-wide line-clamp-1">
                                   {product.name}
                                 </h3>
 
-                                <p className="mt-2 text-sm text-[#7a6a5c]">
-                                  Color: {item.color}
-                                </p>
+                                <div className="text-[11px] text-neutral-400 tracking-wide font-medium space-y-0.5 pt-1">
+                                  <p>
+                                    Color:{" "}
+                                    <span className="text-neutral-600 font-bold capitalize">
+                                      {item.color}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    Size:{" "}
+                                    <span className="text-neutral-600 font-bold">
+                                      {item.size}
+                                    </span>
+                                  </p>
+                                </div>
 
-                                <p className="text-sm text-[#7a6a5c]">
-                                  Size: {item.size}
-                                </p>
-
-                                <p className="mt-3 text-xl font-bold text-[#5f5143]">
+                                <p className="pt-2 text-base font-bold text-neutral-800">
                                   ₹{product.price}
                                 </p>
                               </div>
                             </div>
 
-                            {/* Right */}
-                            <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+                            {/* Right controls */}
+                            <div className="flex flex-row sm:flex-col gap-3 w-full sm:w-auto">
                               <button
                                 onClick={() =>
                                   moveToCart(
@@ -358,7 +381,7 @@ const CartClient = () => {
                                     item.color,
                                   )
                                 }
-                                className="rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition hover:opacity-90 dark:bg-white dark:text-black"
+                                className="flex-1 sm:flex-none rounded-md bg-[#6A0F1F] hover:bg-neutral-900 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-white shadow-md transition cursor-pointer"
                               >
                                 Move to Cart
                               </button>
@@ -371,7 +394,7 @@ const CartClient = () => {
                                     item.color,
                                   )
                                 }
-                                className="rounded-full border border-red-500 px-6 py-3 text-sm font-medium text-red-500 transition hover:bg-red-500 hover:text-white"
+                                className="flex-1 sm:flex-none rounded-md border border-neutral-200 hover:border-red-500 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-neutral-400 hover:text-red-500 bg-white transition cursor-pointer"
                               >
                                 Remove
                               </button>
@@ -385,64 +408,80 @@ const CartClient = () => {
               )}
             </div>
 
-            {/* RIGHT – SUMMARY */}
-            <div className="md:col-span-1">
-              <div className="rounded-4xl border border-white bg-white dark:bg-neutral-950/85 p-6 sm:p-8 shadow-[0_30px_80px_rgba(149,127,106,0.15)] lg:sticky lg:top-28">
-                <h3 className="text-xl font-semibold text-[#5f5143]">
+            {/* RIGHT – ORDER SUMMARY (Spans 4 columns on large screens) */}
+            <div className="lg:col-span-4">
+              <div className="rounded-2xl border border-neutral-100 bg-white p-6 sm:p-8 shadow-xs lg:sticky lg:top-28">
+                <h3 className="font-serif text-lg sm:text-xl font-light text-neutral-800 uppercase tracking-wide border-b border-neutral-50 pb-4">
                   Order Summary
                 </h3>
 
                 <div className="mt-6 space-y-4">
-                  <div className="flex items-center justify-between text-[#7a6a5c]">
+                  <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-400">
                     <span>Subtotal</span>
-                    <span className="font-medium">₹{cartTotal}</span>
+                    <span className="font-bold text-neutral-800">
+                      ₹{cartTotal}
+                    </span>
                   </div>
 
-                  <div className="flex items-center justify-between text-[#7a6a5c]">
+                  <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-400">
                     <span>Shipping</span>
                     {shippingCharge === 0 ? (
-                      <span className="font-medium text-green-600">Free</span>
+                      <span className="font-bold text-green-600 uppercase">
+                        Free
+                      </span>
                     ) : (
-                      <span className="font-medium">₹{shippingCharge}</span>
+                      <span className="font-bold text-neutral-800">
+                        ₹{shippingCharge}
+                      </span>
                     )}
                   </div>
+
                   {shippingCharge > 0 && (
-                    <div className="rounded-xl bg-amber-50 p-3 text-sm text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
-                      Add <strong>₹{450 - cartTotal}</strong> more to your cart
-                      and get
-                      <strong> FREE shipping</strong>.
+                    <div className="rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-xs text-amber-700">
+                      Add products worth <strong>₹{999 - cartTotal}</strong>{" "}
+                      more to your cart and get <strong>FREE shipping</strong>.
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between text-[#7a6a5c]">
-                    <span>Taxes</span>
-                    <span>Calculated at checkout</span>
+                  <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-400">
+                    <span>Estimated Taxes</span>
+                    <span className="font-medium text-neutral-500">
+                      Calculated at checkout
+                    </span>
                   </div>
 
-                  <div className="border-t border-[#e6d8c8] pt-5 flex items-center justify-between">
-                    <span className="text-lg font-semibold text-[#5f5143]">
-                      Total
+                  <div className="border-t border-neutral-100 pt-5 flex items-center justify-between">
+                    <span className="text-sm font-bold uppercase tracking-widest text-neutral-800">
+                      Grand Total
                     </span>
 
-                    <span className="text-2xl font-bold text-[#5f5143]">
+                    <span className="text-2xl font-bold text-[#6A0F1F]">
                       ₹{finalTotal}
                     </span>
                   </div>
                 </div>
 
+                {/* Checkout Trigger */}
                 <Link href="/checkout" className="block mt-8">
-                  <button className="w-full rounded-full bg-[#5f5143] py-4 font-medium text-white transition-all duration-300 hover:bg-[#6a0f1f] hover:shadow-lg active:scale-[0.98]">
-                    Proceed to Checkout →
+                  <button className="w-full rounded-md bg-[#6A0F1F] hover:bg-neutral-900 py-4 text-xs font-semibold uppercase tracking-widest text-white shadow-md transition-all duration-300">
+                    Proceed to Checkout
                   </button>
                 </Link>
 
-                <div className="mt-6 rounded-2xl bg-[#f8f3ee] dark:bg-neutral-900 p-4">
-                  <p className="text-sm text-[#7a6a5c] leading-6">
-                    ✓ Secure Checkout
-                    <br />
-                    ✓ Free Shipping Available
-                    <br />✓ Easy Returns & Exchanges
-                  </p>
+                {/* Secure checkout badges */}
+                <div className="mt-6 rounded-xl border border-neutral-50 bg-[#faf9f6]/50 p-4 space-y-2.5 text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
+                  <div className="flex items-center gap-2">
+                    <Truck size={14} className="text-neutral-400" />
+                    <p>Free shipping above ₹999</p>
+                  </div>
+                  <div className="flex items-center gap-2 border-t border-neutral-50 pt-2.5">
+                    <RefreshCw size={14} className="text-neutral-400" />
+                    <p>Hassle-Free 7-Day Returns</p>
+                  </div>
+                  <div className="flex items-center gap-2 border-t border-neutral-50 pt-2.5">
+                    <ShieldCheck size={14} className="text-neutral-400" />
+                    <p>100% Secure Checkout</p>
+                  </div>
                 </div>
               </div>
             </div>

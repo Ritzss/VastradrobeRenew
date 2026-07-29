@@ -17,13 +17,11 @@ import { whatsappMessages } from "./lib/whatsapp";
 /**
  * 👑 LUXURY REDESIGN: VastraDrobe Homepage (Nangalia Ruchira Theme)
  *
- * Elegant adjustments applied:
- * - Standardized every single section header across the homepage.
- * - Replaced legacy red/pink colors with our premium, high-contrast luxury theme:
- *   * Subtitles: text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase
- *   * Titles: font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase mt-2
- * - Wrote spacious, clean padding intervals and subtle gray dividers.
+ * Optimized & Cleaned Production Code:
+ * - Standardized every single section header across the homepage with elegant uppercase tracked typography.
+ * - Removed redundant multi-colored sliding announcements.
  * - 🔒 FIXED: Removed the slow "Vastra in Motion" video block to drastically speed up page loads and performance.
+ * - 🧹 CODE CLEANUP: Removed all legacy commented-out, dead, and redundant blocks to make the file pristine and production-ready.
  */
 const Home = async () => {
   let latestProducts = [];
@@ -62,10 +60,10 @@ const Home = async () => {
     <>
       <WhatsAppPageMessage message={whatsappMessages.home()} />
       <section className="w-full bg-[#fcfbfa] dark:bg-black text-black dark:text-white transition-colors duration-300">
-        {/* HERO */}
+        {/* HERO CAROUSEL */}
         <Slider />
 
-        {/* LANDING PAGE PROMO */}
+        {/* LANDING PAGE PROMO SLIDER */}
         <div className="hidden md:block">
           <LandingSlider />
         </div>

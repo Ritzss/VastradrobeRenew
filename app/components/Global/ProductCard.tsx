@@ -2,31 +2,41 @@
 "use client";
 
 import Image from "next/image";
-// import Link from "next/link";
 import { IMSProduct } from "@/Types/Product";
 import { useAppContext } from "@/hooks/useAppContext";
-// import { useState } from "react";
-import { FaCartArrowDown } from "react-icons/fa6";
-import { MdOutlineRemoveShoppingCart } from "react-icons/md";
+import { ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { createSlug } from "@/lib/slug";
-// import { Heart } from "lucide-react";
-// import { RiHeartFill } from "react-icons/ri";
 
-type Props = {
+type ProductCardProps = {
   product: IMSProduct;
   className?: string;
+  classNameInner?: string;
+  latest?: boolean; // Displays the elegant "NEW" badge tag
+  Linked?: boolean; // If true (default), wraps card in a PDP link. If false, handles click events
   children?: React.ReactNode;
-  Linked: boolean;
 };
 
+/**
+ * 👑 UNIFIED CENTRAL COMPONENT: Product Card (Nangalia Ruchira Theme)
+ *
+ * This is the single, central source of truth for all product cards across VastraDrobe!
+ * It is fully responsive, connected to global cart context, and eliminates all redundant card definitions.
+ *
+ * Sizing & Actions Configuration:
+ * - 🖥️ Desktop (Hover active): Slides up a gorgeous, minimal "ADD TO BAG" overlay.
+ * - 📱 Mobile / Touch Screens (No hover): Automatically displays a permanently visible bottom CTA button.
+ * - 🔗 Linked State: Can act either as a direct PDP route anchor or a trigger for quick-view modals.
+ */
 export default function ProductCard({
   product,
   className,
+  classNameInner,
+  latest,
+  Linked = true,
   children,
-  Linked,
-}: Props) {
+}: ProductCardProps) {
   const productId = Number(product.productId);
   const { name, variants, price } = product;
 
@@ -51,11 +61,9 @@ export default function ProductCard({
       item.color === defaultColor,
   );
 
-  // const [selectedCollection, setSelectedCollection] = useState<string | null>(
-  //   null,
-  // );
-
-  const handleCartToggle = () => {
+  const handleCartToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!defaultColor) return;
 
     isInCart
@@ -63,145 +71,135 @@ export default function ProductCard({
       : addToCart(productId, defaultSize, defaultColor);
   };
 
-  // const handleWishlist = () => {
-  //   const collectionNames = Object.keys(favCollections);
+  const cardContent = (
+    <div
+      className={`relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-[#faf9f6] border border-neutral-100/50 shadow-xs ${classNameInner ?? ""}`}
+    >
+      {/* Immersive Image */}
+      <Image
+        src={imageSrc}
+        fill
+        sizes="(max-width: 768px) 100vw, 25vw"
+        alt={name}
+        className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+        priority={false}
+      />
 
-  //   if (selectedCollection) {
-  //     removeFromCollection(selectedCollection, productId);
-  //     setSelectedCollection(null);
-  //     return;
-  //   }
+      {/* Badges Overlay */}
+      {latest && (
+        <div className="absolute top-4 left-4 z-20">
+          <span className="rounded-full bg-[#6A0F1F] px-3 py-1.5 text-[9px] uppercase tracking-widest font-bold text-white shadow-md">
+            NEW
+          </span>
+        </div>
+      )}
 
-  //   if (collectionNames.length > 0) {
-  //     const defaultCollection = collectionNames[0];
-  //     addToCollection(defaultCollection, productId);
-  //     setSelectedCollection(defaultCollection);
-  //   }
-  // };
+      {(product?.stock ?? 0) <= 0 && (
+        <>
+          <div className="absolute top-4 left-4 z-20">
+            <span className="rounded-full bg-neutral-900/90 px-3 py-1.5 text-[9px] uppercase tracking-widest font-bold text-white shadow-md">
+              Sold Out
+            </span>
+          </div>
+          <div className="absolute inset-0 bg-neutral-900/10 z-10" />
+        </>
+      )}
+
+      {/* 🖥️ DESKTOP-ONLY: Quick Add Slide-Up Panel (Hidden on Mobile) */}
+      <div className="hidden md:flex absolute bottom-0 inset-x-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out p-4 bg-gradient-to-t from-black/20 via-black/5 to-transparent z-20 justify-center">
+        {(product?.stock ?? 0) > 0 ? (
+          <button
+            onClick={handleCartToggle}
+            className={`w-full py-3 px-5 rounded-xl text-[10px] tracking-widest uppercase font-semibold flex items-center justify-center gap-2 shadow-lg transition duration-200 cursor-pointer ${
+              isInCart
+                ? "bg-red-600 text-white hover:bg-red-700"
+                : "bg-[#6A0F1F] text-white hover:bg-neutral-900 border"
+            }`}
+          >
+            <ShoppingBag size={13} strokeWidth={2} />
+            <span>{isInCart ? "Remove from Bag" : "Add to Bag"}</span>
+          </button>
+        ) : (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toast.success(
+                "You will be notified as soon as this item is restocked!",
+              );
+            }}
+            className="w-full py-3 px-5 rounded-xl bg-neutral-900/95 text-white text-[10px] tracking-widest uppercase font-semibold flex items-center justify-center shadow-lg transition hover:bg-black cursor-pointer"
+          >
+            Restock Notify
+          </button>
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <div className={`group flex flex-col ${className ?? ""}`}>
-      {/* IMAGE BLOCK */}
-      <div className="relative aspect-3/4 w-full rounded-4xl overflow-hidden bg-[#f5f1e7]">
-        {Linked && (
-          <Link
-            href={{
-              pathname: `/${product.category.toLowerCase()}/${createSlug(
-                product.name,
-                product.productId,
-              )}`,
-              query: {
-                color: product.variants[0].color,
-              },
-            }}
-          >
-            <Image
-              src={imageSrc}
-              fill
-              sizes="(max-width: 768px) 100vw, 25vw"
-              alt={name}
-              className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-            />
-            {/* Badge */}
-            {(product?.stock ?? 0) <= 0 && (
-              <div className="absolute top-3 left-3 z-20">
-                <span className="rounded-full bg-red-600 px-3 py-1 text-xs font-medium text-white">
-                  Sold Out
-                </span>
-              </div>
-            )}
-            {/* Overlay */}
-            {(product?.stock ?? 0) <= 0 && (
-              <div className="absolute inset-0 bg-neutral-950/15 z-10" />
-            )}
-          </Link>
-        )}
-
-        {!Linked && (
-          // <Link href={`/product/${productId}`}>
-          <>
-            <Image
-              src={imageSrc}
-              fill
-              sizes="(max-width: 768px) 100vw, 25vw"
-              alt={name}
-              className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-            />
-
-            {/* Badge */}
-            {(product?.stock ?? 0) <= 0 && (
-              <div className="absolute top-3 left-3 z-20">
-                <span className="rounded-full bg-red-600 shadow-[0_0_15px_#ff0000] px-3 py-1 text-xs font-medium text-white">
-                  Sold Out
-                </span>
-              </div>
-            )}
-            {/* Overlay */}
-            {(product?.stock ?? 0) <= 0 && (
-              <div className="absolute inset-0 bg-neutral-950/15 z-10" />
-            )}
-          </>
-          // </Link>
-        )}
-
-        {/* Wishlist */}
-        {/* <button
-          onClick={handleWishlist}
-          className=" absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-[#5f5143] hover:bg-[#6a0f1f] hover:text-white transition"
+      {Linked ? (
+        <Link
+          href={{
+            pathname: `/${product.category.toLowerCase()}/${createSlug(
+              product.name,
+              product.productId,
+            )}`,
+            query: {
+              color: product.variants[0].color,
+            },
+          }}
+          className="flex flex-col"
         >
-          {selectedCollection ? (
-            <RiHeartFill size={18} className="text-red-500" />
-          ) : (
-            <Heart size={18} />
-          )}
-        </button> */}
+          {cardContent}
+        </Link>
+      ) : (
+        <div className="flex flex-col">{cardContent}</div>
+      )}
 
-        {/* Hover Cart Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 dark:bg-neutral-950/85 not-dark:bg-white/90 backdrop-blur translate-y-full group-hover:translate-y-0 transition-all duration-300 p-4">
-          {(product?.stock ?? 0) > 0 ? (
-            <button
-              onClick={handleCartToggle}
-              className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-white py-2 text-white"
-            >
-              <span className="absolute -left-10 top-0 h-full w-[140%] -translate-x-full -skew-x-12 bg-[#6a0f1f] transition-transform duration-500 ease-out group-hover:translate-x-0" />
-
-              <span className="relative z-10 flex items-center gap-2">
-                {isInCart ? (
-                  <>
-                    <MdOutlineRemoveShoppingCart />
-                    Remove
-                  </>
-                ) : (
-                  <>
-                    <FaCartArrowDown />
-                    Add to Cart
-                  </>
-                )}
-              </span>
-            </button>
-          ) : (
-            <button
-              onClick={() =>
-                toast.success("You'll be notified when this item is restocked")
-              }
-              className="w-full py-2 rounded-full bg-neutral-700 text-white flex items-center justify-center"
-            >
-              Notify Me When Available
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* DETAILS */}
-      <div className="mt-4 text-center">
-        <p
+      {/* BRAND & PRICING DETAILS */}
+      <div className="mt-4 text-center space-y-1">
+        <h3
           title={name}
-          className="text-[14px] font-medium text-[#5f5143] line-clamp-2"
+          className="text-[11px] font-semibold text-neutral-800 dark:text-neutral-200 uppercase tracking-widest line-clamp-1 px-2"
         >
           {name}
-        </p>
+        </h3>
 
-        {price && <p className="mt-1 text-[13px] text-[#957f6a]">₹{price}</p>}
+        {price && (
+          <p className="font-serif text-[12px] text-neutral-500 dark:text-neutral-400 font-medium tracking-wide">
+            ₹{price}
+          </p>
+        )}
+      </div>
+
+      {/* 📱 MOBILE-ONLY permanently visible CTA button (Hidden on Desktop) */}
+      <div className="block md:hidden px-2 mt-3 z-30">
+        {(product?.stock ?? 0) > 0 ? (
+          <button
+            onClick={handleCartToggle}
+            className={`w-full py-2.5 rounded-xl text-[10px] tracking-widest uppercase font-bold flex items-center justify-center gap-1.5 transition duration-200 cursor-pointer ${
+              isInCart ? "bg-red-600 text-white" : "bg-[#6A0F1F] text-white"
+            }`}
+          >
+            <ShoppingBag size={11} strokeWidth={2} />
+            <span>{isInCart ? "Remove" : "Add to Bag"}</span>
+          </button>
+        ) : (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toast.success(
+                "You will be notified as soon as this item is restocked!",
+              );
+            }}
+            className="w-full py-2.5 rounded-xl bg-neutral-800 text-white text-[9px] tracking-widest uppercase font-bold flex items-center justify-center cursor-pointer"
+          >
+            Restock Notify
+          </button>
+        )}
       </div>
 
       {children}
