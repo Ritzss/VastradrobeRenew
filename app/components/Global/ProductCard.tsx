@@ -6,6 +6,7 @@ import { IMSProduct } from "@/Types/Product";
 import { useAppContext } from "@/hooks/useAppContext";
 import { ShoppingBag, Heart } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createSlug } from "@/lib/slug";
 
@@ -39,6 +40,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   const productId = Number(product.productId);
   const { name, variants, price } = product;
+  const router = useRouter();
 
   const {
     cartItems,
@@ -47,6 +49,7 @@ export default function ProductCard({
     favCollections,
     addToCollection,
     removeFromCollection,
+    user,
   } = useAppContext();
 
   // Check if product is in any wishlist/favorite collection
@@ -57,6 +60,13 @@ export default function ProductCard({
   const handleWishlistToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // 🔒 SECURITY/UX CHECK: If user is logged out, redirect them to the login screen
+    if (!user) {
+      toast.error("Please login to save items to your wishlist");
+      router.push("/account/login");
+      return;
+    }
 
     if (isWishlisted) {
       const entry = Object.entries(favCollections || {}).find(([_, set]) =>
