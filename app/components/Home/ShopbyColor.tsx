@@ -13,16 +13,17 @@ type Props = {
 
 /**
  * 👑 LUXURY REDESIGN: Shop By Color (Nangalia Ruchira Theme)
- *
- * We completely overhauled the blocky masonry image grid into an ultra-premium,
+ * 
+ * We completely overhauled the blocky masonry image grid into an ultra-premium, 
  * clean, and modern **Circular Editorial Swatches Grid**:
  * - Displays a perfectly centered row of 6 large, pristine circular swatches.
  * - Each circular card dynamically extracts the actual high-definition apparel image of that color from your products database.
  * - On hover, a soft scale zoom triggers alongside a refined overlay.
- * - Below each circle, a tracked minimalist name label ("SAGE GREEN", "COCOA BROWN") is displayed
+ * - Below each circle, a tracked minimalist name label ("SAGE GREEN", "COCOA BROWN") is displayed 
  *   with its solid-color bubble indicator.
  */
 export default function ShopByColor({ products }: Props) {
+  
   // Custom mapping for color indicators inside the circles
   const colorMapHex: Record<string, string> = {
     black: "#111111",
@@ -38,26 +39,18 @@ export default function ShopByColor({ products }: Props) {
       // Find the first live product matching this color's variants
       const matchingProduct = products.find((product) =>
         product.variants?.some((variant: any) =>
-          colorObj.variants.some(
-            (v) => v.toLowerCase() === variant.color.toLowerCase(),
-          ),
+          colorObj.variants.some((v) => v.toLowerCase() === variant.color.toLowerCase()),
         ),
       );
 
       // Extract the correct color variant image
       let displayImage = "/Assets/Images/Newplaceholder.png";
       if (matchingProduct) {
-        const matchingVariant =
-          matchingProduct.variants.find((variant: any) =>
-            colorObj.variants.some(
-              (v) => v.toLowerCase() === variant.color.toLowerCase(),
-            ),
-          ) ?? matchingProduct.variants[0];
+        const matchingVariant = matchingProduct.variants.find((variant: any) =>
+          colorObj.variants.some((v) => v.toLowerCase() === variant.color.toLowerCase()),
+        ) ?? matchingProduct.variants[0];
 
-        displayImage =
-          matchingVariant.designs?.[0]?.images?.[0] ??
-          matchingVariant.images?.[0] ??
-          displayImage;
+        displayImage = matchingVariant.designs?.[0]?.images?.[0] ?? matchingVariant.images?.[0] ?? displayImage;
       }
 
       return {
@@ -71,6 +64,7 @@ export default function ShopByColor({ products }: Props) {
   return (
     <section className="py-20 bg-[#fcfbfa] dark:bg-black border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6">
+        
         {/* HEADER BLOCK (Premium uppercase tracked styling) */}
         <div className="text-center mb-16 space-y-1">
           <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
@@ -99,7 +93,7 @@ export default function ShopByColor({ products }: Props) {
                   sizes="(max-width: 768px) 150px, 200px"
                   className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-
+                
                 {/* Micro overlay that softens on hover */}
                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300" />
               </div>
@@ -110,16 +104,18 @@ export default function ShopByColor({ products }: Props) {
                 <h3 className="text-[11px] font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-widest transition duration-200 group-hover:text-[#6A0F1F] dark:group-hover:text-[#e4e198]">
                   {colorObj.name}
                 </h3>
-
+                
                 {/* Miniature solid color indicator bubble */}
-                <div
+                <div 
                   className="w-4.5 h-4.5 rounded-full border border-neutral-200 dark:border-neutral-850 shadow-inner transition-transform duration-300 group-hover:scale-110"
                   style={{ backgroundColor: colorObj.hex }}
                 />
               </div>
+
             </Link>
           ))}
         </div>
+
       </div>
     </section>
   );

@@ -7,19 +7,11 @@ import { useEffect, useMemo } from "react";
 import { IMSProduct } from "@/Types/Product";
 import WhatsAppPageMessage from "../Global/WhatsAppPageMessage";
 import { whatsappMessages } from "@/lib/whatsapp";
-import {
-  Plus,
-  Minus,
-  Trash2,
-  ArrowRight,
-  ShieldCheck,
-  Truck,
-  RefreshCw,
-} from "lucide-react";
+import { Plus, Minus, Trash2, ArrowRight, ShieldCheck, Truck, RefreshCw } from "lucide-react";
 
 /**
  * 👑 LUXURY REDESIGN: Shopping Cart Page (Nangalia Ruchira Theme)
- *
+ * 
  * Styled for premium single-theme look:
  * - Geometric shape: Swapped bulky rounded-[28px] cards and rounded-full pills for elegant, clean rounded-xl and rounded-md containers.
  * - Spacious layout: Styled headers using our classic uppercase tracked typography and elegant serif names.
@@ -107,9 +99,10 @@ const CartClient = () => {
   return (
     <>
       <WhatsAppPageMessage message={whatsappMessages.cart(cartTotal)} />
-
+      
       <div className="min-h-screen bg-[#fcfbfa] px-4 sm:px-6 lg:px-8 py-12 md:py-16 transition-colors duration-300">
         <div className="max-w-6xl mx-auto">
+          
           {/* HEADER BLOCK */}
           <div className="border-b border-neutral-100 pb-6 mb-12 space-y-1">
             <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
@@ -124,6 +117,7 @@ const CartClient = () => {
           <div className="grid lg:grid-cols-12 gap-10">
             {/* LEFT – ITEMS (Spans 8 columns on large screens) */}
             <div className="lg:col-span-8 space-y-6">
+              
               {/* Empty State */}
               {cartEntries.length === 0 && savedForLater.length === 0 && (
                 <div className="rounded-2xl border border-dashed border-neutral-200 p-16 text-center bg-white shadow-xs">
@@ -131,8 +125,7 @@ const CartClient = () => {
                     Your cart is empty
                   </h2>
                   <p className="mt-2 text-xs text-neutral-500 font-sans font-light tracking-wide">
-                    Looks like you haven&apos;t added anything yet. Discover
-                    slow, intentional garments crafted for everyday elegance.
+                    Looks like you haven&apos;t added anything yet. Discover slow, intentional garments crafted for everyday elegance.
                   </p>
 
                   <div className="pt-6">
@@ -189,26 +182,9 @@ const CartClient = () => {
                             </h2>
 
                             <div className="text-[11px] text-neutral-400 tracking-wide font-medium mt-2 space-y-0.5">
-                              {entry.color && (
-                                <p>
-                                  Color:{" "}
-                                  <span className="text-neutral-600 font-bold capitalize">
-                                    {entry.color}
-                                  </span>
-                                </p>
-                              )}
-                              <p>
-                                Size:{" "}
-                                <span className="text-neutral-600 font-bold">
-                                  {entry.size}
-                                </span>
-                              </p>
-                              <p>
-                                Unit Price:{" "}
-                                <span className="text-neutral-600 font-bold">
-                                  ₹{product.price}
-                                </span>
-                              </p>
+                              {entry.color && <p>Color: <span className="text-neutral-600 font-bold capitalize">{entry.color}</span></p>}
+                              <p>Size: <span className="text-neutral-600 font-bold">{entry.size}</span></p>
+                              <p>Unit Price: <span className="text-neutral-600 font-bold">₹{product.price}</span></p>
                             </div>
                           </div>
 
@@ -300,8 +276,7 @@ const CartClient = () => {
                         Saved for Later
                       </h2>
                       <p className="text-xs font-light text-neutral-500 font-sans tracking-wide">
-                        We&apos;ll keep these items ready whenever you&apos;re
-                        ready to purchase.
+                        We&apos;ll keep these items ready whenever you&apos;re ready to purchase.
                       </p>
                     </div>
 
@@ -351,18 +326,8 @@ const CartClient = () => {
                                 </h3>
 
                                 <div className="text-[11px] text-neutral-400 tracking-wide font-medium space-y-0.5 pt-1">
-                                  <p>
-                                    Color:{" "}
-                                    <span className="text-neutral-600 font-bold capitalize">
-                                      {item.color}
-                                    </span>
-                                  </p>
-                                  <p>
-                                    Size:{" "}
-                                    <span className="text-neutral-600 font-bold">
-                                      {item.size}
-                                    </span>
-                                  </p>
+                                  <p>Color: <span className="text-neutral-600 font-bold capitalize">{item.color}</span></p>
+                                  <p>Size: <span className="text-neutral-600 font-bold">{item.size}</span></p>
                                 </div>
 
                                 <p className="pt-2 text-base font-bold text-neutral-800">
@@ -418,36 +383,27 @@ const CartClient = () => {
                 <div className="mt-6 space-y-4">
                   <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-400">
                     <span>Subtotal</span>
-                    <span className="font-bold text-neutral-800">
-                      ₹{cartTotal}
-                    </span>
+                    <span className="font-bold text-neutral-800">₹{cartTotal}</span>
                   </div>
 
                   <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-400">
                     <span>Shipping</span>
                     {shippingCharge === 0 ? (
-                      <span className="font-bold text-green-600 uppercase">
-                        Free
-                      </span>
+                      <span className="font-bold text-green-600 uppercase">Free</span>
                     ) : (
-                      <span className="font-bold text-neutral-800">
-                        ₹{shippingCharge}
-                      </span>
+                      <span className="font-bold text-neutral-800">₹{shippingCharge}</span>
                     )}
                   </div>
 
                   {shippingCharge > 0 && (
                     <div className="rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-xs text-amber-700">
-                      Add products worth <strong>₹{999 - cartTotal}</strong>{" "}
-                      more to your cart and get <strong>FREE shipping</strong>.
+                      Add products worth <strong>₹{999 - cartTotal}</strong> more to your cart and get <strong>FREE shipping</strong>.
                     </div>
                   )}
 
                   <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-400">
                     <span>Estimated Taxes</span>
-                    <span className="font-medium text-neutral-500">
-                      Calculated at checkout
-                    </span>
+                    <span className="font-medium text-neutral-500">Calculated at checkout</span>
                   </div>
 
                   <div className="border-t border-neutral-100 pt-5 flex items-center justify-between">

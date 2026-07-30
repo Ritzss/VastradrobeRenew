@@ -6,20 +6,7 @@ import Image from "next/image";
 import { IMSProduct } from "@/Types/Product";
 import { useAppContext } from "@/hooks/useAppContext";
 import { useEffect, useState, useMemo } from "react";
-import {
-  Plus,
-  Minus,
-  HelpCircle,
-  ChevronDown,
-  ChevronUp,
-  ArrowRight,
-  ShieldCheck,
-  Truck,
-  RefreshCw,
-  ChevronLeft,
-  ChevronRight,
-  X,
-} from "lucide-react";
+import { Plus, Minus, HelpCircle, ChevronDown, ChevronUp, ArrowRight, ShieldCheck, Truck, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "@/components/Global/ProductCard";
 import { useRouter, useSearchParams } from "next/navigation";
 import ScrollReveal from "@/components/Global/ScrollReveal";
@@ -62,18 +49,16 @@ export default function ProductPDPClient({
   const [selectedDesign, setSelectedDesign] = useState(
     initialVariant?.designs?.[0] || null,
   );
-
+  
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [openGallery, setOpenGallery] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>(
-    {
-      story: true,
-      details: false,
-      shipping: false,
-    },
-  );
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    story: true,
+    details: false,
+    shipping: false,
+  });
 
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const { setMessage } = useWhatsApp();
@@ -201,6 +186,7 @@ export default function ProductPDPClient({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+      
       {/* 1. BREADCRUMB (Premium uppercase minimalist typography) */}
       <nav className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold border-b border-neutral-50 pb-5">
         <ol className="flex flex-wrap items-center gap-2">
@@ -209,20 +195,13 @@ export default function ProductPDPClient({
               Home
             </Link>
           </li>
+          <li><span className="text-neutral-300">/</span></li>
           <li>
-            <span className="text-neutral-300">/</span>
-          </li>
-          <li>
-            <Link
-              href={`/${categorySlug}`}
-              className="hover:text-neutral-800 transition"
-            >
+            <Link href={`/${categorySlug}`} className="hover:text-neutral-800 transition">
               {categoryLabel}
             </Link>
           </li>
-          <li>
-            <span className="text-neutral-300">/</span>
-          </li>
+          <li><span className="text-neutral-300">/</span></li>
           <li className="text-neutral-800 font-bold truncate max-w-[200px] sm:max-w-xs">
             {product.name}
           </li>
@@ -231,6 +210,7 @@ export default function ProductPDPClient({
 
       {/* 2. MAIN SECTION (Immersive columns layout) */}
       <section className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        
         {/* LEFT: GRID IMAGES SHOWCASE (2 Columns of high-definition images on desktop, clean grid layout) */}
         <div className="lg:col-span-7 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -259,12 +239,13 @@ export default function ProductPDPClient({
 
         {/* RIGHT: DETAILS & PURCHASING CONTROLS */}
         <div className="lg:col-span-5 space-y-8 sticky top-28">
+          
           {/* Product Header details */}
           <div className="space-y-4">
             <h1 className="font-serif text-2xl sm:text-3xl font-light text-neutral-800 tracking-wide uppercase leading-tight">
               {product.name}
             </h1>
-
+            
             <div className="flex items-baseline gap-4 pt-1 border-b border-neutral-100 pb-5">
               <span className="font-serif text-2xl font-semibold text-[#6A0F1F]">
                 ₹{product.price}
@@ -280,17 +261,15 @@ export default function ProductPDPClient({
           {/* COLOR SWATCHES (Sleek, minimalist outline buttons) */}
           {product.variants.length > 1 && (
             <div className="space-y-3">
-              <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
-                Select Color
-              </p>
+              <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">Select Color</p>
               <div className="flex gap-2 flex-wrap">
                 {product.variants.map((variant) => (
                   <button
                     key={variant.color}
                     onClick={() => setSelectedVariant(variant)}
                     className={`px-5 py-2.5 rounded-sm border text-[10px] font-bold uppercase tracking-widest transition duration-200 cursor-pointer ${
-                      selectedVariant?.color === variant.color
-                        ? "bg-[#6A0F1F] text-white border-[#6A0F1F]"
+                      selectedVariant?.color === variant.color 
+                        ? "bg-[#6A0F1F] text-white border-[#6A0F1F]" 
                         : "bg-white border-neutral-200 hover:border-neutral-800 text-neutral-700"
                     }`}
                   >
@@ -304,9 +283,7 @@ export default function ProductPDPClient({
           {/* DESIGN SWATCHES */}
           {selectedVariant?.designs?.length ? (
             <div className="space-y-3">
-              <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
-                Select Design
-              </p>
+              <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">Select Design</p>
               <div className="flex gap-2 flex-wrap">
                 {selectedVariant.designs.map((design) => (
                   <button
@@ -331,9 +308,7 @@ export default function ProductPDPClient({
           {/* SIZES SELECTOR */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
-                Select Size
-              </p>
+              <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">Select Size</p>
               <button
                 onClick={() => setShowSizeGuide(true)}
                 className="text-[9px] uppercase tracking-widest font-semibold text-[#6A0F1F] hover:underline underline-offset-4 cursor-pointer"
@@ -351,8 +326,8 @@ export default function ProductPDPClient({
                     disabled={qty === 0}
                     onClick={() => setSelectedSize(size)}
                     className={`w-12 h-12 rounded-sm border flex items-center justify-center text-xs font-semibold tracking-wider transition duration-200 cursor-pointer ${
-                      selectedSize === size
-                        ? "bg-[#6A0F1F] text-white border-[#6A0F1F]"
+                      selectedSize === size 
+                        ? "bg-[#6A0F1F] text-white border-[#6A0F1F]" 
                         : "bg-white border-neutral-200 hover:border-neutral-800 text-neutral-700"
                     } ${qty === 0 ? "opacity-35 cursor-not-allowed bg-neutral-50 border-neutral-100" : ""}`}
                   >
@@ -365,13 +340,9 @@ export default function ProductPDPClient({
             {selectedSize && (
               <div className="flex items-center justify-between text-xs pt-1">
                 {stockMap[selectedSize] > 0 ? (
-                  <span className="text-green-600 font-medium">
-                    ✓ Item In Stock
-                  </span>
+                  <span className="text-green-600 font-medium">✓ Item In Stock</span>
                 ) : (
-                  <span className="text-red-500 font-medium">
-                    ✕ Out of Stock
-                  </span>
+                  <span className="text-red-500 font-medium">✕ Out of Stock</span>
                 )}
                 {stockMap[selectedSize] > 0 && stockMap[selectedSize] < 10 && (
                   <span className="text-red-500 font-semibold animate-pulse">
@@ -391,16 +362,11 @@ export default function ProductPDPClient({
                   {Object.entries(selectedSizeData).map(([key, value]) => {
                     if (key === "size") return null;
                     return (
-                      <div
-                        key={key}
-                        className="flex justify-between border-b border-neutral-100/50 pb-1"
-                      >
+                      <div key={key} className="flex justify-between border-b border-neutral-100/50 pb-1">
                         <span className="capitalize text-neutral-400 font-medium">
                           {key.replace(/([A-Z])/g, " $1")}
                         </span>
-                        <span className="font-bold text-neutral-800">
-                          {value}
-                        </span>
+                        <span className="font-bold text-neutral-800">{value}</span>
                       </div>
                     );
                   })}
@@ -417,8 +383,8 @@ export default function ProductPDPClient({
                   disabled={!selectedSize}
                   onClick={handleCartToggle}
                   className={`flex-1 py-4 text-xs font-semibold uppercase tracking-[0.2em] rounded-md transition duration-300 cursor-pointer ${
-                    isInCart
-                      ? "bg-red-600 text-white hover:bg-red-700"
+                    isInCart 
+                      ? "bg-red-600 text-white hover:bg-red-700" 
                       : "bg-[#6A0F1F] text-white hover:bg-neutral-900 shadow-md"
                   } disabled:opacity-40 disabled:cursor-not-allowed`}
                 >
@@ -435,11 +401,7 @@ export default function ProductPDPClient({
               </div>
             ) : (
               <button
-                onClick={() =>
-                  toast.success(
-                    "You will be notified as soon as this item is restocked!",
-                  )
-                }
+                onClick={() => toast.success("You will be notified as soon as this item is restocked!")}
                 className="w-full py-4 bg-neutral-900 text-white text-xs font-semibold uppercase tracking-widest rounded-md hover:bg-black transition cursor-pointer"
               >
                 Notify Me When Available (Sold Out)
@@ -451,32 +413,21 @@ export default function ProductPDPClient({
           <div className="grid grid-cols-3 gap-4 border-t border-neutral-100 pt-6 text-[10px] font-bold text-neutral-500 uppercase tracking-widest text-center">
             <div className="flex flex-col items-center gap-1.5">
               <Truck size={15} className="text-neutral-400" />
-              <p className="leading-tight">
-                Free shipping
-                <br />
-                <span className="text-neutral-400 font-medium">Over ₹999</span>
-              </p>
+              <p className="leading-tight">Free shipping<br/><span className="text-neutral-400 font-medium">Over ₹999</span></p>
             </div>
             <div className="flex flex-col items-center gap-1.5 border-x border-neutral-100">
               <RefreshCw size={15} className="text-neutral-400" />
-              <p className="leading-tight">
-                7-Day Easy
-                <br />
-                <span className="text-neutral-400 font-medium">Returns</span>
-              </p>
+              <p className="leading-tight">7-Day Easy<br/><span className="text-neutral-400 font-medium">Returns</span></p>
             </div>
             <div className="flex flex-col items-center gap-1.5">
               <ShieldCheck size={15} className="text-neutral-400" />
-              <p className="leading-tight">
-                100% Secure
-                <br />
-                <span className="text-neutral-400 font-medium">Checkouts</span>
-              </p>
+              <p className="leading-tight">100% Secure<br/><span className="text-neutral-400 font-medium">Checkouts</span></p>
             </div>
           </div>
 
           {/* 3. LUXURY ACCORDIONS (FAQ-Style minimal border dividers) */}
           <div className="border-t border-neutral-100 pt-3">
+            
             {/* ACCORDION 1: Product Story */}
             {product.description && (
               <div className="border-b border-neutral-100 py-4">
@@ -485,11 +436,7 @@ export default function ProductPDPClient({
                   className="w-full flex items-center justify-between text-left text-neutral-800 font-semibold uppercase tracking-widest text-[10px] cursor-pointer"
                 >
                   <span>Product Story</span>
-                  {openAccordions.story ? (
-                    <Minus size={12} />
-                  ) : (
-                    <Plus size={12} />
-                  )}
+                  {openAccordions.story ? <Minus size={12} /> : <Plus size={12} />}
                 </button>
                 {openAccordions.story && (
                   <p className="mt-4 text-xs font-light text-neutral-600 leading-relaxed font-sans tracking-wide">
@@ -506,66 +453,46 @@ export default function ProductPDPClient({
                 className="w-full flex items-center justify-between text-left text-neutral-800 font-semibold uppercase tracking-widest text-[10px] cursor-pointer"
               >
                 <span>Fabric & Care Details</span>
-                {openAccordions.details ? (
-                  <Minus size={12} />
-                ) : (
-                  <Plus size={12} />
-                )}
+                {openAccordions.details ? <Minus size={12} /> : <Plus size={12} />}
               </button>
               {openAccordions.details && (
                 <div className="mt-4 text-xs font-light text-neutral-600 leading-relaxed font-sans tracking-wide space-y-4">
                   {product.productDetails?.material && (
                     <div className="space-y-1">
-                      <span className="font-bold uppercase tracking-wider text-neutral-700 text-[9px]">
-                        Material:
-                      </span>
+                      <span className="font-bold uppercase tracking-wider text-neutral-700 text-[9px]">Material:</span>
                       <ul className="list-disc pl-5 space-y-1">
-                        {product.productDetails.material
-                          .split(",")
-                          .map((item, index) => (
-                            <li key={index}>{item.trim()}</li>
-                          ))}
+                        {product.productDetails.material.split(",").map((item, index) => (
+                          <li key={index}>{item.trim()}</li>
+                        ))}
                       </ul>
                     </div>
                   )}
 
                   {product.productDetails?.careInstructions && (
                     <div className="space-y-1">
-                      <span className="font-bold uppercase tracking-wider text-neutral-700 text-[9px]">
-                        Care Instructions:
-                      </span>
+                      <span className="font-bold uppercase tracking-wider text-neutral-700 text-[9px]">Care Instructions:</span>
                       <ul className="list-disc pl-5 space-y-1">
-                        {product.productDetails.careInstructions
-                          .split(",")
-                          .map((item, index) => (
-                            <li key={index}>{item.trim()}</li>
-                          ))}
+                        {product.productDetails.careInstructions.split(",").map((item, index) => (
+                          <li key={index}>{item.trim()}</li>
+                        ))}
                       </ul>
                     </div>
                   )}
 
                   {product.productDetails?.pattern && (
                     <div>
-                      <span className="font-bold uppercase tracking-wider text-neutral-700 text-[9px]">
-                        Pattern:
-                      </span>
-                      <span className="ml-2 capitalize">
-                        {product.productDetails.pattern}
-                      </span>
+                      <span className="font-bold uppercase tracking-wider text-neutral-700 text-[9px]">Pattern:</span>
+                      <span className="ml-2 capitalize">{product.productDetails.pattern}</span>
                     </div>
                   )}
 
                   {product.productDetails?.style && (
                     <div className="space-y-1">
-                      <span className="font-bold uppercase tracking-wider text-neutral-700 text-[9px]">
-                        Style:
-                      </span>
+                      <span className="font-bold uppercase tracking-wider text-neutral-700 text-[9px]">Style:</span>
                       <ul className="list-disc pl-5 space-y-1">
-                        {product.productDetails.style
-                          .split(",")
-                          .map((item, index) => (
-                            <li key={index}>{item.trim()}</li>
-                          ))}
+                        {product.productDetails.style.split(",").map((item, index) => (
+                          <li key={index}>{item.trim()}</li>
+                        ))}
                       </ul>
                     </div>
                   )}
@@ -580,23 +507,17 @@ export default function ProductPDPClient({
                 className="w-full flex items-center justify-between text-left text-neutral-800 font-semibold uppercase tracking-widest text-[10px] cursor-pointer"
               >
                 <span>Shipping & Returns</span>
-                {openAccordions.shipping ? (
-                  <Minus size={12} />
-                ) : (
-                  <Plus size={12} />
-                )}
+                {openAccordions.shipping ? <Minus size={12} /> : <Plus size={12} />}
               </button>
               {openAccordions.shipping && (
                 <p className="mt-4 text-xs font-light text-neutral-600 leading-relaxed font-sans tracking-wide">
-                  Each garment is thoughtfully handcrafted with care inside
-                  India. Default delivery takes 5–7 business days. We offer
-                  easy, hassle-free 7-day returns on all un-worn items. Reach
-                  out to our support at support@vastradrobe.com for any tracking
-                  queries.
+                  Each garment is thoughtfully handcrafted with care inside India. Default delivery takes 5–7 business days. We offer easy, hassle-free 7-day returns on all un-worn items. Reach out to our support at support@vastradrobe.com for any tracking queries.
                 </p>
               )}
             </div>
+
           </div>
+
         </div>
       </section>
 
@@ -636,6 +557,7 @@ export default function ProductPDPClient({
       <Dialog open={openGallery} onOpenChange={setOpenGallery}>
         <DialogContent className="max-w-7xl w-[95vw] h-[95vh] p-0 overflow-hidden rounded-2xl border-none">
           <div className="grid lg:grid-cols-[100px_1fr] h-full bg-white">
+            
             {/* Thumbnails Sidebar */}
             <div className="hidden lg:flex flex-col gap-3 scrollbar-hide overflow-y-auto p-4 border-r border-neutral-100">
               {activeImages.map((img, index) => (
@@ -704,6 +626,7 @@ export default function ProductPDPClient({
                 {selectedImage + 1} / {activeImages.length}
               </div>
             </div>
+
           </div>
         </DialogContent>
       </Dialog>

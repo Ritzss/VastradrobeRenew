@@ -11,7 +11,7 @@ import HorizontalScroll from "../Global/HorizontalScroll";
 
 /**
  * 👑 LUXURY REDESIGN: Community Social Proof (Nangalia Ruchira Theme)
- *
+ * 
  * Styled for premium single-theme look:
  * - Geometric shape: Swapped bulky rounded-3xl for elegant, clean rounded-2xl.
  * - Backdrop: bg-[#faf9f6] with crisp white card backdrops bg-white.
@@ -35,6 +35,7 @@ const SocialProof = () => {
   return (
     <section className="bg-[#faf9f6] dark:bg-neutral-950 py-20 border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 text-center">
+        
         {/* Header Block */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -55,7 +56,7 @@ const SocialProof = () => {
         {/* Reviews Cards */}
         <div className="grid md:grid-cols-3 gap-6 mt-12">
           {reviews.map((item, index) => {
-            const avatarColor = avatarColors[index % avatarColors.length];
+           const avatarColor = avatarColors[index % avatarColors.length];
             return (
               <motion.div
                 key={item.id}
@@ -106,9 +107,7 @@ const SocialProof = () => {
                     <p className="text-xs uppercase tracking-widest font-semibold text-neutral-800 dark:text-neutral-200">
                       {item.title}
                     </p>
-                    <p className="text-[10px] text-neutral-400 tracking-wider">
-                      Verified Buyer
-                    </p>
+                    <p className="text-[10px] text-neutral-400 tracking-wider">Verified Buyer</p>
                   </div>
                   {item.proof && (
                     <div
@@ -166,9 +165,7 @@ const SocialProof = () => {
           className="mt-16 flex flex-col items-center"
         >
           <div className="flex items-center gap-3 text-neutral-800 dark:text-neutral-200 font-sans">
-            <span className="text-3xl font-serif font-light text-[#6A0F1F] dark:text-[#e4e198]">
-              4.8
-            </span>
+            <span className="text-3xl font-serif font-light text-[#6A0F1F] dark:text-[#e4e198]">4.8</span>
             <div className="flex gap-1 text-[#ffa600]">
               {Array.from({ length: 5 }).map((_, i) => (
                 <AiFillStar key={i} className="w-4 h-4" />

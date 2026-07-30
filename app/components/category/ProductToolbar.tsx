@@ -10,7 +10,7 @@ interface Props {
 
 /**
  * 👑 LUXURY REDESIGN: Product Toolbar (Nangalia Ruchira Theme)
- *
+ * 
  * Elegant layout features:
  * - Geometric shape: Swapped bulky rounded-full elements for crisp, clean rectangular buttons.
  * - Spaced uppercase tracked typography for titles and selectors.
@@ -22,6 +22,7 @@ export default function ProductToolbar({ count, onFilter }: Props) {
   return (
     <section className="sticky top-20 sm:top-24 z-20 rounded-xl border border-neutral-100 dark:border-neutral-900 bg-white/95 dark:bg-black/95 backdrop-blur-md p-4 sm:px-6 sm:py-4 shadow-xs transition duration-300">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        
         {/* Left info area */}
         <div className="space-y-0.5">
           <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
@@ -58,6 +59,7 @@ export default function ProductToolbar({ count, onFilter }: Props) {
             <option value="name-desc">Alphabetical: Z → A</option>
           </select>
         </div>
+
       </div>
     </section>
   );

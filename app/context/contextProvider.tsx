@@ -38,15 +38,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
+  /* 🎬 Animation Coordination */
+  const [isLoaderFinished, setIsLoaderFinished] = useState(false);
+
   /* 🌗 Theme (Circular Grow Transition) */
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   // Load and apply theme on mount
   useEffect(() => {
-    const storedTheme = localStorage.getItem("vastradrobe_theme") as
-      | "light"
-      | "dark"
-      | null;
+    const storedTheme = localStorage.getItem("vastradrobe_theme") as "light" | "dark" | null;
     const initialTheme = storedTheme || "light";
     setTheme(initialTheme);
     if (initialTheme === "dark") {
@@ -77,7 +77,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const y = event.clientY;
     const endRadius = Math.hypot(
       Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y),
+      Math.max(y, window.innerHeight - y)
     );
 
     const transition = (document as any).startViewTransition(() => {
@@ -95,7 +95,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         `circle(0px at ${x}px ${y}px)`,
         `circle(${endRadius}px at ${x}px ${y}px)`,
       ];
-
+      
       document.documentElement.animate(
         {
           clipPath: targetTheme === "dark" ? clipPath : clipPath.reverse(),
@@ -103,11 +103,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         {
           duration: 400,
           easing: "ease-in-out",
-          pseudoElement:
-            targetTheme === "dark"
-              ? "::view-transition-new(root)"
-              : "::view-transition-old(root)",
-        },
+          pseudoElement: targetTheme === "dark"
+            ? "::view-transition-new(root)"
+            : "::view-transition-old(root)",
+        }
       );
     });
   };
@@ -613,6 +612,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         authLoading,
         user,
         setUser,
+        isLoaderFinished,
+        setIsLoaderFinished,
       }}
     >
       {children}

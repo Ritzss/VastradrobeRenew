@@ -52,12 +52,12 @@ export default function ScrollRevealProducts({
     );
 
   return (
-    <section className="relative mx-auto px-6">
+    <section className="relative w-full px-0 mx-0">
       {/* ================= MOBILE ================= */}
-      <div className="md:hidden">
-        <HorizontalScroll className="gap-0" color={color}>
+      <div className="md:hidden w-full px-0 mx-0">
+        <HorizontalScroll className="gap-0 w-full" color={color}>
           {filteredProducts.slice(0, 3).map((product) => (
-            <div key={product.productId} className="w-[75%] shrink-0 px-1">
+            <div key={product.productId} className="w-[45vw] shrink-0 px-1">
               <ProductCard product={product} />
             </div>
           ))}

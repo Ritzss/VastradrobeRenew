@@ -99,18 +99,12 @@ export default function LatestArrivals(
       </div>
 
       <section className="relative w-full">
-        {/* Left Fade */}
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-linear-to-r dark:from-black from-[#fcfbfa] to-transparent" />
-
-        {/* Right Fade */}
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-linear-to-l dark:from-black from-[#fcfbfa] to-transparent" />
-
         {filteredProducts.length > 3 ? (
           <InfiniteScrollWrapper key={selectedCategory}>
             {filteredProducts.map((product) => (
               <div
                 key={product.productId}
-                className="w-55 md:w-72 shrink-0 px-1"
+                className="w-[45vw] md:w-72 shrink-0 px-1"
               >
                 <ProductCard latest product={product} />
               </div>
@@ -122,7 +116,7 @@ export default function LatestArrivals(
               {filteredProducts.map((product) => (
                 <div
                   key={product.productId}
-                  className="w-55 md:w-72 shrink-0 px-1"
+                  className="w-[45vw] md:w-72 shrink-0 px-1"
                 >
                   <ProductCard latest product={product} />
                 </div>

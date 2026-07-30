@@ -10,7 +10,7 @@ interface Props {
 
 /**
  * 👑 LUXURY REDESIGN: Blog Preview Grid (Nangalia Ruchira Theme)
- *
+ * 
  * Styled for premium editorial look:
  * - Geometric shape: Swapped rounded-[28px] and heavy shadows for elegant, clean rounded-2xl with thin borders.
  * - Image scale-up zooms beautifully on card hover.
@@ -33,12 +33,9 @@ export default function BlogPreviewGrid({ limit }: Props) {
   return (
     <div className={`grid gap-12 lg:gap-14 ${gridCols}`}>
       {items.map((blog) => (
-        <Link
-          key={blog.slug}
-          href={`/blog/${blog.slug}`}
-          className="group block"
-        >
+        <Link key={blog.slug} href={`/blog/${blog.slug}`} className="group block">
           <div className="flex flex-col text-left space-y-4">
+            
             {/* Immersive cover image with smooth zoom transition */}
             <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-[#faf9f6] border border-neutral-100 dark:border-neutral-900 shadow-xs transition duration-300">
               <Image
@@ -70,13 +67,11 @@ export default function BlogPreviewGrid({ limit }: Props) {
               {/* Minimal Read Trigger link */}
               <div className="pt-2">
                 <span className="text-[9px] tracking-widest font-bold uppercase text-[#6A0F1F] dark:text-[#e4e198] hover:underline underline-offset-4 inline-flex items-center gap-1 transition duration-300">
-                  Read Article{" "}
-                  <span className="group-hover:translate-x-1.5 transition duration-300">
-                    →
-                  </span>
+                  Read Article <span className="group-hover:translate-x-1.5 transition duration-300">→</span>
                 </span>
               </div>
             </div>
+
           </div>
         </Link>
       ))}

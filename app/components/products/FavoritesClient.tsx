@@ -6,11 +6,10 @@ import Link from "next/link";
 import { Plus, X } from "lucide-react";
 import ProductCard from "@/components/Global/ProductCard";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
 
 /**
  * 👑 LUXURY REDESIGN: Wishlist / Favorites Page (Nangalia Ruchira Theme)
- *
+ * 
  * Styled for premium look:
  * - Backdrop: bg-[#fcfbfa] with spacious paddings.
  * - Header standardized: Classic uppercase tracked tagline, elegant serif titles, and minimal rectangular buttons.
@@ -60,6 +59,7 @@ const FavoritesClient = () => {
   return (
     <div className="min-h-screen bg-[#fcfbfa] px-4 sm:px-6 lg:px-8 py-12 md:py-16 transition-colors duration-300">
       <div className="max-w-6xl mx-auto space-y-12">
+        
         {/* HEADER BLOCK */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-neutral-100 pb-6">
           <div className="space-y-1">
@@ -120,8 +120,8 @@ const FavoritesClient = () => {
             <button
               onClick={() => setSelectedCategory(null)}
               className={`px-5 py-2.5 rounded-sm border text-[10px] font-bold uppercase tracking-widest transition cursor-pointer ${
-                !selectedCategory
-                  ? "bg-neutral-900 text-white border-neutral-900 shadow-xs"
+                !selectedCategory 
+                  ? "bg-neutral-900 text-white border-neutral-900 shadow-xs" 
                   : "bg-white border-neutral-200 hover:border-neutral-800 text-neutral-700"
               }`}
             >
@@ -133,8 +133,8 @@ const FavoritesClient = () => {
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-5 py-2.5 rounded-sm border text-[10px] font-bold uppercase tracking-widest transition cursor-pointer ${
-                  selectedCategory === cat
-                    ? "bg-neutral-900 text-white border-neutral-900 shadow-xs"
+                  selectedCategory === cat 
+                    ? "bg-neutral-900 text-white border-neutral-900 shadow-xs" 
                     : "bg-white border-neutral-200 hover:border-neutral-800 text-neutral-700"
                 }`}
               >
@@ -151,8 +151,7 @@ const FavoritesClient = () => {
               Your wishlist is empty
             </h2>
             <p className="text-xs text-neutral-500 max-w-md mx-auto leading-relaxed font-sans font-light">
-              Start curating your personal VastraDrobe. Browse our catalogs and
-              save your favorite garments here for later.
+              Start curating your personal VastraDrobe. Browse our catalogs and save your favorite garments here for later.
             </p>
             <div className="pt-4">
               <Link
@@ -193,14 +192,14 @@ const FavoritesClient = () => {
 
               {favProducts.length === 0 ? (
                 <div className="text-neutral-400 text-xs font-light italic p-8 border border-neutral-100 rounded-xl bg-[#faf9f6]/40 text-center">
-                  No products in this folder match your selected category
-                  filter.
+                  No products in this folder match your selected category filter.
                 </div>
               ) : (
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                   {favProducts.map((item) => (
                     <div key={item.productId} className="flex flex-col">
                       <ProductCard product={item} Linked>
+                        
                         {/* 🔒 FIXED ACTIONS: Swapped the bulky brown button below cards for an elegant uppercase text trigger */}
                         <button
                           onClick={(e) => {
@@ -213,6 +212,7 @@ const FavoritesClient = () => {
                         >
                           Remove From Folder
                         </button>
+
                       </ProductCard>
                     </div>
                   ))}

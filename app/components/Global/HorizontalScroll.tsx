@@ -5,11 +5,16 @@ import { useRef, useEffect, useState } from "react";
 type HorizontalScrollProps = {
   children: React.ReactNode;
   className?: string;
-  color?:string;
-  customclass?:string;
+  color?: string;
+  customclass?: string;
 };
 
-const HorizontalScroll = ({ children, className, color, customclass }: HorizontalScrollProps) => {
+const HorizontalScroll = ({
+  children,
+  className,
+  color,
+  customclass,
+}: HorizontalScrollProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -73,7 +78,10 @@ const HorizontalScroll = ({ children, className, color, customclass }: Horizonta
   };
 
   return (
-    <div ref={wrapperRef} className={`latest-slider-wrapper relative mx-auto md:w-full ${color} ${customclass ?? ""} w-[20rem]`}>
+    <div
+      ref={wrapperRef}
+      className={`latest-slider-wrapper relative mx-auto md:w-full ${color} ${customclass ?? ""} w-full`}
+    >
       <div
         ref={sliderRef}
         onScroll={updateFades}

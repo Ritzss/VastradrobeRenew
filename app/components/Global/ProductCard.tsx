@@ -4,7 +4,7 @@
 import Image from "next/image";
 import { IMSProduct } from "@/Types/Product";
 import { useAppContext } from "@/hooks/useAppContext";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Heart } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { createSlug } from "@/lib/slug";
@@ -40,7 +40,40 @@ export default function ProductCard({
   const productId = Number(product.productId);
   const { name, variants, price } = product;
 
-  const { cartItems, addToCart, removeFromCart } = useAppContext();
+  const {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    favCollections,
+    addToCollection,
+    removeFromCollection,
+  } = useAppContext();
+
+  // Check if product is in any wishlist/favorite collection
+  const isWishlisted = Object.values(favCollections || {}).some((set) =>
+    set.has(productId),
+  );
+
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isWishlisted) {
+      const entry = Object.entries(favCollections || {}).find(([_, set]) =>
+        set.has(productId),
+      );
+      if (entry) {
+        removeFromCollection(entry[0], productId);
+        toast.success("Removed from Wishlist");
+      }
+    } else {
+      const collectionNames = Object.keys(favCollections || {});
+      const defaultCollection =
+        collectionNames.length > 0 ? collectionNames[0] : "My Wishlist";
+      addToCollection(defaultCollection, productId);
+      toast.success("Added to Wishlist");
+    }
+  };
 
   const firstVariant = variants?.[0];
   const firstDesign = firstVariant?.designs?.[0];
@@ -81,9 +114,27 @@ export default function ProductCard({
         fill
         sizes="(max-width: 768px) 100vw, 25vw"
         alt={name}
-        className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+        className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105 select-none pointer-events-none"
         priority={false}
+        draggable={false}
       />
+
+      {/* 💖 Wishlist Heart Button (Floating Top-Right) */}
+      <button
+        onClick={handleWishlistToggle}
+        className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-md border border-neutral-100/50 dark:border-neutral-900/50 shadow-xs hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer flex items-center justify-center group/heart"
+        aria-label="Toggle Wishlist"
+      >
+        <Heart
+          size={14}
+          strokeWidth={1.5}
+          className={`transition-all duration-300 ${
+            isWishlisted
+              ? "fill-red-600 text-red-600 scale-105"
+              : "text-neutral-600 dark:text-neutral-400 group-hover/heart:text-red-600 group-hover/heart:scale-105"
+          }`}
+        />
+      </button>
 
       {/* Badges Overlay */}
       {latest && (
