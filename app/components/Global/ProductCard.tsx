@@ -14,17 +14,17 @@ type ProductCardProps = {
   product: IMSProduct;
   className?: string;
   classNameInner?: string;
-  latest?: boolean; // Displays the elegant "NEW" badge tag
-  Linked?: boolean; // If true (default), wraps card in a PDP link. If false, handles click events
+  latest?: boolean;       // Displays the elegant "NEW" badge tag
+  Linked?: boolean;      // If true (default), wraps card in a PDP link. If false, handles click events
   children?: React.ReactNode;
 };
 
 /**
  * 👑 UNIFIED CENTRAL COMPONENT: Product Card (Nangalia Ruchira Theme)
- *
+ * 
  * This is the single, central source of truth for all product cards across VastraDrobe!
  * It is fully responsive, connected to global cart context, and eliminates all redundant card definitions.
- *
+ * 
  * Sizing & Actions Configuration:
  * - 🖥️ Desktop (Hover active): Slides up a gorgeous, minimal "ADD TO BAG" overlay.
  * - 📱 Mobile / Touch Screens (No hover): Automatically displays a permanently visible bottom CTA button.
@@ -78,8 +78,7 @@ export default function ProductCard({
       }
     } else {
       const collectionNames = Object.keys(favCollections || {});
-      const defaultCollection =
-        collectionNames.length > 0 ? collectionNames[0] : "My Wishlist";
+      const defaultCollection = collectionNames.length > 0 ? collectionNames[0] : "My Wishlist";
       addToCollection(defaultCollection, productId);
       toast.success("Added to Wishlist");
     }
@@ -115,9 +114,7 @@ export default function ProductCard({
   };
 
   const cardContent = (
-    <div
-      className={`relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-[#faf9f6] border border-neutral-100/50 shadow-xs ${classNameInner ?? ""}`}
-    >
+    <div className={`relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-[#faf9f6] border border-neutral-100/50 shadow-xs ${classNameInner ?? ""}`}>
       {/* Immersive Image */}
       <Image
         src={imageSrc}
@@ -185,9 +182,7 @@ export default function ProductCard({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              toast.success(
-                "You will be notified as soon as this item is restocked!",
-              );
+              toast.success("You will be notified as soon as this item is restocked!");
             }}
             className="w-full py-3 px-5 rounded-xl bg-neutral-900/95 text-white text-[10px] tracking-widest uppercase font-semibold flex items-center justify-center shadow-lg transition hover:bg-black cursor-pointer"
           >
@@ -216,7 +211,9 @@ export default function ProductCard({
           {cardContent}
         </Link>
       ) : (
-        <div className="flex flex-col">{cardContent}</div>
+        <div className="flex flex-col">
+          {cardContent}
+        </div>
       )}
 
       {/* BRAND & PRICING DETAILS */}
@@ -241,7 +238,9 @@ export default function ProductCard({
           <button
             onClick={handleCartToggle}
             className={`w-full py-2.5 rounded-xl text-[10px] tracking-widest uppercase font-bold flex items-center justify-center gap-1.5 transition duration-200 cursor-pointer ${
-              isInCart ? "bg-red-600 text-white" : "bg-[#6A0F1F] text-white"
+              isInCart
+                ? "bg-red-600 text-white"
+                : "bg-[#6A0F1F] text-white"
             }`}
           >
             <ShoppingBag size={11} strokeWidth={2} />
@@ -252,9 +251,7 @@ export default function ProductCard({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              toast.success(
-                "You will be notified as soon as this item is restocked!",
-              );
+              toast.success("You will be notified as soon as this item is restocked!");
             }}
             className="w-full py-2.5 rounded-xl bg-neutral-800 text-white text-[9px] tracking-widest uppercase font-bold flex items-center justify-center cursor-pointer"
           >

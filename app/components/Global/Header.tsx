@@ -44,13 +44,13 @@ const HERO_BANNERS = [
 
 /**
  * 👑 LUXURY REDESIGN: Hero Section (Kalki & Nangalia Ruchira Aesthetic)
- *
+ * 
  * Sizing & Layout Refined:
- * - 🔒 REMOVED TOP TEXT: Completely deleted the busy static heading text, stats counter,
+ * - 🔒 REMOVED TOP TEXT: Completely deleted the busy static heading text, stats counter, 
  *   and brand story button above the slideshow.
- * - 🎡 FULL-BLEED BANNERS: Starts the homepage directly with these gorgeous, full-bleed
+ * - 🎡 FULL-BLEED BANNERS: Starts the homepage directly with these gorgeous, full-bleed 
  *   immersive editorial swiper banners at the absolute top of the page.
- * - 🎀 STYLIZED NAV DOTS: Re-enabled the Swiper pagination dots and styled them as gorgeous,
+ * - 🎀 STYLIZED NAV DOTS: Re-enabled the Swiper pagination dots and styled them as gorgeous, 
  *   minimalist luxury horizontal slide-bars inside globals.css.
  */
 export default function CampaignSection() {
@@ -93,10 +93,8 @@ export default function CampaignSection() {
           className="h-[65vh] sm:h-[75vh] md:h-[85vh] w-full"
         >
           {HERO_BANNERS.map((banner) => (
-            <SwiperSlide
-              key={banner.id}
-              className="relative w-full h-full overflow-hidden"
-            >
+            <SwiperSlide key={banner.id} className="relative w-full h-full overflow-hidden">
+              
               {/* Mobile Image */}
               <div className="absolute inset-0 block md:hidden">
                 <Image
@@ -131,6 +129,7 @@ export default function CampaignSection() {
               {/* Content Overlay */}
               <div className="absolute inset-0 flex items-center justify-start px-6 sm:px-12 md:px-20 lg:px-28">
                 <div className="w-full max-w-2xl text-white text-left space-y-4 md:space-y-6 z-10 font-sans">
+                  
                   <p className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-white/90 font-medium">
                     Autumn / Winter Edit
                   </p>
@@ -162,6 +161,7 @@ export default function CampaignSection() {
                       </button>
                     )}
                   </div>
+
                 </div>
               </div>
             </SwiperSlide>

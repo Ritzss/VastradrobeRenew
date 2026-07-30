@@ -34,6 +34,7 @@ const Footer = () => {
     <footer className="not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] dark:bg-black/90 text-[#5f5143] dark:text-neutral-300 border-t border-neutral-100 dark:border-neutral-900 transition duration-300">
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-14 md:pt-20 pb-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-10">
+          
           {/* BRAND (Reverted to your original PNG logo in the footer only) */}
           <Link href="/" className="text-center flex flex-col items-center">
             <Image
@@ -157,7 +158,7 @@ const Footer = () => {
         {/* FOOTER BOTTOM: COPYRIGHT & THEME TOGGLE */}
         <div className="border-t border-[#e6d8c8] dark:border-neutral-800 mt-14 md:mt-20 pt-6 md:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8a7b6c] dark:text-neutral-500">
           <div>Copyright © 2026 VastraDrobe. All rights reserved.</div>
-
+          
           {/* 🌗 CIRCLE GROW THEME TOGGLE */}
           <button
             onClick={toggleTheme}

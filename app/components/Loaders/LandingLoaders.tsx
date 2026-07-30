@@ -31,16 +31,12 @@ export default function LandingLoader({ loading }: Props) {
           >
             {/* Cinematic Logo Group */}
             <div className="flex flex-col items-center justify-center relative select-none">
+              
               {/* Soft luxurious background radial glow */}
               <div className="absolute w-80 h-80 bg-[#6A0F1F]/5 dark:bg-[#e4e198]/3 rounded-full blur-3xl pointer-events-none" />
 
               <motion.div
-                initial={{
-                  opacity: 0,
-                  scale: 0.94,
-                  filter: "blur(12px)",
-                  y: 15,
-                }}
+                initial={{ opacity: 0, scale: 0.94, filter: "blur(12px)", y: 15 }}
                 animate={{
                   opacity: [0, 1, 1],
                   scale: [0.94, 1, 1.02],

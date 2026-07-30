@@ -22,7 +22,7 @@ const CATEGORY_MAP: Record<string, string[]> = {
 
 /**
  * 👑 LUXURY REDESIGN: Category Showcase (Nangalia Ruchira Theme)
- *
+ * 
  * Centralized components:
  * - Replaced legacy duplicate "ProductCardStatic" imports with our unified central "ProductCard"!
  */

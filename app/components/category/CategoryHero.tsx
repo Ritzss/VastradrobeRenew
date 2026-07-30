@@ -11,7 +11,7 @@ export default function CategoryHero({ category }: Props) {
   const banner = CATEGORY_BANNERS[category];
 
   return (
-    <section className="relative h-[60vh] md:h-[45vh] lg:h-[55vh] overflow-hidden rounded-3xl">
+    <section className="relative h-[65vh] sm:h-[50vh] md:h-[45vh] lg:h-[55vh] overflow-hidden rounded-2xl">
       {/* Mobile */}
       <Image
         src={banner.image.mobile}

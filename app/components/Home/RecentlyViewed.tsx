@@ -13,7 +13,7 @@ type Props = {
 
 /**
  * 👑 LUXURY REDESIGN: Recently Viewed (Nangalia Ruchira Theme)
- *
+ * 
  * Centralized components:
  * - Replaced legacy duplicate "ProductCardStatic" imports with our unified central "ProductCard"!
  */
@@ -21,7 +21,9 @@ export default function RecentlyViewed({ products }: Props) {
   const [ids, setIds] = useState<number[]>([]);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("recentlyViewed") || "[]");
+    const stored = JSON.parse(
+      localStorage.getItem("recentlyViewed") || "[]"
+    );
 
     if (stored.length > 0) {
       setIds(stored);
@@ -40,6 +42,7 @@ export default function RecentlyViewed({ products }: Props) {
     <ScrollReveal direction="up" delay={100}>
       <section className="py-16 bg-[#fcfbfa] dark:bg-black border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
         <div className="w-full mx-auto">
+
           {/* HEADER BLOCK */}
           <div className="text-center mb-12 space-y-1 px-6">
             <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
@@ -56,6 +59,7 @@ export default function RecentlyViewed({ products }: Props) {
           </div>
 
           <div className="relative">
+
             {recentProducts.length > 3 ? (
               <InfiniteScrollWrapper>
                 {recentProducts.map((product) => (
@@ -80,6 +84,7 @@ export default function RecentlyViewed({ products }: Props) {
               </div>
             )}
           </div>
+
         </div>
       </section>
     </ScrollReveal>

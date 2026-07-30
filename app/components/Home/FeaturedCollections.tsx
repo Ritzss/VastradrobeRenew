@@ -24,22 +24,14 @@ type Props = {
 
 /**
  * 👑 LUXURY SUB-COMPONENT: Collection Card (Nangalia Ruchira Theme)
- *
+ * 
  * Implements premium tactile responsiveness:
- * - 📱 Mobile/Touch Screens: Utilizes IntersectionObserver to automatically trigger
+ * - 📱 Mobile/Touch Screens: Utilizes IntersectionObserver to automatically trigger 
  *   stacked image lifting/tilting animations when the card scrolls into view!
  * - 🖥️ Desktop: Maintains smooth, crisp hover lifts and rotations.
  * - 🚫 Non-Draggable: Sets draggable={false} and select-none to ensure flawless mouse dragging.
  */
-const CollectionCard = ({
-  collection,
-  data,
-  isMobile,
-}: {
-  collection: string;
-  data: any;
-  isMobile: boolean;
-}) => {
+const CollectionCard = ({ collection, data, isMobile }: { collection: string; data: any; isMobile: boolean }) => {
   const [inView, setInView] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +42,7 @@ const CollectionCard = ({
       ([entry]) => {
         setInView(entry.isIntersecting);
       },
-      { threshold: 0.5, rootMargin: "-10px" }, // Trigger when card occupies half the viewport screen
+      { threshold: 0.5, rootMargin: "-10px" } // Trigger when card occupies half the viewport screen
     );
 
     if (cardRef.current) {
@@ -79,16 +71,16 @@ const CollectionCard = ({
   };
 
   // Determine lift classes dynamically
-  const liftFirst = inView
-    ? "-translate-y-2 rotate-[-6deg]"
+  const liftFirst = inView 
+    ? "-translate-y-2 rotate-[-6deg]" 
     : "group-hover:-translate-y-2 group-hover:rotate-[-6deg] rotate-[-8deg]";
 
-  const liftSecond = inView
-    ? "-translate-y-3"
+  const liftSecond = inView 
+    ? "-translate-y-3" 
     : "group-hover:-translate-y-3 rotate-0";
 
-  const liftThird = inView
-    ? "-translate-y-2 rotate-[6deg]"
+  const liftThird = inView 
+    ? "-translate-y-2 rotate-[6deg]" 
     : "group-hover:-translate-y-2 group-hover:rotate-[6deg] rotate-[8deg]";
 
   return (
@@ -97,10 +89,11 @@ const CollectionCard = ({
       className={`group shrink-0 block ${isMobile ? "w-[80vw] px-1" : ""}`}
     >
       {/* Card Container (Clean geometric design) */}
-      <div
-        ref={cardRef}
+      <div 
+        ref={cardRef} 
         className="relative w-full h-80 rounded-2xl overflow-hidden bg-[#faf9f6] dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 shadow-xs transition duration-300"
       >
+        
         {/* Layered Product Images (Draggable set to false, pointer-events-none & select-none) */}
         <Image
           src={getProductImage(first)}
@@ -140,7 +133,9 @@ const CollectionCard = ({
           </p>
 
           <div className="pt-2 flex justify-between items-center border-t border-neutral-50 dark:border-neutral-800 text-[10px] tracking-widest font-bold uppercase text-neutral-400 dark:text-neutral-500">
-            <span>{data.products.length} Products</span>
+            <span>
+              {data.products.length} Products
+            </span>
 
             <span className="text-[#6A0F1F] dark:text-[#e4e198] group-hover:translate-x-1.5 transition duration-300 flex items-center gap-1">
               Shop <span>→</span>
@@ -154,7 +149,7 @@ const CollectionCard = ({
 
 /**
  * 👑 LUXURY REDESIGN: Featured Collections Grid (Nangalia Ruchira Theme)
- *
+ * 
  * Optimized Responsive Layout:
  * - 🖥️ Desktop: Arranges automatically in a premium, geometric 3-column grid layout (3 columns, 2 rows).
  * - 📱 Mobile/Touch: Drag-to-scroll horizontal carousel for smooth, swipeable touch/mouse gestures with zero spacing blocks.
@@ -197,6 +192,7 @@ const FeaturedCollections = ({ sections }: Props) => {
   return (
     <section className="py-16 bg-[#fcfbfa] dark:bg-black border-t border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
+        
         {/* SECTION HEADER (Premium uppercase layout) */}
         <div className="flex justify-between items-end mb-12 px-6">
           <div className="space-y-1">
@@ -242,6 +238,7 @@ const FeaturedCollections = ({ sections }: Props) => {
             />
           ))}
         </div>
+
       </div>
     </section>
   );

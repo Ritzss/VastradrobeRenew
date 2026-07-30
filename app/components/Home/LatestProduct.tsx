@@ -20,14 +20,11 @@ const categories = [
 
 /**
  * 👑 LUXURY REDESIGN: Latest Arrivals Grid Navigator (Nangalia Ruchira Theme)
- *
+ * 
  * Centralized components:
  * - Replaced legacy duplicate "ProductCardStatic" imports with our unified central "ProductCard"!
  */
-export default function LatestArrivals(
-  { products }: LatestArrivalsProps,
-  text: string,
-) {
+export default function LatestArrivals({ products }: LatestArrivalsProps, text: string) {
   const [selectedCategory, setSelectedCategory] =
     useState<(typeof categories)[number]["key"]>("women");
 
@@ -102,10 +99,7 @@ export default function LatestArrivals(
         {filteredProducts.length > 3 ? (
           <InfiniteScrollWrapper key={selectedCategory}>
             {filteredProducts.map((product) => (
-              <div
-                key={product.productId}
-                className="w-[45vw] md:w-72 shrink-0 px-1"
-              >
+              <div key={product.productId} className="w-[45vw] md:w-72 shrink-0 px-1">
                 <ProductCard latest product={product} />
               </div>
             ))}
@@ -114,10 +108,7 @@ export default function LatestArrivals(
           <div className="flex justify-center">
             <HorizontalScroll className="md:justify-center" color="#fcfbfa">
               {filteredProducts.map((product) => (
-                <div
-                  key={product.productId}
-                  className="w-[45vw] md:w-72 shrink-0 px-1"
-                >
+                <div key={product.productId} className="w-[45vw] md:w-72 shrink-0 px-1">
                   <ProductCard latest product={product} />
                 </div>
               ))}
