@@ -242,7 +242,23 @@ export default async function ProductPage({
 
       price: product.price,
 
-      availability: inventory.some((item: any) => item.quantity > 0)
+      availability: inventory.some((variant: any) => {
+        // Product without designs
+        if (variant.sizes && Object.keys(variant.sizes).length > 0) {
+          return Object.values(variant.sizes).some(
+            (qty: any) => Number(qty) > 0,
+          );
+        }
+
+        // Product with designs
+        if (variant.designs) {
+          return Object.values(variant.designs).some((design: any) =>
+            Object.values(design).some((qty: any) => Number(qty) > 0),
+          );
+        }
+
+        return false;
+      })
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
     },
