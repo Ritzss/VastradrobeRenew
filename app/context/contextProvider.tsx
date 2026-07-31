@@ -38,6 +38,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
+  /* 🎬 Animation Coordination */
+  const [isLoaderFinished, setIsLoaderFinished] = useState(false);
+
   /* 🌗 Theme (Circular Grow Transition) */
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
@@ -151,7 +154,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         qty: 1,
       });
 
-      setCartDrawerOpen(true);
+      // 🎬 Choreographed micro-delay so the Navbar Cart icon jumps first before the drawer slides in!
+      setTimeout(() => {
+        setCartDrawerOpen(true);
+      }, 400);
     }
 
     fbPixel.addToCart({
@@ -613,6 +619,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         authLoading,
         user,
         setUser,
+        isLoaderFinished,
+        setIsLoaderFinished,
       }}
     >
       {children}

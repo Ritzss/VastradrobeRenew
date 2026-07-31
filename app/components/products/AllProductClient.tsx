@@ -20,7 +20,7 @@ type Props = {
 
 /**
  * 👑 LUXURY REDESIGN: All Collections Page (Nangalia Ruchira Theme)
- *
+ * 
  * Elegant, spacious, expanded lookbook layout:
  * - Each collection is rendered as a standalone, spacious, fully expanded section (no hidden accordions!).
  * - Every section features:
@@ -65,6 +65,7 @@ const AllProductClient = ({ sections }: Props) => {
 
   return (
     <div className="w-full bg-[#fcfbfa] py-12 transition-colors duration-300">
+      
       {/* 1. HERO HEADER AREA */}
       <div className="max-w-7xl mx-auto px-6 text-center space-y-4 mb-20">
         <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
@@ -76,9 +77,7 @@ const AllProductClient = ({ sections }: Props) => {
         </h1>
 
         <p className="max-w-2xl mx-auto text-sm leading-relaxed text-neutral-500 font-light">
-          Browse our complete clothing portfolios, handcrafted with intention
-          and organized cleanly to help you discover perfect silhouettes for
-          every occasion.
+          Browse our complete clothing portfolios, handcrafted with intention and organized cleanly to help you discover perfect silhouettes for every occasion.
         </p>
       </div>
 
@@ -93,9 +92,9 @@ const AllProductClient = ({ sections }: Props) => {
           const elementId = `collection-${currentCollection.slug}`;
 
           return (
-            <section
-              key={collection}
-              id={elementId}
+            <section 
+              key={collection} 
+              id={elementId} 
               className="scroll-mt-32 space-y-8 border-b border-neutral-100 pb-16 last:border-b-0 last:pb-0"
             >
               {/* Collection narrative header */}
@@ -131,6 +130,7 @@ const AllProductClient = ({ sections }: Props) => {
           );
         })}
       </div>
+
     </div>
   );
 };

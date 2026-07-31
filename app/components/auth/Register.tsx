@@ -3,12 +3,20 @@
 
 import { useAppContext } from "@/hooks/useAppContext";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
+/**
+ * 👑 LUXURY OVERHAUL: Centered Minimalist Registration Card (Nangalia Ruchira Style)
+ *
+ * Elegant centered single-panel layout:
+ * - Removed the bulky split aside panel completely for a clean, editorial look.
+ * - 🔒 FIXED: Password input area is now 100% full width, matching all other inputs exactly!
+ * - Smooth entrance animations on mount.
+ */
 const Register = () => {
   const [visible, setVisible] = useState(false);
   const { registerForm, setRegisterForm, handleRegister } = useAppContext();
@@ -25,112 +33,102 @@ const Register = () => {
   };
 
   const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!/^[6-9]\d{9}$/.test(registerForm.mobile)) {
       return toast.error("Please enter a valid 10-digit mobile number.");
     }
 
-    // const success = await handleRegister(e);
     const success = await handleRegister(e);
     if (success) router.replace(safeRedirect);
   };
 
   return (
-    <div className="w-full flex justify-center px-6 py-16 h-full not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
-      <div className="w-full max-w-5xl rounded-4xl overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
-        {/* LEFT PANEL */}
-        <aside className="hidden md:w-[45%] bg-[#efe3d3] p-10 md:flex flex-col justify-between">
-          <div className="space-y-6">
-            <h2 className="text-3xl font-semibold text-[#5f5143]">
-              Join VastraDrobe
-            </h2>
+    <div className="w-full min-h-screen flex items-center justify-center px-4 sm:px-6 py-20 bg-[#fcfbfa] dark:bg-black transition-colors duration-300">
+      {/* Cinematic Overhauled Centered Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-md w-full bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-2xl p-8 sm:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.04)] dark:shadow-none select-none"
+      >
+        {/* Header Branding */}
+        <div className="text-center pb-6 mb-6 border-b border-neutral-100 dark:border-neutral-900">
+          <p className="text-[10px] font-bold text-[#6A0F1F] dark:text-[#e4e198] tracking-[0.35em] uppercase">
+            Secure Portal
+          </p>
+          <h1 className="font-serif text-3xl font-light text-neutral-800 dark:text-white uppercase tracking-wide mt-2">
+            Create Account
+          </h1>
+        </div>
 
-            <p className="text-[#7a6a5c] leading-relaxed">
-              Begin your journey into timeless silhouettes, conscious
-              craftsmanship and everyday elegance.
-            </p>
-          </div>
+        {/* Form elements */}
+        <form onSubmit={onSubmit} className="space-y-6">
+          <input
+            type="text"
+            name="username"
+            value={registerForm.username}
+            onChange={handleInputChange}
+            placeholder="Username"
+            className="w-full rounded-md border border-neutral-200 dark:border-neutral-850 bg-white dark:bg-neutral-950 px-4 py-3.5 text-xs text-neutral-800 dark:text-neutral-200 tracking-wide outline-none focus:border-[#6A0F1F] dark:focus:border-[#e4e198] transition shadow-xs"
+          />
 
-          <div className="hidden md:block">
-            <Image
-              src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"
-              width={400}
-              height={250}
-              alt="Register Visual"
-              className="object-contain"
-              priority
-            />
-          </div>
-        </aside>
+          <input
+            type="email"
+            name="email"
+            value={registerForm.email}
+            onChange={handleInputChange}
+            placeholder="Email Address"
+            className="w-full rounded-md border border-neutral-200 dark:border-neutral-850 bg-white dark:bg-neutral-950 px-4 py-3.5 text-xs text-neutral-800 dark:text-neutral-200 tracking-wide outline-none focus:border-[#6A0F1F] dark:focus:border-[#e4e198] transition shadow-xs"
+          />
 
-        {/* RIGHT PANEL */}
-        <aside className="h-full md:w-[55%] not-dark:bg-white p-10 flex flex-col justify-center">
-          <form
-            onSubmit={onSubmit}
-            className="max-w-md w-full dark:text-[#5f5143] mx-auto space-y-6"
-          >
+          <input
+            type="tel"
+            name="mobile"
+            value={registerForm.mobile}
+            onChange={handleInputChange}
+            placeholder="Mobile Number"
+            inputMode="numeric"
+            maxLength={10}
+            className="w-full rounded-md border border-neutral-200 dark:border-neutral-850 bg-white dark:bg-neutral-950 px-4 py-3.5 text-xs text-neutral-800 dark:text-neutral-200 tracking-wide outline-none focus:border-[#6A0F1F] dark:focus:border-[#e4e198] transition shadow-xs"
+          />
+
+          {/* 🔒 FIXED: Password container uses relative + absolute Eye placement, forcing input to be 100% full-width */}
+          <div className="relative w-full rounded-md border border-neutral-200 dark:border-neutral-850 bg-white dark:bg-neutral-950 px-4 py-3.5 flex items-center justify-between focus-within:border-[#6A0F1F] dark:focus-within:border-[#e4e198] transition shadow-xs">
             <input
-              type="text"
-              name="username"
-              value={registerForm.username}
+              type={visible ? "text" : "password"}
+              name="password"
+              value={registerForm.password}
               onChange={handleInputChange}
-              placeholder="Username"
-              className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
+              placeholder="Password"
+              className="w-full bg-transparent text-xs text-neutral-800 dark:text-neutral-200 tracking-wide outline-none pr-8"
             />
-
-            <input
-              type="email"
-              name="email"
-              value={registerForm.email}
-              onChange={handleInputChange}
-              placeholder="Email"
-              className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
-            />
-
-            <input
-              type="tel"
-              name="mobile"
-              value={registerForm.mobile}
-              onChange={handleInputChange}
-              placeholder="Mobile Number"
-              inputMode="numeric"
-              maxLength={10}
-              className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
-            />
-
-            <div className="flex border-b border-[#e6d8c8]">
-              <input
-                type={visible ? "text" : "password"}
-                name="password"
-                value={registerForm.password}
-                onChange={handleInputChange}
-                placeholder="Password"
-                className="flex-1 p-2 outline-none"
-              />
-              <button
-                type="button"
-                onClick={() => setVisible(!visible)}
-                className="text-[#7a6a5c]"
-              >
-                {visible ? <EyeIcon size={18} /> : <EyeClosedIcon size={18} />}
-              </button>
-            </div>
-
             <button
-              type="submit"
-              className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
+              type="button"
+              onClick={() => setVisible(!visible)}
+              className="absolute right-4 text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition cursor-pointer"
             >
-              Create Account
+              {visible ? <EyeIcon size={16} /> : <EyeClosedIcon size={16} />}
             </button>
+          </div>
 
-            <div className="text-center text-sm text-[#7a6a5c]">
-              Already have an account?{" "}
-              <Link href="login" className="underline hover:text-[#6a0f1f]">
-                Login
-              </Link>
-            </div>
-          </form>
-        </aside>
-      </div>
+          <button
+            type="submit"
+            className="w-full rounded-md bg-[#6A0F1F] dark:bg-[#e4e198] text-white dark:text-neutral-950 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-neutral-900 dark:hover:bg-white transition duration-300 cursor-pointer shadow-md"
+          >
+            Create Account
+          </button>
+
+          <div className="text-center text-[10px] font-medium uppercase tracking-widest text-neutral-400 pt-4 border-t border-neutral-100 dark:border-neutral-900">
+            Already have an account?{" "}
+            <Link
+              href="login"
+              className="underline text-[#6A0F1F] dark:text-[#e4e198] hover:text-neutral-900 dark:hover:text-white font-bold transition ml-1"
+            >
+              Sign In
+            </Link>
+          </div>
+        </form>
+      </motion.div>
     </div>
   );
 };

@@ -13,6 +13,7 @@ export interface BlogItem {
   excerpt?: string;
   coverImage: string;
   content: BlogSection[];
+  date?: string;
 }
 
 export const blogs: BlogItem[] = [

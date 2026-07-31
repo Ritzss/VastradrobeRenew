@@ -6,12 +6,14 @@ import { FaTimes } from "react-icons/fa";
 import { Play } from "lucide-react";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import { useAppContext } from "@/hooks/useAppContext";
 import { motion } from "framer-motion";
 
-// Import Swiper styles
+// Import Swiper core styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 
 const HERO_BANNERS = [
   {
@@ -25,7 +27,6 @@ const HERO_BANNERS = [
       "Our festive edit redefines traditional Indian craftsmanship. Lightweight, breathable silks and cottons woven into timeless, fluid silhouettes designed to celebrate you.",
     buttonText: "Shop the Edit",
     href: "/collections/ethnic-collection",
-    previewHref: "/collections/ethnic-collection",
   },
   {
     id: 2,
@@ -38,12 +39,23 @@ const HERO_BANNERS = [
       "Redefining everyday luxury. Clean geometric cuts, premium breathable fabrics, and contemporary co-ords crafted to elevate your active presence without effort.",
     buttonText: "Explore Co-Ords",
     href: "/collections/co-ord-collection",
-    previewHref: "/collections/co-ord-collection",
   },
 ];
 
+/**
+ * 👑 LUXURY REDESIGN: Hero Section (Kalki & Nangalia Ruchira Aesthetic)
+ * 
+ * Sizing & Layout Refined:
+ * - 🔒 REMOVED TOP TEXT: Completely deleted the busy static heading text, stats counter, 
+ *   and brand story button above the slideshow.
+ * - 🎡 FULL-BLEED BANNERS: Starts the homepage directly with these gorgeous, full-bleed 
+ *   immersive editorial swiper banners at the absolute top of the page.
+ * - 🎀 STYLIZED NAV DOTS: Re-enabled the Swiper pagination dots and styled them as gorgeous, 
+ *   minimalist luxury horizontal slide-bars inside globals.css.
+ */
 export default function CampaignSection() {
   const [showVideo, setShowVideo] = useState(false);
+  const { isLoaderFinished } = useAppContext();
 
   // Close video modal on ESC
   useEffect(() => {
@@ -54,189 +66,108 @@ export default function CampaignSection() {
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
+  if (!isLoaderFinished) {
+    return (
+      <div className="h-[65vh] sm:h-[75vh] md:h-[85vh] w-full bg-white dark:bg-black" />
+    );
+  }
+
   return (
     <>
-      {/* 👑 EDITORIAL HERO CAROUSEL (Nangalia Ruchira Theme) */}
-      <section className="bg-[#fcfbfa] dark:bg-black py-12 md:py-16 transition-colors duration-300">
-        <div className="mx-auto px-4 max-w-7xl">
-          {/* ================= SECTION 1: HEADER TEXT & STATS (Fully Overhauled with Premium Copywriting & Animations) ================= */}
-          <div className="hidden md:block mx-auto mb-16 max-w-4xl text-center space-y-8">
-            {/* Curated Season subtitle (Smooth fade in) */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="flex items-center justify-center gap-4"
-            >
-              <span className="h-px w-10 bg-neutral-200 dark:bg-neutral-800" />
-              <p className="text-[10px] font-bold text-neutral-400 tracking-[0.35em] uppercase">
-                Autumn · Winter 2026
-              </p>
-              <span className="h-px w-10 bg-neutral-200 dark:bg-neutral-800" />
-            </motion.div>
-
-            {/* 🔒 FIXED COPYWRITING & ANIMATIONS: 
-                - Replaced standard header with the highly poetic "Sartorial poetry, crafted to be lived in" brand statement.
-                - Applied a gorgeous, slow-easing opacity and blur slide-up reveal that looks incredibly premium on mount.
-            */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} // Custom smooth cubic-bezier easing
-              className="font-serif text-4xl md:text-6xl font-light text-neutral-800 dark:text-white tracking-wide uppercase leading-tight"
-            >
-              Sartorial poetry, crafted to be
-              <span className="block italic font-light text-[#6A0F1F] dark:text-[#e4e198] lowercase mt-1">
-                lived in
-              </span>
-            </motion.h1>
-
-            {/* Captivating, emotional high-fashion description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.25, ease: "easeOut" }}
-              className="max-w-2xl mx-auto text-sm leading-relaxed text-neutral-500 dark:text-neutral-400 font-light font-sans tracking-wide"
-            >
-              We create slow, intentional garments for the modern soul. Explore
-              refined silhouettes, handcrafted premium fabrics, and timeless
-              pieces made to feel effortless today and remain unforgettable
-              tomorrow.
-            </motion.p>
-
-            {/* Stats Grid & Buttons Group (Glide up smoothly) */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-              className="space-y-8"
-            >
-              {/* Stats Grid */}
-              <div className="pt-2 flex justify-center items-center gap-8 text-center max-w-lg mx-auto">
-                <div className="flex-1">
-                  <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#6A0F1F] dark:text-[#e4e198]">
-                    50+
-                  </h3>
-                  <p className="text-[9px] font-bold text-neutral-400 tracking-[0.2em] uppercase mt-1">
-                    Premium Styles
-                  </p>
-                </div>
-
-                <div className="h-8 w-px bg-neutral-200 dark:bg-neutral-800" />
-
-                <div className="flex-1">
-                  <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#6A0F1F] dark:text-[#e4e198]">
-                    300+
-                  </h3>
-                  <p className="text-[9px] font-bold text-neutral-400 tracking-[0.2em] uppercase mt-1">
-                    Happy Customers
-                  </p>
-                </div>
-
-                <div className="h-8 w-px bg-neutral-200 dark:bg-neutral-800" />
-
-                <div className="flex-1">
-                  <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#6A0F1F] dark:text-[#e4e198]">
-                    100%
-                  </h3>
-                  <p className="text-[9px] font-bold text-neutral-400 tracking-[0.2em] uppercase mt-1">
-                    Quality Guarantee
-                  </p>
-                </div>
+      {/* 👑 EDITORIAL HERO CAROUSEL (Full-Bleed Luxury Slider at the absolute top of the page with a smooth cinematic fade-in) */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.4, ease: "easeOut" }} // Slow, elegant luxury fade-in
+        className="relative w-full overflow-hidden bg-white dark:bg-black"
+      >
+        <Swiper
+          modules={[Pagination, Autoplay, EffectFade]}
+          effect={"fade"}
+          pagination={{ clickable: true }}
+          autoplay={{
+            delay: 4500,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          className="h-[65vh] sm:h-[75vh] md:h-[85vh] w-full"
+        >
+          {HERO_BANNERS.map((banner) => (
+            <SwiperSlide key={banner.id} className="relative w-full h-full overflow-hidden">
+              
+              {/* Mobile Image */}
+              <div className="absolute inset-0 block md:hidden">
+                <Image
+                  src={banner.mobileimage}
+                  alt={banner.title}
+                  fill
+                  priority={banner.id === 1}
+                  fetchPriority={banner.id === 1 ? "high" : "auto"}
+                  loading={banner.id === 1 ? "eager" : "lazy"}
+                  className="object-cover"
+                  sizes="100vw"
+                />
               </div>
 
-              {/* CTA Buttons */}
-              <div className="flex justify-center gap-4 pt-2">
-                <Link
-                  href="/collection"
-                  className="bg-[#6A0F1F] text-white hover:bg-neutral-900 transition-all duration-300 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] rounded-sm shadow-md"
-                >
-                  Explore Collection
-                </Link>
-
-                <button
-                  onClick={() => setShowVideo(true)}
-                  className="flex items-center gap-2 border border-neutral-300 hover:border-neutral-800 text-neutral-800 bg-white hover:bg-neutral-50 transition-all duration-300 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] rounded-sm cursor-pointer"
-                >
-                  <Play size={10} fill="currentColor" strokeWidth={0} />
-                  Brand Story
-                </button>
+              {/* Desktop Image */}
+              <div className="absolute inset-0 hidden md:block">
+                <Image
+                  src={banner.image}
+                  alt={banner.title}
+                  fill
+                  priority={banner.id === 1}
+                  fetchPriority={banner.id === 1 ? "high" : "auto"}
+                  loading={banner.id === 1 ? "eager" : "lazy"}
+                  className="object-cover"
+                  sizes="100vw"
+                />
               </div>
-            </motion.div>
-          </div>
 
-          {/* ================= SECTION 2: THE MAIN SWIPER SLIDER ================= */}
-          <Swiper
-            modules={[Pagination, Autoplay]}
-            pagination={{ clickable: true }}
-            autoplay={{
-              delay: 4500,
-              disableOnInteraction: false,
-            }}
-            loop={true}
-            className="rounded-2xl overflow-hidden shadow-xs border border-neutral-100/50 dark:border-neutral-900/50"
-          >
-            {HERO_BANNERS.map((banner) => (
-              <SwiperSlide key={banner.title}>
-                <div className="relative h-120 sm:h-130 md:h-auto md:aspect-21/9 overflow-hidden">
-                  {/* Mobile Image */}
-                  <Image
-                    src={banner.mobileimage}
-                    alt={banner.title}
-                    fill
-                    priority={banner.id === 1}
-                    fetchPriority={banner.id === 1 ? "high" : "auto"}
-                    loading={banner.id === 1 ? "eager" : "lazy"}
-                    sizes="(max-width: 767px) calc(100vw - 2rem), 0px"
-                    className="object-cover md:hidden"
-                  />
+              {/* Sophisticated Luxury Dark Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent dark:from-black/75 dark:via-black/35 dark:to-transparent" />
 
-                  {/* Desktop Image */}
-                  <Image
-                    src={banner.image}
-                    alt={banner.title}
-                    fill
-                    priority={banner.id === 1}
-                    fetchPriority={banner.id === 1 ? "high" : "auto"}
-                    loading={banner.id === 1 ? "eager" : "lazy"}
-                    sizes="(max-width: 767px) 0px, calc(100vw - 2rem)"
-                    className="hidden object-cover md:block"
-                  />
+              {/* Content Overlay */}
+              <div className="absolute inset-0 flex items-center justify-start px-6 sm:px-12 md:px-20 lg:px-28">
+                <div className="w-full max-w-2xl text-white text-left space-y-4 md:space-y-6 z-10 font-sans">
+                  
+                  <p className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-white/90 font-medium">
+                    Autumn / Winter Edit
+                  </p>
 
-                  {/* Elegant Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
+                  <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl font-light tracking-wide uppercase leading-none text-white drop-shadow-sm">
+                    {banner.title}
+                  </h2>
 
-                  {/* Content Overlay */}
-                  <div className="absolute inset-0 flex items-end md:items-center">
-                    <div className="w-full max-w-xl p-6 pb-10 md:p-12 text-white space-y-4">
-                      <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-white/90 font-medium">
-                        Featured Highlight
-                      </p>
+                  <p className="text-xs sm:text-sm md:text-base text-white/80 max-w-lg leading-relaxed font-light tracking-wide">
+                    {banner.subtitle}
+                  </p>
 
-                      <h2 className="font-serif text-2xl sm:text-3xl md:text-5xl font-light tracking-wide uppercase leading-tight text-white">
-                        {banner.title}
-                      </h2>
+                  <div className="flex flex-wrap items-center gap-4 pt-2">
+                    <Link
+                      href={banner.href}
+                      className="border border-white hover:bg-white hover:text-neutral-900 transition-all duration-300 px-7 sm:px-8 py-3 text-[10px] sm:text-xs tracking-widest uppercase font-semibold inline-flex rounded-xs"
+                    >
+                      {banner.buttonText}
+                    </Link>
 
-                      <p className="hidden md:block text-xs sm:text-sm text-white/80 leading-relaxed font-light tracking-wide font-sans">
-                        {banner.subtitle}
-                      </p>
-
-                      <div className="pt-2">
-                        <Link
-                          href={banner.href}
-                          className="border border-white hover:bg-white hover:text-neutral-900 transition-all duration-300 px-7 py-3.5 text-[10px] tracking-widest uppercase font-semibold inline-flex rounded-xs"
-                        >
-                          {banner.buttonText}
-                        </Link>
-                      </div>
-                    </div>
+                    {/* Integrated Brand Story Button Inside Slider */}
+                    {banner.id === 1 && (
+                      <button
+                        onClick={() => setShowVideo(true)}
+                        className="flex items-center gap-2 border border-white/40 hover:border-white hover:bg-white/10 transition-all duration-300 px-6 sm:px-7 py-3 text-[10px] sm:text-xs tracking-widest uppercase font-semibold inline-flex cursor-pointer"
+                      >
+                        <Play size={11} fill="white" strokeWidth={0} />
+                        Brand Story
+                      </button>
+                    )}
                   </div>
+
                 </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </section>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </motion.section>
 
       {/* ================= VIDEO OVERLAY MODAL ================= */}
       {showVideo && (

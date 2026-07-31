@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Truck,
-  RotateCcw,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
+import { Truck, RotateCcw, ShieldCheck, Sparkles } from "lucide-react";
 
 const items = [
   {
@@ -43,19 +38,12 @@ export default function TrustSection() {
               className="flex flex-col items-center text-center"
             >
               <div className="w-14 h-14 rounded-full bg-white shadow-sm flex items-center justify-center">
-                <Icon
-                  size={26}
-                  className="text-[#5f5143]"
-                />
+                <Icon size={26} className="text-[#5f5143]" />
               </div>
 
-              <h3 className="mt-4 font-medium text-[#5f5143]">
-                {item.title}
-              </h3>
+              <h3 className="mt-4 font-medium text-[#5f5143]">{item.title}</h3>
 
-              <p className="mt-1 text-sm text-[#8c7a69]">
-                {item.desc}
-              </p>
+              <p className="mt-1 text-sm text-[#8c7a69]">{item.desc}</p>
             </div>
           );
         })}

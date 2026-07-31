@@ -8,21 +8,30 @@ import { Autoplay, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import { landingPages } from "@/Data/LandingPages";
+import { useAppContext } from "@/hooks/useAppContext";
 
 /**
  * 👑 LUXURY REDESIGN: Landing Slider (Nangalia Ruchira Theme)
- *
+ * 
  * Styled for premium single-theme look:
- * - 🔒 FIXED WIDTH: Constrained the entire slider inside a centered 'max-w-7xl mx-auto' block
+ * - 🔒 FIXED WIDTH: Constrained the entire slider inside a centered 'max-w-7xl mx-auto' block 
  *   to prevent it from stretching out too wide on large desktop monitors.
  * - Geometric shape: Swapped rounded-4xl for elegant, clean rounded-2xl.
  * - Asymmetrical layout with warm ivory backing (#faf9f6).
  */
 export default function LandingSlider() {
+  const { isLoaderFinished } = useAppContext();
   const topLandingPages = landingPages.filter((page) => page.featured);
+
+  if (!isLoaderFinished) {
+    return (
+      <div className="max-w-7xl mx-auto px-6 h-0 md:h-[500px]" />
+    );
+  }
 
   return (
     <section className="px-6 sm:px-8 md:px-12 py-10 bg-[#fcfbfa] dark:bg-black transition-colors duration-300">
+      
       {/* 🔒 Constrained container aligns perfectly with the rest of the homepage */}
       <div className="max-w-7xl mx-auto">
         <Swiper
@@ -37,18 +46,15 @@ export default function LandingSlider() {
           className="rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900"
         >
           {topLandingPages.map((page) => (
-            <SwiperSlide
-              key={page.slug}
-              className="bg-[#faf9f6] dark:bg-neutral-950"
-            >
-              <Link
-                href={`/lp/${page.slug}/index.html`}
-                className="block w-full"
-              >
+            <SwiperSlide key={page.slug} className="bg-[#faf9f6] dark:bg-neutral-950">
+              <Link href={`/lp/${page.slug}/index.html`} className="block w-full">
+                
                 {/* Asymmetrical Split Grid Container */}
                 <div className="grid grid-cols-1 md:grid-cols-12 h-auto md:h-[500px]">
+                  
                   {/* 1. LEFT COLUMN: TEXT NARRATIVE */}
                   <div className="md:col-span-6 lg:col-span-5 p-8 sm:p-12 md:p-16 flex flex-col justify-center items-start text-left bg-[#faf9f6] dark:bg-neutral-950 space-y-4 md:space-y-6">
+                    
                     <p className="text-[10px] font-bold text-[#6A0F1F] dark:text-[#e4e198] tracking-[0.3em] uppercase">
                       {page.tag || "Campaign Edit"}
                     </p>
@@ -81,7 +87,9 @@ export default function LandingSlider() {
                     {/* Subtle dark overlay gradient for depth */}
                     <div className="absolute inset-0 bg-black/5 dark:bg-black/15" />
                   </div>
+
                 </div>
+
               </Link>
             </SwiperSlide>
           ))}

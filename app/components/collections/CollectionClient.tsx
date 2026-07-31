@@ -1,41 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import EmptyState from "@/components/Global/EmptyState";
-import ProductCard from "@/components/Global/ProductCard";
-import ProductStackMobile from "@/components/products/ProductQuickViewMobile";
-// import ProductStack from "@/components/products/ProductQuickViewMobile";
-// import ProductQuickView from "@/components/products/ProductQuickView";
+import {
+  useState,
+  useMemo,
+  useEffect,
+  startTransition,
+  useCallback,
+} from "react";
+import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import { useAppContext } from "@/hooks/useAppContext";
 import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
-import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
-import {
-  startTransition,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import CategoryHero from "../category/CategoryHero";
-import CategoryTabs from "../category/CategoryTabs";
-import TrustSection from "../category/TrustSection";
+import ProductCard from "@/components/Global/ProductCard";
+import ProductStackMobile from "@/components/products/ProductQuickViewMobile";
 import SideFilter from "../Global/SideFilter";
+import EmptyState from "@/components/Global/EmptyState";
 
 const ProductQuickView = dynamic(
   () => import("@/components/products/ProductQuickView"),
-  {
-    ssr: false,
-  },
+  { ssr: false },
 );
 
-type ProductClientProps = {
+type CollectionClientProps = {
+  collection: {
+    title: string;
+    description: string;
+    slug: string;
+  };
   products: IMSProduct[];
-  category?: "all" | "women" | "men" | "kids";
 };
 
-const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
+/**
+ * 👑 LUXURY COMPONENT: Collection Page Client (Nangalia Ruchira Theme)
+ *
+ * Re-architects collections page layouts:
+ * - 🏛️ 2-COLUMN SPLIT LAYOUT: Permanent left-sidebar filter on desktop, sliding sheet on mobile.
+ * - Spaced uppercase tracked typography & luxurious serif titles.
+ * - Aligns perfectly with category lists for 100% storefront layout consistency!
+ */
+export default function CollectionClient({
+  collection,
+  products,
+}: CollectionClientProps) {
   const { searchQuery, subCategory, priceRange, sizes, sortBy } =
     useAppContext();
   const [showFilters, setShowFilters] = useState(false);
@@ -50,11 +58,11 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
     [sizes],
   );
 
+  // Prefetch quick view modal
   useEffect(() => {
     const id = requestIdleCallback(() => {
       import("@/components/products/ProductQuickView");
     });
-
     return () => cancelIdleCallback(id);
   }, []);
 
@@ -94,9 +102,7 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
       filteredProducts.reduce(
         (acc, product) => {
           const key = product.name.trim().toLowerCase();
-
           if (!acc[key]) acc[key] = product;
-
           return acc;
         },
         {} as Record<string, IMSProduct>,
@@ -107,34 +113,27 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
       case "price-low":
         grouped.sort((a, b) => a.price - b.price);
         break;
-
       case "price-high":
         grouped.sort((a, b) => b.price - a.price);
         break;
-
       case "name-asc":
         grouped.sort((a, b) => a.name.localeCompare(b.name));
         break;
-
       case "name-desc":
         grouped.sort((a, b) => b.name.localeCompare(a.name));
         break;
-
       case "newest":
         grouped.sort(
           (a: any, b: any) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         );
         break;
-
       default:
         break;
     }
 
     return grouped;
   }, [filteredProducts, sortBy]);
-
-  // const resultCount = groupedProducts.length;
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
@@ -162,46 +161,24 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
     });
   }, [groupedProducts.length]);
 
-  if (groupedProducts.length === 0) {
-    return (
-      <EmptyState
-        label="Collection Empty"
-        title="We’re Still Stitching This One Together"
-        description="New pieces are being crafted with care. Stay tuned for thoughtfully designed additions."
-        buttonText="Browse All Products →"
-        buttonLink="/"
-      />
-    );
-  }
-
   return (
-    <section
-      id="categoryPage"
-      className="w-full space-y-12 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-24"
-    >
-      {/* RESULT HEADER */}
-      {/* <div className="flex items-center justify-between">
-        <p className="text-xs uppercase tracking-[0.35em] text-[#957f6a]">
-          {resultCount} {resultCount === 1 ? "Item" : "Items"}
+    <section className="w-full space-y-12 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-24 select-none">
+      {/* 🏛️ Curated Picks collection title and header block */}
+      <div className="text-center py-8">
+        <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+          Curated Showcase
         </p>
 
-        {normalizedSub && (
-          <p className="text-sm text-[#7a6a5c]">
-            Filtered by{" "}
-            <span className="font-medium capitalize text-[#5f5143]">
-              {subCategory}
-            </span>
-          </p>
-        )}
-      </div> */}
+        <h1 className="font-serif text-4xl sm:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase mt-3 leading-none">
+          {collection.title}
+        </h1>
 
-      <CategoryHero category={category} />
+        <p className="text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto text-xs font-light font-sans tracking-wide leading-relaxed mt-5">
+          {collection.description}
+        </p>
+      </div>
 
-      <CategoryTabs current={category} />
-
-      <TrustSection />
-
-      {/* 🏛️ MINIMAL CATALOG HEADER (Replaces the bulky ProductToolbar with an elegant inline layout) */}
+      {/* 🏛️ MINIMAL CATALOG HEADER */}
       <div className="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-900 pb-4 select-none">
         <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
           {groupedProducts.length}{" "}
@@ -220,42 +197,40 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
 
       {showFilters && <SideFilter onClose={() => setShowFilters(false)} />}
 
-      {/* 🏛️ 2-COLUMN SPLIT CATALOG LAYOUT: Permanent left-sidebar on desktop, sliding drawer on mobile */}
-      <div className="flex flex-col md:flex-row gap-8 items-start w-full">
-        {/* Left column: Docked sidebar filter (Desktop only, hidden on mobile) */}
-        <SideFilter inline />
+      {groupedProducts.length === 0 ? (
+        <EmptyState
+          label="Collection Empty"
+          title="We’re Still Stitching This One Together"
+          description="New pieces are being crafted with care. Stay tuned for thoughtfully designed additions."
+          buttonText="Browse All Products →"
+          buttonLink="/"
+        />
+      ) : (
+        /* 🏛️ 2-COLUMN SPLIT LAYOUT: Permanent left-sidebar on desktop, slide-out banner drawer on mobile */
+        <div className="flex flex-col md:flex-row gap-8 items-start w-full">
+          {/* Left column: Docked sidebar filter (Desktop only) */}
+          <SideFilter inline />
 
-        {/* Right column: Product Grid area (Full-width on mobile, expands on desktop) */}
-        <div className="flex-1 w-full">
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 w-full">
-            {groupedProducts.map((item, index) => (
-              <motion.div
-                key={`${item.productId}-${index}`}
-                initial={{
-                  opacity: 0,
-                  y: 40,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.2,
-                }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.04,
-                }}
-              >
-                <ProductCard Linked={true} product={item} />
-              </motion.div>
-            ))}
+          {/* Right column: Product Grid (Scales dynamically on desktop and mobile) */}
+          <div className="flex-1 w-full">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 w-full">
+              {groupedProducts.map((item, index) => (
+                <motion.div
+                  key={`${item.productId}-${index}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: index * 0.04 }}
+                >
+                  <ProductCard Linked={true} product={item} />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* Desktop */}
+      {/* Desktop QuickView */}
       <div className="hidden md:block">
         <ProductQuickView
           product={
@@ -269,7 +244,7 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
         />
       </div>
 
-      {/* Mobile */}
+      {/* Mobile QuickStack */}
       <div className="md:hidden">
         <ProductStackMobile
           products={groupedProducts}
@@ -282,6 +257,4 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
       </div>
     </section>
   );
-};
-
-export default ProductClient;
+}

@@ -19,6 +19,8 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
+  Heart,
+  Check,
 } from "lucide-react";
 import ProductCard from "@/components/Global/ProductCard";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -31,6 +33,12 @@ import { fbPixel } from "@/lib/facebookpixel";
 import { Dialog, DialogContent } from "../UI/dialog";
 import { whatsappMessages } from "@/lib/whatsapp";
 import { useWhatsApp } from "@/context/WhatsAppContext";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+
+// Import Swiper core styles
+import "swiper/css";
+import "swiper/css/pagination";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -48,7 +56,18 @@ export default function ProductPDPClient({
 
   const selectedColorFromURL = searchParams.get("color");
   const productId = Number(product.productId);
-  const { addToCart, cartItems, removeFromCart } = useAppContext();
+
+  const {
+    addToCart,
+    cartItems,
+    removeFromCart,
+    user,
+    favCollections,
+    addToCollection,
+    removeFromCollection,
+  } = useAppContext();
+
+  const [pdpWishlistOpen, setPdpWishlistOpen] = useState(false);
 
   const initialVariant =
     product.variants.find(
@@ -129,27 +148,11 @@ export default function ProductPDPClient({
       : FALLBACK_SIZES;
 
   const stockMap = useMemo(() => {
-    if (!inventory?.length || !selectedVariant) return {};
-
-    const inventoryRecord = inventory.find(
-      (item: any) =>
-        item.color.toLowerCase() === selectedVariant.color.toLowerCase(),
-    );
-
-    if (!inventoryRecord) return {};
-
-    // Product with designs
-    if (
-      selectedDesign &&
-      inventoryRecord.designs &&
-      Object.keys(inventoryRecord.designs).length > 0
-    ) {
-      return inventoryRecord.designs[selectedDesign.design] ?? {};
-    }
-
-    // Product without designs
-    return inventoryRecord.sizes ?? {};
-  }, [inventory, selectedVariant, selectedDesign]);
+    return inventory.reduce((acc: any, item: any) => {
+      acc[item.size] = item.quantity;
+      return acc;
+    }, {});
+  }, [inventory]);
 
   useEffect(() => {
     if (!product) return;
@@ -180,21 +183,77 @@ export default function ProductPDPClient({
       item.color === selectedVariant?.color,
   );
 
-  const getStock = (size: string) => Number(stockMap[size] ?? 0);
+  const isWishlisted = Object.values(favCollections || {}).some((set) =>
+    set.has(productId),
+  );
 
-  const handleCartToggle = () => {
-    if (!selectedSize || !selectedVariant) return;
+  // Helper to standardise display folder names
+  const getDisplayFolderName = (colName: string) => {
+    const lower = colName.trim().toLowerCase();
+    if (
+      lower === "favorites" ||
+      lower === "default" ||
+      lower === "my wishlist" ||
+      lower === "default folder"
+    ) {
+      return "Default Folder";
+    }
+    return colName;
+  };
 
-    if (getStock(selectedSize) <= 0) {
-      toast.error("This size is out of stock.");
+  // Helper to standardise backend folder names
+  const getBackendFolderName = (colName: string) => {
+    const lower = colName.trim().toLowerCase();
+    if (lower === "default folder") return "Favorites";
+    return colName;
+  };
+
+  // Finds which folder currently contains this product (for single folder behavior!)
+  const currentProductFolder = useMemo(() => {
+    return (
+      Object.entries(favCollections || {}).find(([_, set]) =>
+        set.has(productId),
+      )?.[0] || null
+    );
+  }, [favCollections, productId]);
+
+  // Handles moving a product to a selected folder on the PDP (Single folder behavior!)
+  const handleMoveToFolder = async (colName: string) => {
+    setPdpWishlistOpen(false);
+
+    const targetFolder = colName;
+    const currentFolder = currentProductFolder;
+
+    if (
+      currentFolder &&
+      getBackendFolderName(currentFolder).toLowerCase() ===
+        getBackendFolderName(targetFolder).toLowerCase()
+    ) {
+      toast.info(`Already saved in ${getDisplayFolderName(colName)}`);
       return;
     }
 
-    if (isInCart) {
-      removeFromCart(productId, selectedSize, selectedVariant.color);
-    } else {
-      addToCart(productId, selectedSize, selectedVariant.color);
+    // 1. Add to the new selected folder
+    await addToCollection(getBackendFolderName(targetFolder), productId);
+
+    // 2. Remove from the current folder (if it exists)
+    if (currentFolder) {
+      await removeFromCollection(
+        getBackendFolderName(currentFolder),
+        productId,
+      );
     }
+
+    toast.success(`Moved to ${getDisplayFolderName(colName)}`);
+  };
+
+  const getStock = (size: string) => stockMap[size] ?? null;
+
+  const handleCartToggle = () => {
+    if (!selectedSize || !selectedVariant) return;
+    isInCart
+      ? removeFromCart(productId, selectedSize, selectedVariant.color)
+      : addToCart(productId, selectedSize, selectedVariant.color);
   };
 
   const categoryLabel = ["boys", "girls"].includes(
@@ -247,7 +306,7 @@ export default function ProductPDPClient({
           <li>
             <span className="text-neutral-300">/</span>
           </li>
-          <li className="text-neutral-800 font-bold truncate max-w-50 sm:max-w-xs">
+          <li className="text-neutral-800 font-bold truncate max-w-[200px] sm:max-w-xs">
             {product.name}
           </li>
         </ol>
@@ -255,29 +314,76 @@ export default function ProductPDPClient({
 
       {/* 2. MAIN SECTION (Immersive columns layout) */}
       <section className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        {/* LEFT: GRID IMAGES SHOWCASE (2 Columns of high-definition images on desktop, clean grid layout) */}
-        <div className="lg:col-span-7 space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            {activeImages.map((image, index) => (
-              <div
-                key={index}
-                onClick={() => {
-                  setSelectedImage(index);
-                  setOpenGallery(true);
-                }}
-                className={`relative aspect-3/4.5 overflow-hidden rounded-xl bg-[#faf9f6] border border-neutral-100/50 cursor-zoom-in group ${
-                  index === 0 ? "sm:col-span-2 aspect-3/4" : ""
-                }`}
-              >
-                <Image
-                  src={image}
-                  alt={`${product.name} ${index + 1}`}
-                  fill
-                  sizes="(max-width:768px) 100vw, 50vw"
-                  className="object-cover object-top transition duration-700 ease-out group-hover:scale-102"
-                />
-              </div>
-            ))}
+        {/* LEFT: IMAGES SHOWCASE (Carousel on Mobile/Tablet, Grid on Desktop) */}
+        <div className="lg:col-span-7 w-full min-w-0 max-w-full overflow-hidden select-none">
+          {/* ================= 📱 MOBILE & TABLET VIEW: Premium Swiper Carousel ================= */}
+          <div className="block lg:hidden w-full relative aspect-[3/4.5] sm:aspect-[4/3] md:aspect-[16/10] rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 min-w-0 max-w-full">
+            <Swiper
+              modules={[Pagination]}
+              pagination={{ clickable: true }}
+              loop={activeImages.length > 1}
+              style={{ width: "100%", maxWidth: "100%" }}
+              className="w-full h-full animate-fadeIn"
+              spaceBetween={16}
+              slidesPerView={1}
+              breakpoints={{
+                640: {
+                  slidesPerView: 2,
+                  spaceBetween: 16,
+                },
+                768: {
+                  slidesPerView: 2,
+                  spaceBetween: 16,
+                },
+              }}
+            >
+              {activeImages.map((image, index) => (
+                <SwiperSlide
+                  key={index}
+                  className="relative w-full h-full overflow-hidden cursor-pointer"
+                  onClick={() => {
+                    setSelectedImage(index);
+                    setOpenGallery(true);
+                  }}
+                >
+                  <Image
+                    src={image}
+                    alt={`${product.name} ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    className="object-cover object-top pointer-events-none"
+                    sizes="100vw"
+                    draggable={false}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+
+          {/* ================= 🖥️ DESKTOP VIEW: Default Grid Showcase ================= */}
+          <div className="hidden lg:block space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              {activeImages.map((image, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setSelectedImage(index);
+                    setOpenGallery(true);
+                  }}
+                  className={`relative aspect-[3/4.5] overflow-hidden rounded-xl bg-[#faf9f6] border border-neutral-100/50 cursor-zoom-in group ${
+                    index === 0 ? "sm:col-span-2 aspect-[3/4]" : ""
+                  }`}
+                >
+                  <Image
+                    src={image}
+                    alt={`${product.name} ${index + 1}`}
+                    fill
+                    sizes="(max-width:768px) 100vw, 50vw"
+                    className="object-cover object-top transition duration-700 ease-out group-hover:scale-102"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -308,19 +414,23 @@ export default function ProductPDPClient({
                 Select Color
               </p>
               <div className="flex gap-2 flex-wrap">
-                {product.variants.map((variant) => (
-                  <button
-                    key={variant.color}
-                    onClick={() => setSelectedVariant(variant)}
-                    className={`px-5 py-2.5 rounded-sm border text-[10px] font-bold uppercase tracking-widest transition duration-200 cursor-pointer ${
-                      selectedVariant?.color === variant.color
-                        ? "bg-[#6A0F1F] text-white border-[#6A0F1F]"
-                        : "bg-white border-neutral-200 hover:border-neutral-800 text-neutral-700"
-                    }`}
-                  >
-                    {variant.color}
-                  </button>
-                ))}
+                {product.variants.map((variant) => {
+                  const isSelected = selectedVariant?.color === variant.color;
+
+                  return (
+                    <button
+                      key={variant.color}
+                      onClick={() => setSelectedVariant(variant)}
+                      className={`px-5 py-2.5 rounded-sm border text-[10px] font-bold uppercase tracking-widest transition duration-200 cursor-pointer ${
+                        isSelected
+                          ? "bg-[#6A0F1F] text-white border-[#6A0F1F] dark:bg-[#e4e198] dark:text-neutral-950 dark:border-[#e4e198] shadow-sm"
+                          : "bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 hover:border-neutral-800 dark:hover:border-neutral-500 text-neutral-700 dark:text-neutral-300"
+                      }`}
+                    >
+                      {variant.color}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -369,37 +479,48 @@ export default function ProductPDPClient({
             <div className="flex gap-2.5 flex-wrap">
               {sizes.map((size) => {
                 const qty = getStock(size);
+                const isOutOfStock = qty === 0;
+                const isSelected = selectedSize === size;
+
                 return (
                   <button
                     key={size}
-                    disabled={qty === 0}
+                    disabled={isOutOfStock}
                     onClick={() => setSelectedSize(size)}
                     className={`w-12 h-12 rounded-sm border flex items-center justify-center text-xs font-semibold tracking-wider transition duration-200 cursor-pointer ${
-                      selectedSize === size
-                        ? "bg-[#6A0F1F] text-white border-[#6A0F1F]"
-                        : "bg-white border-neutral-200 hover:border-neutral-800 text-neutral-700"
-                    } ${qty === 0 ? "opacity-35 cursor-not-allowed bg-neutral-50 border-neutral-100" : ""}`}
+                      isSelected
+                        ? "bg-[#6A0F1F] text-white border-[#6A0F1F] dark:bg-[#e4e198] dark:text-neutral-950 dark:border-[#e4e198] shadow-sm"
+                        : isOutOfStock
+                          ? "bg-neutral-50 dark:bg-neutral-900/50 border-neutral-200 dark:border-neutral-800 text-neutral-300 dark:text-neutral-700 opacity-35 cursor-not-allowed"
+                          : "bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 hover:border-neutral-800 dark:hover:border-neutral-500 text-neutral-700 dark:text-neutral-300"
+                    }`}
                   >
                     {size}
                   </button>
                 );
               })}
             </div>
+
             {selectedSize && (
-              <p
-                className={`mt-3 text-sm font-medium ${
-                  (getStock(selectedSize) ?? 0) > 0
-                    ? "text-green-600"
-                    : "text-red-600"
-                }`}
-              >
-                {(getStock(selectedSize) ?? 0) > 0
-                  ? (getStock(selectedSize) ?? 0) <= 10
-                    ? `Only ${getStock(selectedSize)} left`
-                    : "In Stock"
-                  : "Out of Stock"}
-              </p>
+              <div className="flex items-center justify-between text-xs pt-1">
+                {stockMap[selectedSize] > 0 ? (
+                  <span className="text-green-600 font-medium">
+                    ✓ Item In Stock
+                  </span>
+                ) : (
+                  <span className="text-red-500 font-medium">
+                    ✕ Out of Stock
+                  </span>
+                )}
+                {stockMap[selectedSize] > 0 && stockMap[selectedSize] < 10 && (
+                  <span className="text-red-500 font-semibold animate-pulse">
+                    Only {stockMap[selectedSize]} left, Order soon!
+                  </span>
+                )}
+              </div>
             )}
+
+            {/* Custom sizing measurements */}
             {selectedSizeData && (
               <div className="border border-neutral-100 rounded-xl p-4 bg-neutral-50/50 text-xs space-y-2 mt-2">
                 <h4 className="font-semibold uppercase tracking-wider text-neutral-800 text-[10px]">
@@ -463,6 +584,125 @@ export default function ProductPDPClient({
                 Notify Me When Available (Sold Out)
               </button>
             )}
+
+            {/* 💖 Premium Save to Wishlist Toggle (Floating Dropdown) */}
+            <div className="relative w-full">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  // 🔒 SECURITY/UX CHECK: If user is logged out, redirect them to the login screen
+                  if (!user) {
+                    toast.error("Please login to save items to your wishlist");
+                    router.push("/account/login");
+                    return;
+                  }
+
+                  setPdpWishlistOpen(!pdpWishlistOpen);
+                }}
+                className="w-full mt-4 py-3.5 border border-neutral-200 dark:border-neutral-800 hover:border-[#6A0F1F] dark:hover:border-[#e4e198] text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-950 text-xs font-semibold uppercase tracking-[0.2em] rounded-md transition duration-300 cursor-pointer flex items-center justify-center gap-2 select-none"
+              >
+                <Heart
+                  size={14}
+                  strokeWidth={1.5}
+                  className={`transition-all duration-300 ${
+                    isWishlisted
+                      ? "fill-red-600 text-red-600 scale-105"
+                      : "text-neutral-500"
+                  }`}
+                />
+                <span>
+                  {isWishlisted ? "Saved in Wishlist" : "Save to Wishlist"}
+                </span>
+                <ChevronDown
+                  size={14}
+                  className={`text-neutral-400 transition-transform duration-300 ${pdpWishlistOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {/* Wishlist Dropdown Overlay */}
+              {pdpWishlistOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-20 cursor-default"
+                    onClick={() => setPdpWishlistOpen(false)}
+                  />
+                  <div className="absolute left-0 right-0 mt-1.5 bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-xl shadow-2xl p-4 z-30 text-left divide-y divide-neutral-100 dark:divide-neutral-900 select-none animate-fadeIn">
+                    {/* Header */}
+                    <div className="pb-2.5 text-left">
+                      <p className="text-[8px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                        Save to Wishlist folders
+                      </p>
+                    </div>
+
+                    {/* Folders List (Single-selection list with ticks on the RIGHT side!) */}
+                    <div className="py-2.5 space-y-1 max-h-36 overflow-y-auto custom-scroll text-left">
+                      {Object.entries(favCollections || {}).map(([colName]) => {
+                        const displayName = getDisplayFolderName(colName);
+                        const isSelectedInThisFolder =
+                          currentProductFolder &&
+                          colName.toLowerCase() ===
+                            currentProductFolder.toLowerCase();
+
+                        return (
+                          <button
+                            key={colName}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleMoveToFolder(colName);
+                            }}
+                            className="w-full flex items-center justify-between px-1.5 py-2 text-[9px] font-bold uppercase tracking-widest text-neutral-600 dark:text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] cursor-pointer text-left transition duration-200"
+                          >
+                            <span className="truncate pr-2 flex-1 text-left">
+                              {displayName}
+                            </span>
+                            {isSelectedInThisFolder && (
+                              <Check
+                                size={10}
+                                className="text-[#6A0F1F] dark:text-[#e4e198] shrink-0"
+                                strokeWidth={2.5}
+                              />
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Global Delete option (Only rendered if currently wishlisted!) */}
+                    {isWishlisted && (
+                      <div className="pt-2.5 text-left">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Clear product from all folders globally
+                            Object.keys(favCollections || {}).forEach(
+                              (colName) => {
+                                if (favCollections[colName].has(productId)) {
+                                  removeFromCollection(colName, productId);
+                                }
+                              },
+                            );
+
+                            setPdpWishlistOpen(false);
+                            toast.error("Removed from wishlist");
+                          }}
+                          className="w-full flex items-center gap-2 px-1.5 py-2 text-[9px] font-bold uppercase tracking-widest text-red-600 hover:text-red-700 cursor-pointer text-left transition duration-200"
+                        >
+                          <X size={10} className="shrink-0" strokeWidth={2.5} />
+                          <span className="flex-1 truncate text-left">
+                            Remove from Wishlist
+                          </span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {/* SECURITY & TRUST MARKS */}
@@ -683,7 +923,7 @@ export default function ProductPDPClient({
               <div className="absolute inset-0 bg-white/30 backdrop-blur-xs" />
 
               {/* Central high-definition image */}
-              <div className="relative z-10 aspect-3/4.5 w-full max-w-lg shadow-xl rounded-xl overflow-hidden bg-white">
+              <div className="relative z-10 aspect-[3/4.5] w-full max-w-lg shadow-xl rounded-xl overflow-hidden bg-white">
                 <Image
                   src={activeImages[selectedImage]}
                   fill

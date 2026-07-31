@@ -113,6 +113,10 @@ export interface AppContextType {
   authLoading: boolean;
   user: AuthUser | null;
   setUser: Dispatch<SetStateAction<AuthUser | null>>;
+
+  /* 🎬 Animation Coordination */
+  isLoaderFinished: boolean;
+  setIsLoaderFinished: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
