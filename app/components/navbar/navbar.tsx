@@ -23,10 +23,10 @@ import Logo from "@/components/UI/Logo";
 
 /**
  * 👑 LUXURY REDESIGN: Navbar (Nangalia Ruchira Theme)
- * 
+ *
  * Advanced Features Implemented:
  * - 🌗 Full dark-mode support styling (using class-based selectors with Tailwind v4).
- * - ⚡ INTERACTIVE SHRINKING HEADER: 
+ * - ⚡ INTERACTIVE SHRINKING HEADER:
  *   * When scrolled down, the header shrinks to h-14/15.
  *   * If you hover over the shrunk header, OR scroll back up, it expands back smoothly to h-20/24!
  * - 🌀 Sliding marquee announcements inside the wine-red top bar.
@@ -165,7 +165,7 @@ const Navbar = () => {
   const isShrunk = scrolled && !isHovered;
 
   return (
-    <header 
+    <header
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="fixed top-0 inset-x-0 z-40 bg-white dark:bg-black flex flex-col transition-all duration-300"
@@ -195,11 +195,12 @@ const Navbar = () => {
         aria-label="Main Navigation"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between relative">
-          
           {/* LEFT: Menu Hamburger (Mobile) & Desktop Links (Animate entrance) */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -15 }}
-            animate={isLoaderFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: -15 }}
+            animate={
+              isLoaderFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: -15 }
+            }
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
             className="flex items-center"
           >
@@ -244,10 +245,12 @@ const Navbar = () => {
                 {/* Collections Dropdown Panel (Mega Dropdown with Overlaid Hero Cards for Desktop) */}
                 {collectionOpen && (
                   <div className="absolute left-[-150px] top-full pt-4 w-[600px] lg:w-[680px] z-50 animate-fadeIn">
-                    <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-2xl shadow-2xl p-5 grid grid-cols-3 gap-5">
-                      
+                    <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-2xl shadow-md p-5 grid grid-cols-3 gap-5">
                       {/* Column 1: Women */}
-                      <Link href="/women#categoryPage" className="group relative h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100/50 dark:border-neutral-900 shadow-md">
+                      <Link
+                        href="/women#categoryPage"
+                        className="group relative h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100/50 dark:border-neutral-900 shadow-md"
+                      >
                         <img
                           src="/Assets/Images/Hero/womenHero.jpeg"
                           alt="Women Collection"
@@ -256,7 +259,7 @@ const Navbar = () => {
                         />
                         {/* Premium dark gradient overlay for typography readability */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent transition-all duration-300 group-hover:from-black/90" />
-                        
+
                         {/* Text Overlay (Bottom Aligned) */}
                         <div className="absolute bottom-4 left-4 right-4 text-left text-white space-y-0.5">
                           <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white group-hover:text-[#e4e198] transition duration-200">
@@ -269,7 +272,10 @@ const Navbar = () => {
                       </Link>
 
                       {/* Column 2: Men */}
-                      <Link href="/men" className="group relative h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100/50 dark:border-neutral-900 shadow-md">
+                      <Link
+                        href="/men"
+                        className="group relative h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100/50 dark:border-neutral-900 shadow-md"
+                      >
                         <img
                           src="/Assets/Images/Hero/menHero.jpeg"
                           alt="Men Collection"
@@ -278,7 +284,7 @@ const Navbar = () => {
                         />
                         {/* Premium dark gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent transition-all duration-300 group-hover:from-black/90" />
-                        
+
                         {/* Text Overlay */}
                         <div className="absolute bottom-4 left-4 right-4 text-left text-white space-y-0.5">
                           <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white group-hover:text-[#e4e198] transition duration-200">
@@ -291,7 +297,10 @@ const Navbar = () => {
                       </Link>
 
                       {/* Column 3: Kids */}
-                      <Link href="/kids" className="group relative h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100/50 dark:border-neutral-900 shadow-md">
+                      <Link
+                        href="/kids"
+                        className="group relative h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100/50 dark:border-neutral-900 shadow-md"
+                      >
                         <img
                           src="/Assets/Images/Hero/childrenHero.jpg"
                           alt="Kids Collection"
@@ -300,7 +309,7 @@ const Navbar = () => {
                         />
                         {/* Premium dark gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent transition-all duration-300 group-hover:from-black/90" />
-                        
+
                         {/* Text Overlay */}
                         <div className="absolute bottom-4 left-4 right-4 text-left text-white space-y-0.5">
                           <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white group-hover:text-[#e4e198] transition duration-200">
@@ -311,7 +320,6 @@ const Navbar = () => {
                           </p>
                         </div>
                       </Link>
-
                     </div>
                   </div>
                 )}
@@ -327,9 +335,13 @@ const Navbar = () => {
           </motion.div>
 
           {/* CENTER: BRAND LOGO (Absolutely Centered, scales with scroll / hover, enters with elegant scale-blur reveal) */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9, y: -15 }}
-            animate={isLoaderFinished ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.9, y: -15 }}
+            animate={
+              isLoaderFinished
+                ? { opacity: 1, scale: 1, y: 0 }
+                : { opacity: 0, scale: 0.9, y: -15 }
+            }
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-auto"
           >
@@ -347,9 +359,11 @@ const Navbar = () => {
           </motion.div>
 
           {/* RIGHT: SEARCH, WISHLIST (Desktop Only), ACCOUNT (Desktop Only), CART Drawer Trigger (Animate entrance) */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -15 }}
-            animate={isLoaderFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: -15 }}
+            animate={
+              isLoaderFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: -15 }
+            }
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
             className="flex items-center gap-0.5 sm:gap-2 text-neutral-800 dark:text-neutral-200"
           >
@@ -461,7 +475,10 @@ const Navbar = () => {
                   }}
                   autoFocus
                 />
-                <button type="submit" className="absolute right-4 p-1.5 text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]">
+                <button
+                  type="submit"
+                  className="absolute right-4 p-1.5 text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                >
                   <Search size={18} strokeWidth={1.5} />
                 </button>
               </form>
@@ -470,10 +487,14 @@ const Navbar = () => {
               {searchQuery && (
                 <div className="mt-2 bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-2xl shadow-lg max-h-56 overflow-y-auto divide-y divide-neutral-50 dark:divide-neutral-850">
                   {loadingSuggestions && (
-                    <div className="px-5 py-3 text-xs text-neutral-400 tracking-wider">Searching...</div>
+                    <div className="px-5 py-3 text-xs text-neutral-400 tracking-wider">
+                      Searching...
+                    </div>
                   )}
                   {!loadingSuggestions && suggestions.length === 0 && (
-                    <div className="px-5 py-3 text-xs text-neutral-400 tracking-wider">No results found</div>
+                    <div className="px-5 py-3 text-xs text-neutral-400 tracking-wider">
+                      No results found
+                    </div>
                   )}
                   {suggestions.map((item) => (
                     <div
@@ -500,7 +521,7 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="absolute inset-x-0 top-full h-[calc(100vh-100%)] z-30 md:hidden bg-white dark:bg-black flex flex-col justify-between border-t border-neutral-100 dark:border-neutral-900 shadow-2xl overflow-y-auto"
+            className="absolute inset-x-0 top-full h-[calc(100vh-100%)] z-30 md:hidden bg-white dark:bg-black flex flex-col justify-between border-t border-neutral-100 dark:border-neutral-900 shadow-lg overflow-y-auto"
           >
             <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
               {/* Primary Category Links */}
@@ -509,19 +530,49 @@ const Navbar = () => {
                   Categories
                 </p>
                 <div className="flex flex-col gap-3 font-semibold text-sm uppercase tracking-widest text-neutral-800 dark:text-neutral-200">
-                  <Link href="/" className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900">Home</Link>
-                  <Link href="/women#categoryPage" className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900">Women Collection</Link>
-                  <Link href="/men" className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900">Men Collection</Link>
-                  <Link href="/kids" className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900">Kids Collection</Link>
-                  <Link href="/blog" className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1">Vastra Journal</Link>
+                  <Link
+                    href="/"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
+                  >
+                    Home
+                  </Link>
+                  <Link
+                    href="/women#categoryPage"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
+                  >
+                    Women Collection
+                  </Link>
+                  <Link
+                    href="/men"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
+                  >
+                    Men Collection
+                  </Link>
+                  <Link
+                    href="/kids"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
+                  >
+                    Kids Collection
+                  </Link>
+                  <Link
+                    href="/blog"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1"
+                  >
+                    Vastra Journal
+                  </Link>
                 </div>
               </div>
 
               {/* System / Help Links */}
               <div className="space-y-4 pt-4 border-t border-neutral-100 dark:border-neutral-900">
-                <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">Customer Support</p>
+                <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                  Customer Support
+                </p>
                 <div className="flex flex-col gap-3 font-semibold text-xs uppercase tracking-widest text-neutral-600 dark:text-neutral-400">
-                  <Link href="/support" className="flex items-center gap-2 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]">
+                  <Link
+                    href="/support"
+                    className="flex items-center gap-2 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                  >
                     <HelpCircle size={15} strokeWidth={1.5} />
                     Contact Support
                   </Link>
@@ -530,7 +581,9 @@ const Navbar = () => {
 
               {/* Profile / Account Area */}
               <div className="space-y-4 pt-4 border-t border-neutral-100 dark:border-neutral-900">
-                <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">Account</p>
+                <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                  Account
+                </p>
                 {!authLoading && !isLogged ? (
                   <Link
                     href="/account/login"
@@ -549,14 +602,24 @@ const Navbar = () => {
                       />
                       <span>Hello, {user?.username}</span>
                     </div>
-                    <Link href="/profile" className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]">My Profile</Link>
+                    <Link
+                      href="/profile"
+                      className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                    >
+                      My Profile
+                    </Link>
                     <Link
                       href="/favorites"
                       className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
                     >
                       My Wishlist
                     </Link>
-                    <Link href="/orders" className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]">Track Orders</Link>
+                    <Link
+                      href="/orders"
+                      className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                    >
+                      Track Orders
+                    </Link>
                     <button
                       onClick={handleLogout}
                       className="w-full text-left font-bold text-red-600 flex items-center gap-2 pt-2 border-t border-neutral-50 dark:border-neutral-900 cursor-pointer"

@@ -3,14 +3,22 @@
 
 import { useAppContext } from "@/hooks/useAppContext";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import OtpInput from "./OtpInput";
 import { toast } from "sonner";
 import Script from "next/script";
+import { motion, AnimatePresence } from "framer-motion";
 
+/**
+ * 👑 LUXURY OVERHAUL: Centered Minimalist Log-In Card (Nangalia Ruchira Style)
+ *
+ * Elegant centered single-panel layout:
+ * - Removed the bulky split aside panel completely for a clean, editorial look.
+ * - 🔒 FIXED: Password input area is now 100% full width, matching all other inputs exactly!
+ * - Fluid Transitions: Implemented AnimatePresence to slide & fade forms dynamically.
+ */
 const Login = () => {
   const { loginForm, setLoginForm, handleLogin, loadUser } = useAppContext();
   const [visible, setVisible] = useState(false);
@@ -81,21 +89,16 @@ const Login = () => {
     }
 
     // MOBILE OTP (MSG91)
-
     window.sendOtp(
       `91${identifier}`,
-
       () => {
         setLoading(false);
         setOtpSent(true);
         toast.success("OTP sent to your mobile");
       },
-
       (err) => {
         console.error(err);
-
         setLoading(false);
-
         toast.error(err?.message || "Unable to send OTP");
       },
     );
@@ -125,9 +128,7 @@ const Login = () => {
 
       if (res.ok) {
         toast.success("OTP Verified");
-
         await loadUser();
-
         router.replace(safeRedirect);
       } else {
         toast.error("Invalid OTP");
@@ -137,15 +138,9 @@ const Login = () => {
     }
 
     // MOBILE OTP
-
     window.verifyOtp(
       otp,
-
       async (data) => {
-        console.log("MSG91 Verify Response:", data);
-        console.log("MSG91 Verify Response:", JSON.stringify(data, null, 2));
-        console.dir(data);
-
         if (data.type !== "success") {
           setLoading(false);
           return toast.error("OTP verification failed");
@@ -174,7 +169,6 @@ const Login = () => {
         });
 
         setLoading(false);
-
         const result = await res.json();
 
         if (!res.ok) {
@@ -183,17 +177,12 @@ const Login = () => {
         }
 
         toast.success("Logged in successfully");
-
         await loadUser();
-
         router.replace(safeRedirect);
       },
-
       (err) => {
         console.error("MSG91 Verify Error:", err);
-
         setLoading(false);
-
         toast.error(err?.message || "Invalid OTP");
       },
     );
@@ -211,23 +200,8 @@ const Login = () => {
   };
 
   const identifier = loginForm.identifier.trim();
-
   const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
-
   const isMobile = /^[6-9]\d{9}$/.test(identifier);
-
-  // useEffect(() => {
-  // const timer = setInterval(() => {
-  //   if (window.initSendOTP) {
-  //     clearInterval(timer);
-
-  //     window.initSendOTP({
-  //       widgetId: process.env.NEXT_PUBLIC_MSG91_WIDGET_ID!,
-  //       tokenAuth: process.env.NEXT_PUBLIC_MSG91_TOKEN!,
-  //       exposeMethods: true,
-  //     });
-  //   }
-  // }, 300);
 
   const initMsg91 = () => {
     if (sdkInitialized) return;
@@ -241,11 +215,9 @@ const Login = () => {
       widgetId: process.env.NEXT_PUBLIC_MSG91_WIDGET_ID!,
       tokenAuth: process.env.NEXT_PUBLIC_MSG91_TOKEN!,
       exposeMethods: true,
-
       success: (data: any) => {
         console.log("MSG91 Success:", data);
       },
-
       failure: (err: any) => {
         console.error("MSG91 Failure:", err);
       },
@@ -255,75 +227,162 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full h-full flex justify-center px-6 py-16 not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)]">
-      <div className="w-full h-full max-w-5xl rounded-4xl overflow-hidden shadow-[0_40px_100px_rgba(149,127,106,0.15)] md:flex">
-        {/* LEFT PANEL */}
-        <aside className="hidden md:w-[45%] bg-[#efe3d3] p-10 md:flex flex-col justify-between h-full">
-          <div className="space-y-6">
-            <h2 className="text-3xl font-semibold text-[#5f5143]">
-              Welcome Back
-            </h2>
+    <div className="w-full min-h-screen flex items-center justify-center px-4 sm:px-6 py-20 bg-[#fcfbfa] dark:bg-black transition-colors duration-300">
+      {/* Cinematic Overhauled Centered Card */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-md w-full bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-2xl p-8 sm:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.04)] dark:shadow-none select-none"
+      >
+        {/* Header Branding */}
+        <div className="text-center pb-6 mb-6 border-b border-neutral-100 dark:border-neutral-900">
+          <p className="text-[10px] font-bold text-[#6A0F1F] dark:text-[#e4e198] tracking-[0.35em] uppercase">
+            Secure Portal
+          </p>
+          <h1 className="font-serif text-3xl font-light text-neutral-800 dark:text-white uppercase tracking-wide mt-2">
+            Sign In
+          </h1>
+        </div>
 
-            <p className="text-[#7a6a5c] leading-relaxed">
-              Access your wardrobe universe. Experience comfort, quality and
-              timeless silhouettes crafted for everyday elegance.
-            </p>
-          </div>
+        {/* Form area */}
+        <div className="space-y-6">
+          <AnimatePresence mode="wait">
+            {useOtp ? (
+              !otpSent ? (
+                /* STEP 1: OTP Email/Mobile request */
+                <motion.div
+                  key="otp-request"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="space-y-6"
+                >
+                  <input
+                    type="text"
+                    name="identifier"
+                    value={loginForm.identifier}
+                    onChange={handleInputChange}
+                    placeholder="Email Address or Mobile Number"
+                    autoComplete="username"
+                    className="w-full rounded-md border border-neutral-200 dark:border-neutral-850 bg-white dark:bg-neutral-950 px-4 py-3.5 text-xs text-neutral-800 dark:text-neutral-200 tracking-wide outline-none focus:border-[#6A0F1F] dark:focus:border-[#e4e198] transition shadow-xs"
+                  />
 
-          <div className="hidden md:block">
-            <Image
-              src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933083/authimg_unlbxi.png"
-              width={400}
-              height={250}
-              alt="Fashion Visual"
-              className="object-contain"
-              loading="lazy"
-            />
-          </div>
-        </aside>
+                  <button
+                    onClick={sendOtp}
+                    disabled={loading}
+                    className="w-full rounded-md bg-[#6A0F1F] dark:bg-[#e4e198] text-white dark:text-neutral-950 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-neutral-900 dark:hover:bg-white transition duration-300 cursor-pointer shadow-md"
+                  >
+                    {loading ? "Sending OTP..." : "Get Access Code"}
+                  </button>
+                </motion.div>
+              ) : (
+                /* STEP 2: OTP Verification input */
+                <motion.div
+                  key="otp-verify"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="space-y-6 text-center"
+                >
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-800 dark:text-neutral-200">
+                      Verify Code
+                    </h3>
+                    <p className="text-[10px] text-neutral-400 tracking-wider">
+                      We&apos;ve sent a 6-digit access code to
+                    </p>
+                    <p className="text-xs font-bold text-neutral-700 dark:text-neutral-300 break-all">
+                      {identifier}
+                    </p>
+                  </div>
 
-        {/* RIGHT PANEL */}
-        <aside className="md:w-[55%] h-full dark:text-[#5f5143] not-dark:bg-white p-10 flex flex-col justify-center">
-          <div className="max-w-md w-full mx-auto space-y-6">
-            <input
-              type="text"
-              name="identifier"
-              value={loginForm.identifier}
-              onChange={handleInputChange}
-              disabled={otpSent}
-              placeholder="Email Address or Mobile Number"
-              autoComplete="username"
-              className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
-            />
+                  <OtpInput
+                    value={otpDigits}
+                    setValue={setOtpDigits}
+                    length={6}
+                    onComplete={(otp) => verifyOtp(otp)}
+                  />
 
-            {!useOtp && (
-              <>
-                <div className="flex border-b border-[#e6d8c8]">
+                  <button
+                    onClick={() => verifyOtp()}
+                    disabled={loading}
+                    className="w-full rounded-md bg-[#6A0F1F] dark:bg-[#e4e198] text-white dark:text-neutral-950 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-neutral-900 dark:hover:bg-white transition duration-300 cursor-pointer shadow-md"
+                  >
+                    {loading ? "Verifying..." : "Verify & Sign In"}
+                  </button>
+
+                  <div className="text-[10px] text-neutral-400 tracking-wider">
+                    Didn&apos;t receive the code?
+                    <button
+                      onClick={sendOtp}
+                      className="ml-1 font-bold text-[#6A0F1F] dark:text-[#e4e198] hover:underline uppercase"
+                    >
+                      Resend
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOtpSent(false);
+                      setOtpDigits(Array(6).fill(""));
+                    }}
+                    className="text-[10px] font-bold text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] uppercase tracking-widest block mx-auto transition"
+                  >
+                    ← Change Email / Mobile
+                  </button>
+                </motion.div>
+              )
+            ) : (
+              /* STEP 3: Password Login form */
+              <motion.div
+                key="password-login"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="space-y-6"
+              >
+                <input
+                  type="text"
+                  name="identifier"
+                  value={loginForm.identifier}
+                  onChange={handleInputChange}
+                  placeholder="Email Address or Mobile Number"
+                  autoComplete="username"
+                  className="w-full rounded-md border border-neutral-200 dark:border-neutral-850 bg-white dark:bg-neutral-950 px-4 py-3.5 text-xs text-neutral-800 dark:text-neutral-200 tracking-wide outline-none focus:border-[#6A0F1F] dark:focus:border-[#e4e198] transition shadow-xs"
+                />
+
+                {/* 🔒 FIXED: Password container uses relative + absolute Eye placement, forcing input to be 100% full-width */}
+                <div className="relative w-full rounded-md border border-neutral-200 dark:border-neutral-850 bg-white dark:bg-neutral-950 px-4 py-3.5 flex items-center justify-between focus-within:border-[#6A0F1F] dark:focus-within:border-[#e4e198] transition shadow-xs">
                   <input
                     type={visible ? "text" : "password"}
                     name="password"
                     value={loginForm.password}
                     onChange={handleInputChange}
                     placeholder="Password"
-                    className="flex-1 p-2 outline-none 5f5143"
+                    className="w-full bg-transparent text-xs text-neutral-800 dark:text-neutral-200 tracking-wide outline-none pr-8"
                   />
                   <button
                     type="button"
                     onClick={() => setVisible(!visible)}
-                    className="text-[#7a6a5c]"
+                    className="absolute right-4 text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition cursor-pointer"
                   >
                     {visible ? (
-                      <EyeIcon size={18} />
+                      <EyeIcon size={16} />
                     ) : (
-                      <EyeClosedIcon size={18} />
+                      <EyeClosedIcon size={16} />
                     )}
                   </button>
                 </div>
 
-                <div className="text-right text-sm">
+                <div className="text-right">
                   <Link
                     href="reset_password"
-                    className="text-[#7a6a5c] hover:text-[#6a0f1f]"
+                    className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition"
                   >
                     Forgot Password?
                   </Link>
@@ -331,93 +390,38 @@ const Login = () => {
 
                 <button
                   onClick={handlePasswordLogin}
-                  className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
+                  className="w-full rounded-md bg-[#6A0F1F] dark:bg-[#e4e198] text-white dark:text-neutral-950 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-neutral-900 dark:hover:bg-white transition duration-300 cursor-pointer shadow-md"
                 >
                   Login
                 </button>
-              </>
+              </motion.div>
             )}
+          </AnimatePresence>
 
-            {useOtp && !otpSent && (
-              <button
-                onClick={sendOtp}
-                disabled={loading}
-                className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
-              >
-                {loading ? "Sending OTP..." : "Continue"}
-              </button>
-            )}
-
-            {useOtp && otpSent && (
-              <>
-                <div className="text-center space-y-2">
-                  <h3 className="text-lg font-semibold text-[#5f5143]">
-                    Verify OTP
-                  </h3>
-
-                  <p className="text-sm text-[#7a6a5c]">
-                    We&apos;ve sent a 6-digit OTP to
-                  </p>
-
-                  <p className="font-medium break-all">{identifier}</p>
-                </div>
-
-                <OtpInput
-                  value={otpDigits}
-                  setValue={setOtpDigits}
-                  length={6}
-                  onComplete={(otp) => verifyOtp(otp)}
-                />
-
-                <button
-                  onClick={() => verifyOtp()}
-                  disabled={loading}
-                  className="w-full bg-[#5f5143] text-white py-3 rounded-full hover:bg-[#6a0f1f] transition"
-                >
-                  {loading ? "Verifying..." : "Verify OTP"}
-                </button>
-
-                <div className="text-center text-sm">
-                  Didn&apos;t receive the OTP?
-                  <button
-                    onClick={sendOtp}
-                    className="ml-1 font-medium text-[#6a0f1f] hover:underline"
-                  >
-                    Resend
-                  </button>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOtpSent(false);
-                    setOtpDigits(Array(6).fill(""));
-                  }}
-                  className="w-full text-sm text-[#7a6a5c] hover:text-[#6a0f1f]"
-                >
-                  ← Change Email / Mobile
-                </button>
-              </>
-            )}
-
+          {/* TOGGLE OPTIONS */}
+          <div className="flex flex-col items-center gap-4 pt-4 border-t border-neutral-100 dark:border-neutral-900">
             <button
               onClick={toggleMode}
-              className="text-sm text-[#7a6a5c] hover:text-[#6a0f1f] transition text-center"
+              className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition cursor-pointer"
             >
               {useOtp
-                ? "Login with Password Instead"
-                : "Login with OTP Instead"}
+                ? "Sign in with Account Password"
+                : "Sign in with Dynamic Access OTP"}
             </button>
 
-            <div className="text-center text-sm text-[#7a6a5c]">
-              New here?{" "}
-              <Link href="register" className="underline hover:text-[#6a0f1f]">
+            <p className="text-[10px] font-medium uppercase tracking-widest text-neutral-400">
+              New to the universe?{" "}
+              <Link
+                href="register"
+                className="underline text-[#6A0F1F] dark:text-[#e4e198] hover:text-neutral-900 dark:hover:text-white font-bold transition ml-1"
+              >
                 Create Account
               </Link>
-            </div>
+            </p>
           </div>
-        </aside>
-      </div>
+        </div>
+      </motion.div>
+
       <Script
         src="https://verify.msg91.com/otp-provider.js"
         strategy="afterInteractive"

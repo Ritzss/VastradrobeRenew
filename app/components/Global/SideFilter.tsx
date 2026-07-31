@@ -207,7 +207,7 @@ const SideFilter = ({ onClose, inline = false }: SideFilterProps) => {
                 className="fixed inset-0 z-20 cursor-default"
                 onClick={() => setSortOpen(false)}
               />
-              <div className="absolute left-0 right-0 mt-1.5 bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-md shadow-2xl py-1.5 z-30 divide-y divide-neutral-50 dark:divide-neutral-900 max-h-56 overflow-y-auto">
+              <div className="absolute left-0 right-0 mt-1.5 bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-md shadow-md py-1.5 z-30 divide-y divide-neutral-50 dark:divide-neutral-900 max-h-56 overflow-y-auto">
                 {sortOptions.map((opt) => (
                   <button
                     key={opt.value}
@@ -489,7 +489,7 @@ const SideFilter = ({ onClose, inline = false }: SideFilterProps) => {
         />
       )}
 
-      <aside className="fixed right-0 top-0 h-screen w-96 max-w-[95vw] bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 z-50 shadow-2xl rounded-l-2xl overflow-y-auto border-l border-neutral-100 dark:border-neutral-900 transition-all duration-300">
+      <aside className="fixed right-0 top-0 h-screen w-96 max-w-[95vw] bg-white dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 z-50 shadow-lg rounded-l-2xl overflow-y-auto border-l border-neutral-100 dark:border-neutral-900 transition-all duration-300">
         {/* HEADER */}
         <div className="sticky top-0 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md border-b border-neutral-100 dark:border-neutral-900 px-7 py-6 z-20 flex justify-between items-center">
           <div>

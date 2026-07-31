@@ -231,8 +231,6 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
             {groupedProducts.map((item, index) => (
               <motion.div
                 key={`${item.productId}-${index}`}
-                onClick={() => openProduct(index)}
-                className="cursor-pointer"
                 initial={{
                   opacity: 0,
                   y: 40,
@@ -250,7 +248,7 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
                   delay: index * 0.04,
                 }}
               >
-                <ProductCard Linked={false} product={item} />
+                <ProductCard Linked={true} product={item} />
               </motion.div>
             ))}
           </div>

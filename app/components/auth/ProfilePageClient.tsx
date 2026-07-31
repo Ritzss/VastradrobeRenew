@@ -6,8 +6,18 @@ import { useRouter } from "next/navigation";
 import ProfileCard from "@/components/UI/ProfileCard";
 import { toast } from "sonner";
 import Link from "next/link";
-// import Image from "next/image";
+import { ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 
+/**
+ * 👑 LUXURY OVERHAUL: Account Profile Panel (Nangalia Ruchira Style)
+ *
+ * Re-designed with pristine styling:
+ * - Geometric shape: Swapped all muddy brown outlines and bubbles for modern, clean rounded-2xl panels.
+ * - Inputs: Clean, fully-outlined rectangular text entry fields.
+ * - Navigation links: Styled as premium tracked list elements with chevrons.
+ * - Fluid entrance: Animated on-mount slide-reveal.
+ */
 const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
   const { user, setUser, authLoading, loadUser } = useAppContext();
   const router = useRouter();
@@ -21,6 +31,14 @@ const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
       router.push("/account/login");
     }
   }, [authLoading, user, router]);
+
+  // Synchronize dynamic input fields on mount/user load
+  useEffect(() => {
+    if (user?.deliveryAddress) {
+      setAddress(user.deliveryAddress.address || "");
+      setPhone(user.deliveryAddress.phone || "");
+    }
+  }, [user]);
 
   if (authLoading || !user) return null;
 
@@ -46,24 +64,36 @@ const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
 
     await loadUser();
     setSaving(false);
-    toast.success("Profile updated");
+    toast.success("Profile updated successfully");
   };
 
   return (
-    <div className="min-h-screen not-dark:bg-[radial-gradient(circle_at_top,#fffdfd_0%,#fff8f8_35%,#fff4f4_100%)] px-6 md:px-16 py-16 pt-28">
-      {/* Heading */}
-      <div className="max-w-6xl mx-auto mb-12">
-        <h1 className="text-3xl md:text-4xl font-semibold text-[#5f5143]">
-          My Profile
-        </h1>
-        <p className="text-sm text-[#7a6a5c] mt-2">
-          Manage your account details and preferences.
-        </p>
-      </div>
+    <div className="min-h-screen bg-[#fcfbfa] dark:bg-black transition-colors duration-300 px-4 sm:px-6 lg:px-8 py-16 pt-28">
+      {/* Cinematic Slide-In on mount */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-6xl mx-auto space-y-12"
+      >
+        {/* HEADING BLOCK */}
+        <div className="text-left space-y-1 border-b border-neutral-100 dark:border-neutral-900 pb-4 select-none">
+          <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+            Customer Panel
+          </p>
 
-      <div className="max-w-6xl mx-auto space-y-12">
-        {/* Profile Summary */}
-        <div className="bg-[#1d1416] not-dark:bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-light text-neutral-800 dark:text-white uppercase tracking-wide">
+            My Profile
+          </h1>
+
+          <p className="text-neutral-500 dark:text-neutral-400 text-xs font-light font-sans tracking-wide">
+            Manage your account details, delivery locations, and order
+            preferences.
+          </p>
+        </div>
+
+        {/* Profile Summary Card Wrapper */}
+        <div className="rounded-2xl overflow-hidden border border-neutral-100 dark:border-neutral-900 bg-white dark:bg-neutral-950 shadow-xs">
           <ProfileCard
             name={user?.username}
             handle={user?.username}
@@ -92,51 +122,59 @@ const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
           />
         </div>
 
-        {/* Main Grid */}
-        <div className="grid md:grid-cols-3 gap-10">
-          {/* DETAILS */}
-          <div className="md:col-span-2 bg-[#1d1416] not-dark:bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 space-y-6">
-            <div>
-              <label className="text-sm text-[#7a6a5c]">Email</label>
-              <div className="mt-1 border-b border-[#e6d8c8] p-2 text-[#5f5143]">
+        {/* Main Split Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
+          {/* LEFT AREA: PROFILE DETAILS FORM */}
+          <div className="md:col-span-2 rounded-2xl border border-neutral-100 dark:border-neutral-900 bg-white dark:bg-neutral-950 p-6 sm:p-8 space-y-6 shadow-xs">
+            <div className="space-y-1.5 text-left">
+              <label className="text-[9px] font-bold text-neutral-400 tracking-[0.2em] uppercase block">
+                Email Address
+              </label>
+              <div className="w-full rounded-md border border-neutral-100 dark:border-neutral-900 bg-neutral-50/50 dark:bg-neutral-900 px-4 py-3.5 text-xs text-neutral-500 dark:text-neutral-400 tracking-wide select-text">
                 {user?.email}
               </div>
             </div>
 
-            <div>
-              <label className="text-sm text-[#7a6a5c]">Phone</label>
+            <div className="space-y-1.5 text-left">
+              <label className="text-[9px] font-bold text-neutral-400 tracking-[0.2em] uppercase block">
+                Phone Number
+              </label>
               <input
                 type="text"
                 maxLength={10}
-                className="w-full border-b border-[#e6d8c8] p-2 outline-none focus:border-[#6a0f1f] transition"
+                className="w-full rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-4 py-3.5 text-xs text-neutral-800 dark:text-neutral-200 tracking-wide outline-none focus:border-[#6A0F1F] dark:focus:border-[#e4e198] transition shadow-xs"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                placeholder="Enter 10-digit mobile"
               />
             </div>
 
-            <div>
-              <label className="text-sm text-[#7a6a5c]">Delivery Address</label>
+            <div className="space-y-1.5 text-left">
+              <label className="text-[9px] font-bold text-neutral-400 tracking-[0.2em] uppercase block">
+                Primary Delivery Address
+              </label>
               <textarea
                 rows={4}
-                className="w-full border-b border-[#e6d8c8] p-2 outline-none resize-none focus:border-[#6a0f1f] transition"
+                className="w-full rounded-md border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-4 py-3.5 text-xs text-neutral-800 dark:text-neutral-200 tracking-wide outline-none resize-none focus:border-[#6A0F1F] dark:focus:border-[#e4e198] transition shadow-xs"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
+                placeholder="Enter your complete home or office shipping location details"
               />
             </div>
 
-            <div className="flex justify-end pt-4">
+            <div className="flex justify-end pt-2">
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className=" px-8 py-3 rounded-full bg-[#5f5143] text-white hover:bg-[#6a0f1f] transition disabled:opacity-60"
+                className="rounded-md bg-[#6A0F1F] dark:bg-[#e4e198] text-white dark:text-neutral-950 px-8 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-neutral-900 dark:hover:bg-white transition duration-300 cursor-pointer shadow-md disabled:opacity-60"
               >
                 {saving ? "Saving..." : "Save Changes"}
               </button>
             </div>
           </div>
 
-          {/* ACTIONS */}
-          <div className="bg-[#1d1416] not-dark:bg-white rounded-4xl shadow-[0_30px_80px_rgba(149,127,106,0.15)] p-8 space-y-4">
+          {/* RIGHT AREA: NAVIGATION PANEL ACTIONS */}
+          <div className="rounded-2xl border border-neutral-100 dark:border-neutral-900 bg-white dark:bg-neutral-950 p-6 sm:p-8 space-y-4 shadow-xs h-auto self-start">
             <ProfileAction href="/orders" label="My Orders" />
             <ProfileAction href="/favorites" label="My Favorites" />
             <ProfileAction
@@ -146,19 +184,22 @@ const ProfilePageClient = ({ defaultImage }: { defaultImage?: string }) => {
             <ProfileAction href="/support" label="Customer Support" />
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
-
 };
 
 function ProfileAction({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className=" block px-4 py-3 rounded-xl border border-[#e6d8c8] text-[#5f5143] hover:bg-[#f3e7d8] transition"
+      className="flex items-center justify-between rounded-md border border-neutral-200 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 bg-white dark:bg-neutral-950 hover:border-[#6A0F1F] dark:hover:border-[#e4e198] hover:text-[#6A0F1F] dark:hover:text-[#e4e198] p-4 text-[10px] font-bold uppercase tracking-widest transition duration-300 shadow-xs cursor-pointer group"
     >
-      {label}
+      <span>{label}</span>
+      <ChevronRight
+        size={14}
+        className="text-neutral-400 group-hover:text-[#6A0F1F] dark:group-hover:text-[#e4e198] group-hover:translate-x-1.5 transition duration-300"
+      />
     </Link>
   );
 }

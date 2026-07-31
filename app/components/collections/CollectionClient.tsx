@@ -217,14 +217,12 @@ export default function CollectionClient({
               {groupedProducts.map((item, index) => (
                 <motion.div
                   key={`${item.productId}-${index}`}
-                  onClick={() => openProduct(index)}
-                  className="cursor-pointer"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.5, delay: index * 0.04 }}
                 >
-                  <ProductCard Linked={false} product={item} />
+                  <ProductCard Linked={true} product={item} />
                 </motion.div>
               ))}
             </div>
