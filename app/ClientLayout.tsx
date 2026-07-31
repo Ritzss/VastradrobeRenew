@@ -43,7 +43,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
       await document.fonts.ready;
 
       // 👑 LUXURY PACING: Increased loading time to 2.8 seconds (2800ms)
-      // This allows the premium organic breathe animation of the SVG logo to complete a full 
+      // This allows the premium organic breathe animation of the SVG logo to complete a full
       // cycle and builds a strong, high-end brand connection with the user before the curtain opens.
       setTimeout(() => {
         requestAnimationFrame(() => {
@@ -65,7 +65,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
         <Toaster position="bottom-left" richColors />
         <LayoutGroup>
           <LandingLoader loading={loading} />
-          
+
           {/* 🔒 FIXED ALL-PAGES DARK MODE: Added 'dark:bg-black' to the scroll wrapper container 
               and main area. Toggling dark mode now instantly applies across 100% of your pages!
           */}
@@ -84,7 +84,6 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
 
             <Footer />
           </div>
-          
         </LayoutGroup>
       </WhatsAppProvider>
     </AppProvider>

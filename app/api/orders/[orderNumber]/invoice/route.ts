@@ -38,16 +38,15 @@ export async function GET(
     // ---------------- ORDER ----------------
     const { orderNumber } = await params;
 
-const order = await Order.findOne({
-  orderNumber,
-});
+    const order = await Order.findOne({
+      orderNumber,
+    });
 
-if (!order) {
-  return new Response("Order not found", { status: 404 });
-}
+    if (!order) {
+      return new Response("Order not found", { status: 404 });
+    }
 
-const transaction = await Transaction.findById(order.transactionId);
-
+    const transaction = await Transaction.findById(order.transactionId);
 
     // ---------------- OWNER CHECK ----------------
 
@@ -64,14 +63,14 @@ const transaction = await Transaction.findById(order.transactionId);
 
     // ---------------- PDF ----------------
     // const pdf = await generateInvoice(order);
-const pdf = await generateInvoice(order, transaction);
-
+    const pdf = await generateInvoice(order, transaction);
 
     return new Response(new Uint8Array(pdf), {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
         "Content-Length": String(pdf.length),
+        "Content-Disposition": `attachment; filename=invoice-${orderNumber}.pdf`,
         "Cache-Control": "no-store",
       },
     });

@@ -25,13 +25,14 @@ export default function ProductGallery({ images, openGallery }: Props) {
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="w-full select-none">
+    <div className="w-full min-w-0 max-w-full overflow-hidden select-none">
       {/* ================= 📱 MOBILE VIEW: Elegant Swiper Carousel ================= */}
-      <div className="block md:hidden w-full relative aspect-[4/5] rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950">
+      <div className="block lg:hidden w-full relative aspect-[3/4.5] sm:aspect-[4/3] md:aspect-[16/10] rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 min-w-0 max-w-full">
         <Swiper
           modules={[Pagination]}
           pagination={{ clickable: true }}
           loop={images.length > 1}
+          style={{ width: "100%", maxWidth: "100%" }}
           className="w-full h-full"
           spaceBetween={16}
           slidesPerView={1}
@@ -67,7 +68,7 @@ export default function ProductGallery({ images, openGallery }: Props) {
       </div>
 
       {/* ================= 🖥️ DESKTOP VIEW: High-End Geometric Grid ================= */}
-      <div className="hidden md:block space-y-4 w-full">
+      <div className="hidden lg:block space-y-4 w-full">
         {/* Hero Image */}
         <div
           onClick={openGallery}

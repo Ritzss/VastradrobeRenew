@@ -440,9 +440,18 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* CART (Triggers slide-out CartDrawer on click) */}
-            <button
+            {/* CART (Triggers slide-out CartDrawer on click with beautiful pop/jump animation on cart count changes) */}
+            <motion.button
               onClick={() => setCartDrawerOpen(true)}
+              animate={{
+                scale: [1, 1.25, 0.95, 1.1, 1],
+                y: [0, -6, 1, -0.5, 0],
+              }}
+              key={cartCount}
+              transition={{
+                duration: 0.45,
+                ease: "easeInOut",
+              }}
               className="group relative p-2 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 transition cursor-pointer hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
               aria-label="Cart"
             >
@@ -452,7 +461,7 @@ const Navbar = () => {
                   {cartCount}
                 </span>
               )}
-            </button>
+            </motion.button>
           </motion.div>
         </div>
 

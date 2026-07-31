@@ -68,7 +68,7 @@ const Home = async () => {
         <Slider />
 
         {/* LANDING PAGE PROMO SLIDER */}
-        <div className="hidden md:block">
+        <div className="block">
           <ScrollReveal direction="up" delay={100}>
             <LandingSlider />
           </ScrollReveal>

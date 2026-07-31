@@ -95,6 +95,14 @@ const FavoriteProductCard = ({
     toast.success(`Moved to ${getDisplayFolderName(colName)}`);
   };
 
+  const handleRemoveGlobalLocal = () => {
+    setIsRemoved(true);
+    const id = setTimeout(() => {
+      onRemoveGlobal(product);
+    }, 10000); // 10 second timeout
+    setTimerId(id);
+  };
+
   // Cancel timer and restore the original card
   const handleUndo = () => {
     if (timerId) {
@@ -251,6 +259,7 @@ const FavoritesClient = () => {
     setProducts,
     createCollection,
     removeFromCollection,
+    addToCollection,
   } = useAppContext();
 
   const [newCollection, setNewCollection] = useState("");
@@ -346,6 +355,18 @@ const FavoritesClient = () => {
     });
 
     toast.error(`"${product.name}" removed from wishlist`);
+  };
+
+  const handleRestorePlaceholder = (placeholder: {
+    product: IMSProduct;
+    collection: string;
+    id: string;
+  }) => {
+    addToCollection(placeholder.collection, placeholder.product.productId);
+    setRemovedPlaceholders((prev) =>
+      prev.filter((item) => item.id !== placeholder.id),
+    );
+    toast.success(`Restored "${placeholder.product.name}" to folder!`);
   };
 
   return (
@@ -618,7 +639,7 @@ const FavoritesClient = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                handleUndo();
+                                handleRestorePlaceholder(item);
                               }}
                               className="w-full py-2.5 rounded-md bg-[#6A0F1F] dark:bg-[#e4e198] text-white dark:text-neutral-950 text-[10px] font-bold uppercase tracking-widest hover:bg-neutral-900 dark:hover:bg-white shadow-xs transition duration-200 cursor-pointer"
                             >

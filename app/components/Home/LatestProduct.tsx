@@ -6,6 +6,12 @@ import ProductCard from "@/components/Global/ProductCard";
 import { IMSProduct } from "@/Types/Product";
 import InfiniteScrollWrapper from "../Global/InfiniteScrollWrapper";
 import HorizontalScroll from "../Global/HorizontalScroll";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
 
 type LatestArrivalsProps = {
   products: IMSProduct[];
@@ -20,11 +26,12 @@ const categories = [
 
 /**
  * 👑 LUXURY REDESIGN: Latest Arrivals Grid Navigator (Nangalia Ruchira Theme)
- * 
- * Centralized components:
- * - Replaced legacy duplicate "ProductCardStatic" imports with our unified central "ProductCard"!
+ *
+ * Sizing & Layout Refined:
+ * - 📱 MOBILE & TABLET VIEW (< 1024px): Highly responsive Swiper Carousel with free-mode swipe inertia.
+ * - 🖥️ DESKTOP VIEW (>= 1024px): Immersive, slow auto-sliding infinite scrolling marquee.
  */
-export default function LatestArrivals({ products }: LatestArrivalsProps, text: string) {
+export default function LatestArrivals({ products }: LatestArrivalsProps) {
   const [selectedCategory, setSelectedCategory] =
     useState<(typeof categories)[number]["key"]>("women");
 
@@ -71,7 +78,7 @@ export default function LatestArrivals({ products }: LatestArrivalsProps, text: 
   return (
     <>
       {/* Category Navigation (Elegant tracked links) */}
-      <div className="flex items-center justify-center gap-6 sm:gap-8 mb-12 border-b border-neutral-100 dark:border-neutral-900 pb-3 max-w-lg mx-auto">
+      <div className="flex items-center justify-center gap-6 sm:gap-8 mb-12 border-b border-neutral-100 dark:border-neutral-900 pb-3 max-w-lg mx-auto select-none">
         {availableCategories.map((category) => (
           <button
             key={category.key}
@@ -96,25 +103,57 @@ export default function LatestArrivals({ products }: LatestArrivalsProps, text: 
       </div>
 
       <section className="relative w-full">
-        {filteredProducts.length > 3 ? (
-          <InfiniteScrollWrapper key={selectedCategory}>
+        {/* ================= 📱 MOBILE & TABLET VIEW: Premium Swiper Carousel (< 1024px) ================= */}
+        <div className="lg:hidden w-full px-0 mx-0 select-none">
+          <Swiper
+            modules={[FreeMode]}
+            freeMode={true}
+            slidesPerView="auto"
+            spaceBetween={16}
+            slidesOffsetBefore={24}
+            slidesOffsetAfter={24}
+            className="w-full"
+            key={selectedCategory}
+          >
             {filteredProducts.map((product) => (
-              <div key={product.productId} className="w-[45vw] md:w-72 shrink-0 px-1">
+              <SwiperSlide
+                key={product.productId}
+                className="w-[45vw] sm:w-[35vw] md:w-72 shrink-0 px-1"
+              >
                 <ProductCard latest product={product} />
-              </div>
+              </SwiperSlide>
             ))}
-          </InfiniteScrollWrapper>
-        ) : (
-          <div className="flex justify-center">
-            <HorizontalScroll className="md:justify-center" color="#fcfbfa">
+          </Swiper>
+        </div>
+
+        {/* ================= 🖥️ DESKTOP VIEW: Infinite Marquee/Grid (>= 1024px) ================= */}
+        <div className="hidden lg:block w-full">
+          {filteredProducts.length > 3 ? (
+            <InfiniteScrollWrapper key={selectedCategory}>
               {filteredProducts.map((product) => (
-                <div key={product.productId} className="w-[45vw] md:w-72 shrink-0 px-1">
+                <div
+                  key={product.productId}
+                  className="w-[45vw] md:w-72 shrink-0 px-1"
+                >
                   <ProductCard latest product={product} />
                 </div>
               ))}
-            </HorizontalScroll>
-          </div>
-        )}
+            </InfiniteScrollWrapper>
+          ) : (
+            <div className="flex justify-center select-none">
+              <HorizontalScroll className="md:justify-center" color="#fcfbfa">
+                {filteredProducts.map((product) => (
+                  <div
+                    key={product.productId}
+                    className="w-[45vw] md:w-72 shrink-0 px-1"
+                  >
+                    <ProductCard latest product={product} />
+                  </div>
+                ))}
+              </HorizontalScroll>
+            </div>
+          )}
+        </div>
       </section>
     </>
   );

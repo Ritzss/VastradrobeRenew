@@ -315,13 +315,14 @@ export default function ProductPDPClient({
       {/* 2. MAIN SECTION (Immersive columns layout) */}
       <section className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         {/* LEFT: IMAGES SHOWCASE (Carousel on Mobile/Tablet, Grid on Desktop) */}
-        <div className="lg:col-span-7 w-full select-none">
+        <div className="lg:col-span-7 w-full min-w-0 max-w-full overflow-hidden select-none">
           {/* ================= 📱 MOBILE & TABLET VIEW: Premium Swiper Carousel ================= */}
-          <div className="block md:hidden w-full relative aspect-[3/4.5] rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950">
+          <div className="block lg:hidden w-full relative aspect-[3/4.5] sm:aspect-[4/3] md:aspect-[16/10] rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 min-w-0 max-w-full">
             <Swiper
               modules={[Pagination]}
               pagination={{ clickable: true }}
               loop={activeImages.length > 1}
+              style={{ width: "100%", maxWidth: "100%" }}
               className="w-full h-full animate-fadeIn"
               spaceBetween={16}
               slidesPerView={1}
@@ -360,7 +361,7 @@ export default function ProductPDPClient({
           </div>
 
           {/* ================= 🖥️ DESKTOP VIEW: Default Grid Showcase ================= */}
-          <div className="hidden md:block space-y-4">
+          <div className="hidden lg:block space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {activeImages.map((image, index) => (
                 <div
