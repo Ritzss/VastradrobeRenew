@@ -52,8 +52,8 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
               <Navbar />
             </header>
 
-            {/* MAIN CONTENT AREA: Spacious padding to offset the fixed luxury header */}
-            <main className="min-h-screen pt-[112px] sm:pt-[116px] bg-[#fcfbfa]">
+            {/* MAIN CONTENT AREA: Spacious padding dynamically sized to offset our new grand taller header */}
+            <main className="min-h-screen pt-31 sm:pt-35 bg-[#fcfbfa]">
               {children}
             </main>
 

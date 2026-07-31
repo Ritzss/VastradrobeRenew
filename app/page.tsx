@@ -4,7 +4,7 @@ import ScrollReveal from "./components/Global/ScrollReveal";
 import LatestArrivals from "./components/Home/LatestProduct";
 import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
 import SocialProofClient from "./components/Global/SocialProofClient";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";
 import LandingSlider from "./components/Home/LandingSlider";
 import RecentlyViewed from "./components/Home/RecentlyViewed";
@@ -14,10 +14,17 @@ import ShopByColor from "./components/Home/ShopbyColor";
 import WhatsAppPageMessage from "./components/Global/WhatsAppPageMessage";
 import { whatsappMessages } from "./lib/whatsapp";
 
-const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"), {
-  loading: () => <div className="h-125 w-full bg-gray-200 animate-pulse" />,
-});
-
+/**
+ * 👑 LUXURY REDESIGN: VastraDrobe Homepage (Nangalia Ruchira Theme)
+ *
+ * Elegant adjustments applied:
+ * - Standardized every single section header across the homepage.
+ * - Replaced legacy red/pink colors with our premium, high-contrast luxury theme:
+ *   * Subtitles: text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase
+ *   * Titles: font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase mt-2
+ * - Wrote spacious, clean padding intervals and subtle gray dividers.
+ * - 🔒 FIXED: Removed the slow "Vastra in Motion" video block to drastically speed up page loads and performance.
+ */
 const Home = async () => {
   let latestProducts = [];
   let womenProducts = [];
@@ -54,7 +61,7 @@ const Home = async () => {
   return (
     <>
       <WhatsAppPageMessage message={whatsappMessages.home()} />
-      <section className="w-full dark:bg-neutral-950 bg-[#fff8f8] text-black ">
+      <section className="w-full bg-[#fcfbfa] dark:bg-black text-black dark:text-white transition-colors duration-300">
         {/* HERO */}
         <Slider />
 
@@ -63,7 +70,7 @@ const Home = async () => {
           <LandingSlider />
         </div>
 
-        {/* Featured Collection */}
+        {/* FEATURED COLLECTIONS (Grid Desktop / Swipeable Mobile) */}
         <LazySection placeholderHeight={450}>
           <FeaturedCollections sections={featuredCollections} />
         </LazySection>
@@ -71,37 +78,42 @@ const Home = async () => {
         {/* LATEST ARRIVALS */}
         <section
           id="latestArrival"
-          className="mx-auto py-5 text-center dark:bg-neutral-950 bg-[#fff5f5]"
+          className="mx-auto py-16 text-center bg-[#faf9f6] dark:bg-neutral-950 border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300"
         >
-          <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
-            New This Season
-          </p>
+          <div className="max-w-4xl mx-auto px-6 mb-12">
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+              New This Season
+            </p>
 
-          <h2 className="text-4xl md:text-5xl text-[#7a1020] font-semibold mb-6">
-            Latest Arrivals
-          </h2>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase mt-2">
+              Latest Arrivals
+            </h2>
 
-          <p className="text-[#a94d5d] max-w-xl mx-auto mb-8 text-base leading-relaxed">
-            Fresh silhouettes, breathable fabrics, and elevated everyday
-            essentials.
-          </p>
+            <p className="text-neutral-500 dark:text-neutral-400 max-w-xl mx-auto mt-4 text-xs leading-relaxed font-light font-sans tracking-wide">
+              Fresh silhouettes, breathable fabrics, and elevated everyday
+              essentials. Handcrafted with care for modern presence.
+            </p>
+          </div>
 
           <LatestArrivals products={latestProducts} />
         </section>
 
-        {/* Shop by Color */}
+        {/* SHOP BY COLOR */}
         <LazySection placeholderHeight={450}>
           <ShopByColor products={allProducts} />
         </LazySection>
 
-        {/* WOMEN */}
-        <section id="collection" className=" dark:bg-neutral-950 bg-[#fff0f0] py-8">
-          <div className="max-w-7xl mx-auto px-6 text-center mb-5">
-            <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
+        {/* WOMEN COLLECTION */}
+        <section
+          id="collection"
+          className="bg-[#faf9f6] dark:bg-neutral-950 py-16 border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300"
+        >
+          <div className="max-w-7xl mx-auto px-6 text-center mb-10">
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
               Women
             </p>
 
-            <h2 className="text-4xl md:text-5xl text-[#7a1020] font-semibold">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase mt-2">
               Co-ords You’ll Love
             </h2>
           </div>
@@ -110,18 +122,18 @@ const Home = async () => {
             category="women"
             title=""
             text="#5f5143"
-            color="text-[#fff5f5] dark:text-[#1d1416]"
+            color="text-[#fff5f5] dark:text-[#1a1a1a]"
           />
         </section>
 
-        {/* Kids */}
-        <section className=" dark:bg-neutral-950 bg-[#fff5f5] py-8">
-          <div className="max-w-7xl mx-auto px-6 text-center mb-5">
-            <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
+        {/* KIDS COLLECTION */}
+        <section className="bg-[#fcfbfa] dark:bg-black py-16 border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
+          <div className="max-w-7xl mx-auto px-6 text-center mb-10">
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
               Kids
             </p>
 
-            <h2 className="text-4xl md:text-5xl text-[#7a1020] font-semibold">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase mt-2">
               Playful & Comfortable
             </h2>
           </div>
@@ -130,18 +142,18 @@ const Home = async () => {
             products={kidsProducts}
             category="kids"
             title=""
-            color="text-[#fff8f8] dark:text-[#1d1416]"
+            color="text-[#fff8f8] dark:text-[#1a1a1a]"
           />
         </section>
 
-        {/* MEN */}
-        <section className=" dark:bg-neutral-950 bg-[#fff0f0] py-8">
-          <div className="max-w-7xl mx-auto px-6 text-center mb-5">
-            <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
+        {/* MEN COLLECTION */}
+        <section className="bg-[#faf9f6] dark:bg-neutral-950 py-16 border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
+          <div className="max-w-7xl mx-auto px-6 text-center mb-10">
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
               Men
             </p>
 
-            <h2 className="text-4xl md:text-5xl text-[#7a1020] font-semibold">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase mt-2">
               Modern Everyday Wear
             </h2>
           </div>
@@ -151,46 +163,29 @@ const Home = async () => {
             category="men"
             title=""
             text="#5f5143"
-            color="text-[#fff5f5] dark:text-[#1d1416]"
+            color="text-[#fff5f5] dark:text-[#1a1a1a]"
           />
         </section>
 
-        {/* Recently Viewed */}
+        {/* RECENTLY VIEWED */}
         <LazySection placeholderHeight={550}>
           <RecentlyViewed products={allProducts} />
         </LazySection>
 
-        {/* VIDEO SECTION */}
-        <section className=" dark:bg-neutral-950 bg-[#fff5f5] py-8">
-          <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-            <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
-              Craftsmanship
-            </p>
-
-            <h2 className="text-4xl md:text-5xl text-[#7a1020] font-semibold">
-              See Vastra in Motion
-            </h2>
-          </div>
-
-          <LazySection placeholderHeight={700}>
-            <HomeVideos />
-          </LazySection>
-        </section>
-
-        {/* BLOG */}
-        <section className=" dark:bg-neutral-950 bg-[#fff0f0] py-8">
+        {/* BLOG VASTRA JOURNAL */}
+        <section className="bg-[#fcfbfa] dark:bg-black py-16 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
-              <div className="text-center mb-20">
-                <p className="uppercase tracking-[0.35em] text-[12px] text-[#a94d5d] mb-4">
+              <div className="text-center mb-16 space-y-3">
+                <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
                   Vastra Journal
                 </p>
 
-                <h2 className="text-4xl md:text-5xl text-[#7a1020] font-semibold mb-6">
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase leading-tight">
                   Beyond Fabric. Into Thought.
                 </h2>
 
-                <p className="text-[#6f3d46] max-w-2xl mx-auto text-lg">
+                <p className="text-neutral-500 dark:text-neutral-400 max-w-lg mx-auto text-xs leading-relaxed font-light">
                   Stories on sustainability, craftsmanship, and the materials
                   shaping modern wardrobes.
                 </p>
@@ -204,7 +199,7 @@ const Home = async () => {
             <div className="flex justify-center mt-16">
               <Link
                 href="/blog"
-                className="px-10 py-3 rounded-full border border-[#7a1020] text-[#7a1020] hover:bg-[#7a1020] hover:text-white transition"
+                className="px-10 py-3.5 rounded-full border border-neutral-300 hover:border-neutral-800 dark:border-neutral-800 dark:hover:border-neutral-600 text-neutral-700 dark:text-neutral-300 text-xs font-semibold uppercase tracking-widest hover:bg-neutral-50 dark:hover:bg-neutral-900 transition"
               >
                 Explore All Articles →
               </Link>

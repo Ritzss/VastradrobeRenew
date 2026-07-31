@@ -2,49 +2,28 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { FaPlay, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+import { Play } from "lucide-react";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
+import { motion } from "framer-motion";
 
-// const banners = [
-//   {
-//     image: "/Assets/Images/banner3.png",
-//     title: "New Collection",
-//     subtitle: "Discover timeless elegance.",
-//   },
-//   {
-//     image: "/Assets/Images/banner1.png",
-//     title: "Festive Edit",
-//     subtitle: "Celebrate in style.",
-//   },
-//   {
-//     image: "/Assets/Images/banner2.png",
-//     title: "Everyday Luxe",
-//     subtitle: "Designed for every moment.",
-//   },
-// ];
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
 
 const HERO_BANNERS = [
-  // {
-  //   id: 1,
-  //   image: "/Assets/Images/banner3.png",
-  //   title: "New Collection",
-  //   subtitle: "Discover timeless elegance.",
-  //   buttonText: "Shop Collection",
-  //   href: "/collection/new",
-  //   previewHref: "/collection/new",
-  // },
   {
     id: 1,
     image:
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_1920,c_limit/v1783584189/banner1_f58cni.png",
     mobileimage:
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1783584186/mobilebanner1_vxjcjw.png",
-    title: "Ethnic Wear Collection",
+    title: "Heritage Handcrafted",
     subtitle:
-      "Shop premium ethnic wear for women including kurta sets, festive outfits, elegant suits, and traditional styles for every celebration.",
-    buttonText: "Shop Ethnic Wear",
+      "Our festive edit redefines traditional Indian craftsmanship. Lightweight, breathable silks and cottons woven into timeless, fluid silhouettes designed to celebrate you.",
+    buttonText: "Shop the Edit",
     href: "/collections/ethnic-collection",
     previewHref: "/collections/ethnic-collection",
   },
@@ -52,12 +31,12 @@ const HERO_BANNERS = [
     id: 2,
     image:
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_1920,c_limit/v1783584187/banner2_aqoqvy.png",
+    title: "Effortless Coordinates",
     mobileimage:
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1783584186/mobilebanner2_o3dtk9.png",
-    title: "Co-Ord Sets Online",
     subtitle:
-      "Discover stylish women's co-ord sets, office wear co-ord sets, cotton co-ord sets, and western outfits designed for everyday comfort and elegance.",
-    buttonText: "Shop Co-Ord Sets",
+      "Redefining everyday luxury. Clean geometric cuts, premium breathable fabrics, and contemporary co-ords crafted to elevate your active presence without effort.",
+    buttonText: "Explore Co-Ords",
     href: "/collections/co-ord-collection",
     previewHref: "/collections/co-ord-collection",
   },
@@ -66,7 +45,7 @@ const HERO_BANNERS = [
 export default function CampaignSection() {
   const [showVideo, setShowVideo] = useState(false);
 
-  // Close on ESC
+  // Close video modal on ESC
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setShowVideo(false);
@@ -77,143 +56,130 @@ export default function CampaignSection() {
 
   return (
     <>
-      {/* ================= HERO SECTION ================= */}
-      <section className=" dark:bg-neutral-950 bg-[#fff8f8] py-10 lg:py-5">
-        <div className="mx-auto px-4">
-          {/* Heading
-
-          <div className="mx-auto mb-12 max-w-3xl text-center">
-            <p className="text-xs uppercase tracking-[0.35em] text-[#957f6a]">
-              New Collection
-            </p>
-
-            <h1 className="mt-4 text-4xl font-semibold text-[#5f5143] md:text-6xl">
-              Timeless Elegance
-            </h1>
-
-            <p className="mt-6 text-[#7b6a58]">
-              Curated silhouettes crafted for modern expression and refined
-              presence.
-            </p>
-
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link
-                href="/collection"
-                className="rounded-full bg-[#6a0f1f] px-8 py-3 text-sm uppercase tracking-[0.2em] text-white transition hover:bg-[#4d0b18]"
-              >
-                Explore Collection
-              </Link>
-
-              <button
-                onClick={() => setShowVideo(true)}
-                className="flex items-center gap-3 rounded-full border border-[#6a0f1f] px-8 py-3 text-sm uppercase tracking-[0.2em] text-[#6a0f1f] transition hover:bg-[#6a0f1f] hover:text-white"
-              >
-                <FaPlay size={12} />
-                Watch Video
-              </button>
-            </div>
-          </div> */}
-          {/* Heading */}
-          <div className="hidden md:block mx-auto mb-16 max-w-4xl text-center">
-            <div className="mb-4 flex items-center justify-center gap-4">
-              <span className="h-px w-12 bg-[#c7b29b]" />
-
-              <p className="text-xs font-medium uppercase tracking-[0.45em] text-[#957f6a]">
+      {/* 👑 EDITORIAL HERO CAROUSEL (Nangalia Ruchira Theme) */}
+      <section className="bg-[#fcfbfa] dark:bg-black py-12 md:py-16 transition-colors duration-300">
+        <div className="mx-auto px-4 max-w-7xl">
+          {/* ================= SECTION 1: HEADER TEXT & STATS (Fully Overhauled with Premium Copywriting & Animations) ================= */}
+          <div className="hidden md:block mx-auto mb-16 max-w-4xl text-center space-y-8">
+            {/* Curated Season subtitle (Smooth fade in) */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="flex items-center justify-center gap-4"
+            >
+              <span className="h-px w-10 bg-neutral-200 dark:bg-neutral-800" />
+              <p className="text-[10px] font-bold text-neutral-400 tracking-[0.35em] uppercase">
                 Autumn · Winter 2026
               </p>
+              <span className="h-px w-10 bg-neutral-200 dark:bg-neutral-800" />
+            </motion.div>
 
-              <span className="h-px w-12 bg-[#c7b29b]" />
-            </div>
-
-            <h1 className="text-5xl font-semibold leading-tight text-[#5f5143] md:text-7xl">
-              Designed to
-              <span className="block italic font-light text-[#8c5d4d]">
-                Be Remembered
+            {/* 🔒 FIXED COPYWRITING & ANIMATIONS: 
+                - Replaced standard header with the highly poetic "Sartorial poetry, crafted to be lived in" brand statement.
+                - Applied a gorgeous, slow-easing opacity and blur slide-up reveal that looks incredibly premium on mount.
+            */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30, filter: "blur(4px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} // Custom smooth cubic-bezier easing
+              className="font-serif text-4xl md:text-6xl font-light text-neutral-800 dark:text-white tracking-wide uppercase leading-tight"
+            >
+              Sartorial poetry, crafted to be
+              <span className="block italic font-light text-[#6A0F1F] dark:text-[#e4e198] lowercase mt-1">
+                lived in
               </span>
-            </h1>
+            </motion.h1>
 
-            <p className="hidden md:block mx-auto mt-8 max-w-2xl text-lg leading-8 text-[#7b6a58]">
-              Discover refined silhouettes, luxurious fabrics, and timeless
-              pieces created for every occasion. Fashion that feels effortless
-              today and unforgettable tomorrow.
-            </p>
+            {/* Captivating, emotional high-fashion description */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.25, ease: "easeOut" }}
+              className="max-w-2xl mx-auto text-sm leading-relaxed text-neutral-500 dark:text-neutral-400 font-light font-sans tracking-wide"
+            >
+              We create slow, intentional garments for the modern soul. Explore
+              refined silhouettes, handcrafted premium fabrics, and timeless
+              pieces made to feel effortless today and remain unforgettable
+              tomorrow.
+            </motion.p>
 
-            {/* Stats */}
+            {/* Stats Grid & Buttons Group (Glide up smoothly) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+              className="space-y-8"
+            >
+              {/* Stats Grid */}
+              <div className="pt-2 flex justify-center items-center gap-8 text-center max-w-lg mx-auto">
+                <div className="flex-1">
+                  <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#6A0F1F] dark:text-[#e4e198]">
+                    50+
+                  </h3>
+                  <p className="text-[9px] font-bold text-neutral-400 tracking-[0.2em] uppercase mt-1">
+                    Premium Styles
+                  </p>
+                </div>
 
-            <div className="mt-10 flex md:flex-wrap justify-center gap-2 md:gap-8 text-center">
-              <div>
-                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">
-                  50+
-                </h3>
-                <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
-                  Premium Styles
-                </p>
+                <div className="h-8 w-px bg-neutral-200 dark:bg-neutral-800" />
+
+                <div className="flex-1">
+                  <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#6A0F1F] dark:text-[#e4e198]">
+                    300+
+                  </h3>
+                  <p className="text-[9px] font-bold text-neutral-400 tracking-[0.2em] uppercase mt-1">
+                    Happy Customers
+                  </p>
+                </div>
+
+                <div className="h-8 w-px bg-neutral-200 dark:bg-neutral-800" />
+
+                <div className="flex-1">
+                  <h3 className="text-xl sm:text-2xl font-serif font-semibold text-[#6A0F1F] dark:text-[#e4e198]">
+                    100%
+                  </h3>
+                  <p className="text-[9px] font-bold text-neutral-400 tracking-[0.2em] uppercase mt-1">
+                    Quality Guarantee
+                  </p>
+                </div>
               </div>
 
-              <div className="h-10 w-px bg-[#d7c8b6]" />
+              {/* CTA Buttons */}
+              <div className="flex justify-center gap-4 pt-2">
+                <Link
+                  href="/collection"
+                  className="bg-[#6A0F1F] text-white hover:bg-neutral-900 transition-all duration-300 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] rounded-sm shadow-md"
+                >
+                  Explore Collection
+                </Link>
 
-              <div>
-                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">
-                  300+
-                </h3>
-                <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
-                  Happy Customers
-                </p>
+                <button
+                  onClick={() => setShowVideo(true)}
+                  className="flex items-center gap-2 border border-neutral-300 hover:border-neutral-800 text-neutral-800 bg-white hover:bg-neutral-50 transition-all duration-300 px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.25em] rounded-sm cursor-pointer"
+                >
+                  <Play size={10} fill="currentColor" strokeWidth={0} />
+                  Brand Story
+                </button>
               </div>
-
-              <div className="h-10 w-px bg-[#d7c8b6]" />
-
-              <div>
-                <h3 className="md:text-2xl font-semibold text-[#6a0f1f]">
-                  100%
-                </h3>
-                <p className="mt-1 text-sm uppercase md:tracking-widest text-[#957f6a]">
-                  Premium Quality
-                </p>
-              </div>
-            </div>
-
-            {/* Buttons */}
-
-            <div className="mt-12 flex flex-wrap justify-center gap-5">
-              <Link
-                href="/collection"
-                className="group rounded-full bg-[#6a0f1f] px-9 py-3 text-sm uppercase tracking-[0.25em] text-white transition duration-300 hover:scale-105 hover:bg-[#4d0b18]"
-              >
-                Explore Collection
-                <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1 inline-block">
-                  →
-                </span>
-              </Link>
-
-              <button
-                onClick={() => setShowVideo(true)}
-                className="group flex items-center gap-3 rounded-full border border-[#6a0f1f] px-9 py-3 text-sm uppercase tracking-[0.25em] dark:text-white text-[#6a0f1f] transition duration-300 hover:bg-[#6a0f1f] hover:text-white"
-              >
-                <FaPlay
-                  size={12}
-                  className="transition-transform duration-300 group-hover:scale-125"
-                />
-                Brand Story
-              </button>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Main Slider */}
-
+          {/* ================= SECTION 2: THE MAIN SWIPER SLIDER ================= */}
           <Swiper
             modules={[Pagination, Autoplay]}
             pagination={{ clickable: true }}
             autoplay={{
-              delay: 2000,
+              delay: 4500,
               disableOnInteraction: false,
             }}
-            loop={false}
-            className="rounded-2xl md:rounded-3xl"
+            loop={true}
+            className="rounded-2xl overflow-hidden shadow-xs border border-neutral-100/50 dark:border-neutral-900/50"
           >
             {HERO_BANNERS.map((banner) => (
               <SwiperSlide key={banner.title}>
-                <div className="relative h-120 sm:h-130 md:h-auto md:aspect-21/9 overflow-hidden rounded-2xl md:rounded-3xl">
+                <div className="relative h-120 sm:h-130 md:h-auto md:aspect-21/9 overflow-hidden">
+                  {/* Mobile Image */}
                   <Image
                     src={banner.mobileimage}
                     alt={banner.title}
@@ -225,6 +191,7 @@ export default function CampaignSection() {
                     className="object-cover md:hidden"
                   />
 
+                  {/* Desktop Image */}
                   <Image
                     src={banner.image}
                     alt={banner.title}
@@ -235,93 +202,63 @@ export default function CampaignSection() {
                     sizes="(max-width: 767px) 0px, calc(100vw - 2rem)"
                     className="hidden object-cover md:block"
                   />
-                  {/* phone banner 393 x 480 */}
 
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-linear-to-r md:from-black/70 md:via-black/20 from-black/65 via-black/45 to-black/20" />
+                  {/* Elegant Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
 
-                  {/* Content */}
+                  {/* Content Overlay */}
                   <div className="absolute inset-0 flex items-end md:items-center">
-                    <div className="w-full max-w-xl p-6 pb-10 md:p-8 lg:p-12 text-white">
-                      <p className="mb-2 text-[10px] md:text-sm uppercase tracking-[0.25em]">
-                        Featured
+                    <div className="w-full max-w-xl p-6 pb-10 md:p-12 text-white space-y-4">
+                      <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-white/90 font-medium">
+                        Featured Highlight
                       </p>
 
-                      <h2 className="md:text-3xl font-semibold leading-tight sm:text-4xl lg:text-6xl">
+                      <h2 className="font-serif text-2xl sm:text-3xl md:text-5xl font-light tracking-wide uppercase leading-tight text-white">
                         {banner.title}
                       </h2>
 
-                      <p className="hidden md:block mt-3 text-sm md:text-base text-white/85 max-w-md">
+                      <p className="hidden md:block text-xs sm:text-sm text-white/80 leading-relaxed font-light tracking-wide font-sans">
                         {banner.subtitle}
                       </p>
 
-                      <Link
-                        href={banner.href}
-                        className="mt-6 inline-flex items-center justify-center rounded-full bg-white px-5 py-1 md:py-3 text-sm font-medium text-[#6a0f1f] transition-all hover:scale-105"
-                      >
-                        {banner.buttonText}
-                      </Link>
+                      <div className="pt-2">
+                        <Link
+                          href={banner.href}
+                          className="border border-white hover:bg-white hover:text-neutral-900 transition-all duration-300 px-7 py-3.5 text-[10px] tracking-widest uppercase font-semibold inline-flex rounded-xs"
+                        >
+                          {banner.buttonText}
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
-
-          {/* Preview Cards */}
-
-          <div className="hidden md:grid mt-8 gap-6 md:grid-cols-2">
-            {HERO_BANNERS.slice(0).map((banner) => (
-              <Link
-                href={banner.previewHref}
-                key={banner.title}
-                className="group"
-              >
-                <div className="relative aspect-2/1 overflow-hidden rounded-2xl">
-                  <Image
-                    src={banner.image}
-                    alt={banner.title}
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition duration-700 group-hover:scale-105"
-                  />
-
-                  <div className="absolute inset-0 bg-neutral-950/30 transition group-hover:bg-neutral-950/20" />
-
-                  <div className="absolute bottom-6 left-6 text-white">
-                    <h3 className="text-2xl font-semibold">{banner.title}</h3>
-
-                    <p className="mt-2 text-white/80">{banner.buttonText} →</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* ================= VIDEO OVERLAY ================= */}
+      {/* ================= VIDEO OVERLAY MODAL ================= */}
       {showVideo && (
         <div
-          className="fixed inset-0 bg-neutral-950/90 flex items-center justify-center z-100 animate-fadeIn"
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-100"
           onClick={() => setShowVideo(false)}
         >
           <div
-            className="relative w-[90vw] max-w-5xl"
+            className="relative w-[90vw] max-w-4xl"
             onClick={(e) => e.stopPropagation()}
           >
             <video
               src="https://res.cloudinary.com/dwhn5ec09/video/upload/q_auto,f_auto,w_1600/v1771305979/main-video_a4rarc.mp4"
               autoPlay
               controls
-              className="w-full rounded-xl"
+              className="w-full rounded-2xl shadow-2xl border border-white/5"
             />
 
             {/* Close Button */}
             <button
               onClick={() => setShowVideo(false)}
-              className="absolute -top-12 right-0 text-white text-xl"
+              className="absolute -top-12 right-0 text-white hover:text-[#6A0F1F] transition text-2xl p-2 cursor-pointer"
             >
               <FaTimes />
             </button>
