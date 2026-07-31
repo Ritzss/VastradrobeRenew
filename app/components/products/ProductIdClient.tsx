@@ -148,11 +148,27 @@ export default function ProductPDPClient({
       : FALLBACK_SIZES;
 
   const stockMap = useMemo(() => {
-    return inventory.reduce((acc: any, item: any) => {
-      acc[item.size] = item.quantity;
-      return acc;
-    }, {});
-  }, [inventory]);
+    if (!inventory?.length || !selectedVariant) return {};
+
+    const inventoryRecord = inventory.find(
+      (item: any) =>
+        item.color.toLowerCase() === selectedVariant.color.toLowerCase(),
+    );
+
+    if (!inventoryRecord) return {};
+
+    // Product with designs
+    if (
+      selectedDesign &&
+      inventoryRecord.designs &&
+      Object.keys(inventoryRecord.designs).length > 0
+    ) {
+      return inventoryRecord.designs[selectedDesign.design] ?? {};
+    }
+
+    // Product without designs
+    return inventoryRecord.sizes ?? {};
+  }, [inventory, selectedVariant, selectedDesign]);
 
   useEffect(() => {
     if (!product) return;
@@ -247,10 +263,14 @@ export default function ProductPDPClient({
     toast.success(`Moved to ${getDisplayFolderName(colName)}`);
   };
 
-  const getStock = (size: string) => stockMap[size] ?? null;
+  const getStock = (size: string) => Number(stockMap[size] ?? 0);
 
   const handleCartToggle = () => {
     if (!selectedSize || !selectedVariant) return;
+    if (getStock(selectedSize) <= 0) {
+      toast.error("This size is out of stock.");
+      return;
+    }
     isInCart
       ? removeFromCart(productId, selectedSize, selectedVariant.color)
       : addToCart(productId, selectedSize, selectedVariant.color);
@@ -491,7 +511,7 @@ export default function ProductPDPClient({
                       isSelected
                         ? "bg-[#6A0F1F] text-white border-[#6A0F1F] dark:bg-[#e4e198] dark:text-neutral-950 dark:border-[#e4e198] shadow-sm"
                         : isOutOfStock
-                          ? "bg-neutral-50 dark:bg-neutral-900/50 border-neutral-200 dark:border-neutral-800 text-neutral-300 dark:text-neutral-700 opacity-35 cursor-not-allowed"
+                          ? "bg-neutral-200 dark:bg-neutral-900/50 border-neutral-400 dark:border-neutral-800 text-neutral-600 dark:text-neutral-700 opacity-35 cursor-not-allowed"
                           : "bg-white dark:bg-neutral-950 border-neutral-200 dark:border-neutral-800 hover:border-neutral-800 dark:hover:border-neutral-500 text-neutral-700 dark:text-neutral-300"
                     }`}
                   >
