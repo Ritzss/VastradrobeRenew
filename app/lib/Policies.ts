@@ -25,14 +25,14 @@ export const policies: PolicyItem[] = [
       {
         type: "paragraph",
         value:
-          "Items can be returned within 7 days of delivery if unused and in original packaging.",
+          "Items can be returned within 3 days of delivery if unused and in original packaging.",
       },
       {
         type: "list",
         items: [
           "Product must be unused and unwashed",
           "Original tags must be intact",
-          "Return request must be initiated within 7 days",
+          "Return request must be initiated within 3 days",
         ],
       },
       {

@@ -426,6 +426,13 @@ const Navbar = () => {
                           <User size={14} strokeWidth={1.5} />
                           My Profile
                         </Link>
+                        <Link
+                          href="/orders"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition"
+                        >
+                          <ShoppingBag size={14} strokeWidth={1.5} />
+                          My Orders
+                        </Link>
                         <button
                           onClick={handleLogout}
                           className="w-full flex items-center gap-2.5 px-4 py-2.5 cursor-pointer text-xs font-medium text-red-600 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition"

@@ -164,7 +164,7 @@ export default function SupportPageClient() {
                   Easy Returns
                 </h4>
                 <p className="text-[8px] text-neutral-400 mt-1 leading-normal">
-                  Hassle-free 7-day courier collection from your doorstep
+                  Hassle-free 3-day courier collection from your doorstep
                 </p>
               </div>
             </div>
