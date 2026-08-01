@@ -401,11 +401,14 @@ const OrdersPageClient = () => {
                     />
                   </button>
 
-                  {/* PDF download invoice trigger */}
+                  {/* PDF download invoice trigger (Opens in new tab so user has option to print or download) */}
                   <button
                     onClick={() => {
-                      toast.info("Downloading Invoice PDF...");
-                      window.location.href = `/api/orders/${order.orderNumber}/invoice`;
+                      toast.info("Opening Invoice in new tab...");
+                      window.open(
+                        `/api/orders/${order.orderNumber}/invoice`,
+                        "_blank",
+                      );
                     }}
                     className="flex-1 py-3 bg-neutral-900 hover:bg-black dark:bg-neutral-900 dark:hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest rounded-md transition duration-200 cursor-pointer flex items-center justify-center gap-2 shadow-xs"
                   >
