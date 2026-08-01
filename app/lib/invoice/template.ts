@@ -44,12 +44,15 @@ export function invoiceTemplate(
       href="https://res.cloudinary.com/dwhn5ec09/image/upload/v1780384052/favicon_obm4xc.ico"
     />
 <title>Invoice ${order.invoiceNumber} | VastraDrobe</title>
+
+<!-- 👑 LOAD LUXURY GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
 }
 
 @page {
@@ -59,44 +62,49 @@ export function invoiceTemplate(
 
 body {
     background: #fcfbfa;
-    color: #1a1a1a;
+    color: #1d1416; /* Espresso Cocoa dark text instead of harsh solid black */
     font-size: 11px;
-    line-height: 1.5;
+    line-height: 1.6;
     padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
 }
 
 .invoice-container {
     width: 100%;
     background: #fff;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid #e5e5e0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    border: 1px solid #eae7e2;
+    box-shadow: 0 4px 30px rgba(29, 20, 22, 0.02);
 }
 
 /* ================= HEADER ================= */
 .header {
     background: #fff;
-    color: #111;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 32px;
-    border-bottom: 4px solid #6A0F1F;
+    padding: 32px 40px;
+    border-bottom: 1px solid #eae7e2;
 }
 
 .brand h1 {
-    font-size: 28px;
-    letter-spacing: 1px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 2px;
     margin-bottom: 4px;
 }
 
 .brand p {
-    font-size: 11px;
-    color: #6a0f1f;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    color: #6A0F1F; /* Luxury Wine-Red */
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    margin-top: 4px;
 }
 
 .invoice-meta {
@@ -104,69 +112,78 @@ body {
 }
 
 .invoice-meta h2 {
-    font-size: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
     font-weight: 300;
-    letter-spacing: 2px;
-    color: #1a1a1a;
-    margin-bottom: 6px;
+    letter-spacing: 3px;
+    color: #6A0F1F;
+    margin-bottom: 8px;
     text-transform: uppercase;
 }
 
 .invoice-meta p {
-    margin: 3px 0;
-    color: #4a4a4a;
+    margin: 4px 0;
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 0.5px;
 }
 
 .badge {
     display: inline-block;
     background: #6A0F1F;
     color: #fff;
-    padding: 5px 14px;
-    border-radius: 4px;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 2px;
     text-transform: uppercase;
     margin-bottom: 8px;
 }
 
-/* ================= COMMON ================= */
+/* ================= BILLING DETAILS ================= */
 .section {
-    padding: 20px 32px;
+    padding: 24px 40px;
 }
 
 .cards {
     display: flex;
-    gap: 20px;
+    gap: 24px;
 }
 
 .card {
     flex: 1;
-    background: #fafaf9;
-    border: 1px solid #e5e5e0;
-    border-left: 4px solid #6A0F1F;
-    border-radius: 6px;
-    padding: 16px;
+    background: #fff;
+    border: 1px solid #eae7e2;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(29, 20, 22, 0.01);
 }
 
 .card-title {
-    font-size: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 600;
     color: #6A0F1F;
-    margin-bottom: 8px;
-    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #eae7e2;
+    pb-1;
 }
 
 .card strong {
-    font-size: 13px;
-    color: #1a1a1a;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #1d1416;
 }
 
 .card p {
-    color: #5a5a5a;
-    line-height: 1.6;
-    margin-top: 4px;
+    color: #555;
+    line-height: 1.7;
+    margin-top: 8px;
+    font-size: 10.5px;
 }
 
 /* ================= TABLE ================= */
@@ -176,63 +193,70 @@ table {
 }
 
 thead {
-    background: #6A0F1F;
-    color: #fff;
+    border-top: 1px solid #1d1416;
+    border-bottom: 1px solid #1d1416;
 }
 
 th {
-    padding: 12px;
-    font-size: 10px;
+    padding: 14px 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     text-align: left;
+    color: #1d1416;
 }
 
 td {
-    padding: 12px;
-    border-bottom: 1px solid #e5e5e0;
+    padding: 16px 12px;
+    border-bottom: 1px solid #eae7e2;
     vertical-align: top;
-    color: #3a3a3a;
+    color: #444;
+    font-size: 10.5px;
 }
 
 tbody tr:nth-child(even) {
-    background: #fafaf9;
+    background: #faf9f6; /* Subtle ivory bar background */
 }
 
 .product-name {
-    font-weight: 600;
-    color: #1a1a1a;
-    margin-bottom: 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #1d1416;
+    margin-bottom: 4px;
 }
 
 .variant {
-    color: #666;
-    font-size: 10px;
+    color: #777;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* ================= TOTAL ================= */
+/* ================= TOTALS SUMMARY ================= */
 .total-wrapper {
     display: flex;
     justify-content: flex-end;
-    padding: 10px 32px 24px;
+    padding: 10px 40px 32px;
 }
 
 .total-card {
     width: 320px;
-    border: 1px solid #e5e5e0;
-    border-radius: 6px;
+    border: 1px solid #eae7e2;
+    border-radius: 8px;
     overflow: hidden;
+    background: #fff;
 }
 
 .total-row {
     display: flex;
     justify-content: space-between;
-    padding: 10px 16px;
-    border-bottom: 1px solid #e5e5e0;
+    padding: 11px 18px;
+    border-bottom: 1px solid #eae7e2;
     font-size: 11px;
-    color: #4a4a4a;
+    color: #555;
 }
 
 .total-row:last-child {
@@ -240,78 +264,109 @@ tbody tr:nth-child(even) {
 }
 
 .total-row:nth-child(even) {
-    background: #fafaf9;
+    background: #faf9f6;
 }
 
 .grand-total {
-    background: #111;
+    background: #1d1416; /* Espresso Cocoa background */
     color: #fff;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 13px;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
 }
 
-/* ================= PAYMENT ================= */
+.grand-total span:last-child {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #e4e198; /* Gold-Ivory grand total */
+}
+
+/* ================= PAYMENT INFORMATION ================= */
 .payment {
     display: flex;
-    gap: 20px;
-    padding: 0 32px 24px;
+    gap: 24px;
+    padding: 0 40px 32px;
     page-break-inside: avoid;
     break-inside: avoid;
 }
 
 .payment-card {
     flex: 1;
-    border: 1px solid #e5e5e0;
-    border-radius: 6px;
-    padding: 16px;
-    background: #fafaf9;
+    border: 1px solid #eae7e2;
+    border-radius: 8px;
+    padding: 20px;
+    background: #fff;
     page-break-inside: avoid;
     break-inside: avoid;
+    box-shadow: 0 2px 12px rgba(29, 20, 22, 0.01);
+}
+
+.payment-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payment-card td {
+    border: none;
+    padding: 8px 0;
+    font-size: 10.5px;
+    color: #555;
+}
+
+.payment-card tr {
+    border-bottom: 1px dashed #eae7e2;
+}
+
+.payment-card tr:last-child {
+    border-bottom: none;
 }
 
 .status-paid {
     display: inline-block;
-    background: #10b981;
-    color: #fff;
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-size: 9px;
-    font-weight: bold;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-size: 8px;
+    font-weight: 600;
     letter-spacing: 1px;
 }
 
 .status-pending {
     display: inline-block;
-    background: #f59e0b;
-    color: #fff;
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-size: 9px;
-    font-weight: bold;
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-size: 8px;
+    font-weight: 600;
     letter-spacing: 1px;
 }
 
 /* ================= FOOTER ================= */
 .footer {
-    background: #111;
-    color: #fff;
+    background: #1d1416;
+    color: #faf9f6;
     text-align: center;
-    padding: 24px 32px;
+    padding: 28px 40px;
     font-size: 10px;
-    line-height: 1.7;
-    letter-spacing: 0.5px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    font-weight: 200;
 }
 
 .footer strong {
-    color: #fff;
+    color: #e4e198; /* Gold highlight */
+    font-weight: 400;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
 }
 
 .footer a {
-    color: #fff;
-    text-decoration: none;
+    color: #faf9f6;
+    text-decoration: underline;
 }
 
 /* ================= PRINT ================= */
@@ -327,11 +382,6 @@ img {
     max-width: 100%;
 }
 
-.logo {
-    height: 55px;
-    width: auto;
-}
-
 .page-break {
     page-break-before: always;
     break-before: page;
@@ -344,7 +394,7 @@ img {
 
     <div class="header">
         <div class="brand">
-            <img src="${COMPANY.logo}" style="height:55px;object-fit:contain;margin-bottom:6px;" />
+            <img src="${COMPANY.logo}" style="height:50px;object-fit:contain;margin-bottom:4px;" />
             <p>${COMPANY.tagline}</p>
         </div>
 
@@ -454,34 +504,34 @@ img {
     <div class="payment">
         <div class="payment-card">
             <div class="card-title">Payment Information Details</div>
-            <table style="width:100%;border-collapse:collapse;font-size:11px">
+            <table>
                 <tr>
-                    <td style="width:35%;border:none;padding:8px 0;"><strong>Transaction ID</strong></td>
-                    <td style="border:none;padding:8px 0;color:#222;">${transactionNumber}</td>
+                    <td style="width:35%;"><strong>Transaction ID</strong></td>
+                    <td style="color:#1d1416;font-weight:400;">${transactionNumber}</td>
                 </tr>
                 <tr>
-                    <td style="border:none;padding:8px 0;"><strong>Payment Gateway</strong></td>
-                    <td style="border:none;padding:8px 0;color:#222;">${paymentProvider}</td>
+                    <td><strong>Payment Gateway</strong></td>
+                    <td style="color:#1d1416;font-weight:400;">${paymentProvider}</td>
                 </tr>
                 <tr>
-                    <td style="border:none;padding:8px 0;"><strong>Payment ID</strong></td>
-                    <td style="border:none;padding:8px 0;color:#222;">${paymentId}</td>
+                    <td><strong>Payment ID</strong></td>
+                    <td style="color:#1d1416;font-weight:400;">${paymentId}</td>
                 </tr>
                 <tr>
-                    <td style="border:none;padding:8px 0;"><strong>Payment Method</strong></td>
-                    <td style="border:none;padding:8px 0;color:#1a1a1a;font-weight:600;">${paymentMethodName}</td>
+                    <td><strong>Payment Method</strong></td>
+                    <td style="color:#6A0F1F;font-weight:500;text-transform:uppercase;">${paymentMethodName}</td>
                 </tr>
                 <tr>
-                    <td style="border:none;padding:8px 0;"><strong>Payment Status</strong></td>
-                    <td style="border:none;padding:8px 0;">
+                    <td><strong>Payment Status</strong></td>
+                    <td>
                         <span class="${paymentStatusClass}">
                             ${paymentStatusText}
                         </span>
                     </td>
                 </tr>
                 <tr>
-                    <td style="border:none;padding:8px 0;"><strong>Currency</strong></td>
-                    <td style="border:none;padding:8px 0;color:#222;">${transaction?.currency ?? "INR"}</td>
+                    <td><strong>Currency</strong></td>
+                    <td style="color:#1d1416;font-weight:400;">${transaction?.currency ?? "INR"}</td>
                 </tr>
             </table>
         </div>

@@ -70,7 +70,6 @@ export async function GET(
       headers: {
         "Content-Type": "application/pdf",
         "Content-Length": String(pdf.length),
-        "Content-Disposition": `attachment; filename=invoice-${orderNumber}.pdf`,
         "Cache-Control": "no-store",
       },
     });
