@@ -1,7 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import Logo from "@/components/UI/Logo";
+import Image from "next/image";
+import logoImg from "../../../public/Assets/Images/logoV2.png";
 
 interface Props {
   loading: boolean;
@@ -31,12 +32,16 @@ export default function LandingLoader({ loading }: Props) {
           >
             {/* Cinematic Logo Group */}
             <div className="flex flex-col items-center justify-center relative select-none">
-              
               {/* Soft luxurious background radial glow */}
               <div className="absolute w-80 h-80 bg-[#6A0F1F]/5 dark:bg-[#e4e198]/3 rounded-full blur-3xl pointer-events-none" />
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.94, filter: "blur(12px)", y: 15 }}
+                initial={{
+                  opacity: 0,
+                  scale: 0.94,
+                  filter: "blur(12px)",
+                  y: 15,
+                }}
                 animate={{
                   opacity: [0, 1, 1],
                   scale: [0.94, 1, 1.02],
@@ -53,7 +58,12 @@ export default function LandingLoader({ loading }: Props) {
                 className="z-10"
               >
                 <div className="w-60 sm:w-72 md:w-80 h-auto">
-                  <Logo className="w-full h-full object-contain" />
+                  <Image
+                    src={logoImg}
+                    alt="VastraDrobe"
+                    priority
+                    className="w-full h-auto object-contain"
+                  />
                 </div>
               </motion.div>
 
