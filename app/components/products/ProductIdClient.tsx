@@ -738,7 +738,7 @@ export default function ProductPDPClient({
             <div className="flex flex-col items-center gap-1.5 border-x border-neutral-100">
               <RefreshCw size={15} className="text-neutral-400" />
               <p className="leading-tight">
-                7-Day Easy
+                3-Day Easy
                 <br />
                 <span className="text-neutral-400 font-medium">Returns</span>
               </p>
@@ -868,7 +868,7 @@ export default function ProductPDPClient({
                 <p className="mt-4 text-xs font-light text-neutral-600 leading-relaxed font-sans tracking-wide">
                   Each garment is thoughtfully handcrafted with care inside
                   India. Default delivery takes 5–7 business days. We offer
-                  easy, hassle-free 7-day returns on all un-worn items. Reach
+                  easy, hassle-free 3-day returns on all un-worn items. Reach
                   out to our support at support@vastradrobe.com for any tracking
                   queries.
                 </p>

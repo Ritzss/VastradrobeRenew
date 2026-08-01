@@ -13,7 +13,7 @@ import { ShieldCheck, Truck, RefreshCw, ShoppingBag } from "lucide-react";
 
 /**
  * 👑 LUXURY REDESIGN: Checkout Page (Nangalia Ruchira Theme)
- * 
+ *
  * Styled for premium single-theme look:
  * - Geometric shape: Swapped bulky rounded-4xl cards for elegant, clean rounded-2xl containers.
  * - Spaced uppercase tracked typography: All section headers and totals follow the new design system.
@@ -254,22 +254,28 @@ const CheckoutClient = () => {
   return (
     <div className="min-h-screen bg-[#fcfbfa] dark:bg-black px-4 sm:px-6 lg:px-8 py-12 md:py-16 transition-colors duration-300">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 items-start">
-        
         {/* LEFT COLUMN: DELIVERY DETAILS (Spans 7 columns) */}
         <div className="lg:col-span-7 space-y-8">
-          
           {/* Header */}
           <div className="border-b border-neutral-100 dark:border-neutral-900 pb-5 space-y-1">
-            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">Secure Billing</p>
-            <h1 className="font-serif text-3xl sm:text-4xl font-light text-neutral-800 dark:text-white tracking-wide uppercase">Checkout</h1>
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+              Secure Billing
+            </p>
+            <h1 className="font-serif text-3xl sm:text-4xl font-light text-neutral-800 dark:text-white tracking-wide uppercase">
+              Checkout
+            </h1>
           </div>
 
           <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
-            <h3 className="font-serif text-lg font-light text-neutral-800 dark:text-white uppercase tracking-wide border-b border-neutral-50 dark:border-neutral-900 pb-3">Delivery Information</h3>
-            
+            <h3 className="font-serif text-lg font-light text-neutral-800 dark:text-white uppercase tracking-wide border-b border-neutral-50 dark:border-neutral-900 pb-3">
+              Delivery Information
+            </h3>
+
             <div className="space-y-4">
               <div>
-                <label className="text-[9px] font-bold text-neutral-400 tracking-widest uppercase">Full Name</label>
+                <label className="text-[9px] font-bold text-neutral-400 tracking-widest uppercase">
+                  Full Name
+                </label>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -279,7 +285,9 @@ const CheckoutClient = () => {
               </div>
 
               <div>
-                <label className="text-[9px] font-bold text-neutral-400 tracking-widest uppercase">Phone Number</label>
+                <label className="text-[9px] font-bold text-neutral-400 tracking-widest uppercase">
+                  Phone Number
+                </label>
                 <input
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
@@ -289,7 +297,9 @@ const CheckoutClient = () => {
               </div>
 
               <div>
-                <label className="text-[9px] font-bold text-neutral-400 tracking-widest uppercase">Delivery Address</label>
+                <label className="text-[9px] font-bold text-neutral-400 tracking-widest uppercase">
+                  Delivery Address
+                </label>
                 <textarea
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
@@ -305,7 +315,9 @@ const CheckoutClient = () => {
         {/* RIGHT COLUMN: ORDER SUMMARY (Spans 5 columns) */}
         <div className="lg:col-span-5">
           <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-2xl p-6 sm:p-8 shadow-xs space-y-6 lg:sticky lg:top-28">
-            <h3 className="font-serif text-lg sm:text-xl font-light text-neutral-800 dark:text-white uppercase tracking-wide border-b border-neutral-50 dark:border-neutral-900 pb-4">Order Summary</h3>
+            <h3 className="font-serif text-lg sm:text-xl font-light text-neutral-800 dark:text-white uppercase tracking-wide border-b border-neutral-50 dark:border-neutral-900 pb-4">
+              Order Summary
+            </h3>
 
             {/* Products List */}
             <div className="space-y-4 max-h-52 overflow-y-auto divide-y divide-neutral-50 dark:divide-neutral-900 scroll-mt-2 pt-1 pr-1">
@@ -332,9 +344,12 @@ const CheckoutClient = () => {
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-xs font-semibold text-neutral-800 dark:text-white uppercase tracking-wide truncate">{item.name}</h4>
+                    <h4 className="text-xs font-semibold text-neutral-800 dark:text-white uppercase tracking-wide truncate">
+                      {item.name}
+                    </h4>
                     <p className="text-[10px] text-neutral-400 tracking-widest font-bold uppercase mt-1">
-                      {item.color && `${item.color} / `}Size {item.size} × {item.qty}
+                      {item.color && `${item.color} / `}Size {item.size} ×{" "}
+                      {item.qty}
                     </p>
                   </div>
 
@@ -349,38 +364,53 @@ const CheckoutClient = () => {
             <div className="space-y-4 border-t border-neutral-100 dark:border-neutral-900 pt-4">
               <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-400">
                 <span>Subtotal</span>
-                <span className="font-bold text-neutral-800 dark:text-white">₹{subtotal}</span>
+                <span className="font-bold text-neutral-800 dark:text-white">
+                  ₹{subtotal}
+                </span>
               </div>
 
               <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-400">
                 <span>Shipping</span>
                 {shipping === 0 ? (
-                  <span className="font-bold text-green-600 uppercase">Free</span>
+                  <span className="font-bold text-green-600 uppercase">
+                    Free
+                  </span>
                 ) : (
-                  <span className="font-bold text-neutral-800 dark:text-white">₹{shipping}</span>
+                  <span className="font-bold text-neutral-800 dark:text-white">
+                    ₹{shipping}
+                  </span>
                 )}
               </div>
 
               {shipping > 0 && paymentMethod === "ONLINE" && (
                 <div className="rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-xs text-amber-700">
-                  Add products worth <strong>₹{999 - subtotal}</strong> more to get <strong>FREE Shipping.</strong>
+                  Add products worth <strong>₹{999 - subtotal}</strong> more to
+                  get <strong>FREE Shipping.</strong>
                 </div>
               )}
 
               <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-widest text-neutral-400">
                 <span>GST (5%)</span>
-                <span className="font-bold text-neutral-800 dark:text-white">₹{gst}</span>
+                <span className="font-bold text-neutral-800 dark:text-white">
+                  ₹{gst}
+                </span>
               </div>
 
               <div className="flex items-center justify-between border-t border-neutral-100 dark:border-neutral-900 pt-5">
-                <span className="text-sm font-bold uppercase tracking-widest text-neutral-800 dark:text-white">Total</span>
-                <span className="text-2xl font-bold text-[#6A0F1F] dark:text-[#e4e198]">₹{total}</span>
+                <span className="text-sm font-bold uppercase tracking-widest text-neutral-800 dark:text-white">
+                  Total
+                </span>
+                <span className="text-2xl font-bold text-[#6A0F1F] dark:text-[#e4e198]">
+                  ₹{total}
+                </span>
               </div>
             </div>
 
             {/* Payment Method Swatches (Minimal outline boxes) */}
             <div className="space-y-3 pt-2">
-              <label className="text-[9px] font-bold text-neutral-400 tracking-widest uppercase">Payment Method</label>
+              <label className="text-[9px] font-bold text-neutral-400 tracking-widest uppercase">
+                Payment Method
+              </label>
               <div className="flex gap-2.5">
                 <button
                   type="button"
@@ -430,7 +460,7 @@ const CheckoutClient = () => {
               </div>
               <div className="flex items-center gap-2 border-t border-neutral-50 dark:border-neutral-900 pt-2.5">
                 <RefreshCw size={14} className="text-neutral-400" />
-                <p>Hassle-Free 7-Day Returns</p>
+                <p>Hassle-Free 3-Day Returns</p>
               </div>
               <div className="flex items-center gap-2 border-t border-neutral-50 dark:border-neutral-900 pt-2.5">
                 <ShieldCheck size={14} className="text-neutral-400" />
@@ -439,7 +469,6 @@ const CheckoutClient = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

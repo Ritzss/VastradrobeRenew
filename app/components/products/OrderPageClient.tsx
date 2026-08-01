@@ -6,6 +6,8 @@ import { IMSProduct } from "@/Types/Product";
 import { Order } from "@/Types/Order";
 import Image from "next/image";
 import EmptyState from "@/components/Global/EmptyState";
+import Link from "next/link";
+import { createSlug } from "@/lib/slug";
 import {
   FileText,
   Calendar,
@@ -262,8 +264,8 @@ const OrdersPageClient = () => {
                       resolvedProduct?.variants?.[0]?.images?.[0];
                     const itemImage = designImg || fallbackImg;
 
-                    return (
-                      <div key={idx} className="flex gap-4 py-4 items-center">
+                    const itemContent = (
+                      <>
                         {/* Immersive Thumbnail Showcase (Dynamic image loader!) */}
                         {isExpanded && (
                           <div className="relative w-12 h-16 rounded-md overflow-hidden border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 shrink-0 shadow-xs flex-none">
@@ -288,7 +290,9 @@ const OrdersPageClient = () => {
 
                         {/* Content text */}
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-neutral-800 dark:text-white truncate uppercase tracking-wide leading-snug">
+                          <p
+                            className={`text-xs font-semibold text-neutral-800 dark:text-white truncate uppercase tracking-wide leading-snug ${resolvedProduct ? "group-hover/item:text-[#6A0F1F] dark:group-hover/item:text-[#e4e198] transition-colors duration-200" : ""}`}
+                          >
                             {item.name}
                           </p>
                           <p className="text-[10px] text-neutral-400 dark:text-neutral-500 mt-1 font-medium uppercase tracking-wider">
@@ -308,6 +312,36 @@ const OrdersPageClient = () => {
                         <span className="text-xs font-bold text-neutral-700 dark:text-neutral-300 shrink-0 font-sans">
                           ₹{Math.round(item.total)}
                         </span>
+                      </>
+                    );
+
+                    if (resolvedProduct) {
+                      const slug = createSlug(
+                        resolvedProduct.name,
+                        resolvedProduct.productId,
+                      );
+                      const cat = resolvedProduct.category.toLowerCase();
+                      const colorParam = item.color
+                        ? `?color=${item.color}`
+                        : "";
+
+                      return (
+                        <Link
+                          key={idx}
+                          href={`/${cat}/${slug}${colorParam}`}
+                          className="flex gap-4 py-4 items-center group/item hover:bg-neutral-50/50 dark:hover:bg-neutral-900/30 px-2 rounded-lg transition duration-200 cursor-pointer"
+                        >
+                          {itemContent}
+                        </Link>
+                      );
+                    }
+
+                    return (
+                      <div
+                        key={idx}
+                        className="flex gap-4 py-4 items-center px-2"
+                      >
+                        {itemContent}
                       </div>
                     );
                   })}

@@ -11,7 +11,7 @@ const items = [
   {
     icon: RotateCcw,
     title: "Easy Returns",
-    desc: "7-Day hassle-free returns",
+    desc: "3-Day hassle-free returns",
   },
   {
     icon: Sparkles,
