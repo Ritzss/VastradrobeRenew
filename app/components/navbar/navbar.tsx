@@ -65,7 +65,7 @@ const Navbar = () => {
     "Free Shipping Over ₹999 | Handcrafted Luxury Clothing",
     "Where Elegance Meets Everyday Wear",
     "Designed with Intention. Worn with Confidence.",
-    "Easy 15-Day Returns | Secure Checkout",
+    "Easy 3-Day Returns | Secure Checkout",
     "Complimentary Shipping Above ₹999",
   ];
 
@@ -242,83 +242,27 @@ const Navbar = () => {
                   className={`transition-transform duration-200 ${collectionOpen ? "rotate-180 text-[#6A0F1F] dark:text-[#e4e198]" : ""}`}
                 />
 
-                {/* Collections Dropdown Panel (Mega Dropdown with Overlaid Hero Cards for Desktop) */}
+                {/* Collections Dropdown Panel (Simple text list) */}
                 {collectionOpen && (
-                  <div className="absolute left-[-150px] top-full pt-4 w-[600px] lg:w-[680px] z-50 animate-fadeIn">
-                    <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-2xl shadow-md p-5 grid grid-cols-3 gap-5">
-                      {/* Column 1: Women */}
+                  <div className="absolute left-0 top-full pt-4 w-44 z-50 animate-fadeIn">
+                    <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-xl shadow-md py-2 text-left">
                       <Link
                         href="/women#categoryPage"
-                        className="group relative h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100/50 dark:border-neutral-900 shadow-md"
+                        className="block px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
                       >
-                        <img
-                          src="/Assets/Images/Hero/womenHero.jpeg"
-                          alt="Women Collection"
-                          className="object-cover w-full h-full object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                          draggable="false"
-                        />
-                        {/* Premium dark gradient overlay for typography readability */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent transition-all duration-300 group-hover:from-black/90" />
-
-                        {/* Text Overlay (Bottom Aligned) */}
-                        <div className="absolute bottom-4 left-4 right-4 text-left text-white space-y-0.5">
-                          <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white group-hover:text-[#e4e198] transition duration-200">
-                            Women Collection
-                          </h4>
-                          <p className="text-[8px] text-white/70 font-light uppercase tracking-widest">
-                            Elegant co-ords & sets
-                          </p>
-                        </div>
+                        Women Collection
                       </Link>
-
-                      {/* Column 2: Men */}
                       <Link
                         href="/men"
-                        className="group relative h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100/50 dark:border-neutral-900 shadow-md"
+                        className="block px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
                       >
-                        <img
-                          src="/Assets/Images/Hero/menHero.jpeg"
-                          alt="Men Collection"
-                          className="object-cover w-full h-full object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                          draggable="false"
-                        />
-                        {/* Premium dark gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent transition-all duration-300 group-hover:from-black/90" />
-
-                        {/* Text Overlay */}
-                        <div className="absolute bottom-4 left-4 right-4 text-left text-white space-y-0.5">
-                          <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white group-hover:text-[#e4e198] transition duration-200">
-                            Men Collection
-                          </h4>
-                          <p className="text-[8px] text-white/70 font-light uppercase tracking-widest">
-                            Modern classic styles
-                          </p>
-                        </div>
+                        Men Collection
                       </Link>
-
-                      {/* Column 3: Kids */}
                       <Link
                         href="/kids"
-                        className="group relative h-48 rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100/50 dark:border-neutral-900 shadow-md"
+                        className="block px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
                       >
-                        <img
-                          src="/Assets/Images/Hero/childrenHero.jpg"
-                          alt="Kids Collection"
-                          className="object-cover w-full h-full object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                          draggable="false"
-                        />
-                        {/* Premium dark gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent transition-all duration-300 group-hover:from-black/90" />
-
-                        {/* Text Overlay */}
-                        <div className="absolute bottom-4 left-4 right-4 text-left text-white space-y-0.5">
-                          <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white group-hover:text-[#e4e198] transition duration-200">
-                            Kids Collection
-                          </h4>
-                          <p className="text-[8px] text-white/70 font-light uppercase tracking-widest">
-                            Playful daily wear
-                          </p>
-                        </div>
+                        Kids Collection
                       </Link>
                     </div>
                   </div>
