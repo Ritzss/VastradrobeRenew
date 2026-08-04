@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 import { useAppContext } from "@/hooks/useAppContext";
@@ -41,7 +41,9 @@ type SideFilterProps = {
  * Elite Features:
  * - 🎁 Collapsing sections for Categories, Price, and Sizes with interactive chevron rotations.
  * - 🪐 Custom React-State Dropdown: Bypasses ugly default OS select controls with an ultra-premium,
- *   perfectly coordinated theme dropdown that has smooth hovers and active star highlights.
+ *   perfectly coordinated theme dropdown. Uses useRef click-aways to prevent touch/scrolling locks!
+ * - 💳 Dynamic Price range: Auto-calculates bounds based on active products pricing on the page.
+ * - 🧹 Removed "Active Filter Status" box for clean minimal aesthetics.
  */
 const SideFilter = ({ onClose, inline = false }: SideFilterProps) => {
   const pathname = usePathname();
@@ -67,8 +69,30 @@ const SideFilter = ({ onClose, inline = false }: SideFilterProps) => {
   const [priceCollapsed, setPriceCollapsed] = useState(false);
   const [sizesCollapsed, setSizesCollapsed] = useState(false);
 
+  const sortRef = useRef<HTMLDivElement>(null);
+
   const safeProducts = products || [];
   const normalize = (val: string) => val?.trim().toLowerCase();
+
+  // 🪐 Non-blocking Click-Away / Touch-Away dropdown listener
+  useEffect(() => {
+    const handleClickOutside = (event: Event) => {
+      if (
+        sortOpen &&
+        sortRef.current &&
+        event.target instanceof Node &&
+        !sortRef.current.contains(event.target)
+      ) {
+        setSortOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [sortOpen]);
 
   const availableSubCategories = useMemo(() => {
     if (!categoryFromRoute) return [];
@@ -151,13 +175,33 @@ const SideFilter = ({ onClose, inline = false }: SideFilterProps) => {
     ).sort();
   }, [categoryFromRoute, safeProducts, selectedCategory]);
 
-  const MIN_PRICE = 0;
-  const MAX_PRICE = 5000;
+  // 💳 Dynamic price range calculation based on products active on the page
+  const dynamicPrices = useMemo(() => {
+    if (!safeProducts.length) return { min: 0, max: 5000 };
+    const prices = safeProducts.map((p) => p.price);
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    return {
+      min: Math.floor(min / 100) * 100, // round down to nearest 100
+      max: Math.ceil(max / 100) * 100, // round up to nearest 100
+    };
+  }, [safeProducts]);
+
+  const MIN_PRICE = dynamicPrices.min;
+  const MAX_PRICE = dynamicPrices.max;
 
   const [sliderValue, setSliderValue] = useState<[number, number]>([
     typeof priceRange.min === "number" ? priceRange.min : MIN_PRICE,
     typeof priceRange.max === "number" ? priceRange.max : MAX_PRICE,
   ]);
+
+  // Sync price slider handles when dynamic price bounds or active filter resets occur
+  useEffect(() => {
+    setSliderValue([
+      typeof priceRange.min === "number" ? priceRange.min : MIN_PRICE,
+      typeof priceRange.max === "number" ? priceRange.max : MAX_PRICE,
+    ]);
+  }, [priceRange, MIN_PRICE, MAX_PRICE]);
 
   if (!categoryFromRoute) return null;
 
@@ -181,7 +225,7 @@ const SideFilter = ({ onClose, inline = false }: SideFilterProps) => {
   const filterContent = (
     <div className={inline ? "space-y-8 pr-2" : "px-7 py-8 space-y-10"}>
       {/* 1. SORT BY SECTION (Static header with custom engineered luxury dropdown menu) */}
-      <section className="space-y-4 relative">
+      <section ref={sortRef} className="space-y-4 relative">
         <span className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
           Sort Arrange
         </span>
@@ -201,36 +245,29 @@ const SideFilter = ({ onClose, inline = false }: SideFilterProps) => {
 
           {/* Custom Options Panel */}
           {sortOpen && (
-            <>
-              {/* Invisible click backdrop to close the dropdown when clicking outside */}
-              <div
-                className="fixed inset-0 z-20 cursor-default"
-                onClick={() => setSortOpen(false)}
-              />
-              <div className="absolute left-0 right-0 mt-1.5 bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-md shadow-md py-1.5 z-30 divide-y divide-neutral-50 dark:divide-neutral-900 max-h-56 overflow-y-auto">
-                {sortOptions.map((opt) => (
-                  <button
-                    key={opt.value}
-                    onClick={() => {
-                      setSortBy(opt.value);
-                      setSortOpen(false);
-                    }}
-                    className={`w-full text-left px-4 py-3 text-[9px] font-bold uppercase tracking-widest transition duration-200 cursor-pointer flex items-center justify-between ${
-                      sortBy === opt.value
-                        ? "text-[#6A0F1F] dark:text-[#e4e198] bg-neutral-50/50 dark:bg-neutral-900"
-                        : "text-neutral-500 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] hover:bg-neutral-50 dark:hover:bg-neutral-900"
-                    }`}
-                  >
-                    <span>{opt.label}</span>
-                    {sortBy === opt.value && (
-                      <span className="text-[10px] text-[#6A0F1F] dark:text-[#e4e198]">
-                        ✦
-                      </span>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </>
+            <div className="absolute left-0 right-0 mt-1.5 bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-md shadow-md py-1.5 z-30 divide-y divide-neutral-50 dark:divide-neutral-900 max-h-56 overflow-y-auto">
+              {sortOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => {
+                    setSortBy(opt.value);
+                    setSortOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 text-[9px] font-bold uppercase tracking-widest transition duration-200 cursor-pointer flex items-center justify-between ${
+                    sortBy === opt.value
+                      ? "text-[#6A0F1F] dark:text-[#e4e198] bg-neutral-50/50 dark:bg-neutral-900"
+                      : "text-neutral-500 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] hover:bg-neutral-50 dark:hover:bg-neutral-900"
+                  }`}
+                >
+                  <span>{opt.label}</span>
+                  {sortBy === opt.value && (
+                    <span className="text-[10px] text-[#6A0F1F] dark:text-[#e4e198]">
+                      ✦
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
           )}
         </div>
       </section>
@@ -349,6 +386,8 @@ const SideFilter = ({ onClose, inline = false }: SideFilterProps) => {
           <div className="mt-4">
             <PriceSlider
               value={sliderValue}
+              min={MIN_PRICE}
+              max={MAX_PRICE}
               onValueChange={(value) => {
                 setSliderValue(value);
                 setPriceRange({
@@ -400,53 +439,6 @@ const SideFilter = ({ onClose, inline = false }: SideFilterProps) => {
           )}
         </section>
       )}
-
-      {/* 6. ACTIVE FILTER STATUS */}
-      <section className="space-y-4">
-        <div className="rounded-xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 p-5 space-y-3 shadow-inner">
-          <p className="text-[9px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
-            Active Filter Status
-          </p>
-
-          <div className="flex flex-wrap gap-2 pt-1.5">
-            {!!subCategory && (
-              <span className="rounded-md bg-neutral-800 text-white dark:bg-neutral-200 dark:text-neutral-950 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest shadow-xs">
-                {subCategory}
-              </span>
-            )}
-
-            {sizes.map((size) => (
-              <span
-                key={size}
-                className="rounded-md bg-neutral-800 text-white dark:bg-neutral-200 dark:text-neutral-950 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest shadow-xs"
-              >
-                {size}
-              </span>
-            ))}
-
-            {priceRange.min !== "" && (
-              <span className="rounded-md bg-neutral-800 text-white dark:bg-neutral-200 dark:text-neutral-950 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest shadow-xs">
-                ₹{priceRange.min}+
-              </span>
-            )}
-
-            {priceRange.max !== "" && (
-              <span className="rounded-md bg-neutral-800 text-white dark:bg-neutral-200 dark:text-neutral-950 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest shadow-xs">
-                Up to ₹{priceRange.max}
-              </span>
-            )}
-
-            {!subCategory &&
-              sizes.length === 0 &&
-              priceRange.min === "" &&
-              priceRange.max === "" && (
-                <p className="text-[10px] font-medium tracking-wide uppercase text-neutral-400">
-                  No filters selected
-                </p>
-              )}
-          </div>
-        </div>
-      </section>
     </div>
   );
 

@@ -197,7 +197,7 @@ export default function CollectionClient({
 
       {showFilters && <SideFilter onClose={() => setShowFilters(false)} />}
 
-      {groupedProducts.length === 0 ? (
+      {products.length === 0 ? (
         <EmptyState
           label="Collection Empty"
           title="We’re Still Stitching This One Together"
@@ -211,21 +211,36 @@ export default function CollectionClient({
           {/* Left column: Docked sidebar filter (Desktop only) */}
           <SideFilter inline />
 
-          {/* Right column: Product Grid (Scales dynamically on desktop and mobile) */}
+          {/* Right column: Product Grid (Scales dynamically on desktop and mobile) or Inline Empty State */}
           <div className="flex-1 w-full">
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 w-full">
-              {groupedProducts.map((item, index) => (
-                <motion.div
-                  key={`${item.productId}-${index}`}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, delay: index * 0.04 }}
-                >
-                  <ProductCard Linked={true} product={item} />
-                </motion.div>
-              ))}
-            </div>
+            {groupedProducts.length > 0 ? (
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 w-full">
+                {groupedProducts.map((item, index) => (
+                  <motion.div
+                    key={`${item.productId}-${index}`}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.5, delay: index * 0.04 }}
+                  >
+                    <ProductCard Linked={true} product={item} />
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20 px-6 border border-dashed border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-950/20 shadow-xs max-w-xl mx-auto space-y-4">
+                <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                  No matches
+                </p>
+                <h3 className="font-serif text-lg text-neutral-800 dark:text-white uppercase tracking-wide">
+                  No Products Match Your Filters
+                </h3>
+                <p className="text-neutral-500 dark:text-neutral-400 text-xs font-light max-w-xs mx-auto leading-relaxed">
+                  Try adjusting your size, price, or clothing filters to
+                  discover curated pieces.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       )}

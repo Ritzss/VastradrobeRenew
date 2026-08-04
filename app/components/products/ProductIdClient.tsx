@@ -5,7 +5,7 @@
 import Image from "next/image";
 import { IMSProduct } from "@/Types/Product";
 import { useAppContext } from "@/hooks/useAppContext";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import {
   Plus,
   Minus,
@@ -68,6 +68,25 @@ export default function ProductPDPClient({
   } = useAppContext();
 
   const [pdpWishlistOpen, setPdpWishlistOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (
+        pdpWishlistOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setPdpWishlistOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [pdpWishlistOpen]);
 
   const initialVariant =
     product.variants.find(
@@ -606,7 +625,7 @@ export default function ProductPDPClient({
             )}
 
             {/* 💖 Premium Save to Wishlist Toggle (Floating Dropdown) */}
-            <div className="relative w-full">
+            <div ref={dropdownRef} className="relative w-full">
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -643,84 +662,78 @@ export default function ProductPDPClient({
 
               {/* Wishlist Dropdown Overlay */}
               {pdpWishlistOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-20 cursor-default"
-                    onClick={() => setPdpWishlistOpen(false)}
-                  />
-                  <div className="absolute left-0 right-0 mt-1.5 bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-xl shadow-2xl p-4 z-30 text-left divide-y divide-neutral-100 dark:divide-neutral-900 select-none animate-fadeIn">
-                    {/* Header */}
-                    <div className="pb-2.5 text-left">
-                      <p className="text-[8px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
-                        Save to Wishlist folders
-                      </p>
-                    </div>
+                <div className="absolute left-0 right-0 mt-1.5 bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-xl shadow-2xl p-4 z-30 text-left divide-y divide-neutral-100 dark:divide-neutral-900 select-none animate-fadeIn">
+                  {/* Header */}
+                  <div className="pb-2.5 text-left">
+                    <p className="text-[8px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                      Save to Wishlist folders
+                    </p>
+                  </div>
 
-                    {/* Folders List (Single-selection list with ticks on the RIGHT side!) */}
-                    <div className="py-2.5 space-y-1 max-h-36 overflow-y-auto custom-scroll text-left">
-                      {Object.entries(favCollections || {}).map(([colName]) => {
-                        const displayName = getDisplayFolderName(colName);
-                        const isSelectedInThisFolder =
-                          currentProductFolder &&
-                          colName.toLowerCase() ===
-                            currentProductFolder.toLowerCase();
+                  {/* Folders List (Single-selection list with ticks on the RIGHT side!) */}
+                  <div className="py-2.5 space-y-1 max-h-36 overflow-y-auto custom-scroll text-left">
+                    {Object.entries(favCollections || {}).map(([colName]) => {
+                      const displayName = getDisplayFolderName(colName);
+                      const isSelectedInThisFolder =
+                        currentProductFolder &&
+                        colName.toLowerCase() ===
+                          currentProductFolder.toLowerCase();
 
-                        return (
-                          <button
-                            key={colName}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleMoveToFolder(colName);
-                            }}
-                            className="w-full flex items-center justify-between px-1.5 py-2 text-[9px] font-bold uppercase tracking-widest text-neutral-600 dark:text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] cursor-pointer text-left transition duration-200"
-                          >
-                            <span className="truncate pr-2 flex-1 text-left">
-                              {displayName}
-                            </span>
-                            {isSelectedInThisFolder && (
-                              <Check
-                                size={10}
-                                className="text-[#6A0F1F] dark:text-[#e4e198] shrink-0"
-                                strokeWidth={2.5}
-                              />
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Global Delete option (Only rendered if currently wishlisted!) */}
-                    {isWishlisted && (
-                      <div className="pt-2.5 text-left">
+                      return (
                         <button
+                          key={colName}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-
-                            // Clear product from all folders globally
-                            Object.keys(favCollections || {}).forEach(
-                              (colName) => {
-                                if (favCollections[colName].has(productId)) {
-                                  removeFromCollection(colName, productId);
-                                }
-                              },
-                            );
-
-                            setPdpWishlistOpen(false);
-                            toast.error("Removed from wishlist");
+                            handleMoveToFolder(colName);
                           }}
-                          className="w-full flex items-center gap-2 px-1.5 py-2 text-[9px] font-bold uppercase tracking-widest text-red-600 hover:text-red-700 cursor-pointer text-left transition duration-200"
+                          className="w-full flex items-center justify-between px-1.5 py-2 text-[9px] font-bold uppercase tracking-widest text-neutral-600 dark:text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] cursor-pointer text-left transition duration-200"
                         >
-                          <X size={10} className="shrink-0" strokeWidth={2.5} />
-                          <span className="flex-1 truncate text-left">
-                            Remove from Wishlist
+                          <span className="truncate pr-2 flex-1 text-left">
+                            {displayName}
                           </span>
+                          {isSelectedInThisFolder && (
+                            <Check
+                              size={10}
+                              className="text-[#6A0F1F] dark:text-[#e4e198] shrink-0"
+                              strokeWidth={2.5}
+                            />
+                          )}
                         </button>
-                      </div>
-                    )}
+                      );
+                    })}
                   </div>
-                </>
+
+                  {/* Global Delete option (Only rendered if currently wishlisted!) */}
+                  {isWishlisted && (
+                    <div className="pt-2.5 text-left">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                          // Clear product from all folders globally
+                          Object.keys(favCollections || {}).forEach(
+                            (colName) => {
+                              if (favCollections[colName].has(productId)) {
+                                removeFromCollection(colName, productId);
+                              }
+                            },
+                          );
+
+                          setPdpWishlistOpen(false);
+                          toast.error("Removed from wishlist");
+                        }}
+                        className="w-full flex items-center gap-2 px-1.5 py-2 text-[9px] font-bold uppercase tracking-widest text-red-600 hover:text-red-700 cursor-pointer text-left transition duration-200"
+                      >
+                        <X size={10} className="shrink-0" strokeWidth={2.5} />
+                        <span className="flex-1 truncate text-left">
+                          Remove from Wishlist
+                        </span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>

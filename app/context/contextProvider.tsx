@@ -555,7 +555,21 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!user) return;
-    loadFavorites();
+    loadFavorites().then(async () => {
+      try {
+        const pendingIdStr = localStorage.getItem("pendingFavoriteProductId");
+        if (pendingIdStr) {
+          const id = Number(pendingIdStr);
+          if (!isNaN(id)) {
+            await addToCollection("Favorites", id);
+            toast.success("Added your pending item to default folder!");
+          }
+          localStorage.removeItem("pendingFavoriteProductId");
+        }
+      } catch (err) {
+        console.error("Hydrating pending favorite failed:", err);
+      }
+    });
   }, [user]);
 
   /* ---------------- PROVIDER ---------------- */
