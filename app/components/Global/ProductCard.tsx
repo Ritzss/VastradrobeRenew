@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import Image from "next/image";
@@ -249,7 +249,7 @@ export default function ProductCard({
 
   const cardContent = (
     <div
-      className={`relative aspect-[3/4] w-full rounded-2xl overflow-hidden bg-[#faf9f6] border border-neutral-100/50 shadow-xs ${classNameInner ?? ""}`}
+      className={`relative aspect-3/4 w-full rounded-2xl overflow-hidden bg-[#faf9f6] border border-neutral-100/50 shadow-xs ${classNameInner ?? ""}`}
     >
       {/* Immersive Image */}
       <Image
@@ -369,7 +369,7 @@ export default function ProductCard({
       )}
 
       {/* 🖥️ DESKTOP-ONLY: Quick Add Slide-Up Panel (Hidden on Mobile) */}
-      <div className="hidden md:flex absolute bottom-0 inset-x-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out p-4 bg-gradient-to-t from-black/20 via-black/5 to-transparent z-20 justify-center">
+      <div className="hidden md:flex absolute bottom-0 inset-x-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out p-4 bg-linear-to-t from-black/20 via-black/5 to-transparent z-20 justify-center">
         {(product?.stock ?? 0) > 0 ? (
           <button
             onClick={handleCartToggle}
