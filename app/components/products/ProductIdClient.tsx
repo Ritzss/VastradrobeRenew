@@ -38,6 +38,8 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { ProductReview, ReviewRating } from "@/Types/Reviews";
+import ProductReviewForm from "./ProductReviewForm";
+import GuestReviewForm from "./GuestReviewForm";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -118,11 +120,36 @@ export default function ProductPDPClient({
   const [selectedDesign, setSelectedDesign] = useState(
     initialVariant?.designs?.[0] || null,
   );
-
+  const [selectedReviewPurchase, setSelectedReviewPurchase] =
+    useState<ReviewPurchase | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [openGallery, setOpenGallery] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
+  type ReviewPurchase = {
+    orderId: string;
+    orderNumber: string;
+    productId: number;
+    variant: {
+      color: string;
+      design: string;
+    };
+    size: string;
+    quantity: number;
+    purchasedAt: string;
+  };
 
+  const [reviewedPurchases, setReviewedPurchases] = useState<
+    (ReviewPurchase & {
+      reviewId: string;
+      rating: number;
+      reviewedAt: string;
+    })[]
+  >([]);
+  const [hasPurchasedProduct, setHasPurchasedProduct] = useState(false);
+  const [eligiblePurchases, setEligiblePurchases] = useState<ReviewPurchase[]>(
+    [],
+  );
+  const [eligibilityLoading, setEligibilityLoading] = useState(false);
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>(
     {
       story: true,
@@ -382,6 +409,45 @@ export default function ProductPDPClient({
     }
   };
 
+  const loadReviewEligibility = async () => {
+    try {
+      setEligibilityLoading(true);
+
+      const res = await fetch(`/api/reviews/eligible?productId=${productId}`, {
+        credentials: "include",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        // A 401 simply means the visitor is not logged in.
+        // This is not an error that needs to be shown to the customer.
+        if (res.status === 401) {
+          setEligiblePurchases([]);
+          setReviewedPurchases([]);
+          setHasPurchasedProduct(false);
+          return;
+        }
+
+        throw new Error(data.message || "Failed to check review eligibility");
+      }
+
+      setEligiblePurchases(data.purchases || []);
+      setReviewedPurchases(data.reviewedPurchases || []);
+      setHasPurchasedProduct(data.hasPurchased ?? false);
+    } catch (error) {
+      console.error("Failed to check review eligibility:", error);
+
+      setEligiblePurchases([]);
+    } finally {
+      setEligibilityLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadReviewEligibility();
+  }, [productId]);
+
   useEffect(() => {
     loadReviews(1, false);
   }, [productId]);
@@ -512,6 +578,52 @@ export default function ProductPDPClient({
               {product.mrp && (
                 <span className="text-sm font-light text-neutral-400 line-through">
                   MRP ₹{product.mrp}
+                </span>
+              )}
+            </div>
+
+            {/* PRODUCT RATING SUMMARY */}
+            <div className="flex items-center gap-3 pt-1">
+              {reviewRating.count > 0 ? (
+                <>
+                  {/* Display the actual calculated product rating */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm font-semibold text-neutral-800">
+                      {reviewRating.average.toFixed(1)}
+                    </span>
+
+                    <div
+                      className="flex text-[#6A0F1F]"
+                      aria-label={`${reviewRating.average} out of 5 stars`}
+                    >
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <span key={star} className="text-sm">
+                          {star <= Math.round(reviewRating.average) ? "★" : "☆"}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Link users directly to the review section */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      document
+                        .getElementById("product-reviews")
+                        ?.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                    }}
+                    className="text-[10px] text-neutral-500 hover:text-[#6A0F1F] underline underline-offset-4 transition cursor-pointer"
+                  >
+                    {reviewRating.count}{" "}
+                    {reviewRating.count === 1 ? "Review" : "Reviews"}
+                  </button>
+                </>
+              ) : (
+                <span className="text-[10px] uppercase tracking-widest text-neutral-400">
+                  No reviews yet
                 </span>
               )}
             </div>
@@ -962,7 +1074,7 @@ export default function ProductPDPClient({
         </div>
       </section>
 
-      {/* 4. MODALS (Size Guide Modal) */}
+      {/* MODALS (Size Guide Modal) */}
       {showSizeGuide && (
         <div className="fixed h-full inset-0 bg-neutral-950/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fadeIn">
           <div className="bg-white p-6 rounded-2xl max-w-2xl w-[90vw] relative shadow-2xl border border-neutral-100">
@@ -977,6 +1089,400 @@ export default function ProductPDPClient({
           </div>
         </div>
       )}
+
+      {/* 4. CUSTOMER REVIEWS */}
+      <section
+        id="product-reviews"
+        className="border-t border-neutral-100 pt-16 scroll-mt-24"
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.3em] uppercase mb-3">
+              Customer Feedback
+            </p>
+
+            <h2 className="font-serif text-2xl sm:text-3xl text-neutral-800 uppercase tracking-wide">
+              Customer Reviews
+            </h2>
+          </div>
+
+          {reviewLoading ? (
+            <div className="py-12 text-center text-xs text-neutral-400">
+              Loading reviews...
+            </div>
+          ) : reviewRating.count === 0 ? (
+            <div className="border border-neutral-100 rounded-xl p-10 text-center">
+              <p className="text-sm text-neutral-600">No reviews yet.</p>
+
+              <p className="text-xs text-neutral-400 mt-2">
+                Be the first to review this product.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="grid md:grid-cols-[280px_1fr] gap-10">
+                {/* Overall rating */}
+                <div className="border border-neutral-100 rounded-xl p-8 text-center">
+                  <p className="font-serif text-5xl text-neutral-800">
+                    {reviewRating.average.toFixed(1)}
+                  </p>
+
+                  <div className="flex justify-center gap-1 mt-3 text-[#6A0F1F]">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span key={star} className="text-lg">
+                        {star <= Math.round(reviewRating.average) ? "★" : "☆"}
+                      </span>
+                    ))}
+                  </div>
+
+                  <p className="text-[10px] uppercase tracking-widest text-neutral-400 mt-3">
+                    Based on {reviewRating.count}{" "}
+                    {reviewRating.count === 1 ? "review" : "reviews"}
+                  </p>
+                </div>
+
+                {/* Rating distribution */}
+                <div className="space-y-3 flex flex-col justify-center">
+                  {[5, 4, 3, 2, 1].map((rating) => {
+                    const count =
+                      reviewRating.distribution[
+                        rating as keyof typeof reviewRating.distribution
+                      ];
+
+                    const percentage =
+                      reviewRating.count > 0
+                        ? (count / reviewRating.count) * 100
+                        : 0;
+
+                    return (
+                      <div
+                        key={rating}
+                        className="flex items-center gap-3 text-xs"
+                      >
+                        <span className="w-8 text-neutral-500">{rating} ★</span>
+
+                        <div className="flex-1 h-2 bg-neutral-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-[#6A0F1F] rounded-full transition-all duration-500"
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+
+                        <span className="w-8 text-right text-neutral-400">
+                          {count}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              {/* INDIVIDUAL REVIEWS */}
+              <div className="mt-14 border-t border-neutral-100 pt-10">
+                <div className="space-y-8">
+                  {reviews.map((review) => (
+                    <article
+                      key={review._id}
+                      className="border-b border-neutral-100 pb-8 last:border-b-0"
+                    >
+                      {/* Reviewer information and rating */}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold text-neutral-800">
+                              {review.isAnonymous
+                                ? "Anonymous Customer"
+                                : review.displayName}
+                            </span>
+
+                            {/* Only show this badge when the server has verified
+                  that the reviewer actually purchased the product. */}
+                            {review.verifiedPurchase && (
+                              <span className="inline-flex items-center gap-1 text-[8px] font-bold uppercase tracking-wider text-green-700">
+                                <Check size={10} strokeWidth={2.5} />
+                                Verified Purchase
+                              </span>
+                            )}
+                          </div>
+
+                          <p className="text-[9px] text-neutral-400 mt-1">
+                            {new Date(review.createdAt).toLocaleDateString(
+                              "en-IN",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              },
+                            )}
+                          </p>
+                        </div>
+
+                        {/* Review star rating */}
+                        <div
+                          className="flex gap-0.5 text-[#6A0F1F]"
+                          aria-label={`${review.rating} out of 5 stars`}
+                        >
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <span key={star} className="text-sm">
+                              {star <= review.rating ? "★" : "☆"}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Review text */}
+                      {review.comment && (
+                        <p className="mt-4 text-xs sm:text-sm font-light text-neutral-600 leading-relaxed tracking-wide max-w-3xl">
+                          {review.comment}
+                        </p>
+                      )}
+
+                      {/* Variant reviewed */}
+                      {(review.variant?.color || review.variant?.design) && (
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          {review.variant.color && (
+                            <span className="px-2.5 py-1 bg-neutral-50 border border-neutral-100 rounded-sm text-[8px] uppercase tracking-wider text-neutral-500">
+                              Color: {review.variant.color}
+                            </span>
+                          )}
+
+                          {review.variant.design && (
+                            <span className="px-2.5 py-1 bg-neutral-50 border border-neutral-100 rounded-sm text-[8px] uppercase tracking-wider text-neutral-500">
+                              Design: {review.variant.design}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </article>
+                  ))}
+                </div>
+
+                {/* Load more reviews */}
+                {hasMoreReviews && (
+                  <div className="flex justify-center mt-10">
+                    <button
+                      type="button"
+                      onClick={handleLoadMoreReviews}
+                      disabled={reviewLoading}
+                      className="px-7 py-3 border border-neutral-200 hover:border-neutral-800 text-[9px] font-semibold uppercase tracking-[0.2em] text-neutral-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {reviewLoading ? "Loading..." : "Load More Reviews"}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+
+      {/* WRITE A REVIEW */}
+      {!eligibilityLoading && eligiblePurchases.length > 0 && (
+        <div className="mt-12">
+          <div className="mb-6">
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+              Share Your Experience
+            </p>
+
+            <h3 className="font-serif text-xl text-neutral-800 mt-1">
+              Write a Review
+            </h3>
+
+            <p className="text-xs text-neutral-400 mt-2">
+              Your purchase has been verified. Select the version you purchased
+              before writing your review.
+            </p>
+          </div>
+
+          {/* --------------------------------------------------
+        Purchased variant selector
+        --------------------------------------------------
+        A customer may have purchased multiple variants of the
+        same product. We let them explicitly choose which one
+        they are reviewing instead of guessing.
+    */}
+          <div className="space-y-3 mb-8">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-500">
+              Which version did you purchase?
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-3">
+              {eligiblePurchases.map((purchase) => {
+                const isSelected =
+                  selectedReviewPurchase?.orderId === purchase.orderId &&
+                  selectedReviewPurchase?.variant.color ===
+                    purchase.variant.color &&
+                  selectedReviewPurchase?.variant.design ===
+                    purchase.variant.design;
+
+                return (
+                  <button
+                    key={`${purchase.orderId}-${purchase.variant.color}-${purchase.variant.design}`}
+                    type="button"
+                    onClick={() => setSelectedReviewPurchase(purchase)}
+                    className={`text-left border rounded-lg p-4 transition ${
+                      isSelected
+                        ? "border-[#6A0F1F] bg-[#6A0F1F]/5"
+                        : "border-neutral-200 hover:border-neutral-400"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-xs font-semibold text-neutral-800">
+                          {purchase.variant.color || "Default Color"}
+                        </p>
+
+                        {purchase.variant.design && (
+                          <p className="text-[10px] text-neutral-500 mt-1">
+                            Design: {purchase.variant.design}
+                          </p>
+                        )}
+
+                        {purchase.size && (
+                          <p className="text-[10px] text-neutral-400 mt-1">
+                            Size: {purchase.size}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Visual selection indicator */}
+                      <span
+                        className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
+                          isSelected
+                            ? "border-[#6A0F1F] bg-[#6A0F1F]"
+                            : "border-neutral-300"
+                        }`}
+                      >
+                        {isSelected && (
+                          <Check
+                            size={10}
+                            className="text-white"
+                            strokeWidth={3}
+                          />
+                        )}
+                      </span>
+                    </div>
+
+                    <p className="text-[8px] uppercase tracking-wider text-neutral-400 mt-3">
+                      Order #{purchase.orderNumber}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* --------------------------------------------------
+        Review form
+        --------------------------------------------------
+        Only render the form after the customer chooses the
+        exact purchased variant they want to review.
+    */}
+          {selectedReviewPurchase && (
+            <ProductReviewForm
+              productId={productId}
+              orderId={selectedReviewPurchase.orderId}
+              color={selectedReviewPurchase.variant.color}
+              design={selectedReviewPurchase.variant.design}
+              verifiedPurchase={true}
+              onReviewSubmitted={() => {
+                // Refresh the review list so the newly submitted review
+                // appears immediately on the PDP.
+                loadReviews(1, false);
+
+                // Remove the reviewed purchase from the eligible list.
+                loadReviewEligibility();
+
+                // Clear the selected purchase after successful submission.
+                setSelectedReviewPurchase(null);
+              }}
+            />
+          )}
+        </div>
+      )}
+      {/* ALREADY REVIEWED PURCHASES */}
+      {reviewedPurchases.length > 0 && (
+        <div className="mt-10 border border-neutral-100 rounded-xl p-6">
+          <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+            Your Reviews
+          </p>
+
+          <div className="mt-4 space-y-4">
+            {reviewedPurchases.map((purchase) => (
+              <div
+                key={purchase.reviewId}
+                className="flex items-center justify-between gap-4"
+              >
+                <div>
+                  <p className="text-xs font-medium text-neutral-800">
+                    {purchase.variant.color || "Default Color"}
+                  </p>
+
+                  {purchase.variant.design && (
+                    <p className="text-[10px] text-neutral-400 mt-1">
+                      Design: {purchase.variant.design}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="flex text-[#6A0F1F]">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span key={star} className="text-xs">
+                        {star <= purchase.rating ? "★" : "☆"}
+                      </span>
+                    ))}
+                  </div>
+
+                  <span className="text-[9px] text-green-700 font-semibold uppercase tracking-wider">
+                    Reviewed
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {/* UNVERIFIED REVIEW */}
+{!eligibilityLoading &&
+  !hasPurchasedProduct &&
+  user && (
+    <div className="mt-12">
+      <div className="mb-6">
+        <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+          Share Your Experience
+        </p>
+
+        <h3 className="font-serif text-xl text-neutral-800 mt-1">
+          Write a Review
+        </h3>
+
+        <p className="text-xs text-neutral-400 mt-2">
+          You can share your experience even if you haven&apos;t
+          purchased this product.
+        </p>
+      </div>
+
+      <ProductReviewForm
+        productId={productId}
+        color={selectedVariant?.color || ""}
+        design={selectedDesign?.design || ""}
+        verifiedPurchase={false}
+        onReviewSubmitted={() => {
+          loadReviews(1, false);
+        }}
+      />
+    </div>
+  )}
+  {!user && (
+  <GuestReviewForm
+    productId={productId}
+    color={selectedVariant?.color || ""}
+    design={selectedDesign?.design || ""}
+    onReviewSubmitted={() => {
+      loadReviews(1, false);
+    }}
+  />
+)}
 
       {/* 5. SIMILAR PRODUCTS SHOWCASE (Geometric elegant card listings) */}
       {similarProducts.length > 0 && (

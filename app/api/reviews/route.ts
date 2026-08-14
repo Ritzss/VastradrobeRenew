@@ -52,15 +52,9 @@ export async function POST(req: NextRequest) {
 
     // Use the user ID stored in the JWT.
     // Adjust this once we confirm the exact field used by your login code.
-    const userId =
-      payload.userId ||
-      payload.id ||
-      payload._id;
+    const userId = payload.userId || payload.id || payload._id;
 
-    if (
-      !userId ||
-      !mongoose.Types.ObjectId.isValid(userId.toString())
-    ) {
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId.toString())) {
       return NextResponse.json(
         {
           success: false,
@@ -75,7 +69,9 @@ export async function POST(req: NextRequest) {
     // --------------------------------------------------
     // The frontend should not be trusted to provide the reviewer's
     // display name. We get it directly from the authenticated account.
-    const user = await User.findById(userId).select("name");
+    // Fetch the username from the authenticated user's account.
+    // This is used as the public display name unless the review is anonymous.
+    const user = await User.findById(userId).select("username");
 
     if (!user) {
       return NextResponse.json(
@@ -179,8 +175,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "You can review a product only after it has been delivered",
+          message: "You can review a product only after it has been delivered",
         },
         { status: 400 },
       );
@@ -193,37 +188,32 @@ export async function POST(req: NextRequest) {
     const requestedColor = variant?.color?.trim() || "";
     const requestedDesign = variant?.design?.trim() || "";
 
-    const orderItem = order.items.find((item: { productId: any; color: any; design: any; }) => {
-      // Product must match.
-      if (Number(item.productId) !== numericProductId) {
-        return false;
-      }
+    const orderItem = order.items.find(
+      (item: { productId: any; color: any; design: any }) => {
+        // Product must match.
+        if (Number(item.productId) !== numericProductId) {
+          return false;
+        }
 
-      // If a color was supplied, it must match the purchased item.
-      if (
-        requestedColor &&
-        (item.color || "").trim() !== requestedColor
-      ) {
-        return false;
-      }
+        // If a color was supplied, it must match the purchased item.
+        if (requestedColor && (item.color || "").trim() !== requestedColor) {
+          return false;
+        }
 
-      // If a design was supplied, it must match the purchased item.
-      if (
-        requestedDesign &&
-        (item.design || "").trim() !== requestedDesign
-      ) {
-        return false;
-      }
+        // If a design was supplied, it must match the purchased item.
+        if (requestedDesign && (item.design || "").trim() !== requestedDesign) {
+          return false;
+        }
 
-      return true;
-    });
+        return true;
+      },
+    );
 
     if (!orderItem) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "This product or variant was not part of this order",
+          message: "This product or variant was not part of this order",
         },
         { status: 403 },
       );
@@ -234,18 +224,21 @@ export async function POST(req: NextRequest) {
     // --------------------------------------------------
     // A customer can review the same product again in a different
     // order, but cannot submit multiple reviews for the same order.
+    // Prevent reviewing the exact same purchased variant twice.
+    // Different variants from the same order can still have separate reviews.
     const existingReview = await Review.findOne({
       userId,
       orderId,
       productId: numericProductId,
+      "variant.color": orderItem.color || requestedColor || "",
+      "variant.design": orderItem.design || requestedDesign || "",
     });
 
     if (existingReview) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "You have already reviewed this product from this order",
+          message: "You have already reviewed this product from this order",
         },
         { status: 409 },
       );
@@ -263,9 +256,7 @@ export async function POST(req: NextRequest) {
 
       orderId,
 
-      displayName: isAnonymous
-        ? "Anonymous Customer"
-        : user.name,
+      displayName: isAnonymous ? "Anonymous Customer" : user.username,
 
       // Logged-in reviews do not need the phone number.
       phone: null,
@@ -316,13 +307,9 @@ export async function POST(req: NextRequest) {
 
     const stats = ratingStats[0];
 
-    const averageRating = stats
-      ? Number(stats.averageRating.toFixed(1))
-      : 0;
+    const averageRating = stats ? Number(stats.averageRating.toFixed(1)) : 0;
 
-    const ratingCount = stats
-      ? stats.count
-      : 0;
+    const ratingCount = stats ? stats.count : 0;
 
     // --------------------------------------------------
     // 11. Return the newly created review and updated rating
@@ -366,15 +353,9 @@ export async function GET(req: NextRequest) {
 
     const productId = Number(searchParams.get("productId"));
 
-    const page = Math.max(
-      Number(searchParams.get("page")) || 1,
-      1,
-    );
+    const page = Math.max(Number(searchParams.get("page")) || 1, 1);
 
-    const limit = Math.min(
-      Number(searchParams.get("limit")) || 10,
-      50,
-    );
+    const limit = Math.min(Number(searchParams.get("limit")) || 10, 50);
 
     // --------------------------------------------------
     // 2. Validate product ID
@@ -496,9 +477,7 @@ export async function GET(req: NextRequest) {
 
     const stats = ratingStats[0];
 
-    const averageRating = stats
-      ? Number(stats.averageRating.toFixed(1))
-      : 0;
+    const averageRating = stats ? Number(stats.averageRating.toFixed(1)) : 0;
 
     const totalPages = Math.ceil(totalReviews / limit);
 

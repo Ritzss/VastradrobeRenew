@@ -16,7 +16,7 @@ const ReviewSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      default: null,
+      required: false,
     },
 
     // The order used to verify the purchase.
@@ -24,7 +24,7 @@ const ReviewSchema = new mongoose.Schema(
     orderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order",
-      default: null,
+      required: false,
     },
 
     // Name displayed publicly with the review.
@@ -32,16 +32,13 @@ const ReviewSchema = new mongoose.Schema(
     displayName: {
       type: String,
       required: true,
-      trim: true,
     },
 
     // Stored privately for the logged-out OTP review flow.
     // This should never be exposed in the public review API.
     phone: {
       type: String,
-      default: null,
     },
-
     // Logged-in users can choose whether their account name
     // or "Anonymous Customer" is displayed publicly.
     isAnonymous: {
@@ -91,5 +88,4 @@ const ReviewSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.models.Review ||
-  mongoose.model("Review", ReviewSchema);
+export default mongoose.models.Review || mongoose.model("Review", ReviewSchema);
