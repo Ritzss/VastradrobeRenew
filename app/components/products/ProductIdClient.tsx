@@ -33,6 +33,7 @@ import { whatsappMessages } from "@/lib/whatsapp";
 import { useWhatsApp } from "@/context/WhatsAppContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import ProductFAQ from "@/components/products/ProductFAQ"
 
 // Import Swiper core styles
 import "swiper/css";
@@ -1090,6 +1091,8 @@ export default function ProductPDPClient({
         </div>
       )}
 
+      <ProductFAQ product={product} />
+
       {/* 4. CUSTOMER REVIEWS */}
       <section
         id="product-reviews"
@@ -1276,7 +1279,7 @@ export default function ProductPDPClient({
       </section>
 
       {/* WRITE A REVIEW */}
-      {!eligibilityLoading && eligiblePurchases.length > 0 && (
+        {!eligibilityLoading && eligiblePurchases.length > 0 && (
         <div className="mt-12">
           <div className="mb-6">
             <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
@@ -1398,9 +1401,9 @@ export default function ProductPDPClient({
             />
           )}
         </div>
-      )}
-      {/* ALREADY REVIEWED PURCHASES */}
-      {reviewedPurchases.length > 0 && (
+        )}
+        {/* ALREADY REVIEWED PURCHASES */}
+        {reviewedPurchases.length > 0 && (
         <div className="mt-10 border border-neutral-100 rounded-xl p-6">
           <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
             Your Reviews
@@ -1441,48 +1444,46 @@ export default function ProductPDPClient({
             ))}
           </div>
         </div>
-      )}
-      {/* UNVERIFIED REVIEW */}
-{!eligibilityLoading &&
-  !hasPurchasedProduct &&
-  user && (
-    <div className="mt-12">
-      <div className="mb-6">
-        <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
-          Share Your Experience
-        </p>
+        )}
+        {/* UNVERIFIED REVIEW */}
+        {!eligibilityLoading && !hasPurchasedProduct && user && (
+        <div className="mt-12">
+          <div className="mb-6">
+            <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+              Share Your Experience
+            </p>
 
-        <h3 className="font-serif text-xl text-neutral-800 mt-1">
-          Write a Review
-        </h3>
+            <h3 className="font-serif text-xl text-neutral-800 mt-1">
+              Write a Review
+            </h3>
 
-        <p className="text-xs text-neutral-400 mt-2">
-          You can share your experience even if you haven&apos;t
-          purchased this product.
-        </p>
-      </div>
+            <p className="text-xs text-neutral-400 mt-2">
+              You can share your experience even if you haven&apos;t purchased
+              this product.
+            </p>
+          </div>
 
-      <ProductReviewForm
-        productId={productId}
-        color={selectedVariant?.color || ""}
-        design={selectedDesign?.design || ""}
-        verifiedPurchase={false}
-        onReviewSubmitted={() => {
-          loadReviews(1, false);
-        }}
-      />
-    </div>
-  )}
-  {!user && (
-  <GuestReviewForm
-    productId={productId}
-    color={selectedVariant?.color || ""}
-    design={selectedDesign?.design || ""}
-    onReviewSubmitted={() => {
-      loadReviews(1, false);
-    }}
-  />
-)}
+          <ProductReviewForm
+            productId={productId}
+            color={selectedVariant?.color || ""}
+            design={selectedDesign?.design || ""}
+            verifiedPurchase={false}
+            onReviewSubmitted={() => {
+              loadReviews(1, false);
+            }}
+          />
+        </div>
+        )}
+        {!user && (
+        <GuestReviewForm
+          productId={productId}
+          color={selectedVariant?.color || ""}
+          design={selectedDesign?.design || ""}
+          onReviewSubmitted={() => {
+            loadReviews(1, false);
+          }}
+        />
+        )}
 
       {/* 5. SIMILAR PRODUCTS SHOWCASE (Geometric elegant card listings) */}
       {similarProducts.length > 0 && (

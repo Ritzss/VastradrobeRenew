@@ -8,6 +8,7 @@ import { createSlug, getProductIdFromSlug } from "@/lib/slug";
 import { redirect } from "next/navigation";
 import WhatsAppPageMessage from "@/components/Global/WhatsAppPageMessage";
 import { whatsappMessages } from "@/lib/whatsapp";
+import ProductFAQSchema from "@/components/products/ProductFAQSchema";
 
 async function getProduct(id: number): Promise<IMSProduct | null> {
   const res = await fetch(
@@ -132,6 +133,45 @@ export async function generateMetadata({
   };
 }
 
+async function getProductReviewRating(productId: number) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL || "https://vastradrobe.com"}/api/reviews?productId=${productId}`,
+      {
+        next: { revalidate: 120 },
+      },
+    );
+
+    if (!res.ok) {
+      return null;
+    }
+
+    const data = await res.json();
+
+    // Don't generate aggregateRating when the product
+    // doesn't have any reviews yet.
+    if (
+      !data.success ||
+      !data.rating ||
+      Number(data.rating.count) === 0
+    ) {
+      return null;
+    }
+
+    return {
+      average: Number(data.rating.average),
+      count: Number(data.rating.count),
+    };
+  } catch (error) {
+    console.error(
+      "Failed to fetch product review rating:",
+      error,
+    );
+
+    return null;
+  }
+}
+
 export default async function ProductPage({
   params,
 }: {
@@ -166,6 +206,8 @@ export default async function ProductPage({
   }
 
   const inventory = await getInventory(productId);
+
+  const reviewRating = await getProductReviewRating(productId);
 
   const allProducts = await getAllProducts();
 
@@ -217,18 +259,33 @@ export default async function ProductPage({
 
     name: product.name,
 
-    image: product.variants?.flatMap((variant) => variant.images) || [],
+  image:
+    product.variants?.flatMap(
+      (variant) => variant.images,
+    ) || [],
 
-    description: product.description || "",
+  description: product.description || "",
 
-    sku: String(product.productId),
+  sku: String(product.productId),
 
-    brand: {
-      "@type": "Brand",
-      name: product.brand || "VastraDrobe",
-    },
+  brand: {
+    "@type": "Brand",
+    name: product.brand || "VastraDrobe",
+  },
 
-    category: product.category,
+  category: product.category,
+
+  ...(reviewRating
+    ? {
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: reviewRating.average,
+          reviewCount: reviewRating.count,
+          bestRating: 5,
+          worstRating: 1,
+        },
+      }
+    : {}),
 
     offers: {
       "@type": "Offer",
@@ -288,6 +345,8 @@ export default async function ProductPage({
           __html: JSON.stringify(productStructuredData),
         }}
       />
+
+      <ProductFAQSchema product={product} />
 
       <ProductPDPClient
         product={product}
