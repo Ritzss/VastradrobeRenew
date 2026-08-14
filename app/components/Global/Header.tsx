@@ -21,11 +21,11 @@ const HERO_BANNERS = [
     image:
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_1920,c_limit/v1783584189/banner1_f58cni.png",
     mobileimage:
-      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1783584186/mobilebanner1_vxjcjw.png",
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1786688262/Hero1Banner_r3rjnc.png",
     title: "Heritage Handcrafted",
     subtitle:
       "Our festive edit redefines traditional Indian craftsmanship. Lightweight, breathable silks and cottons woven into timeless, fluid silhouettes designed to celebrate you.",
-    buttonText: "Shop the Edit",
+    buttonText: "Discover Heritage",
     href: "/collections/ethnic-collection",
   },
   {
@@ -34,7 +34,7 @@ const HERO_BANNERS = [
       "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_1920,c_limit/v1783584187/banner2_aqoqvy.png",
     title: "Effortless Coordinates",
     mobileimage:
-      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1783584186/mobilebanner2_o3dtk9.png",
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto,w_640,c_limit/v1786688262/Hero2Banner_ux2urh.png",
     subtitle:
       "Redefining everyday luxury. Clean geometric cuts, premium breathable fabrics, and contemporary co-ords crafted to elevate your active presence without effort.",
     buttonText: "Explore Co-Ords",
@@ -83,22 +83,22 @@ export default function CampaignSection() {
       >
         <Swiper
           modules={[Pagination, Autoplay, EffectFade]}
-          effect={"fade"}
+          effect="fade"
           pagination={{ clickable: true }}
           autoplay={{
             delay: 4500,
             disableOnInteraction: false,
           }}
-          loop={true}
-          className="h-[65vh] sm:h-[75vh] md:h-[85vh] w-full"
+          loop
+          className="w-full"
         >
           {HERO_BANNERS.map((banner) => (
             <SwiperSlide
               key={banner.id}
-              className="relative w-full h-full overflow-hidden"
+              className="relative w-full overflow-hidden"
             >
-              {/* Mobile Image */}
-              <div className="absolute inset-0 block md:hidden">
+              {/* ================= MOBILE ================= */}
+              <div className="relative block md:hidden w-full aspect-197/240">
                 <Image
                   src={banner.mobileimage}
                   alt={banner.title}
@@ -111,8 +111,8 @@ export default function CampaignSection() {
                 />
               </div>
 
-              {/* Desktop Image */}
-              <div className="absolute inset-0 hidden md:block">
+              {/* ================= DESKTOP ================= */}
+              <div className="relative hidden md:block w-full aspect-20/9">
                 <Image
                   src={banner.image}
                   alt={banner.title}
@@ -125,42 +125,39 @@ export default function CampaignSection() {
                 />
               </div>
 
-              {/* Sophisticated Luxury Dark Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent dark:from-black/75 dark:via-black/35 dark:to-transparent" />
+              {/* ================= OVERLAY ================= */}
+              <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/25 to-transparent dark:from-black/75 dark:via-black/35 dark:to-transparent" />
 
-              {/* Content Overlay */}
-              <div className="absolute inset-0 flex items-center justify-start px-6 sm:px-12 md:px-20 lg:px-28">
-                <div className="w-full max-w-2xl text-white text-left space-y-4 md:space-y-6 z-10 font-sans">
-                  <p className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-white/90 font-medium">
+              {/* ================= CONTENT ================= */}
+              <div className="absolute inset-0 flex items-center justify-start px-5 sm:px-8 md:px-10 lg:px-20 xl:px-28">
+                <div className="w-full max-w-xl lg:max-w-2xl text-white text-left space-y-3 sm:space-y-4 lg:space-y-6 z-10 font-sans">
+                  <p className="text-[9px] sm:text-[10px] lg:text-xs uppercase tracking-[0.25em] lg:tracking-[0.35em] text-white/90 font-medium">
                     Autumn / Winter Edit
                   </p>
 
-                  <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl font-light tracking-wide uppercase leading-none text-white drop-shadow-sm">
+                  <h2 className="font-serif text-2xl md:text-4xl lg:text-6xl font-light tracking-wide uppercase leading-none text-white drop-shadow-sm">
                     {banner.title}
                   </h2>
 
-                  <p className="text-xs sm:text-sm md:text-base text-white/80 max-w-lg leading-relaxed font-light tracking-wide">
+                  <p className="text-[11px] md:text-sm lg:text-base text-white/80 max-w-md lg:max-w-lg leading-relaxed font-light tracking-wide">
                     {banner.subtitle}
                   </p>
 
-                  <div className="flex flex-wrap items-center gap-4 pt-2">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 lg:gap-4 pt-1 lg:pt-2">
                     <Link
                       href={banner.href}
-                      className="border border-white hover:bg-white hover:text-neutral-900 transition-all duration-300 px-7 sm:px-8 py-3 text-[10px] sm:text-xs tracking-widest uppercase font-semibold inline-flex rounded-xs"
+                      className="border border-white hover:bg-white hover:text-neutral-900 transition-all duration-300 px-5 sm:px-6 lg:px-8 py-2.5 sm:py-3 text-[9px] sm:text-[10px] lg:text-xs tracking-widest uppercase font-semibold inline-flex rounded-xs"
                     >
                       {banner.buttonText}
                     </Link>
-
-                    {/* Integrated Brand Story Button Inside Slider */}
-                    {banner.id === 1 && (
                       <button
                         onClick={() => setShowVideo(true)}
-                        className="flex items-center gap-2 border border-white/40 hover:border-white hover:bg-white/10 transition-all duration-300 px-6 sm:px-7 py-3 text-[10px] sm:text-xs tracking-widest uppercase font-semibold inline-flex cursor-pointer"
+                        className="items-center gap-2 border border-white/40 hover:border-white hover:bg-white/10 transition-all duration-300 px-5 sm:px-6 lg:px-7 py-2.5 sm:py-3 text-[9px] sm:text-[10px] lg:text-xs tracking-widest uppercase font-semibold inline-flex cursor-pointer"
                       >
-                        <Play size={11} fill="white" strokeWidth={0} />
+                        <Play size={10} fill="white" strokeWidth={0} />
                         Brand Story
                       </button>
-                    )}
+                    
                   </div>
                 </div>
               </div>

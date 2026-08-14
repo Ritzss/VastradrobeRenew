@@ -3,7 +3,7 @@
 import { useState } from "react";
 import {
   Mail,
-  Phone,
+  // Phone,
   Clock,
   MessageSquare,
   ShieldCheck,
@@ -20,7 +20,7 @@ export default function SupportPageClient() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState("");
+  // const [response, setResponse] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -31,7 +31,7 @@ export default function SupportPageClient() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setResponse("");
+    // setResponse("");
 
     try {
       const res = await fetch("/api/support", {
@@ -129,7 +129,7 @@ export default function SupportPageClient() {
                       WhatsApp Chatbot
                     </h4>
                     <p className="mt-1 font-semibold text-neutral-700 dark:text-neutral-300">
-                      +91 99999 12345
+                      Coming Soon
                     </p>
                     <p className="text-[10px] text-neutral-400 mt-0.5">
                       Quick responses on sizing, shipping, and fabric guides.

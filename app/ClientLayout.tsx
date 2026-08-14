@@ -78,7 +78,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
             <Navbar />
 
             {/* MAIN CONTENT AREA */}
-            <main className="min-h-screen pt-[104px] sm:pt-[112px] bg-[#fcfbfa] dark:bg-black transition-colors duration-350">
+            <main className="min-h-screen pt-26 sm:pt-28 bg-[#fcfbfa] dark:bg-black transition-colors duration-350">
               {children}
             </main>
 

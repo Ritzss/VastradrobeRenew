@@ -3,17 +3,15 @@
 
 import EmptyState from "@/components/Global/EmptyState";
 import ProductCard from "@/components/Global/ProductCard";
-import ProductStackMobile from "@/components/products/ProductQuickViewMobile";
+// import ProductStackMobile from "@/components/products/ProductQuickViewMobile";
 // import ProductStack from "@/components/products/ProductQuickViewMobile";
 // import ProductQuickView from "@/components/products/ProductQuickView";
 import { useAppContext } from "@/hooks/useAppContext";
 import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
 import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import {
-  startTransition,
-  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -23,12 +21,12 @@ import CategoryTabs from "../category/CategoryTabs";
 import TrustSection from "../category/TrustSection";
 import SideFilter from "../Global/SideFilter";
 
-const ProductQuickView = dynamic(
-  () => import("@/components/products/ProductQuickView"),
-  {
-    ssr: false,
-  },
-);
+// const ProductQuickView = dynamic(
+//   () => import("@/components/products/ProductQuickView"),
+//   {
+//     ssr: false,
+//   },
+// );
 
 type ProductClientProps = {
   products: IMSProduct[];
@@ -155,31 +153,31 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
 
   // const resultCount = groupedProducts.length;
 
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  // const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const openProduct = useCallback((index: number) => {
-    startTransition(() => {
-      setSelectedIndex(index);
-    });
-  }, []);
+  // const openProduct = useCallback((index: number) => {
+  //   startTransition(() => {
+  //     setSelectedIndex(index);
+  //   });
+  // }, []);
 
-  const closeProduct = useCallback(() => {
-    setSelectedIndex(null);
-  }, []);
+  // const closeProduct = useCallback(() => {
+  //   setSelectedIndex(null);
+  // }, []);
 
-  const nextProduct = useCallback(() => {
-    setSelectedIndex((prev) => {
-      if (prev === null) return null;
-      return (prev + 1) % groupedProducts.length;
-    });
-  }, [groupedProducts.length]);
+  // const nextProduct = useCallback(() => {
+  //   setSelectedIndex((prev) => {
+  //     if (prev === null) return null;
+  //     return (prev + 1) % groupedProducts.length;
+  //   });
+  // }, [groupedProducts.length]);
 
-  const prevProduct = useCallback(() => {
-    setSelectedIndex((prev) => {
-      if (prev === null) return null;
-      return prev === 0 ? groupedProducts.length - 1 : prev - 1;
-    });
-  }, [groupedProducts.length]);
+  // const prevProduct = useCallback(() => {
+  //   setSelectedIndex((prev) => {
+  //     if (prev === null) return null;
+  //     return prev === 0 ? groupedProducts.length - 1 : prev - 1;
+  //   });
+  // }, [groupedProducts.length]);
 
   if (products.length === 0) {
     return (
@@ -290,7 +288,7 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
       </div>
 
       {/* Desktop */}
-      <div className="hidden md:block">
+      {/* <div className="hidden md:block">
         <ProductQuickView
           product={
             selectedIndex !== null ? groupedProducts[selectedIndex] : null
@@ -301,10 +299,10 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
           onPrev={prevProduct}
           inventory={[]}
         />
-      </div>
+      </div> */}
 
       {/* Mobile */}
-      <div className="md:hidden">
+      {/* <div className="md:hidden">
         <ProductStackMobile
           products={groupedProducts}
           selectedProduct={
@@ -313,7 +311,7 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
           isOpen={selectedIndex !== null}
           onClose={closeProduct}
         />
-      </div>
+      </div> */}
     </section>
   );
 };

@@ -4,7 +4,7 @@ import ScrollReveal from "./components/Global/ScrollReveal";
 import LatestArrivals from "./components/Home/LatestProduct";
 import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
 import SocialProof from "./components/Home/SocialProof";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";
 import LandingSlider from "./components/Home/LandingSlider";
 import RecentlyViewed from "./components/Home/RecentlyViewed";
@@ -66,7 +66,7 @@ const Home = async () => {
       <section className="w-full bg-[#fcfbfa] dark:bg-black text-black dark:text-white transition-colors duration-300">
         {/* HERO CAROUSEL */}
         <Slider />
-
+{/*  */}
         {/* LANDING PAGE PROMO SLIDER */}
         <div className="block">
           <ScrollReveal direction="up" delay={100}>

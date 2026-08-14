@@ -3,8 +3,10 @@ export const CATEGORY_BANNERS = {
     title: "Discover the Latest Collection",
     subtitle: "Style that moves with you every season.",
     image: {
-      desktop: "/Assets/Images/Banners/all2.png",
-      mobile: "/Assets/Images/Banners/mobileall.png",
+      desktop:
+        "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto:good,w_1920/all2_d0wdh6",
+      mobile:
+        "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto:good,w_828/mobileall_mw3uiu",
     },
     button: "Explore Collection",
   },
@@ -13,8 +15,10 @@ export const CATEGORY_BANNERS = {
     title: "Elegant. Confident. You.",
     subtitle: "Premium western and ethnic styles.",
     image: {
-      desktop: "/Assets/Images/Banners/women2.png",
-      mobile: "/Assets/Images/Banners/mobilewomen.png",
+      desktop:
+        "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto:good,w_1920/women2_dx2lgq",
+      mobile:
+        "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto:good,w_828/mobilewomen_za6lh1",
     },
     button: "Shop Women",
   },
@@ -23,8 +27,10 @@ export const CATEGORY_BANNERS = {
     title: "Built for Everyday Confidence",
     subtitle: "Modern essentials with timeless quality.",
     image: {
-      desktop: "/Assets/Images/Banners/men2.png",
-      mobile: "/Assets/Images/Banners/mobilemen.png",
+      desktop:
+        "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto:good,w_1920/men2_ioeeli",
+      mobile:
+        "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto:good,w_828/mobilemen_yzrjtl",
     },
     button: "Shop Men",
   },
@@ -33,8 +39,10 @@ export const CATEGORY_BANNERS = {
     title: "Made for Little Adventures",
     subtitle: "Comfortable styles for every playful moment.",
     image: {
-      desktop: "/Assets/Images/Banners/kids2.png",
-      mobile: "/Assets/Images/Banners/mobilekids.png",
+      desktop:
+        "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto:good,w_1920/kids2_td5uxo",
+      mobile:
+        "https://res.cloudinary.com/dwhn5ec09/image/upload/f_auto,q_auto:good,w_828/mobilekids_qluqrz",
     },
     button: "Shop Kids",
   },

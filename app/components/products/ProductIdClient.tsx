@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
@@ -9,10 +10,7 @@ import { useEffect, useState, useMemo, useRef } from "react";
 import {
   Plus,
   Minus,
-  HelpCircle,
   ChevronDown,
-  ChevronUp,
-  ArrowRight,
   ShieldCheck,
   Truck,
   RefreshCw,
@@ -39,6 +37,7 @@ import { Pagination } from "swiper/modules";
 // Import Swiper core styles
 import "swiper/css";
 import "swiper/css/pagination";
+import { ProductReview, ReviewRating } from "@/Types/Reviews";
 
 const FALLBACK_SIZES = ["S", "M", "L", "XL"];
 
@@ -69,6 +68,25 @@ export default function ProductPDPClient({
 
   const [pdpWishlistOpen, setPdpWishlistOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  // Review data loaded from VastraDrobe's review API.
+  // Product information itself continues to come from IMS.
+  const [reviews, setReviews] = useState<ProductReview[]>([]);
+
+  const [reviewRating, setReviewRating] = useState<ReviewRating>({
+    average: 0,
+    count: 0,
+    distribution: {
+      5: 0,
+      4: 0,
+      3: 0,
+      2: 0,
+      1: 0,
+    },
+  });
+
+  const [reviewLoading, setReviewLoading] = useState(true);
+  const [reviewPage, setReviewPage] = useState(1);
+  const [hasMoreReviews, setHasMoreReviews] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
@@ -321,6 +339,59 @@ export default function ProductPDPClient({
     }));
   };
 
+  const loadReviews = async (page = 1, append = false) => {
+    try {
+      setReviewLoading(true);
+
+      const res = await fetch(
+        `/api/reviews?productId=${productId}&page=${page}&limit=10`,
+      );
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Failed to load reviews");
+      }
+
+      // Replace the list for the first page.
+      // Append additional reviews when the user clicks "Load More".
+      setReviews((prev) =>
+        append ? [...prev, ...(data.reviews || [])] : data.reviews || [],
+      );
+
+      setReviewRating(
+        data.rating || {
+          average: 0,
+          count: 0,
+          distribution: {
+            5: 0,
+            4: 0,
+            3: 0,
+            2: 0,
+            1: 0,
+          },
+        },
+      );
+
+      setReviewPage(page);
+      setHasMoreReviews(data.pagination?.hasNextPage ?? false);
+    } catch (error) {
+      console.error("Failed to load product reviews:", error);
+    } finally {
+      setReviewLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadReviews(1, false);
+  }, [productId]);
+
+  const handleLoadMoreReviews = () => {
+    if (reviewLoading || !hasMoreReviews) return;
+
+    loadReviews(reviewPage + 1, true);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
       {/* 1. BREADCRUMB (Premium uppercase minimalist typography) */}
@@ -345,7 +416,7 @@ export default function ProductPDPClient({
           <li>
             <span className="text-neutral-300">/</span>
           </li>
-          <li className="text-neutral-800 font-bold truncate max-w-[200px] sm:max-w-xs">
+          <li className="text-neutral-800 font-bold truncate max-w-50 sm:max-w-xs">
             {product.name}
           </li>
         </ol>
@@ -356,7 +427,7 @@ export default function ProductPDPClient({
         {/* LEFT: IMAGES SHOWCASE (Carousel on Mobile/Tablet, Grid on Desktop) */}
         <div className="lg:col-span-7 w-full min-w-0 max-w-full overflow-hidden select-none">
           {/* ================= 📱 MOBILE & TABLET VIEW: Premium Swiper Carousel ================= */}
-          <div className="block lg:hidden w-full relative aspect-[3/4.5] sm:aspect-[4/3] md:aspect-[16/10] rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 min-w-0 max-w-full">
+          <div className="block lg:hidden w-full relative aspect-3/4.5 sm:aspect-4/3 md:aspect-16/10 rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 min-w-0 max-w-full">
             <Swiper
               modules={[Pagination]}
               pagination={{ clickable: true }}
@@ -409,8 +480,8 @@ export default function ProductPDPClient({
                     setSelectedImage(index);
                     setOpenGallery(true);
                   }}
-                  className={`relative aspect-[3/4.5] overflow-hidden rounded-xl bg-[#faf9f6] border border-neutral-100/50 cursor-zoom-in group ${
-                    index === 0 ? "sm:col-span-2 aspect-[3/4]" : ""
+                  className={`relative aspect-3/4.5 overflow-hidden rounded-xl bg-[#faf9f6] border border-neutral-100/50 cursor-zoom-in group ${
+                    index === 0 ? "sm:col-span-2 aspect-3/4" : ""
                   }`}
                 >
                   <Image
@@ -956,7 +1027,7 @@ export default function ProductPDPClient({
               <div className="absolute inset-0 bg-white/30 backdrop-blur-xs" />
 
               {/* Central high-definition image */}
-              <div className="relative z-10 aspect-[3/4.5] w-full max-w-lg shadow-xl rounded-xl overflow-hidden bg-white">
+              <div className="relative z-10 aspect-3/4.5 w-full max-w-lg shadow-xl rounded-xl overflow-hidden bg-white">
                 <Image
                   src={activeImages[selectedImage]}
                   fill
