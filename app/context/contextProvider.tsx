@@ -139,22 +139,26 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const clearCart = () => setCartItems([]);
 
-  const addToCart = (productId: number, size: string, color: string) => {
+  const addToCart = (productId: number, size: string, color: string ,design: string = "") => {
     const product = products.find((p) => p.productId === productId);
-    if (product) {
-      const selectedVariant =
-        product.variants.find(
-          (v) => v.color.toLowerCase() === color.toLowerCase(),
-        ) ?? product.variants[0];
 
+    const selectedVariant =
+      product?.variants.find(
+        (v) => v.color.toLowerCase() === color.toLowerCase(),
+      ) ??
+      product?.variants[0] ??
+      null;
+
+    if (product) {
       setLastAddedProduct({
         product,
-        variant: selectedVariant,
+        variant: selectedVariant ?? product.variants[0],
         size,
         qty: 1,
       });
 
-      // 🎬 Choreographed micro-delay so the Navbar Cart icon jumps first before the drawer slides in!
+      // Give the cart icon time to animate before
+      // opening the cart drawer.
       setTimeout(() => {
         setCartDrawerOpen(true);
       }, 400);
@@ -166,31 +170,54 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       price: product?.price ?? 0,
     });
 
+    // A product without designs simply stores an empty string.
+    const cartDesign = design || "";
+
     setCartItems((prev) => {
+      // Product + color + design + size uniquely identifies
+      // the selected cart variant.
       const existing = prev.find(
         (i) =>
-          i.productId === productId && i.size === size && i.color === color,
+          i.productId === productId &&
+          i.size === size &&
+          i.color === color &&
+          i.design === cartDesign,
       );
 
       if (existing) {
         return prev.map((i) =>
-          i.productId === productId && i.size === size && i.color === color
-            ? { ...i, qty: i.qty + 1 }
+          i.productId === productId &&
+          i.size === size &&
+          i.color === color &&
+          i.design === cartDesign
+            ? {
+                ...i,
+                qty: i.qty + 1,
+              }
             : i,
         );
       }
 
-      return [...prev, { productId, size, color, qty: 1 }];
+      return [
+        ...prev,
+        {
+          productId,
+          size,
+          color,
+          design: cartDesign,
+          qty: 1,
+        },
+      ];
     });
 
     toast.success("Item Added to cart");
   };
 
-  const removeFromCart = (productId: number, size: string, color: string) => {
+  const removeFromCart = (productId: number, size: string, color: string, design: string = "") => {
     setCartItems((prev) =>
       prev.filter(
         (i) =>
-          !(i.productId === productId && i.size === size && i.color === color),
+          !(i.productId === productId && i.size === size && i.color === color && i.design === design),
       ),
     );
 

@@ -39,6 +39,13 @@ const OrderSchema = new mongoose.Schema(
 
         color: String,
 
+        // Design is stored separately because a color variant
+        // can contain multiple designs.
+        //
+        // This is important for reviews because we need to know
+        // exactly which variant the customer purchased.
+        design: String,
+
         size: {
           type: String,
           required: true,

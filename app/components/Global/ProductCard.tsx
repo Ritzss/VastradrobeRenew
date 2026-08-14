@@ -77,10 +77,19 @@ export default function ProductCard({
       }
     };
     document.addEventListener("mousedown", handleClickOutside as EventListener);
-    document.addEventListener("touchstart", handleClickOutside as EventListener);
+    document.addEventListener(
+      "touchstart",
+      handleClickOutside as EventListener,
+    );
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside as EventListener);
-      document.removeEventListener("touchstart", handleClickOutside as EventListener);
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside as EventListener,
+      );
+      document.removeEventListener(
+        "touchstart",
+        handleClickOutside as EventListener,
+      );
     };
   }, [foldersOpen]);
 
@@ -210,22 +219,32 @@ export default function ProductCard({
   const defaultSize =
     firstDesign?.sizes?.[0] || firstVariant?.sizes?.[0] || "FREE";
   const defaultColor = firstVariant?.color || null;
+  const defaultDesign = firstDesign?.design || "";
 
   const isInCart = cartItems.some(
     (item) =>
       item.productId === productId &&
       item.size === defaultSize &&
-      item.color === defaultColor,
+      item.color === defaultColor &&
+      item.design === defaultDesign,
   );
 
   const handleCartToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
     if (!defaultColor) return;
 
-    isInCart
-      ? removeFromCart(productId, defaultSize, defaultColor)
-      : addToCart(productId, defaultSize, defaultColor);
+    // Product cards don't have a design selector.
+    // If the displayed variant has a design, use that design.
+    // Products without designs simply use an empty string.
+    const design = firstDesign?.design || "";
+
+    if (isInCart) {
+      removeFromCart(productId, defaultSize, defaultColor, design);
+    } else {
+      addToCart(productId, defaultSize, defaultColor, design);
+    }
   };
 
   const cardContent = (

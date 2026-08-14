@@ -21,6 +21,7 @@ export type CartItem = {
   size: string;
   color: string;
   qty: number;
+  design?:string;
 };
 
 export type PriceRange = {
@@ -68,8 +69,8 @@ export interface AppContextType {
     color: string,
   ) => Promise<void>;
   clearCart: () => void;
-  addToCart: (productId: number, size: string, color: string) => void;
-  removeFromCart: (productId: number, size: string, color: string) => void;
+  addToCart: (productId: number, size: string, color: string, design?:string) => void;
+  removeFromCart: (productId: number, size: string, color: string, design?:string) => void;
   incrementQty: (productId: number, size: string, color: string) => void;
   decrementQty: (productId: number, size: string, color: string) => void;
   /* 🛍 Cart Drawer */

@@ -101,6 +101,14 @@ export async function POST(req: Request) {
 
     /* ---------------- ORDER ITEMS ---------------- */
 
+    // Convert the checkout/cart products into the structure
+    // stored permanently inside the order.
+    //
+    // IMPORTANT:
+    // `design` must be preserved here because the product can have
+    // multiple designs under the same color variant. This allows
+    // the review system to later identify the exact purchased
+    // variant.
     const orderItems = products.map((item: any) => ({
       productId: item.productId,
 
@@ -108,7 +116,11 @@ export async function POST(req: Request) {
 
       sku: item.sku || "",
 
+      // Selected color variant.
       color: item.color || "",
+
+      // Selected design inside the color variant.
+      design: item.design || "",
 
       size: item.size,
 
@@ -245,11 +257,11 @@ export async function POST(req: Request) {
     await order.save();
 
     /* ---------------- SAVE USER ---------------- */
-   if (user) {
-  user.deliveryAddress = { address, phone };
-  user.cart = [];
-  await user.save();
-}
+    if (user) {
+      user.deliveryAddress = { address, phone };
+      user.cart = [];
+      await user.save();
+    }
 
     return NextResponse.json(
       {

@@ -9,7 +9,7 @@ import { useMemo, useState, useEffect } from "react";
 import { IMSProduct } from "@/Types/Product";
 import { toast } from "sonner";
 import { fbPixel } from "@/lib/facebookpixel";
-import { ShieldCheck, Truck, RefreshCw, ShoppingBag } from "lucide-react";
+import { ShieldCheck, Truck, RefreshCw } from "lucide-react";
 
 /**
  * 👑 LUXURY REDESIGN: Checkout Page (Nangalia Ruchira Theme)
@@ -32,6 +32,7 @@ const CheckoutClient = () => {
   const buyNowSize = searchParams.get("size");
   const buyNowColor = searchParams.get("color");
   const buyNowId = searchParams.get("buyNow");
+  const buyNowDesign = searchParams.get("design") || "";
 
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
@@ -62,6 +63,7 @@ const CheckoutClient = () => {
           ...product,
           size: buyNowSize,
           color: buyNowColor,
+          design: buyNowDesign,
           qty: 1,
         },
       ];
@@ -70,21 +72,25 @@ const CheckoutClient = () => {
     return cartItems
       .map((item) => {
         const product = products.find((p) => p.productId === item.productId);
+
         if (!product) return null;
 
         return {
           ...product,
           size: item.size,
           color: item.color,
+          // Preserve the selected design from the cart.
+          design: item.design,
           qty: item.qty,
         };
       })
       .filter(Boolean) as (IMSProduct & {
       size: string;
       color?: string | null;
+      design?: string | null;
       qty: number;
     })[];
-  }, [buyNowColor, buyNowId, buyNowSize, cartItems, products]);
+  }, [buyNowColor, buyNowDesign, buyNowId, buyNowSize, cartItems, products]);
 
   if (!products.length) {
     return (
@@ -214,6 +220,7 @@ const CheckoutClient = () => {
           price: p.price,
           qty: p.qty,
           color: p.color,
+          design: p.design || "",
           size: p.size,
           image:
             p.variants.find((v) => v.color === p.color)?.designs?.[0]?.images ??

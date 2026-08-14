@@ -35,7 +35,7 @@ import { whatsappMessages } from "@/lib/whatsapp";
 import { useWhatsApp } from "@/context/WhatsAppContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import ProductFAQ from "@/components/products/ProductFAQ"
+import ProductFAQ from "@/components/products/ProductFAQ";
 
 // Import Swiper core styles
 import "swiper/css";
@@ -263,7 +263,8 @@ export default function ProductPDPClient({
     (item) =>
       item.productId === productId &&
       item.size === selectedSize &&
-      item.color === selectedVariant?.color,
+      item.color === selectedVariant?.color &&
+      item.design === (selectedDesign?.design || ""),
   );
 
   const isWishlisted = Object.values(favCollections || {}).some((set) =>
@@ -334,13 +335,19 @@ export default function ProductPDPClient({
 
   const handleCartToggle = () => {
     if (!selectedSize || !selectedVariant) return;
+
     if (getStock(selectedSize) <= 0) {
       toast.error("This size is out of stock.");
       return;
     }
-    isInCart
-      ? removeFromCart(productId, selectedSize, selectedVariant.color)
-      : addToCart(productId, selectedSize, selectedVariant.color);
+
+    const design = selectedDesign?.design || "";
+
+    if (isInCart) {
+      removeFromCart(productId, selectedSize, selectedVariant.color, design);
+    } else {
+      addToCart(productId, selectedSize, selectedVariant.color, design);
+    }
   };
 
   const categoryLabel = ["boys", "girls"].includes(
@@ -357,8 +364,15 @@ export default function ProductPDPClient({
 
   const handleBuyNow = () => {
     if (!selectedSize || !selectedVariant) return;
+
+    const design = selectedDesign?.design || "";
+
     router.push(
-      `/checkout?buyNow=${productId}&productId=${productId}&size=${selectedSize}&color=${selectedVariant.color}&qty=1`,
+      `/checkout?buyNow=${productId}&productId=${productId}&size=${encodeURIComponent(
+        selectedSize,
+      )}&color=${encodeURIComponent(
+        selectedVariant.color,
+      )}&design=${encodeURIComponent(design)}&qty=1`,
     );
   };
 
@@ -1281,7 +1295,7 @@ export default function ProductPDPClient({
       </section>
 
       {/* WRITE A REVIEW */}
-        {!eligibilityLoading && eligiblePurchases.length > 0 && (
+      {!eligibilityLoading && eligiblePurchases.length > 0 && (
         <div className="mt-12">
           <div className="mb-6">
             <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
@@ -1403,9 +1417,9 @@ export default function ProductPDPClient({
             />
           )}
         </div>
-        )}
-        {/* ALREADY REVIEWED PURCHASES */}
-        {reviewedPurchases.length > 0 && (
+      )}
+      {/* ALREADY REVIEWED PURCHASES */}
+      {reviewedPurchases.length > 0 && (
         <div className="mt-10 border border-neutral-100 rounded-xl p-6">
           <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
             Your Reviews
@@ -1446,9 +1460,9 @@ export default function ProductPDPClient({
             ))}
           </div>
         </div>
-        )}
-        {/* UNVERIFIED REVIEW */}
-        {!eligibilityLoading && !hasPurchasedProduct && user && (
+      )}
+      {/* UNVERIFIED REVIEW */}
+      {!eligibilityLoading && !hasPurchasedProduct && user && (
         <div className="mt-12">
           <div className="mb-6">
             <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
@@ -1475,8 +1489,8 @@ export default function ProductPDPClient({
             }}
           />
         </div>
-        )}
-        {!user && (
+      )}
+      {!user && (
         <GuestReviewForm
           productId={productId}
           color={selectedVariant?.color || ""}
@@ -1485,7 +1499,7 @@ export default function ProductPDPClient({
             loadReviews(1, false);
           }}
         />
-        )}
+      )}
 
       {/* 5. SIMILAR PRODUCTS SHOWCASE (Geometric elegant card listings) */}
       {similarProducts.length > 0 && (
