@@ -66,7 +66,7 @@ const Home = async () => {
       <section className="w-full bg-[#fcfbfa] dark:bg-black text-black dark:text-white transition-colors duration-300">
         {/* HERO CAROUSEL */}
         <Slider />
-{/*  */}
+        
         {/* LANDING PAGE PROMO SLIDER */}
         <div className="block">
           <ScrollReveal direction="up" delay={100}>

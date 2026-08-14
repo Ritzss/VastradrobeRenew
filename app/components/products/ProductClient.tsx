@@ -194,7 +194,7 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
   return (
     <section
       id="categoryPage"
-      className="w-full space-y-12 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-24"
+      className="scroll-mt-24 w-full space-y-12 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-24"
     >
       {/* RESULT HEADER */}
       {/* <div className="flex items-center justify-between">
