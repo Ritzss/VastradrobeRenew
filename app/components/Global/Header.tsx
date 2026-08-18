@@ -131,9 +131,9 @@ export default function CampaignSection() {
               {/* ================= CONTENT ================= */}
               <div className="absolute inset-0 flex items-center justify-start px-5 sm:px-8 md:px-10 lg:px-20 xl:px-28">
                 <div className="w-full max-w-xl lg:max-w-2xl text-white text-left space-y-3 sm:space-y-4 lg:space-y-6 z-10 font-sans">
-                  <p className="text-[9px] sm:text-[10px] lg:text-xs uppercase tracking-[0.25em] lg:tracking-[0.35em] text-white/90 font-medium">
+                  {/* <p className="text-[9px] sm:text-[10px] lg:text-xs uppercase tracking-[0.25em] lg:tracking-[0.35em] text-white/90 font-medium">
                     Autumn / Winter Edit
-                  </p>
+                  </p> */}
 
                   <h2 className="font-serif text-2xl md:text-4xl lg:text-6xl font-light tracking-wide uppercase leading-none text-white drop-shadow-sm">
                     {banner.title}
