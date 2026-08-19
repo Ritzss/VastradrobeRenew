@@ -544,7 +544,7 @@ export default function ProductPDPClient({
                     fill
                     priority={index === 0}
                     className="object-cover object-top pointer-events-none"
-                    sizes="100vw"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     draggable={false}
                   />
                 </SwiperSlide>
@@ -570,6 +570,7 @@ export default function ProductPDPClient({
                     src={image}
                     alt={`${product.name} ${index + 1}`}
                     fill
+                    priority={index === 0}
                     sizes="(max-width:768px) 100vw, 50vw"
                     className="object-cover object-top transition duration-700 ease-out group-hover:scale-102"
                   />

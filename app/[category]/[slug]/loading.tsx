@@ -12,17 +12,17 @@ export default function Loading() {
           {/* LEFT COLUMN: IMAGES SKELETON (Spans 7 columns to match ProductIdClient) */}
           <div className="lg:col-span-7 w-full space-y-4">
             {/* ================= 📱 MOBILE & TABLET IMAGE SKELETON (< 1024px) ================= */}
-            <div className="block lg:hidden w-full relative aspect-[3/4.5] sm:aspect-[4/3] md:aspect-[16/10] rounded-2xl bg-neutral-200 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-900" />
+            <div className="block lg:hidden w-full relative aspect-3/4.5 sm:aspect-4/3 md:aspect-16/10 rounded-2xl bg-neutral-200 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-900" />
 
             {/* ================= 🖥️ DESKTOP IMAGE SKELETON (>= 1024px) ================= */}
             <div className="hidden lg:block space-y-4 w-full">
               {/* Main Hero Image Placeholder */}
-              <div className="relative aspect-[3/4] w-full rounded-2xl bg-neutral-200 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-900" />
+              <div className="relative aspect-3/4 w-full rounded-2xl bg-neutral-200 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-900" />
 
               {/* Grid Image Placeholders */}
               <div className="grid grid-cols-2 gap-3.5">
-                <div className="relative aspect-[3/4.5] w-full rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-100/50 dark:border-neutral-900/30" />
-                <div className="relative aspect-[3/4.5] w-full rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-100/50 dark:border-neutral-900/30" />
+                <div className="relative aspect-3/4.5 w-full rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-100/50 dark:border-neutral-900/30" />
+                <div className="relative aspect-3/4.5 w-full rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-100/50 dark:border-neutral-900/30" />
               </div>
             </div>
           </div>

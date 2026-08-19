@@ -133,10 +133,46 @@ export async function generateMetadata({
   };
 }
 
+// async function getProductReviewRating(productId: number) {
+//   try {
+//     const res = await fetch(
+//       `${process.env.NEXT_PUBLIC_IMS_BASE_URL || "https://vastradrobe.com"}/api/reviews?productId=${productId}`,
+//       {
+//         next: { revalidate: 120 },
+//       },
+//     );
+
+//     if (!res.ok) {
+//       return null;
+//     }
+
+//     const data = await res.json();
+
+//     // Don't generate aggregateRating when the product
+//     // doesn't have any reviews yet.
+//     if (!data.success || !data.rating || Number(data.rating.count) === 0) {
+//       return null;
+//     }
+
+//     return {
+//       average: Number(data.rating.average),
+//       count: Number(data.rating.count),
+//     };
+//   } catch (error) {
+//     console.error("Failed to fetch product review rating:", error);
+
+//     return null;
+//   }
+// }
+
 async function getProductReviewRating(productId: number) {
   try {
+    const baseUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      "https://vastradrobe.com";
+
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL || "https://vastradrobe.com"}/api/reviews?productId=${productId}`,
+      `${baseUrl}/api/reviews?productId=${productId}`,
       {
         next: { revalidate: 120 },
       },
@@ -205,11 +241,11 @@ export default async function ProductPage({
     return <div className="p-10 text-center">Product not found</div>;
   }
 
-  const inventory = await getInventory(productId);
-
-  const reviewRating = await getProductReviewRating(productId);
-
-  const allProducts = await getAllProducts();
+  const [inventory, reviewRating, allProducts] = await Promise.all([
+    getInventory(productId),
+    getProductReviewRating(productId),
+    getAllProducts(),
+  ]);
 
   const similarProducts = allProducts.filter(
     (p) => p.category === product.category && p.productId !== product.productId,
@@ -259,33 +295,30 @@ export default async function ProductPage({
 
     name: product.name,
 
-  image:
-    product.variants?.flatMap(
-      (variant) => variant.images,
-    ) || [],
+    image: product.variants?.flatMap((variant) => variant.images) || [],
 
-  description: product.description || "",
+    description: product.description || "",
 
-  sku: String(product.productId),
+    sku: String(product.productId),
 
-  brand: {
-    "@type": "Brand",
-    name: product.brand || "VastraDrobe",
-  },
+    brand: {
+      "@type": "Brand",
+      name: product.brand || "VastraDrobe",
+    },
 
-  category: product.category,
+    category: product.category,
 
-  ...(reviewRating
-    ? {
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: reviewRating.average,
-          reviewCount: reviewRating.count,
-          bestRating: 5,
-          worstRating: 1,
-        },
-      }
-    : {}),
+    ...(reviewRating
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: reviewRating.average,
+            reviewCount: reviewRating.count,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
 
     offers: {
       "@type": "Offer",

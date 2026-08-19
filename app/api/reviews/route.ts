@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import User from "@/model/User";
 import Order from "@/model/Order";
 import Review from "@/model/ProductReviews";
+import { connectDB } from "@/lib/db";
 
 // import Review from "../model/ProductReviews";
 // import Order from "../model/Order";
@@ -18,6 +19,7 @@ const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function POST(req: NextRequest) {
   try {
+     await connectDB();
     // --------------------------------------------------
     // 1. Authenticate the logged-in user
     // --------------------------------------------------
@@ -344,6 +346,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+     await connectDB();
     // --------------------------------------------------
     // 1. Read query parameters
     // --------------------------------------------------
