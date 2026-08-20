@@ -121,7 +121,7 @@ export default function CampaignSection() {
                   fetchPriority={banner.id === 1 ? "high" : "auto"}
                   loading={banner.id === 1 ? "eager" : "lazy"}
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 25vw"
+                  sizes="100vw"
                 />
               </div>
 
