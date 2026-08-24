@@ -18,7 +18,7 @@ export default function CategoryHero({ category }: Props) {
         alt={banner.title}
         fill
         priority
-       sizes="(max-width: 768px) 100vw, 1200px"
+       sizes=" 100vw, 1200px"
         className="object-cover md:hidden"
       />
 
@@ -28,7 +28,7 @@ export default function CategoryHero({ category }: Props) {
         alt={banner.title}
         fill
         priority
-        sizes="(max-width: 768px) 100vw, 1200px"
+        sizes=" 100vw, 1200px"
         className="hidden object-cover md:block"
       />
 
