@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   // next.config.js
 
   allowedDevOrigins: ["192.168.1.70"],
+  devIndicators: {
+    position: "bottom-right",
+  },
 
   images: {
     remotePatterns: [

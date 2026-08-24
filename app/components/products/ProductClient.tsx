@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import EmptyState from "@/components/Global/EmptyState";
@@ -7,33 +6,32 @@ import ProductCard from "@/components/Global/ProductCard";
 // import ProductStack from "@/components/products/ProductQuickViewMobile";
 // import ProductQuickView from "@/components/products/ProductQuickView";
 import { useAppContext } from "@/hooks/useAppContext";
-import { normalize } from "@/lib/normalize";
 import { IMSProduct } from "@/Types/Product";
 import { motion } from "framer-motion";
-// import dynamic from "next/dynamic";
-import {
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CategoryHero from "../category/CategoryHero";
 import CategoryTabs from "../category/CategoryTabs";
 import TrustSection from "../category/TrustSection";
 import SideFilter from "../Global/SideFilter";
-
-// const ProductQuickView = dynamic(
-//   () => import("@/components/products/ProductQuickView"),
-//   {
-//     ssr: false,
-//   },
-// );
 
 type ProductClientProps = {
   products: IMSProduct[];
   category?: "all" | "women" | "men" | "kids";
 };
 
-const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
+type PaginationData = {
+  page: number;
+  limit: number;
+  total: number;
+  hasNextPage: boolean;
+};
+
+const PRODUCTS_PER_PAGE = 12;
+
+const ProductClient = ({
+  products: initialProducts,
+  category = "all",
+}: ProductClientProps) => {
   const {
     searchQuery,
     subCategory,
@@ -42,77 +40,416 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
     sortBy,
     selectedCategory,
   } = useAppContext();
+
   const [showFilters, setShowFilters] = useState(false);
-  const normalizedSub = normalize(subCategory);
-  const normalizedSearch = searchQuery?.toLowerCase() || "";
 
-  const normalizeSize = (size: string) =>
-    size.replace(/\s+/g, " ").trim().toLowerCase();
+  /*
+   * Products currently loaded into the page.
+   *
+   * We append new API results to this array when the user
+   * reaches the bottom of the product grid.
+   */
+  const [products, setProducts] =
+    useState<IMSProduct[]>(initialProducts);
 
-  const normalizedSelectedSizes = useMemo(
-    () => sizes.map(normalizeSize),
-    [sizes],
+  /*
+   * Pagination state returned by the IMS API.
+   */
+  const [pagination, setPagination] =
+    useState<PaginationData>({
+      page: 1,
+      limit: PRODUCTS_PER_PAGE,
+      total: initialProducts.length,
+      hasNextPage: true,
+    });
+
+  /*
+   * Prevents multiple IntersectionObserver calls from
+   * firing multiple API requests at the same time.
+   */
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  /*
+   * Used when filters/sorting change and we need to fetch
+   * a completely new product collection from page 1.
+   */
+  const [loadingFiltered, setLoadingFiltered] =
+    useState(false);
+
+  /*
+   * Sentinel element placed underneath the product grid.
+   * When it enters the viewport, the next page is loaded.
+   */
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  /*
+   * Keeps track of the latest filter request.
+   *
+   * If a user changes filters quickly, an older request
+   * should not overwrite the newer result.
+   */
+  const requestIdRef = useRef(0);
+
+  /*
+   * Category used for the current page.
+   *
+   * If the global category selector is empty, fall back
+   * to the category from the URL.
+   */
+  const activeCategory =
+    selectedCategory?.trim() || category;
+
+  /*
+   * Build the category value expected by the API.
+   *
+   * Kids contains both boys and girls.
+   * "all" intentionally sends no category filter.
+   */
+  const categoryParam = useMemo(() => {
+    switch (activeCategory.toLowerCase()) {
+      case "kids":
+        return "boys,girls";
+
+      case "men":
+        return "men";
+
+      case "women":
+        return "women";
+
+      case "all":
+      default:
+        return "";
+    }
+  }, [activeCategory]);
+
+  /*
+   * Creates the query string used by the IMS products API.
+   *
+   * All filtering and sorting now happens on the server/database.
+   * The browser therefore receives only the products it needs.
+   */
+  const buildProductsQuery = useCallback(
+    (page: number) => {
+      const params = new URLSearchParams();
+
+      if (categoryParam) {
+        params.set("category", categoryParam);
+      }
+
+      if (subCategory?.trim()) {
+        params.set("subcategory", subCategory.trim());
+      }
+
+      if (searchQuery?.trim()) {
+        params.set("search", searchQuery.trim());
+      }
+
+      if (priceRange.min !== "") {
+        params.set("minPrice", String(priceRange.min));
+      }
+
+      if (priceRange.max !== "") {
+        params.set("maxPrice", String(priceRange.max));
+      }
+
+      /*
+       * The API currently accepts one size value.
+       *
+       * If multiple sizes are selected, we use the first one
+       * for now. We can upgrade the API later to support:
+       * size=S,M,L
+       */
+      if (sizes.length > 0) {
+        params.set("size", sizes[0]);
+      }
+
+      params.set("sort", sortBy || "newest");
+      params.set("page", String(page));
+      params.set("limit", String(PRODUCTS_PER_PAGE));
+
+      return params.toString();
+    },
+    [
+      categoryParam,
+      subCategory,
+      searchQuery,
+      priceRange.min,
+      priceRange.max,
+      sizes,
+      sortBy,
+    ],
   );
 
+  /*
+   * Fetch a completely new product collection.
+   *
+   * This is used whenever category/filter/sort/search changes.
+   * We start from page 1 because the previous collection
+   * is no longer relevant.
+   */
+  const fetchFirstPage = useCallback(async () => {
+    const requestId = ++requestIdRef.current;
+
+    setLoadingFiltered(true);
+
+    try {
+      const query = buildProductsQuery(1);
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?${query}`,
+        {
+          cache: "no-store",
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error(
+          `Products API returned ${res.status}`,
+        );
+      }
+
+      const data = await res.json();
+
+      /*
+       * Ignore this response if another filter request
+       * was started after this one.
+       */
+      if (requestId !== requestIdRef.current) {
+        return;
+      }
+
+      setProducts(data.products || []);
+
+      setPagination({
+        page: data.pagination?.page || 1,
+        limit:
+          data.pagination?.limit ||
+          PRODUCTS_PER_PAGE,
+        total: data.pagination?.total || 0,
+        hasNextPage:
+          data.pagination?.hasNextPage || false,
+      });
+    } catch (error) {
+      console.error(
+        "Failed to fetch filtered products:",
+        error,
+      );
+
+      if (requestId === requestIdRef.current) {
+        setProducts([]);
+        setPagination({
+          page: 1,
+          limit: PRODUCTS_PER_PAGE,
+          total: 0,
+          hasNextPage: false,
+        });
+      }
+    } finally {
+      if (requestId === requestIdRef.current) {
+        setLoadingFiltered(false);
+      }
+    }
+  }, [buildProductsQuery]);
+
+  /*
+   * Load the next batch of products.
+   *
+   * Example:
+   *
+   * Page 1 → products 1-12
+   * Page 2 → products 13-24
+   * Page 3 → products 25-36
+   *
+   * The user never sees page numbers.
+   */
+  const loadMore = useCallback(async () => {
+    if (
+      loadingMore ||
+      loadingFiltered ||
+      !pagination.hasNextPage
+    ) {
+      return;
+    }
+
+    setLoadingMore(true);
+
+    try {
+      const nextPage = pagination.page + 1;
+      const query = buildProductsQuery(nextPage);
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?${query}`,
+        {
+          cache: "no-store",
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error(
+          `Products API returned ${res.status}`,
+        );
+      }
+
+      const data = await res.json();
+
+      const nextProducts: IMSProduct[] =
+        data.products || [];
+
+      /*
+       * Append the next batch to the existing products.
+       *
+       * Product ID is used to prevent accidental duplicates
+       * if the observer fires more than once.
+       */
+      setProducts((previousProducts) => {
+        const existingIds = new Set(
+          previousProducts.map(
+            (product) => product.productId,
+          ),
+        );
+
+        const uniqueNewProducts =
+          nextProducts.filter(
+            (product) =>
+              !existingIds.has(product.productId),
+          );
+
+        return [
+          ...previousProducts,
+          ...uniqueNewProducts,
+        ];
+      });
+
+      setPagination({
+        page: data.pagination?.page || nextPage,
+        limit:
+          data.pagination?.limit ||
+          PRODUCTS_PER_PAGE,
+        total:
+          data.pagination?.total ||
+          pagination.total,
+        hasNextPage:
+          data.pagination?.hasNextPage || false,
+      });
+    } catch (error) {
+      console.error(
+        "Failed to load more products:",
+        error,
+      );
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [
+    buildProductsQuery,
+    loadingFiltered,
+    loadingMore,
+    pagination,
+  ]);
+
+  /*
+   * When filters/search/sorting/category change,
+   * fetch a fresh page 1.
+   *
+   * The small delay prevents hammering the API while
+   * the user is typing into search.
+   */
   useEffect(() => {
-    const id = requestIdleCallback(() => {
+    const timeout = window.setTimeout(() => {
+      fetchFirstPage();
+    }, 250);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [fetchFirstPage]);
+
+  /*
+   * Infinite scroll.
+   *
+   * The observer watches the invisible element below the grid.
+   * rootMargin loads products before the user actually reaches
+   * the bottom, making the experience feel continuous.
+   */
+  useEffect(() => {
+    const element = loadMoreRef.current;
+
+    if (!element) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          loadMore();
+        }
+      },
+      {
+        rootMargin: "500px",
+      },
+    );
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [loadMore]);
+
+  /*
+   * Keep the existing Quick View lazy-loading behavior.
+   */
+  useEffect(() => {
+    const idleCallback = (
+      window as Window & {
+        requestIdleCallback?: (
+          callback: IdleRequestCallback,
+        ) => number;
+        cancelIdleCallback?: (
+          handle: number,
+        ) => void;
+      }
+    ).requestIdleCallback;
+
+    if (!idleCallback) {
+      return;
+    }
+
+    const id = idleCallback(() => {
       import("@/components/products/ProductQuickView");
     });
 
-    return () => cancelIdleCallback(id);
+    return () => {
+      const cancel =
+        (
+          window as Window & {
+            cancelIdleCallback?: (
+              handle: number,
+            ) => void;
+          }
+        ).cancelIdleCallback;
+
+      cancel?.(id);
+    };
   }, []);
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
-      const categoryMatch =
-        !selectedCategory ||
-        p.category.toLowerCase() === selectedCategory.toLowerCase() ||
-        (selectedCategory.toLowerCase() === "kids" &&
-          ["boys", "girls"].includes(p.category.toLowerCase()));
-
-      const subCategoryMatch =
-        !normalizedSub || normalize(p.subcategory) === normalizedSub;
-
-      const searchMatch =
-        !normalizedSearch ||
-        p.name.toLowerCase().includes(normalizedSearch) ||
-        (p.description || "").toLowerCase().includes(normalizedSearch);
-
-      const priceMatch =
-        (priceRange.min === "" || p.price >= priceRange.min) &&
-        (priceRange.max === "" || p.price <= priceRange.max);
-
-      const sizeMatch =
-        normalizedSelectedSizes.length === 0 ||
-        p.variants?.[0]?.sizes?.some((productSize: string) =>
-          normalizedSelectedSizes.includes(normalizeSize(productSize)),
-        );
-
-      return (
-        categoryMatch &&
-        subCategoryMatch &&
-        searchMatch &&
-        priceMatch &&
-        sizeMatch
-      );
-    });
-  }, [
-    products,
-    normalizedSub,
-    normalizedSearch,
-    priceRange.min,
-    priceRange.max,
-    normalizedSelectedSizes,
-    selectedCategory,
-  ]);
-
+  /*
+   * Remove duplicate products and keep the current
+   * server-side ordering.
+   *
+   * We no longer filter/sort here because MongoDB already
+   * performed those operations.
+   */
   const groupedProducts = useMemo(() => {
     const grouped = Object.values(
-      filteredProducts.reduce(
+      products.reduce(
         (acc, product) => {
-          const key = product.name.trim().toLowerCase();
+          const key = product.name
+            .trim()
+            .toLowerCase();
 
-          if (!acc[key]) acc[key] = product;
+          if (!acc[key]) {
+            acc[key] = product;
+          }
 
           return acc;
         },
@@ -120,66 +457,19 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
       ),
     );
 
-    switch (sortBy) {
-      case "price-low":
-        grouped.sort((a, b) => a.price - b.price);
-        break;
-
-      case "price-high":
-        grouped.sort((a, b) => b.price - a.price);
-        break;
-
-      case "name-asc":
-        grouped.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-
-      case "name-desc":
-        grouped.sort((a, b) => b.name.localeCompare(a.name));
-        break;
-
-      case "newest":
-        grouped.sort(
-          (a: any, b: any) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-        break;
-
-      default:
-        break;
-    }
-
     return grouped;
-  }, [filteredProducts, sortBy]);
+  }, [products]);
 
-  // const resultCount = groupedProducts.length;
-
-  // const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
-  // const openProduct = useCallback((index: number) => {
-  //   startTransition(() => {
-  //     setSelectedIndex(index);
-  //   });
-  // }, []);
-
-  // const closeProduct = useCallback(() => {
-  //   setSelectedIndex(null);
-  // }, []);
-
-  // const nextProduct = useCallback(() => {
-  //   setSelectedIndex((prev) => {
-  //     if (prev === null) return null;
-  //     return (prev + 1) % groupedProducts.length;
-  //   });
-  // }, [groupedProducts.length]);
-
-  // const prevProduct = useCallback(() => {
-  //   setSelectedIndex((prev) => {
-  //     if (prev === null) return null;
-  //     return prev === 0 ? groupedProducts.length - 1 : prev - 1;
-  //   });
-  // }, [groupedProducts.length]);
-
-  if (products.length === 0) {
+  /*
+   * Initial category has no products.
+   *
+   * This preserves the existing empty-state behavior.
+   */
+  if (
+    initialProducts.length === 0 &&
+    !loadingFiltered &&
+    products.length === 0
+  ) {
     return (
       <EmptyState
         label="Collection Empty"
@@ -196,36 +486,23 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
       id="categoryPage"
       className="scroll-mt-24 w-full space-y-12 px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-24"
     >
-      {/* RESULT HEADER */}
-      {/* <div className="flex items-center justify-between">
-        <p className="text-xs uppercase tracking-[0.35em] text-[#957f6a]">
-          {resultCount} {resultCount === 1 ? "Item" : "Items"}
-        </p>
-
-        {normalizedSub && (
-          <p className="text-sm text-[#7a6a5c]">
-            Filtered by{" "}
-            <span className="font-medium capitalize text-[#5f5143]">
-              {subCategory}
-            </span>
-          </p>
-        )}
-      </div> */}
-
       <CategoryHero category={category} />
 
       <CategoryTabs current={category} />
 
       <TrustSection />
 
-      {/* 🏛️ MINIMAL CATALOG HEADER (Replaces the bulky ProductToolbar with an elegant inline layout) */}
+      {/* CATALOG HEADER */}
       <div className="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-900 pb-4 select-none">
         <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
-          {groupedProducts.length}{" "}
-          {groupedProducts.length === 1 ? "Product" : "Products"} found
+          {pagination.total}{" "}
+          {pagination.total === 1
+            ? "Product"
+            : "Products"}{" "}
+          found
         </p>
 
-        {/* Mobile-only minimalist filter link trigger */}
+        {/* Mobile filter trigger */}
         <button
           onClick={() => setShowFilters(true)}
           className="md:hidden flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#6A0F1F] dark:text-[#e4e198] cursor-pointer"
@@ -235,49 +512,112 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
         </button>
       </div>
 
-      {showFilters && <SideFilter onClose={() => setShowFilters(false)} />}
+      {showFilters && (
+        <SideFilter
+          onClose={() => setShowFilters(false)}
+        />
+      )}
 
-      {/* 🏛️ 2-COLUMN SPLIT CATALOG LAYOUT: Permanent left-sidebar on desktop, sliding drawer on mobile */}
+      {/* CATALOG LAYOUT */}
       <div className="flex flex-col md:flex-row gap-8 items-start w-full">
-        {/* Left column: Docked sidebar filter (Desktop only, hidden on mobile) */}
+        {/* Desktop sidebar */}
         <SideFilter inline />
 
-        {/* Right column: Product Grid area (Full-width on mobile, expands on desktop) or inline Empty State */}
+        {/* Product area */}
         <div className="flex-1 w-full">
-          {groupedProducts.length > 0 ? (
+          {loadingFiltered ? (
+            /*
+             * Loading state when filters/search/sorting change.
+             */
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 w-full">
-              {groupedProducts.map((item, index) => (
-                <motion.div
-                  key={`${item.productId}-${index}`}
-                  initial={{
-                    opacity: 0,
-                    y: 40,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  viewport={{
-                    once: true,
-                    amount: 0.2,
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.04,
-                  }}
-                >
-                  <ProductCard Linked={true} product={item} />
-                </motion.div>
+              {Array.from({
+                length: PRODUCTS_PER_PAGE,
+              }).map((_, index) => (
+                <div
+                  key={index}
+                  className="aspect-3/4 rounded-xl bg-neutral-100 dark:bg-neutral-900 animate-pulse"
+                />
               ))}
             </div>
+          ) : groupedProducts.length > 0 ? (
+            <>
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 w-full">
+                {groupedProducts.map(
+                  (item, index) => (
+                    <motion.div
+                      key={item.productId}
+                      initial={{
+                        opacity: 0,
+                        y: 40,
+                      }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                      }}
+                      viewport={{
+                        once: true,
+                        amount: 0.2,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        /*
+                         * Keep the animation delay small.
+                         *
+                         * Previously the delay was based on the
+                         * complete product index, which becomes
+                         * increasingly silly as the catalogue grows.
+                         */
+                        delay:
+                          (index % PRODUCTS_PER_PAGE) *
+                          0.04,
+                      }}
+                    >
+                      <ProductCard
+                        Linked={true}
+                        product={item}
+                      />
+                    </motion.div>
+                  ),
+                )}
+              </div>
+
+              {/* ================================
+                  INFINITE SCROLL SENTINEL
+                  ================================ */}
+
+              <div
+                ref={loadMoreRef}
+                className="h-24 flex items-center justify-center"
+              >
+                {loadingMore && (
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="h-5 w-5 rounded-full border-2 border-neutral-200 border-t-[#6A0F1F] animate-spin" />
+
+                    <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                      Loading more
+                    </p>
+                  </div>
+                )}
+
+                {!loadingMore &&
+                  !pagination.hasNextPage &&
+                  products.length > 0 && (
+                    <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                      You&apos;ve reached the end
+                    </p>
+                  )}
+              </div>
+            </>
           ) : (
             <div className="text-center py-20 px-6 border border-dashed border-neutral-200 dark:border-neutral-800 rounded-2xl bg-white dark:bg-neutral-950/20 shadow-xs max-w-xl mx-auto space-y-4">
               <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
                 No matches
               </p>
+
               <h3 className="font-serif text-lg text-neutral-800 dark:text-white uppercase tracking-wide">
                 No Products Match Your Filters
               </h3>
+
               <p className="text-neutral-500 dark:text-neutral-400 text-xs font-light max-w-xs mx-auto leading-relaxed">
                 Try adjusting your size, price, or clothing filters to explore
                 the collection.
@@ -287,11 +627,13 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
         </div>
       </div>
 
-      {/* Desktop */}
+      {/* Desktop Quick View */}
       {/* <div className="hidden md:block">
         <ProductQuickView
           product={
-            selectedIndex !== null ? groupedProducts[selectedIndex] : null
+            selectedIndex !== null
+              ? groupedProducts[selectedIndex]
+              : null
           }
           isOpen={selectedIndex !== null}
           onClose={closeProduct}
@@ -301,12 +643,14 @@ const ProductClient = ({ products, category = "all" }: ProductClientProps) => {
         />
       </div> */}
 
-      {/* Mobile */}
+      {/* Mobile Quick View */}
       {/* <div className="md:hidden">
         <ProductStackMobile
           products={groupedProducts}
           selectedProduct={
-            selectedIndex !== null ? groupedProducts[selectedIndex] : null
+            selectedIndex !== null
+              ? groupedProducts[selectedIndex]
+              : null
           }
           isOpen={selectedIndex !== null}
           onClose={closeProduct}

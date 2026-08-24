@@ -64,37 +64,11 @@ export default function PriceSlider({
         </Slider.Track>
 
         <Slider.Thumb
-          className="
-            block
-            h-5
-            w-5
-            rounded-full
-            border-2
-            border-white
-            bg-[#6A0F1F]
-            dark:bg-[#e4e198]
-            shadow-md
-            transition
-            hover:scale-110
-            focus:outline-none
-          "
+          className="block h-5 w-5 rounded-full border-2 border-white bg-[#6A0F1F] dark:bg-[#e4e198] shadow-md transition hover:scale-110 focus:outline-none"
         />
 
         <Slider.Thumb
-          className="
-            block
-            h-5
-            w-5
-            rounded-full
-            border-2
-            border-white
-            bg-[#6A0F1F]
-            dark:bg-[#e4e198]
-            shadow-md
-            transition
-            hover:scale-110
-            focus:outline-none
-          "
+          className="block h-5 w-5 rounded-full border-2 border-white bg-[#6A0F1F] dark:bg-[#e4e198] shadow-md transition hover:scale-110 focus:outline-none"
         />
       </Slider.Root>
 
