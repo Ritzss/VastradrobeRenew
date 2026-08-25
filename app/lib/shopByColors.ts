@@ -1,14 +1,5 @@
 export const SHOP_BY_COLORS = [
   {
-    name: "Black",
-    slug: "black",
-    color: "#111111",
-    variants: [
-      "black",
-    ],
-  },
-
-  {
     name: "Blue",
     slug: "blue",
     color: "#2563EB",
@@ -18,6 +9,15 @@ export const SHOP_BY_COLORS = [
       "denim blue",
       "blue stripe",
       "aqua blue",
+    ],
+  },
+
+  {
+    name: "Black",
+    slug: "black",
+    color: "#111111",
+    variants: [
+      "black",
     ],
   },
 
