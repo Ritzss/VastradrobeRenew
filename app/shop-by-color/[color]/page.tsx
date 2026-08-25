@@ -324,9 +324,9 @@ export default async function ColorPage({
                           {selectedColor.name}
                         </p>
 
-                        <p className="mt-1 text-[8px] uppercase tracking-[0.3em] text-white/60">
+                        {/* <p className="mt-1 text-[8px] uppercase tracking-[0.3em] text-white/60">
                           Edit
-                        </p>
+                        </p> */}
                       </div>
                     </div>
                   </div>

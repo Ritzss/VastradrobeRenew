@@ -113,12 +113,12 @@ export default function ShopByColor({ products }: Props) {
             </h2>
           </div>
 
-          <Link
+          {/* <Link
             href={`/shop-by-color/${activeColorData.slug}`}
             className="hidden text-[9px] font-semibold uppercase tracking-[0.2em] text-[#806f60] transition-colors hover:text-[#6A0F1F] sm:block"
           >
             View {activeColorData.name} →
-          </Link>
+          </Link> */}
         </div>
 
         {/* =================================================
