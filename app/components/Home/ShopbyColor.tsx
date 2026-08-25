@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+
 import { SHOP_BY_COLORS } from "@/lib/shopByColors";
 import { IMSProduct } from "@/Types/Product";
 
@@ -12,110 +13,248 @@ type Props = {
 };
 
 /**
- * 👑 LUXURY REDESIGN: Shop By Color (Nangalia Ruchira Theme)
- * 
- * We completely overhauled the blocky masonry image grid into an ultra-premium, 
- * clean, and modern **Circular Editorial Swatches Grid**:
- * - Displays a perfectly centered row of 6 large, pristine circular swatches.
- * - Each circular card dynamically extracts the actual high-definition apparel image of that color from your products database.
- * - On hover, a soft scale zoom triggers alongside a refined overlay.
- * - Below each circle, a tracked minimalist name label ("SAGE GREEN", "COCOA BROWN") is displayed 
- *   with its solid-color bubble indicator.
+ * Shop By Color
+ *
+ * Compact homepage section.
+ *
+ * The color names act as the navigation while the product
+ * strip below previews the selected color collection.
  */
 export default function ShopByColor({ products }: Props) {
-  
-  // Custom mapping for color indicators inside the circles
-  const colorMapHex: Record<string, string> = {
-    black: "#111111",
-    blue: "#1e3a8a",
-    brown: "#543d2b",
-    green: "#4f5e3e",
-    pink: "#dfb0b7",
-    white: "#f7f5f0",
-  };
-
+  /*
+   * Build one representative image for every
+   * configured storefront color.
+   */
   const formattedColors = useMemo(() => {
     return SHOP_BY_COLORS.map((colorObj) => {
-      // Find the first live product matching this color's variants
       const matchingProduct = products.find((product) =>
-        product.variants?.some((variant: any) =>
-          colorObj.variants.some((v) => v.toLowerCase() === variant.color.toLowerCase()),
+        product.variants?.some(
+          (variant: any) =>
+            variant.color &&
+            colorObj.variants.some(
+              (colorVariant) =>
+                colorVariant.toLowerCase() === variant.color.toLowerCase(),
+            ),
         ),
       );
 
-      // Extract the correct color variant image
       let displayImage = "/Assets/Images/Newplaceholder.png";
-      if (matchingProduct) {
-        const matchingVariant = matchingProduct.variants.find((variant: any) =>
-          colorObj.variants.some((v) => v.toLowerCase() === variant.color.toLowerCase()),
-        ) ?? matchingProduct.variants[0];
 
-        displayImage = matchingVariant.designs?.[0]?.images?.[0] ?? matchingVariant.images?.[0] ?? displayImage;
+      if (matchingProduct) {
+        const matchingVariant = matchingProduct.variants?.find(
+          (variant: any) =>
+            variant.color &&
+            colorObj.variants.some(
+              (colorVariant) =>
+                colorVariant.toLowerCase() === variant.color.toLowerCase(),
+            ),
+        );
+
+        displayImage =
+          matchingVariant?.designs?.[0]?.images?.[0] ??
+          matchingVariant?.images?.[0] ??
+          displayImage;
       }
 
       return {
         ...colorObj,
         displayImage,
-        hex: colorMapHex[colorObj.name.toLowerCase()] ?? "#cccccc",
       };
     });
   }, [products]);
 
+  const [activeColor, setActiveColor] = useState(
+    formattedColors[0]?.slug ?? "",
+  );
+
+  const activeColorData =
+    formattedColors.find((color) => color.slug === activeColor) ??
+    formattedColors[0];
+
+  if (!activeColorData) {
+    return null;
+  }
+
+  /*
+   * Get several representative products for the
+   * currently selected color.
+   *
+   * This only affects the homepage preview. The actual
+   * collection page performs its own paginated API query.
+   */
+  const previewProducts = products
+    .filter((product) =>
+      product.variants?.some(
+        (variant: any) =>
+          variant.color &&
+          activeColorData.variants.some(
+            (colorVariant) =>
+              colorVariant.toLowerCase() === variant.color.toLowerCase(),
+          ),
+      ),
+    )
+    .slice(0, 5);
+
   return (
-    <section className="py-20 bg-[#fcfbfa] dark:bg-black border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6">
-        
-        {/* HEADER BLOCK (Premium uppercase tracked styling) */}
-        <div className="text-center mb-16 space-y-1">
-          <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
-            Color Palettes
-          </p>
+    <section className="bg-[#faf8f5] py-12 dark:bg-black sm:py-14">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* =================================================
+            HEADER
+            ================================================= */}
 
-          <h2 className="font-serif text-3xl sm:text-4xl font-light text-neutral-800 dark:text-white tracking-wide uppercase">
-            Shop By Color
-          </h2>
+        <div className="mb-7 flex items-end justify-between">
+          <div>
+            <p className="text-[9px] font-medium uppercase tracking-[0.3em] text-[#9a8876]">
+              Explore
+            </p>
+
+            <h2 className="mt-1 font-serif text-3xl text-[#4d433a] dark:text-white">
+              Shop by color
+            </h2>
+          </div>
+
+          <Link
+            href={`/shop-by-color/${activeColorData.slug}`}
+            className="hidden text-[9px] font-semibold uppercase tracking-[0.2em] text-[#806f60] transition-colors hover:text-[#6A0F1F] sm:block"
+          >
+            View {activeColorData.name} →
+          </Link>
         </div>
 
-        {/* CIRCULAR EDITORIAL SWATCHES ROW (Centered & Fully Responsive) */}
-        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-10 md:gap-14">
-          {formattedColors.map((colorObj) => (
-            <Link
-              key={colorObj.name}
-              href={`/shop-by-color/${colorObj.name.toLowerCase()}`}
-              className="group flex flex-col items-center text-center space-y-4 shrink-0"
-            >
-              {/* 1. Immersive Circular Editorial Card with smooth S-curve scaling */}
-              <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 rounded-full overflow-hidden border border-neutral-100 dark:border-neutral-900 bg-neutral-50 shadow-xs group transition duration-500 ease-out">
-                <Image
-                  src={colorObj.displayImage}
-                  alt={colorObj.name}
-                  fill
-                  sizes="(max-width: 768px) 150px, 200px"
-                  className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                
-                {/* Micro overlay that softens on hover */}
-                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300" />
-              </div>
+        {/* =================================================
+                      COLOR NAVIGATION
+          ================================================= */}
 
-              {/* 2. Typographic details */}
-              <div className="flex flex-col items-center space-y-1.5">
-                {/* Color Name */}
-                <h3 className="text-[11px] font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-widest transition duration-200 group-hover:text-[#6A0F1F] dark:group-hover:text-[#e4e198]">
+        <div className="mb-8 flex flex-wrap justify-center gap-2">
+          {formattedColors.map((colorObj) => {
+            const isActive = colorObj.slug === activeColor;
+
+            return (
+              <Link
+                key={colorObj.slug}
+                href={`/shop-by-color/${colorObj.slug}`}
+                onMouseEnter={() => setActiveColor(colorObj.slug)}
+                onFocus={() => setActiveColor(colorObj.slug)}
+                className={` group relative flex items-center gap-2 overflow-hidden rounded-full border px-4 py-2.5 transition-all duration-300
+          ${
+            isActive
+              ? "border-[#6A0F1F] text-white"
+              : "border-[#ddd4ca] bg-white text-[#66594e] hover:border-[#6A0F1F]/40 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-300"
+          }
+        `}
+              >
+                {/* Animated capsule background */}
+
+                <span
+                  aria-hidden="true"
+                  className={` absolute inset-0 rounded-full bg-[#6A0F1F] transition-transform duration-300 ease-out ${isActive ? "translate-x-0" : "-translate-x-full"} group-hover:translate-x-0`}
+                />
+
+                {/* Color dot */}
+
+                <span
+                  className={` relative z-10 h-2.5 w-2.5 shrink-0 rounded-full border transition-transform duration-300 group-hover:scale-110
+            ${
+              colorObj.border
+                ? isActive
+                  ? "border-white/70"
+                  : "border-neutral-300"
+                : "border-black/10"
+            }
+          `}
+                  style={{
+                    backgroundColor: colorObj.color,
+                  }}
+                />
+
+                {/* Color name */}
+
+                <span
+                  className={` relative z-10 text-[9px] font-semibold uppercase tracking-[0.14em] transition-colors duration-300  ${isActive ? "text-white" : "group-hover:text-white"} `}
+                >
                   {colorObj.name}
-                </h3>
-                
-                {/* Miniature solid color indicator bubble */}
-                <div 
-                  className="w-4.5 h-4.5 rounded-full border border-neutral-200 dark:border-neutral-850 shadow-inner transition-transform duration-300 group-hover:scale-110"
-                  style={{ backgroundColor: colorObj.hex }}
-                />
-              </div>
+                </span>
 
-            </Link>
-          ))}
+                {/* Arrow */}
+
+                <span
+                  className={` relative z-10 text-xs transition-all duration-300
+            ${
+              isActive
+                ? "translate-x-0 opacity-100"
+                : "-translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+            }
+          `}
+                >
+                  →
+                </span>
+              </Link>
+            );
+          })}
         </div>
 
+        {/* =================================================
+                     PRODUCT PREVIEW
+         ================================================= */}
+
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+          {previewProducts.length > 0 ? (
+            previewProducts.map((product) => (
+              <Link
+                key={product.productId}
+                href={`/shop-by-color/${activeColorData.slug}`}
+                className=" group relative w-[calc(50%-6px)] overflow-hidden rounded-xl bg-[#eee8e1] sm:w-[calc(25%-12px)] lg:w-[calc(20%-13px)]"
+              >
+                <div className="relative aspect-4/5">
+                  <Image
+                    src={(() => {
+                      const variant = product.variants?.find(
+                        (v: any) =>
+                          v.color &&
+                          activeColorData.variants.some(
+                            (c) => c.toLowerCase() === v.color.toLowerCase(),
+                          ),
+                      );
+
+                      return (
+                        variant?.designs?.[0]?.images?.[0] ??
+                        variant?.images?.[0] ??
+                        "/Assets/Images/Newplaceholder.png"
+                      );
+                    })()}
+                    alt={product.name}
+                    fill
+                    sizes=" (max-width: 640px) 48vw, (max-width: 1024px) 24vw, 20vw"
+                    className=" object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  />
+
+                  <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/50 to-transparent p-3 pt-12">
+                    <span className="text-[9px] font-semibold uppercase tracking-[0.15em] text-white">
+                      {activeColorData.name}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))
+          ) : (
+            <div className="w-full flex h-40 items-center justify-center rounded-xl border border-dashed border-[#d8cec3]">
+              <p className="text-xs text-[#9a8876]">No products available</p>
+            </div>
+          )}
+        </div>
+
+        {/* =================================================
+            MOBILE COLLECTION LINK
+            ================================================= */}
+
+        <div className="mt-6 text-center sm:hidden">
+          <Link
+            href={`/shop-by-color/${activeColorData.slug}`}
+            className="text-[9px] font-semibold uppercase tracking-[0.2em] text-[#806f60]"
+          >
+            View {activeColorData.name} collection →
+          </Link>
+        </div>
       </div>
     </section>
   );
