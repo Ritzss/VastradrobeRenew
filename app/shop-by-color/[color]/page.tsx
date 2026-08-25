@@ -15,14 +15,10 @@ type Props = {
    METADATA
    ========================================================= */
 
-export async function generateMetadata({
-  params,
-}: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { color } = await params;
 
-  const selectedColor = SHOP_BY_COLORS.find(
-    (c) => c.slug === color,
-  );
+  const selectedColor = SHOP_BY_COLORS.find((c) => c.slug === color);
 
   if (!selectedColor) {
     return {};
@@ -73,14 +69,10 @@ export async function generateMetadata({
    PAGE
    ========================================================= */
 
-export default async function ColorPage({
-  params,
-}: Props) {
+export default async function ColorPage({ params }: Props) {
   const { color } = await params;
 
-  const selectedColor = SHOP_BY_COLORS.find(
-    (c) => c.slug === color,
-  );
+  const selectedColor = SHOP_BY_COLORS.find((c) => c.slug === color);
 
   if (!selectedColor) {
     notFound();
@@ -93,8 +85,7 @@ export default async function ColorPage({
      request. ColorProductsClient handles infinite scrolling.
      ======================================================= */
 
-  const colorQuery =
-    selectedColor.variants.join(",");
+  const colorQuery = selectedColor.variants.join(",");
 
   const response = await fetch(
     `${process.env.IMS_BASE_URL}/api/ims/public/products?color=${encodeURIComponent(
@@ -108,10 +99,7 @@ export default async function ColorPage({
   );
 
   if (!response.ok) {
-    console.error(
-      "Color products API failed:",
-      response.status,
-    );
+    console.error("Color products API failed:", response.status);
   }
 
   const data = response.ok
@@ -126,11 +114,9 @@ export default async function ColorPage({
         },
       };
 
-  const initialProducts =
-    data.products || [];
+  const initialProducts = data.products || [];
 
-  const total =
-    data.pagination?.total || 0;
+  const total = data.pagination?.total || 0;
 
   /* =======================================================
      STRUCTURED DATA
@@ -184,18 +170,14 @@ export default async function ColorPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbSchema,
-          ),
+          __html: JSON.stringify(breadcrumbSchema),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            collectionSchema,
-          ),
+          __html: JSON.stringify(collectionSchema),
         }}
       />
 
@@ -216,10 +198,7 @@ export default async function ColorPage({
               aria-label="Breadcrumb"
               className="flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-[#927f6c]"
             >
-              <Link
-                href="/"
-                className="hover:text-[#5f5143] transition-colors"
-              >
+              <Link href="/" className="hover:text-[#5f5143] transition-colors">
                 Home
               </Link>
 
@@ -234,13 +213,9 @@ export default async function ColorPage({
                 Shop by Color
               </Link> */}
 
-              <span className="text-[#c5b8aa]">
-                /
-              </span>
+              <span className="text-[#c5b8aa]">/</span>
 
-              <span className="text-[#5f5143]">
-                {selectedColor.name}
-              </span>
+              <span className="text-[#5f5143]">{selectedColor.name}</span>
             </nav>
 
             {/* Hero card */}
@@ -267,31 +242,26 @@ export default async function ColorPage({
                   </div>
 
                   <h1 className="sr-only">
-                    {selectedColor.name} Clothing
-                    Collection | VastraDrobe
+                    {selectedColor.name} Clothing Collection | VastraDrobe
                   </h1>
 
                   <h2 className="mt-7 max-w-3xl font-serif text-5xl leading-[0.95] tracking-[-0.03em] text-[#4d433a] sm:text-6xl lg:text-8xl">
-                    {selectedColor.name}
-                    <span className="block text-[#776759]">
-                      Collection
+                    <span style={{ color: selectedColor.color }}>
+                      {selectedColor.name}
                     </span>
+
+                    <span className="block text-[#776759]">Collection</span>
                   </h2>
 
                   <p className="mt-7 max-w-xl text-sm leading-7 text-[#776a5e] sm:text-base">
-                    A curated edit of premium clothing
-                    in carefully selected{" "}
-                    {selectedColor.name.toLowerCase()}{" "}
-                    shades. From everyday essentials
-                    to occasion-ready pieces.
+                    A curated edit of premium clothing in carefully selected{" "}
+                    {selectedColor.name.toLowerCase()} shades. From everyday
+                    essentials to occasion-ready pieces.
                   </p>
 
                   <div className="mt-9 flex flex-wrap items-center gap-3">
                     <span className="rounded-full border border-[#cfc2b5] bg-white/50 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6c5d50]">
-                      {total}{" "}
-                      {total === 1
-                        ? "Piece"
-                        : "Pieces"}
+                      {total} {total === 1 ? "Piece" : "Pieces"}
                     </span>
 
                     <span className="rounded-full border border-[#cfc2b5] bg-white/50 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6c5d50]">
@@ -320,9 +290,12 @@ export default async function ColorPage({
                           VastraDrobe
                         </p>
 
-                        <p className="mt-2 font-serif text-2xl text-white">
+                        <span
+                          className="mt-2 font-serif text-2xl text-white"
+                          style={{ color: selectedColor.color }}
+                        >
                           {selectedColor.name}
-                        </p>
+                        </span>
 
                         {/* <p className="mt-1 text-[8px] uppercase tracking-[0.3em] text-white/60">
                           Edit
