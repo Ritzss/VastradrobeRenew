@@ -80,15 +80,6 @@ export const SHOP_BY_COLORS = [
   },
 
   {
-    name: "Red",
-    slug: "red",
-    color: "#DC2626",
-    variants: [
-      "red",
-    ],
-  },
-
-  {
     name: "Purple",
     slug: "purple",
     color: "#7C3AED",
@@ -98,4 +89,12 @@ export const SHOP_BY_COLORS = [
     ],
   },
 
+  {
+    name: "Red",
+    slug: "red",
+    color: "#DC2626",
+    variants: [
+      "red",
+    ],
+  },
 ];
