@@ -244,7 +244,7 @@ const Navbar = () => {
 
                 {/* Collections Dropdown Panel (Simple text list) */}
                 {collectionOpen && (
-                  <div className="absolute left-0 top-full pt-4 w-44 z-50 animate-fadeIn">
+                  <div className="absolute left-0 top-full pt-4 w-50 z-50 animate-fadeIn">
                     <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-xl shadow-md py-2 text-left">
                       <Link
                         href="/women#categoryPage"
