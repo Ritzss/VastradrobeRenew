@@ -194,133 +194,91 @@ export default function ShopByColor({ products }: Props) {
         </div>
 
         {/* =================================================
-    PRODUCT PREVIEW
-    ================================================= */}
+                      PRODUCT PREVIEW
+          ================================================= */}
 
-<div className="relative">
-  <div className="flex items-end justify-center gap-3 sm:gap-5 lg:gap-6">
-    {previewProducts.map((product, index) => (
-      <Link
-  key={product.productId}
-  href={`/shop-by-color/${activeColorData.slug}`}
-  className={`
-    group relative
-    w-[calc(50%-6px)]
-    sm:w-[calc(25%-12px)]
-    lg:w-[calc(20%-13px)]
-    ${index % 2 === 1 ? "translate-y-5" : ""}
-  `}
->
-  {/* Color glow behind image */}
-  <div
-    className="
-      absolute
-      -inset-1
-      rounded-[1.25rem]
-      opacity-0
-      blur-xl
-      transition-opacity
-      duration-700
-      group-hover:opacity-25
-    "
-    style={{
-      backgroundColor: activeColorData.color,
-    }}
-  />
+        <div className="relative">
+          <div className="flex items-end justify-center gap-3 sm:gap-5 lg:gap-6">
+            {previewProducts.map((product, index) => (
+              <Link
+                key={product.productId}
+                href={`/shop-by-color/${activeColorData.slug}`}
+                className={` group relative w-[calc(50%-6px)] sm:w-[calc(25%-12px)] lg:w-[calc(20%-13px)] ${index % 2 === 1 ? "translate-y-5" : ""}`}
+              >
+                {/* Color glow behind image */}
+                <div
+                  className=" absolute -inset-1 rounded-[1.25rem] opacity-0 blur-xl transition-opacity duration-700 group-hover:opacity-25"
+                  style={{
+                    backgroundColor: activeColorData.color,
+                  }}
+                />
 
-  {/* Image frame */}
-  <div
-    className=" relative aspect-4/5 overflow-hidden rounded-[1.15rem] bg-[#eee8e1] ring-1 ring-black/4 transition-all duration-500 group-hover:-translate-y-1 group-hover:ring-black/10"
-  >
-    <Image
-      src={(() => {
-        const variant = product.variants?.find(
-          (v: any) =>
-            v.color &&
-            activeColorData.variants.some(
-              (c) =>
-                c.toLowerCase() ===
-                v.color.toLowerCase(),
-            ),
-        );
+                {/* Image frame */}
+                <div className=" relative aspect-4/5 overflow-hidden rounded-[1.15rem] bg-[#eee8e1] ring-1 ring-black/4 transition-all duration-500 group-hover:-translate-y-1 group-hover:ring-black/10">
+                  <Image
+                    src={(() => {
+                      const variant = product.variants?.find(
+                        (v: any) =>
+                          v.color &&
+                          activeColorData.variants.some(
+                            (c) => c.toLowerCase() === v.color.toLowerCase(),
+                          ),
+                      );
 
-        return (
-          variant?.designs?.[0]?.images?.[0] ??
-          variant?.images?.[0] ??
-          "/Assets/Images/Newplaceholder.png"
-        );
-      })()}
-      alt={product.name}
-      fill
-      sizes="
-        (max-width: 640px) 48vw,
-        (max-width: 1024px) 24vw,
-        20vw
-      "
-      className="
-        object-cover
-        object-top
-        transition-transform
-        duration-700
-        ease-out
-        group-hover:scale-[1.035]
-      "
-    />
+                      return (
+                        variant?.designs?.[0]?.images?.[0] ??
+                        variant?.images?.[0] ??
+                        "/Assets/Images/Newplaceholder.png"
+                      );
+                    })()}
+                    alt={product.name}
+                    fill
+                    sizes=" (max-width: 640px) 48vw, (max-width: 1024px) 24vw, 20vw"
+                    className=" object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+                  />
 
-    {/* Editorial light sweep */}
-    <div
-      className=" pointer-events-none absolute inset-0 translate-x-[-120%] bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-[120%]"
-    />
+                  {/* Editorial light sweep */}
+                  <div className=" pointer-events-none absolute inset-0 translate-x-[-120%] bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-[120%]" />
 
-    {/* Minimal color accent */}
-    <div
-      className="
-        absolute
-        bottom-3
-        left-3
-        h-1
-        w-8
-        rounded-full
-        transition-all
-        duration-500
-        group-hover:w-14
-      "
-      style={{
-        backgroundColor: activeColorData.color,
-      }}
-    />
-  </div>
-</Link>
-    ))}
-  </div>
+                  {/* Minimal color accent */}
+                  <div
+                    className=" absolute bottom-3 left-3 h-1 w-8 rounded-full transition-all duration-500 group-hover:w-14"
+                    style={{
+                      backgroundColor: activeColorData.color,
+                    }}
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
 
-  {/* Selected color label */}
+          {/* Selected color label */}
 
-  <div className="mt-10 flex items-center justify-center gap-4">
-    <span
-      className="h-2.5 w-2.5 rounded-full"
-      style={{
-        backgroundColor: activeColorData.color,
-      }}
-    />
+          <div className="mt-10 flex items-center justify-center gap-4">
+            <span
+              className="h-2.5 w-2.5 rounded-full"
+              style={{
+                backgroundColor: activeColorData.color,
+              }}
+            />
 
-    <span
-      className="font-serif text-xl"
-      style={{
-        color: activeColorData.color,
-      }}
-    >
-      {activeColorData.name}
-    </span>
+            <span
+              className="font-serif text-xl"
+              style={{
+                color: activeColorData.color,
+              }}
+            >
+              {activeColorData.name}
+            </span>
 
-    <Link
-      href={`/shop-by-color/${activeColorData.slug}`}
-      className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#8d7d6d] transition-colors hover:text-[#6A0F1F]"
-    >
-      Explore →
-    </Link>
-  </div>
-</div>
+            <Link
+              href={`/shop-by-color/${activeColorData.slug}`}
+              className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#8d7d6d] transition-colors hover:text-[#6A0F1F]"
+            >
+              Explore →
+            </Link>
+          </div>
+        </div>
 
         {/* =================================================
             MOBILE COLLECTION LINK
