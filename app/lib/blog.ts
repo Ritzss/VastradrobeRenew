@@ -1,10 +1,23 @@
 export interface BlogSection {
-  type: "paragraph" | "heading" | "list" | "image" | "Intro";
+  type: "paragraph" | "heading" | "list" | "image" | "Intro" | "table" | "faq";
+
   value?: string;
+
   items?: string[];
+
   src?: string;
+
   style?: "decimal" | "disc";
+
   layout?: "default" | "side-left" | "side-right";
+
+  // Table content
+  headers?: string[];
+  rows?: string[][];
+
+  // FAQ content
+  question?: string;
+  answer?: string;
 }
 
 export interface BlogItem {
@@ -727,686 +740,737 @@ export const blogs: BlogItem[] = [
       },
     ],
   },
-{
-  title: "How to Choose the Right Clothing Colors for Your Skin Tone",
-  slug: "how-to-choose-the-right-clothing-colors-for-your-skin-tone",
-  excerpt:
-    "The right clothing color can make your complexion look brighter, your outfit more balanced, and your overall style more confident. Learn how to identify your skin tone and undertone, discover flattering colors, understand contrast and color intensity, and build a wardrobe that works with your natural complexion......See More",
-
-  coverImage:
-      "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787742058/pexels-yaroslava-borz-126286496-11128857_y7xouf.jpg",
-
-  content: [
-    {
-      type: "Intro",
-      value:
-        "Have you ever noticed that a color can look amazing on one person but completely different on someone else? You put on the same shade expecting the same effect, yet somehow it makes your complexion look dull, while it makes someone else look brighter and more polished. That is not just coincidence. The relationship between your skin, clothing color, hair, lighting, and contrast plays a major role in how an outfit looks. Choosing the right clothing colors is not about following strict fashion rules or deciding that certain shades are permanently off-limits. It is about understanding your skin tone, identifying your undertone, recognizing the level of contrast that suits you, and learning how different shades interact with your natural coloring. Once you understand these basics, shopping becomes easier, outfit combinations become more predictable, and your wardrobe starts working together instead of containing twenty random colors that refuse to cooperate. In this guide, we will explore warm, cool, neutral, and olive undertones, discuss skin depth and contrast, explain how to choose colors for casual, formal, and ethnic wear, and show you how to build a practical personal color palette.",
-    },
-
-    {
-      type: "heading",
-      value: "Why Clothing Color Matters More Than You Think",
-    },
-
-    {
-      type: "image",
-      src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787742058/pexels-yaroslava-borz-126286496-11128857_y7xouf.jpg",
-      value:
-        "Color is one of the first things people notice about an outfit. Before someone studies the fabric, stitching, silhouette, or small design details, they usually notice the overall visual impression created by color.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "The right clothing color can make your complexion appear brighter, bring attention toward your face, create better contrast, and make even a simple outfit feel intentional. This is especially important for shirts, T-shirts, kurtas, jackets, dresses, and other pieces that sit close to your face.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "The wrong shade does not necessarily mean the garment looks bad. Sometimes the color simply competes with your natural coloring. It may be too close to your skin, too intense, too muted, too warm, or too cool. The useful part is that you can usually adjust the shade rather than abandoning the entire color family.",
-    },
-
-    {
-      type: "heading",
-      value: "Skin Tone vs. Skin Undertone",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Skin tone and skin undertone are two different things. Your skin tone describes the visible depth of your complexion, such as fair, light, medium, tan, dusky, or deep. Your skin tone can appear slightly different depending on sunlight, tanning, seasons, and lighting.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Your undertone is the subtle color underneath the surface of your skin. The most common categories are warm, cool, and neutral. Olive is also commonly discussed separately because olive complexions can contain a muted green, golden, or slightly grey quality that does not always fit neatly into a warm-versus-cool system.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "This distinction matters because two people with a similar skin depth can have different undertones and therefore look better in different versions of the same color. A medium complexion with a warm undertone and a medium complexion with a cool undertone may both look great in blue, but the most flattering blue may be completely different.",
-    },
-
-    {
-      type: "heading",
-      value: "How to Identify Your Skin Undertone",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "You do not need professional equipment to get a useful idea of your undertone. Natural daylight and a few simple comparisons are enough to give you a strong starting point. No single test is perfect, so it is better to combine several clues.",
-    },
-
-    {
-      type: "list",
-      style: "decimal",
-      items: [
-        "Vein test: Look at the veins on your wrist in natural daylight. Green-looking veins can indicate a warm undertone, while blue or purple-looking veins can indicate a cool undertone. A mixture can suggest neutral.",
-        "Gold and silver test: Compare gold and silver jewelry against your skin. If gold appears more harmonious, you may lean warm. If silver looks more natural, you may lean cool. If both work equally well, you may be neutral.",
-        "White and cream test: Hold pure white and cream or ivory near your face. If cream makes your complexion look more balanced, you may lean warm. If crisp white looks cleaner, you may lean cool.",
-        "Sun reaction: How your skin reacts to sunlight can provide another clue. However, this should not be treated as a definitive undertone test.",
-        "Color comparison: Compare different versions of the same color. Try navy, cobalt, sky blue, and dusty blue instead of judging the entire blue family as one color.",
-      ],
-    },
-
-    {
-      type: "heading",
-      value: "Understanding Warm Undertones",
-    },
-
-    {
-  type: "image",
-  src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787742052/pexels-nuta-sorokina-11059400_zmyet1.jpg",
-  value:
-    "Cool undertones often pair naturally with blue-based shades, jewel tones, crisp neutrals, and cooler reds.",
-},
-
-    {
-      type: "paragraph",
-      value:
-        "Warm undertones often contain golden, yellow, peach, or warm-olive qualities. Clothing colors with similar warmth can create a natural relationship with the complexion and make an outfit feel cohesive.",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Cream and ivory",
-        "Camel and beige",
-        "Caramel and chocolate brown",
-        "Rust and terracotta",
-        "Mustard and warm yellow",
-        "Olive and forest green",
-        "Coral and peach",
-        "Brick red",
-        "Warm burgundy",
-      ],
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "For a casual outfit, try a cream T-shirt with olive trousers and brown footwear. For smart casual dressing, a beige shirt with chocolate trousers can create a sophisticated combination. For evening wear, deeper shades such as forest green, rust, warm burgundy, and dark brown can add richness without looking overly bright.",
-    },
-
-    {
-      type: "heading",
-      value: "Understanding Cool Undertones",
-    },
-
-    {
-      type: "image",
-      src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787742049/pexels-m-zass-2155993020-34794167_bonbyv.jpg",
-      value:
-        "Cool undertones often pair naturally with blue-based shades, jewel tones, crisp neutrals, and cooler reds.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Cool undertones generally contain pink, rosy, bluish, or cool-red qualities. Colors with blue, violet, or cooler red characteristics can create a clean and balanced appearance.",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Pure white",
-        "Navy",
-        "Charcoal",
-        "Cobalt blue",
-        "Sapphire blue",
-        "Emerald",
-        "Lavender",
-        "Plum",
-        "Berry",
-        "Burgundy",
-        "Cool pink",
-      ],
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "For everyday wear, a crisp white T-shirt with navy denim is an easy combination. For formal clothing, light blue with charcoal or navy is a reliable choice. For evening outfits, burgundy, wine, emerald, and deep blue can provide strong color while remaining sophisticated.",
-    },
-
-    {
-      type: "heading",
-      value: "Understanding Neutral Undertones",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Neutral undertones sit between warm and cool. This usually gives you considerable flexibility because you can wear both warm and cool shades, provided the intensity and contrast are balanced.",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Soft white",
-        "Cream",
-        "Taupe",
-        "Stone",
-        "Beige",
-        "Navy",
-        "Charcoal",
-        "Dusty rose",
-        "Muted teal",
-        "Sage",
-        "Mauve",
-        "Berry",
-        "Medium grey",
-      ],
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "For neutral undertones, contrast and saturation can sometimes matter more than whether a shade is technically warm or cool. This makes neutral coloring particularly useful for experimenting with different fashion styles.",
-    },
-
-    {
-      type: "heading",
-      value: "What About Olive Undertones?",
-    },
-
-    {
-      type: "image",
-      src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787743419/pexels-nyaraaquino-11701105_hasylg.jpg",
-      value:
-        "Olive complexions often look especially harmonious in rich, earthy, jewel-inspired, and slightly muted shades.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Olive undertones can be difficult to classify because they may contain a mixture of green, golden, neutral, or slightly grey qualities. A shade that is described as warm or cool on paper may therefore look different against olive skin than expected.",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Deep teal",
-        "Forest green",
-        "Olive",
-        "Chocolate brown",
-        "Cream",
-        "Warm navy",
-        "Burgundy",
-        "Dusty rose",
-        "Muted mustard",
-        "Terracotta",
-      ],
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "If very bright or neon colors feel overpowering, experiment with slightly muted versions. Deep teal instead of bright turquoise, dusty rose instead of neon pink, or forest green instead of extremely bright green can create a more balanced effect.",
-    },
-
-    {
-      type: "heading",
-      value: "Skin Depth Also Changes How Colors Look",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Undertone is important, but skin depth also influences how colors appear. A pale yellow shirt creates a different visual relationship against a deep complexion than it does against a very light complexion. Neither combination is automatically better. What matters is the level of contrast you want.",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Light complexions can create striking contrast with navy, burgundy, forest green, chocolate brown, charcoal, emerald, and rust.",
-        "Medium complexions are highly versatile and can work with navy, olive, cream, burgundy, teal, terracotta, mustard, forest green, and chocolate brown.",
-        "Dusky and deep complexions can look especially striking in emerald, cobalt, royal blue, burgundy, fuchsia, mustard, bright white, deep purple, forest green, and terracotta.",
-      ],
-    },
-
-    {
-      type: "heading",
-      value: "Understanding Contrast in Clothing",
-    },
-
-    {
-      type: "image",
-      src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787742052/pexels-o-l-the-creator-2154260838-34169346_smzfr4.jpg",
-      value:
-        "Contrast determines how strongly the colors in an outfit stand apart from each other. Similar shades create a softer effect, while stronger differences create a sharper appearance.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Contrast describes the difference in brightness and depth between your skin, hair, and clothing. Low-contrast outfits use colors with similar levels of lightness. Medium-contrast outfits create a noticeable difference. High-contrast outfits create a dramatic visual separation.",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Low contrast: Cream shirt, beige trousers, and tan shoes.",
-        "Medium contrast: White shirt, olive trousers, and brown shoes.",
-        "High contrast: White shirt, black trousers, and black shoes.",
-      ],
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Low contrast can feel soft and minimalist. Medium contrast is versatile for everyday dressing. High contrast creates a sharper and more structured appearance. There is no universally correct contrast level. The goal is to understand the effect you prefer.",
-    },
-
-    {
-      type: "heading",
-      value: "Color Intensity Matters Too",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Hue is only one part of color. Intensity matters just as much. Sage green and neon green are technically the same color family, but they create completely different visual effects. The same applies to dusty rose and bright fuchsia, sky blue and cobalt, or brick red and scarlet.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "If a color works with your undertone but feels too strong, try a softer version. If it feels dull, try a richer or deeper version. Often the problem is not the color family but the specific shade.",
-    },
-
-    {
-      type: "heading",
-      value: "Choosing Colors for Shirts and T-Shirts",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Tops deserve extra attention because they sit close to your face. Start with reliable neutrals such as white, off-white, black, navy, grey, olive, beige, and dark denim. Then add colors that complement your undertone.",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Warm undertones: rust, mustard, olive, terracotta, coral, and cream.",
-        "Cool undertones: cobalt, burgundy, emerald, lavender, navy, and berry.",
-        "Neutral undertones: dusty rose, teal, taupe, sage, soft blue, and mauve.",
-        "Olive undertones: deep teal, forest green, burgundy, chocolate, cream, and muted mustard.",
-      ],
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "If you are uncertain about a color, try it farther away from your face first. A pair of trousers, shoes, jacket, bag, or cap allows you to experiment without making the shade the dominant element around your complexion.",
-    },
-
-    {
-      type: "heading",
-      value: "Choosing Trouser Colors",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Trousers provide more freedom because they sit farther away from your face. Black, navy, charcoal, beige, khaki, olive, brown, cream, light denim, and dark denim are useful wardrobe foundations.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "This is also where you can experiment with colors that may feel too strong as a top. If mustard is overwhelming near your face, mustard trousers can still look excellent with a cream, white, navy, or brown shirt.",
-    },
-
-    {
-      type: "heading",
-      value: "Choosing Jacket and Overshirt Colors",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Outer layers are an excellent way to experiment with stronger colors. A rust jacket can be balanced with a cream T-shirt and dark denim. A cobalt overshirt can work with a white T-shirt and black trousers. A teal jacket can be softened with beige trousers and neutral footwear.",
-    },
-
-    {
-      type: "heading",
-      value: "Best Colors for Formal Wear",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Formal clothing usually benefits from controlled combinations. White with navy, white with charcoal, light blue with navy, cream with brown, burgundy with charcoal, black with white, beige with dark brown, and olive with cream are reliable combinations.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "For interviews and professional environments, neutral colors are often a practical starting point because they keep attention on your face and communication. Personality can still appear through shirts, ties, pocket squares, watches, belts, footwear, or subtle color accents.",
-    },
-
-    {
-      type: "heading",
-      value: "Best Colors for Casual Wear",
-    },
-
-    {
-      type: "image",
-      src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787742046/pexels-martin-de-arriba-25131490-6919889_pgfxdq.jpg",
-      value:
-        "Casual fashion provides more freedom to experiment with colors, layering, relaxed silhouettes, and statement pieces.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Casual fashion allows considerably more experimentation. Try olive with cream, navy with beige, brown with off-white, burgundy with charcoal, dusty blue with white, forest green with beige, rust with dark denim, black with grey, or teal with cream.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "A simple rule is to let one part of the outfit become the visual focus. If your shirt is bold, keep your trousers relatively neutral. If your trousers are colorful, use a simpler top. This keeps experimentation from becoming visual chaos.",
-    },
-
-    {
-      type: "heading",
-      value: "Choosing Colors for Indian Ethnic Wear",
-    },
-
-    {
-      type: "image",
-      src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787742061/raju-kumar-lpLA-7i79_w-unsplash_gwtz05.jpg",
-      value:
-        "Indian fashion offers a particularly wide range of colors, from earthy neutrals and jewel tones to festive maroons, saffrons, emeralds, royal blues, golds, and deep reds.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Indian ethnic wear provides an excellent opportunity to experiment with color. Kurtas, sarees, lehengas, sherwanis, Nehru jackets, salwar suits, and Indo-western outfits often combine multiple shades through embroidery, borders, prints, fabrics, and accessories.",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Warm undertones: mustard, saffron, rust, maroon, terracotta, olive, warm red, peach, gold, and cream.",
-        "Cool undertones: emerald, royal blue, sapphire, plum, wine, magenta, cool pink, burgundy, and silver.",
-        "Neutral undertones: teal, dusty rose, jade, mauve, soft lavender, taupe, berry, and medium blue.",
-        "Olive undertones: deep green, muted teal, burgundy, chocolate, cream, mustard, and earthy reds.",
-      ],
-    },
-
-    {
-      type: "heading",
-      value: "Gold vs. Silver Accessories",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Accessories can reinforce the temperature of an outfit. Warm palettes often pair naturally with gold, antique gold, bronze, and copper. Cool palettes can work particularly well with silver, white gold, and platinum-like finishes. Neutral undertones can usually move between both.",
-    },
-
-    {
-      type: "heading",
-      value: "How to Use the 60-30-10 Rule",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "The 60-30-10 rule is an easy way to balance colors. Think of approximately 60 percent of the outfit as the dominant color, 30 percent as the secondary color, and 10 percent as an accent. For example, navy trousers and a jacket can dominate the outfit, cream can provide the secondary color, and burgundy can appear through a small accessory.",
-    },
-
-    {
-      type: "heading",
-      value: "Monochromatic Dressing",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Monochromatic dressing uses different shades of one color. A light blue shirt with medium blue trousers and a navy jacket is one example. Cream, beige, and camel create another. This approach is useful when you want a polished outfit without spending twenty minutes trying to negotiate peace between your clothes.",
-    },
-
-    {
-      type: "heading",
-      value: "Analogous and Complementary Colors",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Analogous colors sit close together on the color wheel, such as blue and teal or yellow and orange. They usually feel harmonious. Complementary colors sit opposite each other, such as blue and orange or green and red, creating stronger contrast. For everyday clothing, muted combinations such as navy with rust are often easier to wear than extremely bright complementary colors.",
-    },
-
-    {
-      type: "heading",
-      value: "Seasonal Color Choices",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Summer: white, cream, beige, sky blue, soft green, pale yellow, dusty pink, and light grey.",
-        "Monsoon: navy, olive, charcoal, burgundy, dark green, brown, and black.",
-        "Winter: burgundy, forest green, chocolate brown, navy, charcoal, deep purple, rust, and wine.",
-      ],
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Seasonal colors can also work naturally with seasonal fabrics. Lightweight cotton and linen pair well with lighter palettes, while richer colors and heavier layers create visual warmth during cooler months.",
-    },
-
-    {
-      type: "heading",
-      value: "How Fabric Changes the Appearance of Color",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "The same color can look surprisingly different depending on the fabric. Cotton, linen, denim, wool, silk, satin, and knitted fabrics reflect and absorb light differently. Shiny fabrics can make colors appear brighter and more dramatic, while matte or textured fabrics can make them appear softer.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Lighting also matters. A color photographed under strong studio lighting can look completely different in a bedroom mirror or outside in natural daylight. This is why important clothing purchases should ideally be checked in natural light.",
-    },
-
-    {
-      type: "heading",
-      value: "Common Color Mistakes to Avoid",
-    },
-
-    {
-      type: "list",
-      style: "disc",
-      items: [
-        "Choosing colors only based on whether your skin is fair, medium, dusky, or deep.",
-        "Assuming one shade represents an entire color family.",
-        "Wearing several strong statement colors together without balance.",
-        "Ignoring fit because the color looks good.",
-        "Buying something only because the color is trending.",
-        "Judging colors only under artificial lighting.",
-        "Forgetting that personal preference is part of good styling.",
-      ],
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Even the most flattering color cannot rescue a garment that fits badly. Color, fabric, silhouette, proportion, and fit work together. A great wardrobe is not built from color theory alone.",
-    },
-
-    {
-      type: "heading",
-      value: "How to Make a Difficult Color Work",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "If you love a color that does not naturally complement your undertone, you do not need to remove it from your wardrobe. Move it farther away from your face. Use it as trousers, shoes, a bag, cap, scarf, or jacket. You can also choose a muted version of the same color or balance it with cream, beige, navy, grey, black, or white.",
-    },
-
-    {
-      type: "heading",
-      value: "Building Your Personal Color Palette",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Instead of buying clothes in random colors, create a personal palette. Start with three core neutrals, add three supporting colors, and then choose one or two statement shades. For example, navy, cream, and charcoal can form the foundation. Olive, burgundy, and dusty blue can provide variety, while rust or emerald can become statement colors.",
-    },
-
-    {
-      type: "list",
-      style: "decimal",
-      items: [
-        "Choose three core neutral colors that can form most of your wardrobe.",
-        "Choose three supporting shades that complement your complexion.",
-        "Choose one or two statement colors that express your personality.",
-        "Check that new purchases can be worn with at least three existing pieces.",
-        "Use accessories to experiment with colors before committing to larger garments.",
-      ],
-    },
-
-    {
-      type: "heading",
-      value: "How to Shop More Intelligently",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Before buying something new, ask yourself whether the color complements your complexion, whether you can combine it with at least three things you already own, whether it looks good in natural light, whether it fits your usual style, and whether you would still wear it if it were no longer trending.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "This simple checklist can reduce impulse purchases. A color may look fantastic in a product photograph but still fail to work with the rest of your wardrobe. The best purchase is usually one that creates several new outfit combinations rather than one isolated look.",
-    },
-
-    {
-      type: "heading",
-      value: "Colors for a Modern Men's Wardrobe",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "A practical men's wardrobe can start with white, navy, black, grey, beige, olive, and brown. Warm undertones can introduce rust, mustard, terracotta, olive, and cream. Cool undertones can add burgundy, cobalt, emerald, navy, and lavender. Neutral undertones can experiment with teal, dusty blue, sage, mauve, and taupe.",
-    },
-
-    {
-      type: "heading",
-      value: "Colors for a Modern Women's Wardrobe",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "A versatile women's wardrobe can use cream, white, black, navy, beige, denim, and brown as its foundation. Warm undertones can explore coral, rust, peach, mustard, terracotta, and olive. Cool undertones can explore emerald, sapphire, berry, plum, fuchsia, and lavender. Neutral undertones can experiment with dusty rose, teal, mauve, sage, and soft lavender.",
-    },
-
-    {
-      type: "heading",
-      value: "Color and Personal Style",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Your ideal wardrobe is not simply a collection of technically flattering colors. It should also reflect your personality. Someone who loves minimalist fashion may prefer cream, black, navy, grey, and beige. Someone who enjoys streetwear may prefer cobalt, burgundy, olive, orange, or purple. Someone who loves traditional fashion may gravitate toward maroon, emerald, mustard, saffron, royal blue, and gold.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Color analysis can provide useful guidance, but your lifestyle and personal taste ultimately determine what you will enjoy wearing. The best wardrobe is one that looks good and feels like you.",
-    },
-
-    {
-      type: "heading",
-      value: "Discover Your Best Colors with VastraDrobe",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "At VastraDrobe, we believe fashion should make getting dressed easier, not more confusing. Whether you prefer clean neutrals, earthy tones, expressive streetwear, contemporary casualwear, or traditional Indian fashion, understanding color gives you another tool for creating better outfits.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Start with versatile neutrals. Discover shades that complement your undertone. Experiment with contrast. Add a few statement colors. Most importantly, choose clothes that fit your lifestyle and make you feel comfortable and confident. You do not need hundreds of clothes. You need clothes that work together.",
-    },
-
-    {
-      type: "heading",
-      value: "Final Thoughts",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "Choosing clothing colors does not require memorizing hundreds of fashion rules. Start by understanding your skin tone and undertone, then experiment with warm, cool, neutral, and olive-friendly shades. Pay attention to contrast, color intensity, fabric, lighting, and the way different colors interact with your complexion.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "But do not let color theory become another set of restrictions. If you love a color that is not traditionally recommended for your undertone, find another way to wear it. Move it farther away from your face, choose a softer version, or balance it with a neutral. Fashion should give you more possibilities, not fewer.",
-    },
-
-    {
-      type: "paragraph",
-      value:
-        "There is no single best color for everyone. The best color is the one that complements your natural features, works with your wardrobe, fits the occasion, and makes you feel like yourself. Once you discover those colors, getting dressed becomes much easier because your wardrobe starts working together instead of behaving like twelve different people forced into the same group project.",
-    },
-  ],
-}
+  {
+    title: "How to Choose the Right Clothing Colors for Your Skin Tone",
+    slug: "how-to-choose-the-right-clothing-colors-for-your-skin-tone",
+    excerpt:
+      "Discover how to choose clothing colors that complement your skin tone and undertone. Learn about warm, cool, neutral, and olive undertones, contrast, color intensity, outfit combinations, and how to build a personal color palette for a more confident wardrobe.",
+    coverImage:
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747341/female-model-casual-clothes-shrugging-her-shoulders-while-standing-near-her-wardrobe-having-hesitations-what-wear-pretty-woman-having-nothing-wear-clothing-fashionable-people-concept_js7bxv.jpg",
+
+    content: [
+      {
+        type: "Intro",
+        value:
+          "Have you ever noticed that a color can look amazing on one person but completely different on someone else? You put on the same shade expecting the same effect, yet somehow it makes your complexion look dull while it makes someone else look brighter and more polished. That is not just coincidence. The relationship between your skin, clothing color, hair, lighting, and contrast plays a major role in how an outfit looks. Choosing the right clothing colors is not about following strict fashion rules or deciding that certain shades are permanently off-limits. It is about understanding your skin tone, identifying your undertone, recognizing the level of contrast that suits you, and learning how different shades interact with your natural coloring. Once you understand these basics, shopping becomes easier, outfit combinations become more predictable, and your wardrobe starts working together instead of containing twenty random colors that refuse to cooperate. In this guide, we will explore warm, cool, neutral, and olive undertones, discuss skin depth and contrast, explain how to choose colors for casual, formal, and ethnic wear, and show you how to build a practical personal color palette.",
+      },
+
+      {
+        type: "heading",
+        value: "Why Clothing Color Matters More Than You Think",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747343/close-up-woman-front-clothing-piles_mmoc3q.jpg",
+        value:
+          "Color is one of the first things people notice about an outfit. Before someone studies the fabric, stitching, silhouette, or small design details, they usually notice the overall visual impression created by color.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "The right clothing color can make your complexion appear brighter, bring attention toward your face, create better contrast, and make even a simple outfit feel intentional. This is especially important for shirts, T-shirts, kurtas, jackets, dresses, and other pieces that sit close to your face.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "The wrong shade does not necessarily mean the garment looks bad. Sometimes the color simply competes with your natural coloring. It may be too close to your skin, too intense, too muted, too warm, or too cool. The useful part is that you can usually adjust the shade rather than abandoning the entire color family.",
+      },
+
+      {
+        type: "heading",
+        value: "Skin Tone vs. Skin Undertone",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Skin tone and skin undertone are two different things. Your skin tone describes the visible depth of your complexion, such as fair, light, medium, tan, dusky, or deep. Your skin tone can appear slightly different depending on sunlight, tanning, seasons, and lighting.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Your undertone is the subtle color underneath the surface of your skin. The most common categories are warm, cool, and neutral. Olive is also commonly discussed separately because olive complexions can contain a muted green, golden, or slightly grey quality that does not always fit neatly into a warm-versus-cool system.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "This distinction matters because two people with a similar skin depth can have different undertones and therefore look better in different versions of the same color. A medium complexion with a warm undertone and a medium complexion with a cool undertone may both look great in blue, but the most flattering blue may be completely different.",
+      },
+
+      {
+        type: "heading",
+        value: "Quick Undertone Comparison",
+      },
+
+      {
+        type: "table",
+        headers: [
+          "Undertone",
+          "Common Clues",
+          "Best Color Families",
+          "Try These",
+        ],
+        rows: [
+          [
+            "Warm",
+            "Golden, peachy, yellow or warm appearance",
+            "Earthy and warm shades",
+            "Rust, mustard, olive, cream, camel",
+          ],
+          [
+            "Cool",
+            "Pink, rosy or bluish appearance",
+            "Blue-based and jewel tones",
+            "Navy, cobalt, emerald, plum, burgundy",
+          ],
+          [
+            "Neutral",
+            "Combination of warm and cool characteristics",
+            "Balanced shades",
+            "Taupe, teal, sage, dusty rose, navy",
+          ],
+          [
+            "Olive",
+            "Green, golden, neutral or muted cast",
+            "Earthy, muted and rich shades",
+            "Deep teal, forest green, burgundy, chocolate",
+          ],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "How to Identify Your Skin Undertone",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "You do not need professional equipment to get a useful idea of your undertone. Natural daylight and a few simple comparisons are enough to give you a strong starting point. No single test is perfect, so it is better to combine several clues.",
+      },
+
+      {
+        type: "list",
+        style: "decimal",
+        items: [
+          "Vein test: Look at the veins on your wrist in natural daylight. Green-looking veins can indicate a warm undertone, while blue or purple-looking veins can indicate a cool undertone. A mixture can suggest neutral.",
+          "Gold and silver test: Compare gold and silver jewelry against your skin. If gold appears more harmonious, you may lean warm. If silver looks more natural, you may lean cool. If both work equally well, you may be neutral.",
+          "White and cream test: Hold pure white and cream or ivory near your face. If cream makes your complexion look more balanced, you may lean warm. If crisp white looks cleaner, you may lean cool.",
+          "Sun reaction: How your skin reacts to sunlight can provide another clue, although this should not be treated as a definitive undertone test.",
+          "Color comparison: Compare different versions of the same color. Try navy, cobalt, sky blue, and dusty blue instead of judging the entire blue family as one color.",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Warm Undertones",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747351/stylish-woman-spending-time-summer-field_spllzs.jpg",
+        value:
+          "Warm undertones often pair naturally with earthy shades, golden neutrals, warm greens, terracotta, rust, mustard, camel, and other rich colors.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Warm undertones often contain golden, yellow, peach, or warm-olive qualities. Clothing colors with similar warmth can create a natural relationship with the complexion and make an outfit feel cohesive.",
+      },
+
+      {
+        type: "table",
+        headers: ["Color Family", "Good Starting Shades", "Style Effect"],
+        rows: [
+          ["Yellow", "Mustard, Ochre", "Warm and energetic"],
+          ["Red", "Brick Red, Warm Burgundy", "Rich and confident"],
+          ["Green", "Olive, Forest Green", "Earthy and sophisticated"],
+          ["Brown", "Camel, Chocolate", "Classic and grounded"],
+          ["Orange", "Rust, Terracotta", "Warm and expressive"],
+          ["White", "Cream, Ivory", "Soft and polished"],
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "For a casual outfit, try a cream T-shirt with olive trousers and brown footwear. For smart casual dressing, a beige shirt with chocolate trousers can create a sophisticated combination. For evening wear, deeper shades such as forest green, rust, warm burgundy, and dark brown can add richness without looking overly bright.",
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Cool Undertones",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787748787/full-shot-cool-people-posing-together_1_mkjxlx.jpg",
+        value:
+          "Cool undertones often pair naturally with blue-based shades, jewel tones, crisp neutrals, and cooler reds.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Cool undertones generally contain pink, rosy, bluish, or cool-red qualities. Colors with blue, violet, or cooler red characteristics can create a clean and balanced appearance.",
+      },
+
+      {
+        type: "table",
+        headers: ["Color Family", "Good Starting Shades", "Style Effect"],
+        rows: [
+          ["Blue", "Navy, Cobalt, Sapphire", "Clean and confident"],
+          ["Green", "Emerald, Cool Forest Green", "Rich and elegant"],
+          ["Purple", "Lavender, Plum", "Creative and refined"],
+          ["Red", "Berry, Wine, Cool Burgundy", "Bold and sophisticated"],
+          ["Pink", "Cool Pink, Rose", "Fresh and refined"],
+          ["White", "Pure White", "Crisp and bright"],
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "For everyday wear, a crisp white T-shirt with navy denim is an easy combination. For formal clothing, light blue with charcoal or navy is a reliable choice. For evening outfits, burgundy, wine, emerald, and deep blue can provide strong color while remaining sophisticated.",
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Neutral Undertones",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Neutral undertones sit between warm and cool. This usually gives you considerable flexibility because you can wear both warm and cool shades, provided the intensity and contrast are balanced.",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Soft white",
+          "Cream",
+          "Taupe",
+          "Stone",
+          "Beige",
+          "Navy",
+          "Charcoal",
+          "Dusty rose",
+          "Muted teal",
+          "Sage",
+          "Mauve",
+          "Berry",
+          "Medium grey",
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "For neutral undertones, contrast and saturation can sometimes matter more than whether a shade is technically warm or cool. This makes neutral coloring particularly useful for experimenting with different fashion styles.",
+      },
+
+      {
+        type: "heading",
+        value: "What About Olive Undertones?",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747338/pexels-nyaraaquino-11701105_ovruxp.jpg",
+        value:
+          "Olive complexions often look especially harmonious in rich, earthy, jewel-inspired, and slightly muted shades.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Olive undertones can be difficult to classify because they may contain a mixture of green, golden, neutral, or slightly grey qualities. A shade that is described as warm or cool on paper may therefore look different against olive skin than expected.",
+      },
+
+      {
+        type: "table",
+        headers: ["Color", "Why It Can Work", "Try This Version"],
+        rows: [
+          [
+            "Deep Teal",
+            "Balances green and blue qualities",
+            "Dark or muted teal",
+          ],
+          ["Forest Green", "Works with earthy undertones", "Deep forest green"],
+          ["Burgundy", "Adds rich contrast", "Wine or muted burgundy"],
+          ["Chocolate Brown", "Creates a grounded palette", "Dark chocolate"],
+          ["Cream", "Softens the complexion", "Ivory or warm cream"],
+          ["Mustard", "Adds controlled warmth", "Muted mustard"],
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "If very bright or neon colors feel overpowering, experiment with slightly muted versions. Deep teal instead of bright turquoise, dusty rose instead of neon pink, or forest green instead of extremely bright green can create a more balanced effect.",
+      },
+
+      {
+        type: "heading",
+        value: "Skin Depth Also Changes How Colors Look",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Undertone is important, but skin depth also influences how colors appear. A pale yellow shirt creates a different visual relationship against a deep complexion than it does against a very light complexion. Neither combination is automatically better. What matters is the level of contrast you want.",
+      },
+
+      {
+        type: "table",
+        headers: ["Skin Depth", "Colors to Explore"],
+        rows: [
+          [
+            "Light",
+            "Navy, burgundy, forest green, chocolate, charcoal, emerald, rust",
+          ],
+          ["Medium", "Navy, olive, cream, burgundy, teal, terracotta, mustard"],
+          [
+            "Dusky / Deep",
+            "Emerald, cobalt, royal blue, burgundy, fuchsia, mustard, white, purple",
+          ],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Contrast in Clothing",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747341/pexels-o-l-the-creator-2154260838-34169346_q5rvzm.jpg",
+        value:
+          "Contrast determines how strongly the colors in an outfit stand apart from each other. Similar shades create a softer effect, while stronger differences create a sharper appearance.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Contrast describes the difference in brightness and depth between your skin, hair, and clothing. Low-contrast outfits use colors with similar levels of lightness. Medium-contrast outfits create a noticeable difference. High-contrast outfits create a dramatic visual separation.",
+      },
+
+      {
+        type: "table",
+        headers: ["Contrast Level", "Example", "Effect"],
+        rows: [
+          [
+            "Low",
+            "Cream shirt + beige trousers + tan shoes",
+            "Soft and understated",
+          ],
+          [
+            "Medium",
+            "White shirt + olive trousers + brown shoes",
+            "Balanced and versatile",
+          ],
+          ["High", "White shirt + black trousers", "Sharp and dramatic"],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Color Intensity Matters Too",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Hue is only one part of color. Intensity matters just as much. Sage green and neon green are technically the same color family, but they create completely different visual effects. The same applies to dusty rose and bright fuchsia, sky blue and cobalt, or brick red and scarlet.",
+      },
+
+      {
+        type: "table",
+        headers: ["Soft Version", "Medium Version", "Strong Version"],
+        rows: [
+          ["Sage", "Olive", "Neon Green"],
+          ["Dusty Rose", "Rose", "Fuchsia"],
+          ["Sky Blue", "Royal Blue", "Cobalt"],
+          ["Brick Red", "Red", "Scarlet"],
+          ["Powder Pink", "Pink", "Hot Pink"],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Choosing Colors for Shirts and T-Shirts",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Tops deserve extra attention because they sit close to your face. Start with reliable neutrals such as white, off-white, black, navy, grey, olive, beige, and dark denim. Then add colors that complement your undertone.",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Warm undertones: rust, mustard, olive, terracotta, coral, and cream.",
+          "Cool undertones: cobalt, burgundy, emerald, lavender, navy, and berry.",
+          "Neutral undertones: dusty rose, teal, taupe, sage, soft blue, and mauve.",
+          "Olive undertones: deep teal, forest green, burgundy, chocolate, cream, and muted mustard.",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Choosing Trouser Colors",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Trousers provide more freedom because they sit farther away from your face. Black, navy, charcoal, beige, khaki, olive, brown, cream, light denim, and dark denim are useful wardrobe foundations.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "This is also where you can experiment with colors that may feel too strong as a top. If mustard is overwhelming near your face, mustard trousers can still look excellent with a cream, white, navy, or brown shirt.",
+      },
+
+      {
+        type: "heading",
+        value: "Best Colors for Formal Wear",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Formal clothing usually benefits from controlled combinations. White with navy, white with charcoal, light blue with navy, cream with brown, burgundy with charcoal, black with white, beige with dark brown, and olive with cream are reliable combinations.",
+      },
+
+      {
+        type: "table",
+        headers: ["Occasion", "Color Combination", "Overall Effect"],
+        rows: [
+          ["Interview", "White + Navy + Brown", "Professional and dependable"],
+          ["Office", "Light Blue + Charcoal", "Clean and polished"],
+          ["Dinner", "Burgundy + Charcoal", "Rich and sophisticated"],
+          ["Wedding", "Emerald + Cream + Gold", "Festive and elegant"],
+          ["Business Casual", "Beige + Navy + White", "Relaxed but refined"],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Best Colors for Casual Wear",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747340/pexels-martin-de-arriba-25131490-6919889_hcdu8v.jpg",
+        value:
+          "Casual fashion provides more freedom to experiment with colors, layering, relaxed silhouettes, and statement pieces.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Casual fashion allows considerably more experimentation. Try olive with cream, navy with beige, brown with off-white, burgundy with charcoal, dusty blue with white, forest green with beige, rust with dark denim, black with grey, or teal with cream.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "A simple rule is to let one part of the outfit become the visual focus. If your shirt is bold, keep your trousers relatively neutral. If your trousers are colorful, use a simpler top. This keeps experimentation from becoming visual chaos.",
+      },
+
+      {
+        type: "heading",
+        value: "Choosing Colors for Indian Ethnic Wear",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747355/young-indian-woman-wearing-sari_1_cswl9z.jpg",
+        value:
+          "Indian fashion offers a particularly wide range of colors, from earthy neutrals and jewel tones to festive maroons, saffrons, emeralds, royal blues, golds, and deep reds.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Indian ethnic wear provides an excellent opportunity to experiment with color. Kurtas, sarees, lehengas, sherwanis, Nehru jackets, salwar suits, and Indo-western outfits often combine multiple shades through embroidery, borders, prints, fabrics, and accessories.",
+      },
+
+      {
+        type: "table",
+        headers: ["Undertone", "Ethnic Colors to Explore"],
+        rows: [
+          [
+            "Warm",
+            "Mustard, saffron, rust, maroon, terracotta, olive, peach, gold",
+          ],
+          [
+            "Cool",
+            "Emerald, royal blue, sapphire, plum, wine, magenta, silver",
+          ],
+          ["Neutral", "Teal, dusty rose, jade, mauve, lavender, taupe, berry"],
+          [
+            "Olive",
+            "Deep green, muted teal, burgundy, chocolate, cream, mustard",
+          ],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Gold vs. Silver Accessories",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Accessories can reinforce the temperature of an outfit. Warm palettes often pair naturally with gold, antique gold, bronze, and copper. Cool palettes can work particularly well with silver, white gold, and platinum-like finishes. Neutral undertones can usually move between both.",
+      },
+
+      {
+        type: "heading",
+        value: "The 60-30-10 Color Rule",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "The 60-30-10 rule is an easy way to balance colors. Think of approximately 60 percent of the outfit as the dominant color, 30 percent as the secondary color, and 10 percent as an accent.",
+      },
+
+      {
+        type: "table",
+        headers: ["Percentage", "Role", "Example"],
+        rows: [
+          ["60%", "Dominant", "Navy trousers and jacket"],
+          ["30%", "Secondary", "Cream shirt"],
+          ["10%", "Accent", "Burgundy belt or accessory"],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Monochromatic Dressing",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Monochromatic dressing uses different shades of one color. A light blue shirt with medium blue trousers and a navy jacket is one example. Cream, beige, and camel create another. This approach is useful when you want a polished outfit without spending twenty minutes trying to negotiate peace between your clothes.",
+      },
+
+      {
+        type: "heading",
+        value: "Building Your Personal Color Palette",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Instead of buying clothes in random colors, create a personal palette. Start with three core neutrals, add three supporting colors, and then choose one or two statement shades.",
+      },
+
+      {
+        type: "table",
+        headers: [
+          "Palette",
+          "Core Neutrals",
+          "Supporting Colors",
+          "Statement Colors",
+        ],
+        rows: [
+          [
+            "Warm",
+            "Cream, Camel, Brown",
+            "Olive, Terracotta, Mustard",
+            "Rust, Burgundy",
+          ],
+          [
+            "Cool",
+            "White, Navy, Charcoal",
+            "Emerald, Lavender, Berry",
+            "Cobalt, Plum",
+          ],
+          [
+            "Neutral",
+            "Beige, Navy, Grey",
+            "Sage, Teal, Taupe",
+            "Dusty Rose, Mauve",
+          ],
+          [
+            "Olive",
+            "Cream, Chocolate, Navy",
+            "Deep Teal, Forest Green",
+            "Burgundy, Muted Mustard",
+          ],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Your 5-Minute Personal Color Test",
+      },
+
+      {
+        type: "list",
+        style: "decimal",
+        items: [
+          "Identify whether your undertone appears warm, cool, neutral, or olive.",
+          "Choose three neutral colors that can form the foundation of your wardrobe.",
+          "Choose three supporting colors that complement your complexion.",
+          "Choose one or two statement colors that reflect your personality.",
+          "Check your chosen colors in natural daylight.",
+          "Try combining each new color with at least three existing pieces.",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Before You Buy: Quick Checklist",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Does the color complement my undertone?",
+          "Does it look good in natural light?",
+          "Can I pair it with at least three things I already own?",
+          "Is the intensity comfortable for me?",
+          "Does it suit the occasion?",
+          "Does the garment fit properly?",
+          "Do I actually like wearing it?",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "How to Make a Difficult Color Work",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "If you love a color that does not naturally complement your undertone, you do not need to remove it from your wardrobe. Move it farther away from your face. Use it as trousers, shoes, a bag, cap, scarf, or jacket. You can also choose a muted version of the same color or balance it with cream, beige, navy, grey, black, or white.",
+      },
+
+      {
+        type: "heading",
+        value: "Common Color Mistakes to Avoid",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Choosing colors only based on whether your skin is fair, medium, dusky, or deep.",
+          "Assuming one shade represents an entire color family.",
+          "Wearing several strong statement colors together without balance.",
+          "Ignoring fit because the color looks good.",
+          "Buying something only because the color is trending.",
+          "Judging colors only under artificial lighting.",
+          "Forgetting that personal preference is part of good styling.",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Frequently Asked Questions",
+      },
+
+      {
+        type: "faq",
+        question: "What color looks good on every skin tone?",
+        answer:
+          "There is no single perfect color for everyone. However, navy, cream, burgundy, teal, forest green, and carefully chosen neutrals can work across a wide range of complexions.",
+      },
+
+      {
+        type: "faq",
+        question: "How do I know if my undertone is warm or cool?",
+        answer:
+          "Compare gold and silver jewelry, cream and pure white fabric, and different clothing colors in natural daylight. Use several clues together rather than relying on one test.",
+      },
+
+      {
+        type: "faq",
+        question: "Which colors suit olive skin?",
+        answer:
+          "Deep teal, forest green, burgundy, chocolate brown, cream, olive, muted mustard, terracotta, and earthy reds are useful starting points for olive complexions.",
+      },
+
+      {
+        type: "faq",
+        question: "Can I wear colors that do not match my undertone?",
+        answer:
+          "Absolutely. Move the color farther away from your face, choose a softer version, or balance it with a neutral. Personal style matters just as much as color theory.",
+      },
+
+      {
+        type: "faq",
+        question: "What are good clothing colors for Indian skin tones?",
+        answer:
+          "Indian complexions cover a very broad range, so undertone and skin depth are more useful than one universal palette. Depending on the individual, colors such as emerald, navy, burgundy, mustard, cream, teal, rust, olive, royal blue, and terracotta can be excellent starting points.",
+      },
+
+      {
+        type: "faq",
+        question: "Does skin tone matter more than undertone?",
+        answer:
+          "Both matter. Skin depth influences contrast, while undertone helps determine whether warmer, cooler, or more neutral versions of colors tend to harmonize with the complexion.",
+      },
+
+      {
+        type: "heading",
+        value: "Discover Your Best Colors with VastraDrobe",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "At VastraDrobe, we believe fashion should make getting dressed easier, not more confusing. Whether you prefer clean neutrals, earthy tones, expressive streetwear, contemporary casualwear, or traditional Indian fashion, understanding color gives you another tool for creating better outfits.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Start with versatile neutrals. Discover shades that complement your undertone. Experiment with contrast. Add a few statement colors. Most importantly, choose clothes that fit your lifestyle and make you feel comfortable and confident. You do not need hundreds of clothes. You need clothes that work together.",
+      },
+
+      {
+        type: "heading",
+        value: "Final Thoughts",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Choosing clothing colors does not require memorizing hundreds of fashion rules. Start by understanding your skin tone and undertone, then experiment with warm, cool, neutral, and olive-friendly shades. Pay attention to contrast, color intensity, fabric, lighting, and the way different colors interact with your complexion.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "But do not let color theory become another set of restrictions. If you love a color that is not traditionally recommended for your undertone, find another way to wear it. Move it farther away from your face, choose a softer version, or balance it with a neutral. Fashion should give you more possibilities, not fewer.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "There is no single best color for everyone. The best color is the one that complements your natural features, works with your wardrobe, fits the occasion, and makes you feel like yourself. Once you discover those colors, getting dressed becomes much easier because your wardrobe starts working together instead of behaving like twelve different people forced into the same group project.",
+      },
+    ],
+  },
 ];
