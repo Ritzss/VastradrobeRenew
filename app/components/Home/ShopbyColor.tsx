@@ -138,26 +138,42 @@ export default function ShopByColor({ products }: Props) {
                 className={` group relative flex items-center gap-2 overflow-hidden rounded-full border px-4 py-2.5 transition-all duration-300
           ${
             isActive
-              ? "border-[#6A0F1F] text-white"
-              : "border-[#ddd4ca] bg-white text-[#66594e] hover:border-[#6A0F1F]/40 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-300"
+              ? "text-white shadow-sm"
+              : "bg-white text-[#66594e] hover:shadow-sm dark:bg-neutral-950 dark:text-neutral-300"
           }
         `}
+                style={{
+                  borderColor: isActive ? colorObj.color : "#fff",
+                }}
               >
-                {/* Animated capsule background */}
+                {/* =================================================
+            ANIMATED COLOR CAPSULE
+            ================================================= */}
 
                 <span
                   aria-hidden="true"
-                  className={` absolute inset-0 rounded-full bg-[#6A0F1F] transition-transform duration-300 ease-out ${isActive ? "translate-x-0" : "-translate-x-full"} group-hover:translate-x-0`}
+                  className={` absolute inset-0 rounded-full transition-transform duration-300 ease-out
+            ${
+              isActive
+                ? "translate-x-0"
+                : "-translate-x-full group-hover:translate-x-0"
+            }
+          `}
+                  style={{
+                    backgroundColor: colorObj.color,
+                  }}
                 />
 
-                {/* Color dot */}
+                {/* =================================================
+            COLOR DOT
+            ================================================= */}
 
                 <span
                   className={` relative z-10 h-2.5 w-2.5 shrink-0 rounded-full border transition-transform duration-300 group-hover:scale-110
             ${
               colorObj.border
                 ? isActive
-                  ? "border-white/70"
+                  ? "border-black/20"
                   : "border-neutral-300"
                 : "border-black/10"
             }
@@ -167,21 +183,35 @@ export default function ShopByColor({ products }: Props) {
                   }}
                 />
 
-                {/* Color name */}
+                {/* =================================================
+            COLOR NAME
+            ================================================= */}
 
                 <span
-                  className={` relative z-10 text-[9px] font-semibold uppercase tracking-[0.14em] transition-colors duration-300  ${isActive ? "text-white" : "group-hover:text-white"} `}
+                  className={` relative z-10 text-[9px] font-semibold uppercase tracking-[0.14em] transition-colors duration-300
+            ${
+              isActive
+                ? colorObj.slug === "white"
+                  ? "text-[#4d433a]"
+                  : "text-white"
+                : "text-[#66594e] group-hover:text-white"
+            }
+          `}
                 >
                   {colorObj.name}
                 </span>
 
-                {/* Arrow */}
+                {/* =================================================
+            ARROW
+            ================================================= */}
 
                 <span
                   className={` relative z-10 text-xs transition-all duration-300
             ${
               isActive
-                ? "translate-x-0 opacity-100"
+                ? colorObj.slug === "white"
+                  ? "translate-x-0 text-[#4d433a] opacity-100"
+                  : "translate-x-0 opacity-100"
                 : "-translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
             }
           `}
