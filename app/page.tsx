@@ -63,7 +63,7 @@ const Home = async () => {
   return (
     <>
       <WhatsAppPageMessage message={whatsappMessages.home()} />
-      <section className="w-full bg-[#fcfbfa] dark:bg-black text-black dark:text-white transition-colors duration-300">
+      <section className="w-full bg-[#fffdf9] text-black transition-colors duration-300 dark:bg-black dark:text-white">
         {/* HERO CAROUSEL */}
         <Slider />
         
@@ -84,7 +84,7 @@ const Home = async () => {
         {/* LATEST ARRIVALS (Centralized Header) */}
         <section
           id="latestArrival"
-          className="mx-auto py-16 text-center bg-[#faf9f6] dark:bg-neutral-950 border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300"
+          className="mx-auto border-y border-[#e5dfd6] bg-white py-16 text-center transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950"
         >
           <ScrollReveal direction="up" delay={100}>
             <SectionHeader
@@ -110,7 +110,7 @@ const Home = async () => {
         {/* WOMEN COLLECTION (Centralized Header) */}
         <section
           id="collection"
-          className="bg-[#faf9f6] dark:bg-neutral-950 py-16 border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300"
+          className="border-y border-[#e2dbd1] bg-[#f7f2eb] py-16 transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950"
         >
           <ScrollReveal direction="up" delay={100}>
             <SectionHeader
@@ -132,7 +132,7 @@ const Home = async () => {
         </section>
 
         {/* KIDS COLLECTION (Centralized Header) */}
-        <section className="bg-[#fcfbfa] dark:bg-black py-16 border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
+        <section className="border-b border-[#dce2d5] bg-[#edf1e9] py-16 transition-colors duration-300 dark:border-neutral-900 dark:bg-[#101310]">
           <ScrollReveal direction="up" delay={100}>
             <SectionHeader
               subtitle="Kids"
@@ -152,7 +152,7 @@ const Home = async () => {
         </section>
 
         {/* MEN COLLECTION (Centralized Header) */}
-        <section className="bg-[#faf9f6] dark:bg-neutral-950 py-16 border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
+        <section className="border-b border-[#ded6cc] bg-[#f4eee6] py-16 transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950">
           <ScrollReveal direction="up" delay={100}>
             <SectionHeader
               subtitle="Men"
@@ -176,7 +176,7 @@ const Home = async () => {
         <RecentlyViewed products={allProducts} />
 
         {/* BLOG VASTRA JOURNAL (Centralized Header) */}
-        <section className="bg-[#fcfbfa] dark:bg-black py-16 transition-colors duration-300">
+        <section className="bg-[#F4EEE6] py-16 text-white transition-colors duration-300 dark:bg-[#050505]">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal direction="up" delay={100}>
               <SectionHeader

@@ -96,7 +96,7 @@ export default function ShopByColor({ products }: Props) {
     .slice(0, 5);
 
   return (
-    <section className="bg-[#faf8f5] py-12 dark:bg-black sm:py-14">
+    <section className="border-y border-[#ddd5ca] bg-[#f0ebe3] py-12 dark:border-neutral-900 dark:bg-[#0d0d0d] sm:py-14">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         {/* =================================================
             HEADER
@@ -194,54 +194,157 @@ export default function ShopByColor({ products }: Props) {
         </div>
 
         {/* =================================================
-                     PRODUCT PREVIEW
-         ================================================= */}
+    PRODUCT PREVIEW
+    ================================================= */}
 
-        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-          {previewProducts.length > 0 ? (
-            previewProducts.map((product) => (
-              <Link
-                key={product.productId}
-                href={`/shop-by-color/${activeColorData.slug}`}
-                className=" group relative w-[calc(50%-6px)] overflow-hidden rounded-xl bg-[#eee8e1] sm:w-[calc(25%-12px)] lg:w-[calc(20%-13px)]"
-              >
-                <div className="relative aspect-4/5">
-                  <Image
-                    src={(() => {
-                      const variant = product.variants?.find(
-                        (v: any) =>
-                          v.color &&
-                          activeColorData.variants.some(
-                            (c) => c.toLowerCase() === v.color.toLowerCase(),
-                          ),
-                      );
+<div className="relative">
+  <div className="flex items-end justify-center gap-3 sm:gap-5 lg:gap-6">
+    {previewProducts.map((product, index) => (
+      <Link
+  key={product.productId}
+  href={`/shop-by-color/${activeColorData.slug}`}
+  className={`
+    group relative
+    w-[calc(50%-6px)]
+    sm:w-[calc(25%-12px)]
+    lg:w-[calc(20%-13px)]
+    ${index % 2 === 1 ? "translate-y-5" : ""}
+  `}
+>
+  {/* Color glow behind image */}
+  <div
+    className="
+      absolute
+      -inset-1
+      rounded-[1.25rem]
+      opacity-0
+      blur-xl
+      transition-opacity
+      duration-700
+      group-hover:opacity-25
+    "
+    style={{
+      backgroundColor: activeColorData.color,
+    }}
+  />
 
-                      return (
-                        variant?.designs?.[0]?.images?.[0] ??
-                        variant?.images?.[0] ??
-                        "/Assets/Images/Newplaceholder.png"
-                      );
-                    })()}
-                    alt={product.name}
-                    fill
-                    sizes=" (max-width: 640px) 48vw, (max-width: 1024px) 24vw, 20vw"
-                    className=" object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  />
+  {/* Image frame */}
+  <div
+    className="
+      relative
+      aspect-[4/5]
+      overflow-hidden
+      rounded-[1.15rem]
+      bg-[#eee8e1]
+      ring-1
+      ring-black/[0.04]
+      transition-all
+      duration-500
+      group-hover:-translate-y-1
+      group-hover:ring-black/10
+    "
+  >
+    <Image
+      src={(() => {
+        const variant = product.variants?.find(
+          (v: any) =>
+            v.color &&
+            activeColorData.variants.some(
+              (c) =>
+                c.toLowerCase() ===
+                v.color.toLowerCase(),
+            ),
+        );
 
-                  <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/50 to-transparent p-3 pt-12">
-                    <span className="text-[9px] font-semibold uppercase tracking-[0.15em] text-white">
-                      {activeColorData.name}
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))
-          ) : (
-            <div className="w-full flex h-40 items-center justify-center rounded-xl border border-dashed border-[#d8cec3]">
-              <p className="text-xs text-[#9a8876]">No products available</p>
-            </div>
-          )}
-        </div>
+        return (
+          variant?.designs?.[0]?.images?.[0] ??
+          variant?.images?.[0] ??
+          "/Assets/Images/Newplaceholder.png"
+        );
+      })()}
+      alt={product.name}
+      fill
+      sizes="
+        (max-width: 640px) 48vw,
+        (max-width: 1024px) 24vw,
+        20vw
+      "
+      className="
+        object-cover
+        object-top
+        transition-transform
+        duration-700
+        ease-out
+        group-hover:scale-[1.035]
+      "
+    />
+
+    {/* Editorial light sweep */}
+    <div
+      className="
+        pointer-events-none
+        absolute
+        inset-0
+        translate-x-[-120%]
+        bg-gradient-to-r
+        from-transparent
+        via-white/20
+        to-transparent
+        transition-transform
+        duration-1000
+        group-hover:translate-x-[120%]
+      "
+    />
+
+    {/* Minimal color accent */}
+    <div
+      className="
+        absolute
+        bottom-3
+        left-3
+        h-1
+        w-8
+        rounded-full
+        transition-all
+        duration-500
+        group-hover:w-14
+      "
+      style={{
+        backgroundColor: activeColorData.color,
+      }}
+    />
+  </div>
+</Link>
+    ))}
+  </div>
+
+  {/* Selected color label */}
+
+  <div className="mt-10 flex items-center justify-center gap-4">
+    <span
+      className="h-2.5 w-2.5 rounded-full"
+      style={{
+        backgroundColor: activeColorData.color,
+      }}
+    />
+
+    <span
+      className="font-serif text-xl"
+      style={{
+        color: activeColorData.color,
+      }}
+    >
+      {activeColorData.name}
+    </span>
+
+    <Link
+      href={`/shop-by-color/${activeColorData.slug}`}
+      className="text-[9px] font-semibold uppercase tracking-[0.25em] text-[#8d7d6d] transition-colors hover:text-[#6A0F1F]"
+    >
+      Explore →
+    </Link>
+  </div>
+</div>
 
         {/* =================================================
             MOBILE COLLECTION LINK
