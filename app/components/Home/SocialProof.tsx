@@ -1,183 +1,589 @@
 "use client";
 
-import { AiFillStar } from "react-icons/ai";
-import { motion } from "framer-motion";
-import { DEFAULT_ITEMS } from "@/components/UI/Carousel";
-import Image from "next/image";
-import { FaTimes } from "react-icons/fa";
 import { useState } from "react";
-import { FaPlay } from "react-icons/fa6";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { AiFillStar } from "react-icons/ai";
+import { FaPlay, FaTimes } from "react-icons/fa";
+import { DEFAULT_ITEMS } from "@/components/UI/Carousel";
 import HorizontalScroll from "../Global/HorizontalScroll";
 
 /**
- * 👑 LUXURY REDESIGN: Community Social Proof (Nangalia Ruchira Theme)
- * 
- * Styled for premium single-theme look:
- * - Geometric shape: Swapped bulky rounded-3xl for elegant, clean rounded-2xl.
- * - Backdrop: bg-[#faf9f6] with crisp white card backdrops bg-white.
- * - Header standardized: Spaced uppercase tracked typography.
- * - Quote typography: Soft sans-serif text-neutral-600.
+ * Community Social Proof
+ *
+ * Editorial-style customer review section for the homepage.
+ *
+ * Layout:
+ * - Large rating summary
+ * - Three customer reviews
+ * - Optional video proof
+ * - Responsive layout for mobile
+ *
+ * The component intentionally keeps the visual treatment
+ * restrained so the reviews support the shopping experience
+ * without becoming another oversized homepage section.
  */
 const SocialProof = () => {
   const reviews = DEFAULT_ITEMS.slice(0, 3);
-  const [showVideo, setShowVideo] = useState(false);
-  const [imageError, setImageError] = useState<Record<number, boolean>>({});
+
+  const [selectedReview, setSelectedReview] =
+    useState<(typeof reviews)[number] | null>(null);
+
+  const [imageError, setImageError] =
+    useState<Record<number, boolean>>({});
 
   const avatarColors = [
-    "bg-red-500",
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-purple-500",
-    "bg-orange-500",
-    "bg-pink-500",
+    "bg-[#6A0F1F]",
+    "bg-[#536B78]",
+    "bg-[#6D7B58]",
   ];
 
   return (
-    <section className="bg-[#faf9f6] dark:bg-neutral-950 py-20 border-t border-b border-neutral-100 dark:border-neutral-900 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6 text-center">
-        
-        {/* Header Block */}
+    <section
+      className="
+        border-y
+        border-[#e4ddd4]
+        bg-[#f7f4ee]
+        py-20
+        transition-colors
+        duration-300
+        dark:border-neutral-900
+        dark:bg-neutral-950
+        sm:py-24
+      "
+    >
+      <div className="mx-auto max-w-7xl px-6">
+
+        {/* =================================================
+            HEADER
+            ================================================= */}
+
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="space-y-1"
+          initial={{
+            opacity: 0,
+            y: 25,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          viewport={{
+            once: true,
+          }}
+          className="mb-14 text-center"
         >
-          <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
-            Community
+          <p
+            className="
+              text-[9px]
+              font-semibold
+              uppercase
+              tracking-[0.35em]
+              text-[#9a8876]
+            "
+          >
+            Our Community
           </p>
 
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-light text-neutral-800 dark:text-white tracking-wide uppercase">
-            Loved by Thousands
+          <h2
+            className="
+              mt-3
+              font-serif
+              text-4xl
+              font-light
+              tracking-tight
+              text-[#40372f]
+              dark:text-white
+              sm:text-5xl
+            "
+          >
+            Loved by thousands
           </h2>
+
+          <p
+            className="
+              mx-auto
+              mt-4
+              max-w-xl
+              text-xs
+              leading-6
+              text-[#85766a]
+              dark:text-neutral-400
+              sm:text-sm
+            "
+          >
+            Real experiences from customers who chose
+            VastraDrobe for their everyday wardrobe.
+          </p>
         </motion.div>
 
-        {/* Reviews Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mt-12">
-          {reviews.map((item, index) => {
-           const avatarColor = avatarColors[index % avatarColors.length];
-            return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                viewport={{ once: true }}
-                className="bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-2xl p-8 text-left shadow-xs transition duration-300"
+        {/* =================================================
+            MAIN SOCIAL PROOF LAYOUT
+            ================================================= */}
+
+        <div className="grid gap-8 lg:grid-cols-[0.8fr_2fr]">
+
+          {/* =================================================
+              RATING SUMMARY
+              ================================================= */}
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              x: -30,
+            }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+            }}
+            transition={{
+              duration: 0.6,
+            }}
+            viewport={{
+              once: true,
+            }}
+            className="
+              flex
+              flex-col
+              justify-center
+              border
+              border-[#ddd4ca]
+              bg-[#fffdf9]
+              p-8
+              text-center
+              dark:border-neutral-800
+              dark:bg-neutral-900
+              sm:p-10
+              lg:text-left
+            "
+          >
+            <p
+              className="
+                text-[9px]
+                font-semibold
+                uppercase
+                tracking-[0.3em]
+                text-[#9a8876]
+              "
+            >
+              Customer rating
+            </p>
+
+            <div className="mt-5 flex items-center justify-center gap-4 lg:justify-start">
+              <span
+                className="
+                  font-serif
+                  text-5xl
+                  font-light
+                  text-[#6A0F1F]
+                  dark:text-[#e4e198]
+                "
               >
-                {/* Stars */}
-                <div className="flex gap-1 text-[#ffa600] mb-5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <AiFillStar key={i} className="w-3.5 h-3.5" />
+                4.8
+              </span>
+
+              <div>
+                <div className="flex gap-1 text-[#c88a1b]">
+                  {Array.from({
+                    length: 5,
+                  }).map((_, index) => (
+                    <AiFillStar
+                      key={index}
+                      className="h-4 w-4"
+                    />
                   ))}
                 </div>
 
-                {/* Quote */}
-                <p className="text-neutral-500 dark:text-neutral-400 text-xs sm:text-sm font-light leading-relaxed mb-6 h-28 font-sans">
-                  &quot;{item.description}&quot;
+                <p
+                  className="
+                    mt-1
+                    text-[9px]
+                    uppercase
+                    tracking-[0.15em]
+                    text-[#9a8876]
+                  "
+                >
+                  Excellent
                 </p>
+              </div>
+            </div>
 
-                {/* Author Details */}
-                <div className="flex items-center gap-3">
-                  {/* Avatar */}
-                  <div className="relative w-9 h-9 rounded-full overflow-hidden flex items-center justify-center">
-                    {item.image && !imageError[item.id] ? (
-                      <Image
-                        src={item.image}
-                        fill
-                        alt={item.title || "Reviewer"}
-                        className="object-cover"
-                        onError={() =>
-                          setImageError((prev) => ({
-                            ...prev,
-                            [item.id]: true,
-                          }))
-                        }
+            <div className="my-7 h-px bg-[#e4ddd4] dark:bg-neutral-800" />
+
+            <p
+              className="
+                text-sm
+                leading-7
+                text-[#75685c]
+                dark:text-neutral-400
+              "
+            >
+              Thousands of customers have already
+              discovered their next favourite piece
+              with VastraDrobe.
+            </p>
+
+            <p
+              className="
+                mt-5
+                text-[9px]
+                font-semibold
+                uppercase
+                tracking-[0.2em]
+                text-[#9a8876]
+              "
+            >
+              2,300+ verified purchases
+            </p>
+          </motion.div>
+
+          {/* =================================================
+              REVIEW CARDS
+              ================================================= */}
+
+          <div className="grid gap-5 md:grid-cols-3">
+            {reviews.map((item, index) => {
+              const avatarColor =
+                avatarColors[
+                  index % avatarColors.length
+                ];
+
+              return (
+                <motion.article
+                  key={item.id}
+                  initial={{
+                    opacity: 0,
+                    y: 30,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.55,
+                    delay: index * 0.12,
+                  }}
+                  viewport={{
+                    once: true,
+                  }}
+                  className="
+                    group
+                    flex
+                    min-h-70
+                    flex-col
+                    border
+                    border-[#e1d9cf]
+                    bg-[#fffdf9]
+                    p-6
+                    transition-all
+                    duration-300
+                    hover:-translate-y-1
+                    hover:border-[#cbbfb1]
+                    hover:shadow-[0_12px_35px_rgba(70,55,40,0.08)]
+                    dark:border-neutral-800
+                    dark:bg-neutral-900
+                    dark:hover:border-neutral-700
+                  "
+                >
+                  {/* Stars */}
+
+                  <div className="flex gap-1 text-[#c88a1b]">
+                    {Array.from({
+                      length: 5,
+                    }).map((_, starIndex) => (
+                      <AiFillStar
+                        key={starIndex}
+                        className="h-3.5 w-3.5"
                       />
-                    ) : (
-                      <div
-                        className={`w-full h-full ${avatarColor} flex items-center justify-center text-white font-semibold text-xs uppercase`}
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+
+                  <p
+                    className="
+                      mt-5
+                      flex-1
+                      text-xs
+                      leading-6
+                      text-[#655a51]
+                      dark:text-neutral-300
+                    "
+                  >
+                    &quot;{item.description}&quot;
+                  </p>
+
+                  {/* Divider */}
+
+                  <div className="my-5 h-px bg-[#e9e2d9] dark:bg-neutral-800" />
+
+                  {/* Customer */}
+
+                  <div className="flex items-center gap-3">
+
+                    <div
+                      className="
+                        relative
+                        h-9
+                        w-9
+                        shrink-0
+                        overflow-hidden
+                        rounded-full
+                      "
+                    >
+                      {item.image &&
+                      !imageError[item.id] ? (
+                        <Image
+                          src={item.image}
+                          alt={
+                            item.title ||
+                            "Verified customer"
+                          }
+                          fill
+                          sizes="36px"
+                          className="object-cover"
+                          onError={() =>
+                            setImageError(
+                              (previous) => ({
+                                ...previous,
+                                [item.id]: true,
+                              }),
+                            )
+                          }
+                        />
+                      ) : (
+                        <div
+                          className={`
+                            flex
+                            h-full
+                            w-full
+                            items-center
+                            justify-center
+                            ${avatarColor}
+                            text-xs
+                            font-semibold
+                            uppercase
+                            text-white
+                          `}
+                        >
+                          {item.title?.charAt(0) ||
+                            "U"}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="min-w-0">
+                      <p
+                        className="
+                          truncate
+                          text-[10px]
+                          font-semibold
+                          uppercase
+                          tracking-[0.15em]
+                          text-[#40372f]
+                          dark:text-neutral-200
+                        "
                       >
-                        {item.title?.charAt(0) || "U"}
-                      </div>
+                        {item.title}
+                      </p>
+
+                      <p
+                        className="
+                          mt-0.5
+                          text-[9px]
+                          uppercase
+                          tracking-[0.12em]
+                          text-[#9a8876]
+                        "
+                      >
+                        Verified Buyer
+                      </p>
+                    </div>
+
+                    {/* Video proof */}
+
+                    {item.proof && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSelectedReview(item)
+                        }
+                        className="
+                          ml-auto
+                          flex
+                          shrink-0
+                          items-center
+                          gap-1.5
+                          rounded-full
+                          border
+                          border-[#ddd4ca]
+                          px-2.5
+                          py-1.5
+                          text-[8px]
+                          font-semibold
+                          uppercase
+                          tracking-[0.12em]
+                          text-[#66594e]
+                          transition-all
+                          duration-300
+                          hover:border-[#6A0F1F]
+                          hover:bg-[#6A0F1F]
+                          hover:text-white
+                          dark:border-neutral-700
+                          dark:text-neutral-300
+                        "
+                      >
+                        <FaPlay className="h-2 w-2" />
+                        Video
+                      </button>
                     )}
                   </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-widest font-semibold text-neutral-800 dark:text-neutral-200">
-                      {item.title}
-                    </p>
-                    <p className="text-[10px] text-neutral-400 tracking-wider">Verified Buyer</p>
-                  </div>
-                  {item.proof && (
-                    <div
-                      onClick={() => setShowVideo(true)}
-                      className="bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 flex justify-center items-center gap-1.5 rounded-full px-3 py-1 text-[9px] uppercase tracking-widest font-bold ml-auto cursor-pointer transition"
-                    >
-                      <FaPlay size={8} />
-                      Videos
-                    </div>
-                  )}
-                  {showVideo && item.proof && (
-                    <div
-                      className="fixed inset-0 bg-neutral-950/40 backdrop-blur-xs flex items-center justify-center z-100 animate-fadeIn"
-                      onClick={() => setShowVideo(false)}
-                    >
-                      <div
-                        className="relative flex justify-center w-11/12 max-w-2xl bg-white p-6 rounded-2xl shadow-2xl border border-neutral-100"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <HorizontalScroll color="#00000000">
-                          {item.proof.videos?.map((video, ind) => {
-                            return (
-                              <video
-                                key={ind}
-                                src={video}
-                                controls
-                                className="w-3/4 h-3/4 rounded-xl"
-                              />
-                            );
-                          })}
-                        </HorizontalScroll>
-
-                        {/* Close Button */}
-                        <button
-                          onClick={() => setShowVideo(false)}
-                          className="absolute -top-12 right-0 text-white text-xl p-2 cursor-pointer"
-                        >
-                          <FaTimes />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
+                </motion.article>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Rating Summary */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="mt-16 flex flex-col items-center"
-        >
-          <div className="flex items-center gap-3 text-neutral-800 dark:text-neutral-200 font-sans">
-            <span className="text-3xl font-serif font-light text-[#6A0F1F] dark:text-[#e4e198]">4.8</span>
-            <div className="flex gap-1 text-[#ffa600]">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <AiFillStar key={i} className="w-4 h-4" />
-              ))}
-            </div>
-          </div>
+        {/* =================================================
+            BOTTOM TRUST STATEMENT
+            ================================================= */}
 
-          <p className="text-[10px] uppercase tracking-widest font-bold text-neutral-400 dark:text-neutral-500 mt-2">
-            From 2,300+ verified purchases
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 0.6,
+            delay: 0.3,
+          }}
+          viewport={{
+            once: true,
+          }}
+          className="
+            mt-14
+            flex
+            flex-col
+            items-center
+            justify-center
+            gap-3
+            text-center
+            sm:flex-row
+          "
+        >
+          <span className="h-px w-10 bg-[#d8cec3]" />
+
+          <p
+            className="
+              text-[9px]
+              font-semibold
+              uppercase
+              tracking-[0.3em]
+              text-[#9a8876]
+            "
+          >
+            Real people · Real experiences · Real style
           </p>
+
+          <span className="h-px w-10 bg-[#d8cec3]" />
         </motion.div>
       </div>
+
+      {/* =================================================
+          VIDEO MODAL
+          ================================================= */}
+
+      {selectedReview?.proof && (
+        <div
+          className="
+            fixed
+            inset-0
+            z-100
+            flex
+            items-center
+            justify-center
+            bg-black/60
+            p-5
+            backdrop-blur-sm
+          "
+          onClick={() =>
+            setSelectedReview(null)
+          }
+        >
+          <div
+            className="
+              relative
+              w-full
+              max-w-3xl
+              overflow-hidden
+              border
+              border-neutral-200
+              bg-white
+              p-5
+              shadow-2xl
+              dark:border-neutral-800
+              dark:bg-neutral-950
+            "
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+            {/* Close */}
+
+            <button
+              type="button"
+              onClick={() =>
+                setSelectedReview(null)
+              }
+              className="
+                absolute
+                right-3
+                top-3
+                z-10
+                flex
+                h-9
+                w-9
+                items-center
+                justify-center
+                rounded-full
+                bg-black/70
+                text-white
+                transition
+                hover:bg-[#6A0F1F]
+              "
+              aria-label="Close video"
+            >
+              <FaTimes />
+            </button>
+
+            {/* Videos */}
+
+            <HorizontalScroll color="#00000000">
+              {selectedReview.proof.videos?.map(
+                (video, index) => (
+                  <video
+                    key={index}
+                    src={video}
+                    controls
+                    playsInline
+                    className="
+                      max-h-[75vh]
+                      w-auto
+                      max-w-full
+                      rounded-lg
+                      bg-black
+                    "
+                  />
+                ),
+              )}
+            </HorizontalScroll>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
