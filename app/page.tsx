@@ -190,7 +190,7 @@ const Home = async () => {
             />
           </ScrollReveal>
 
-          <div className="mt-10 flex justify-center">
+          {/* <div className="mt-10 flex justify-center">
             <ScrollReveal direction="up" delay={300}>
               <Link
                 href="/women"
@@ -215,7 +215,7 @@ const Home = async () => {
                 Explore Women →
               </Link>
             </ScrollReveal>
-          </div>
+          </div> */}
         </section>
 
         {/* =====================================================
@@ -254,7 +254,7 @@ const Home = async () => {
             />
           </ScrollReveal>
 
-          <div className="mt-10 flex justify-center">
+          {/* <div className="mt-10 flex justify-center">
             <ScrollReveal direction="up" delay={300}>
               <Link
                 href="/kids"
@@ -279,7 +279,7 @@ const Home = async () => {
                 Explore Kids →
               </Link>
             </ScrollReveal>
-          </div>
+          </div> */}
         </section>
 
         {/* =====================================================
@@ -319,7 +319,7 @@ const Home = async () => {
             />
           </ScrollReveal>
 
-          <div className="mt-10 flex justify-center">
+          {/* <div className="mt-10 flex justify-center">
             <ScrollReveal direction="up" delay={300}>
               <Link
                 href="/men"
@@ -344,7 +344,7 @@ const Home = async () => {
                 Explore Men →
               </Link>
             </ScrollReveal>
-          </div>
+          </div> */}
         </section>
 
         {/* =====================================================
