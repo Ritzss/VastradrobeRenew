@@ -230,19 +230,7 @@ export default function ShopByColor({ products }: Props) {
 
   {/* Image frame */}
   <div
-    className="
-      relative
-      aspect-[4/5]
-      overflow-hidden
-      rounded-[1.15rem]
-      bg-[#eee8e1]
-      ring-1
-      ring-black/[0.04]
-      transition-all
-      duration-500
-      group-hover:-translate-y-1
-      group-hover:ring-black/10
-    "
+    className=" relative aspect-4/5 overflow-hidden rounded-[1.15rem] bg-[#eee8e1] ring-1 ring-black/4 transition-all duration-500 group-hover:-translate-y-1 group-hover:ring-black/10"
   >
     <Image
       src={(() => {
@@ -281,19 +269,7 @@ export default function ShopByColor({ products }: Props) {
 
     {/* Editorial light sweep */}
     <div
-      className="
-        pointer-events-none
-        absolute
-        inset-0
-        translate-x-[-120%]
-        bg-gradient-to-r
-        from-transparent
-        via-white/20
-        to-transparent
-        transition-transform
-        duration-1000
-        group-hover:translate-x-[120%]
-      "
+      className=" pointer-events-none absolute inset-0 translate-x-[-120%] bg-linear-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-[120%]"
     />
 
     {/* Minimal color accent */}
