@@ -1,6 +1,101 @@
+import type { Metadata } from "next";
 import ScrollReveal from "@/components/Global/ScrollReveal";
 import { blogs } from "@/lib/blog";
 import Image from "next/image";
+
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { slug } = await params;
+
+  const blog = blogs.find((b) => b.slug === slug);
+
+  if (!blog) {
+    return {
+      title: "Blog Not Found | VastraDrobe",
+      description: "The requested VastraDrobe blog could not be found.",
+    };
+  }
+
+  const intro =
+    blog.content.find((section) => section.type === "Intro")?.value ?? "";
+
+  const description =
+    intro.length > 160
+      ? `${intro.substring(0, 157)}...`
+      : intro;
+
+  return {
+    title: `${blog.title} | VastraDrobe`,
+
+    description,
+
+    keywords: [
+      "VastraDrobe",
+      "fashion",
+      "fashion tips",
+      "style guide",
+      "clothing",
+      "outfit ideas",
+      blog.title,
+    ],
+
+    authors: [
+      {
+        name: "VastraDrobe",
+      },
+    ],
+
+    creator: "VastraDrobe",
+    publisher: "VastraDrobe",
+
+    alternates: {
+      canonical: `https://vastradrobe.com/blog/${blog.slug}`,
+    },
+
+    openGraph: {
+      title: `${blog.title} | VastraDrobe`,
+      description,
+      url: `https://vastradrobe.com/blog/${blog.slug}`,
+      siteName: "VastraDrobe",
+      type: "article",
+      locale: "en_IN",
+
+      images: [
+        {
+          url: blog.coverImage,
+          width: 1200,
+          height: 630,
+          alt: blog.title,
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: `${blog.title} | VastraDrobe`,
+      description,
+
+      images: [blog.coverImage],
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+  };
+}
 
 export default async function BlogDetailPage({
   params,
@@ -82,7 +177,7 @@ export default async function BlogDetailPage({
         />
 
         {/* Cinematic dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/45 to-black/85" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/45 to-black/85" />
 
         <div className="absolute inset-0 flex items-end">
           <div className="w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pb-24 space-y-6">
@@ -90,12 +185,12 @@ export default async function BlogDetailPage({
               VastraDrobe Journal
             </p>
 
-            <h1 className="font-serif font-light text-white leading-[1.0] tracking-wide max-w-5xl text-4xl sm:text-6xl lg:text-[76px] xl:text-[86px] uppercase">
+            <h1 className="font-serif font-light text-white leading-none tracking-wide max-w-5xl text-4xl sm:text-6xl lg:text-[76px] xl:text-[86px] uppercase">
               {blog.title}
             </h1>
 
             <div className="pt-6 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-              <div className="w-20 h-[2px] bg-[#e4e198] mt-3" />
+              <div className="w-20 h-0.5 bg-[#e4e198] mt-3" />
 
               <p className="max-w-xl text-white/90 text-xs sm:text-sm font-sans font-light tracking-wide leading-relaxed">
                 {shortIntro}
@@ -143,7 +238,7 @@ export default async function BlogDetailPage({
                   {layout === 0 && block.image && (
                     <div className="grid md:grid-cols-12 gap-10 items-center">
                       <div className="md:col-span-5">
-                        <div className="relative aspect-[4/5] rounded-xl overflow-hidden border border-neutral-100 dark:border-neutral-900 shadow-xs bg-[#faf9f6] dark:bg-neutral-950">
+                        <div className="relative aspect-4/5 rounded-xl overflow-hidden border border-neutral-100 dark:border-neutral-900 shadow-xs bg-[#faf9f6] dark:bg-neutral-950">
                           <Image
                             src={block.image.src}
                             alt=""
@@ -194,7 +289,7 @@ export default async function BlogDetailPage({
                   {/* LAYOUT 3: Grand Full-width Editorial Banner image */}
                   {layout === 2 && block.image && (
                     <div className="space-y-10">
-                      <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 shadow-xs">
+                      <div className="relative aspect-video rounded-2xl overflow-hidden border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 shadow-xs">
                         <Image
                           src={block.image.src}
                           alt=""
