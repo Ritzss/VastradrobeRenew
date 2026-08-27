@@ -79,7 +79,7 @@ export default function RecentlyViewed({ products }: Props) {
                     key={product.productId}
                     className="w-[45vw] sm:w-[35vw] md:w-72 shrink-0 px-1"
                   >
-                    <ProductCard product={product} classNameInner="rounded-none"/>
+                    <ProductCard product={product}  />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -94,7 +94,7 @@ export default function RecentlyViewed({ products }: Props) {
                       key={product.productId}
                       className="w-[45vw] md:w-72 shrink-0 px-1"
                     >
-                      <ProductCard product={product} classNameInner="rounded-none"/>
+                      <ProductCard product={product}  />
                     </div>
                   ))}
                 </InfiniteScrollWrapper>
@@ -105,7 +105,7 @@ export default function RecentlyViewed({ products }: Props) {
                       key={product.productId}
                       className="w-[45vw] md:w-72 px-1"
                     >
-                      <ProductCard product={product} classNameInner="rounded-none"/>
+                      <ProductCard product={product}  />
                     </div>
                   ))}
                 </div>

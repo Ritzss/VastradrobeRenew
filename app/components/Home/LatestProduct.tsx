@@ -135,7 +135,7 @@ export default function LatestArrivals({ products }: LatestArrivalsProps) {
                   key={product.productId}
                   className="w-[45vw] md:w-72 shrink-0 px-1"
                 >
-                  <ProductCard latest product={product} classNameInner="rounded-none"/>
+                  <ProductCard latest product={product}  />
                 </div>
               ))}
             </InfiniteScrollWrapper>
@@ -147,7 +147,7 @@ export default function LatestArrivals({ products }: LatestArrivalsProps) {
                     key={product.productId}
                     className="w-[45vw] md:w-72 shrink-0 px-1"
                   >
-                    <ProductCard latest product={product} classNameInner="rounded-none"/>
+                    <ProductCard latest product={product}  />
                   </div>
                 ))}
               </HorizontalScroll>

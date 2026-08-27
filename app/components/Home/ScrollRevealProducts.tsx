@@ -77,7 +77,7 @@ export default function ScrollRevealProducts({
               key={product.productId}
               className="w-[45vw] sm:w-[35vw] md:w-72 shrink-0 px-1"
             >
-              <ProductCard product={product} classNameInner="rounded-none"/>
+              <ProductCard product={product}  />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -97,7 +97,7 @@ export default function ScrollRevealProducts({
         {filteredProducts.slice(0, 3).map((product) => (
           <ScrollReveal key={product.productId}>
             <div className="w-70">
-              <ProductCard product={product} classNameInner="rounded-none" />
+              <ProductCard product={product}   />
             </div>
           </ScrollReveal>
         ))}
