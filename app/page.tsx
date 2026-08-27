@@ -173,23 +173,7 @@ const Home = async () => {
             <ScrollReveal direction="up" delay={300}>
               <Link
                 href="/women"
-                className="
-                  rounded-full
-                  border
-                  border-[#bfb2a5]
-                  px-7
-                  py-3
-                  text-[9px]
-                  font-semibold
-                  uppercase
-                  tracking-[0.22em]
-                  text-[#5f5143]
-                  transition-all
-                  duration-300
-                  hover:border-[#6A0F1F]
-                  hover:bg-[#6A0F1F]
-                  hover:text-white
-                "
+                className=" rounded-full border border-[#bfb2a5] px-7 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#5f5143] transition-all duration-300 hover:border-[#6A0F1F] hover:bg-[#6A0F1F] hover:text-white"
               >
                 Explore Women →
               </Link>
@@ -227,23 +211,7 @@ const Home = async () => {
             <ScrollReveal direction="up" delay={300}>
               <Link
                 href="/kids"
-                className="
-                  rounded-full
-                  border
-                  border-[#aeb9a6]
-                  px-7
-                  py-3
-                  text-[9px]
-                  font-semibold
-                  uppercase
-                  tracking-[0.22em]
-                  text-[#53604f]
-                  transition-all
-                  duration-300
-                  hover:border-[#53604f]
-                  hover:bg-[#53604f]
-                  hover:text-white
-                "
+                className=" rounded-full border border-[#aeb9a6] px-7 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#53604f] transition-all duration-300 hover:border-[#53604f] hover:bg-[#53604f] hover:text-white"
               >
                 Explore Kids →
               </Link>
@@ -282,23 +250,7 @@ const Home = async () => {
             <ScrollReveal direction="up" delay={300}>
               <Link
                 href="/men"
-                className="
-                  rounded-full
-                  border
-                  border-[#b8aa9b]
-                  px-7
-                  py-3
-                  text-[9px]
-                  font-semibold
-                  uppercase
-                  tracking-[0.22em]
-                  text-[#554b42]
-                  transition-all
-                  duration-300
-                  hover:border-[#6A0F1F]
-                  hover:bg-[#6A0F1F]
-                  hover:text-white
-                "
+                className=" rounded-full border border-[#b8aa9b] px-7 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#554b42] transition-all duration-300 hover:border-[#6A0F1F] hover:bg-[#6A0F1F] hover:text-white"
               >
                 Explore Men →
               </Link>
@@ -364,16 +316,7 @@ const Home = async () => {
             SOCIAL PROOF
             ===================================================== */}
 
-        <section
-          className="
-            bg-[#fffdf9]
-            py-20
-            transition-colors
-            duration-300
-            dark:bg-black
-            sm:py-24
-          "
-        >
+        <section className=" bg-[#fffdf9] py-20 transition-colors duration-300 dark:bg-black sm:py-24">
           <LazySection placeholderHeight={750}>
             <ScrollReveal direction="up" delay={100}>
               <SocialProof />
