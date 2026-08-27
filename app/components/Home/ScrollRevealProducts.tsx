@@ -77,7 +77,7 @@ export default function ScrollRevealProducts({
               key={product.productId}
               className="w-[45vw] sm:w-[35vw] md:w-72 shrink-0 px-1"
             >
-              <ProductCard product={product} />
+              <ProductCard product={product} classNameInner="rounded-none"/>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -93,11 +93,11 @@ export default function ScrollRevealProducts({
       </div>
 
       {/* ================= 🖥️ DESKTOP VIEW: High-End centered flex layout (>= 1024px) ================= */}
-      <div className="hidden lg:flex justify-center gap-6 select-none">
+      <div className="hidden lg:flex justify-center gap-1 select-none">
         {filteredProducts.slice(0, 3).map((product) => (
           <ScrollReveal key={product.productId}>
             <div className="w-70">
-              <ProductCard product={product} />
+              <ProductCard product={product} classNameInner="rounded-none" />
             </div>
           </ScrollReveal>
         ))}

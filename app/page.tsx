@@ -166,6 +166,7 @@ const Home = async () => {
               title=""
               text="#5f5143"
               color="text-[#fff5f5] dark:text-[#1a1a1a]"
+              
             />
           </ScrollReveal>
 
