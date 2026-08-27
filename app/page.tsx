@@ -317,14 +317,7 @@ const Home = async () => {
             ===================================================== */}
 
         <section
-          className="
-    bg-[#29231f]
-    py-20
-    transition-colors
-    duration-300
-    dark:bg-[#050505]
-    sm:py-24
-  "
+          className=" bg-[#29231f] py-20 transition-colors duration-300 dark:bg-[#050505] sm:py-24"
         >
           <div className="mx-auto max-w-7xl px-6">
             {/* =================================================
