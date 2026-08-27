@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/purity */
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
-import Link from "next/link";
+// import Link from "next/link";
 import { Plus, X, ChevronDown, Check, ArrowLeft } from "lucide-react";
 import ProductCard from "@/components/Global/ProductCard";
-import { motion, AnimatePresence } from "framer-motion";
+// import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { IMSProduct } from "@/Types/Product";
+import Image from "next/image";
 
 // Helper to standardise display folder names
 const getDisplayFolderName = (colName: string) => {
@@ -51,7 +53,7 @@ type FavoriteProductCardProps = {
 const FavoriteProductCard = ({
   product,
   collection,
-  onRemoveFolder,
+  // onRemoveFolder,
   onRemoveGlobal,
 }: FavoriteProductCardProps) => {
   const { favCollections, addToCollection, removeFromCollection } =
@@ -116,7 +118,7 @@ const FavoriteProductCard = ({
   // Render the premium, full-bleed Undo slot if removed locally
   if (isRemoved) {
     return (
-      <div className="aspect-[3/4] w-full rounded-2xl border border-dashed border-neutral-250 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/20 p-5 flex flex-col justify-between items-center text-center shadow-xs animate-fadeIn select-none">
+      <div className="aspect-3/4 w-full rounded-2xl border border-dashed border-neutral-250 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/20 p-5 flex flex-col justify-between items-center text-center shadow-xs animate-fadeIn select-none">
         <div className="my-auto space-y-3">
           <p className="text-[9px] font-bold text-neutral-400 tracking-[0.15em] uppercase">
             Removed Item
@@ -143,9 +145,9 @@ const FavoriteProductCard = ({
     );
   }
 
-  const isWishlisted = Object.values(favCollections || {}).some((set) =>
-    set.has(product.productId),
-  );
+  // const isWishlisted = Object.values(favCollections || {}).some((set) =>
+  //   set.has(product.productId),
+  // );
 
   return (
     <div className="relative group/card flex flex-col">
@@ -274,10 +276,10 @@ const FavoritesClient = () => {
     Array<{ product: IMSProduct; collection: string; id: string }>
   >([]);
 
-  const categories = useMemo(
-    () => Array.from(new Set(products.map((p) => p.category))),
-    [products],
-  );
+  // const categories = useMemo(
+  //   () => Array.from(new Set(products.map((p) => p.category))),
+  //   [products],
+  // );
 
   useEffect(() => {
     const allIds = Array.from(
@@ -297,9 +299,9 @@ const FavoritesClient = () => {
     loadProduct();
   }, [favCollections, setProducts]);
 
-  const hasAnyFavorites = Object.values(favCollections).some(
-    (set) => set.size > 0,
-  );
+  // const hasAnyFavorites = Object.values(favCollections).some(
+  //   (set) => set.size > 0,
+  // );
 
   // Deletes an entire folder by removing all products from it
   const deleteFolder = (colName: string) => {
@@ -458,10 +460,10 @@ const FavoritesClient = () => {
                     <div className="relative w-full h-80 rounded-2xl overflow-hidden bg-[#faf9f6] dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 shadow-xs transition duration-300">
                       {/* SLOT 1 (Left Card, tilted -8deg) */}
                       {first ? (
-                        <img
+                        <Image
                           src={getProductImage(first)}
                           alt=""
-                          className="absolute left-7 top-8 h-47.5 w-35 rounded-xl object-cover rotate-[-8deg] shadow-md transition duration-500 group-hover:-translate-y-2 group-hover:rotate-[-6deg] select-none pointer-events-none"
+                          className="absolute left-7 top-8 h-47.5 w-35 rounded-xl object-cover rotate-[-8deg] shadow-md transition duration-500 group-hover:-translate-y-2 group-hover:-rotate-6 select-none pointer-events-none"
                           draggable="false"
                         />
                       ) : (
@@ -472,7 +474,7 @@ const FavoritesClient = () => {
 
                       {/* SLOT 2 (Center Card, straight) */}
                       {second ? (
-                        <img
+                        <Image
                           src={getProductImage(second)}
                           alt=""
                           className="absolute right-36 top-4 h-45 w-32.5 rounded-xl object-cover rotate-0 shadow-lg transition duration-500 group-hover:-translate-y-3 select-none pointer-events-none"
@@ -486,10 +488,10 @@ const FavoritesClient = () => {
 
                       {/* SLOT 3 (Right Card, tilted 8deg) */}
                       {third ? (
-                        <img
+                        <Image
                           src={getProductImage(third)}
                           alt=""
-                          className="absolute right-8 top-12 h-45 w-32.5 rounded-xl object-cover rotate-[8deg] shadow-md transition duration-500 group-hover:-translate-y-2 group-hover:rotate-[6deg] select-none pointer-events-none"
+                          className="absolute right-8 top-12 h-45 w-32.5 rounded-xl object-cover rotate-[8deg] shadow-md transition duration-500 group-hover:-translate-y-2 group-hover:rotate-6 select-none pointer-events-none"
                           draggable="false"
                         />
                       ) : (
@@ -621,7 +623,7 @@ const FavoritesClient = () => {
                         {activePlaceholders.map((item) => (
                           <div
                             key={item.id}
-                            className="aspect-[3/4] w-full rounded-2xl border border-dashed border-neutral-250 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/20 p-5 flex flex-col justify-between items-center text-center shadow-xs animate-fadeIn select-none animate-fadeIn"
+                            className="aspect-3/4 w-full rounded-2xl border border-dashed border-neutral-250 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/20 p-5 flex flex-col justify-between items-center text-center shadow-xs animate-fadeIn select-none animate-fadeIn"
                           >
                             <div className="my-auto space-y-3">
                               <p className="text-[9px] font-bold text-neutral-400 tracking-[0.15em] uppercase">

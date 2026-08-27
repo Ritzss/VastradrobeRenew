@@ -27,7 +27,7 @@ export default function ProductGallery({ images, openGallery }: Props) {
   return (
     <div className="w-full min-w-0 max-w-full overflow-hidden select-none">
       {/* ================= 📱 MOBILE VIEW: Elegant Swiper Carousel ================= */}
-      <div className="block lg:hidden w-full relative aspect-[3/4.5] sm:aspect-[4/3] md:aspect-[16/10] rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 min-w-0 max-w-full">
+      <div className="block lg:hidden w-full relative aspect-3/4.5 sm:aspect-4/3 md:aspect-16/10 rounded-2xl overflow-hidden shadow-xs border border-neutral-100 dark:border-neutral-900 bg-[#faf9f6] dark:bg-neutral-950 min-w-0 max-w-full">
         <Swiper
           modules={[Pagination]}
           pagination={{ clickable: true }}

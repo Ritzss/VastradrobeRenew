@@ -124,7 +124,7 @@ export default function ProductStackMobile({
                   }}
                 >
                   <div className="overflow-hidden rounded-3xl dark:bg-neutral-950 dark:border-white dark:border dark:text-[#b68351] bg-white shadow-2xl">
-                    <div className="grid grid-cols-2 gap-2 dark:bg-[#1d1416] bg-[#f7f4ef] p-2">
+                    <div className="grid grid-cols-2 gap-2 dark:bg-neutral-900 bg-[#f7f4ef] p-2">
                       {variantImages.map((image, idx) => (
                         <div
                           key={idx}

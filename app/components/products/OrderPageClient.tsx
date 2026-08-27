@@ -9,9 +9,9 @@ import EmptyState from "@/components/Global/EmptyState";
 import Link from "next/link";
 import { createSlug } from "@/lib/slug";
 import {
-  FileText,
+  // FileText,
   Calendar,
-  Truck,
+  // Truck,
   CreditCard,
   ChevronDown,
   Package,
