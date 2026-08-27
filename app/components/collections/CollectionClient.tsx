@@ -5,7 +5,7 @@ import {
   useState,
   useMemo,
   useEffect,
-  startTransition,
+  // startTransition,
   useCallback,
 } from "react";
 import { motion } from "framer-motion";
@@ -137,11 +137,11 @@ export default function CollectionClient({
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const openProduct = useCallback((index: number) => {
-    startTransition(() => {
-      setSelectedIndex(index);
-    });
-  }, []);
+  // const openProduct = useCallback((index: number) => {
+  //   startTransition(() => {
+  //     setSelectedIndex(index);
+  //   });
+  // }, []);
 
   const closeProduct = useCallback(() => {
     setSelectedIndex(null);

@@ -10,8 +10,8 @@ import { whatsappMessages } from "@/lib/whatsapp";
 import {
   Plus,
   Minus,
-  Trash2,
-  ArrowRight,
+  // Trash2,
+  // ArrowRight,
   ShieldCheck,
   Truck,
   RefreshCw,

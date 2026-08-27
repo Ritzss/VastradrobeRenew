@@ -126,7 +126,7 @@ export default function CartDrawer() {
               duration: 0.35,
               ease: "easeOut",
             }}
-            className="fixed right-0 top-0 z-50 h-screen w-[85vw] sm:w-[420px] bg-white dark:bg-neutral-950 border-l border-neutral-100 dark:border-neutral-900 shadow-2xl flex flex-col text-neutral-800 dark:text-neutral-200 select-none transition-colors duration-300"
+            className="fixed right-0 top-0 z-50 h-screen w-[85vw] sm:w-105 bg-white dark:bg-neutral-950 border-l border-neutral-100 dark:border-neutral-900 shadow-2xl flex flex-col text-neutral-800 dark:text-neutral-200 select-none transition-colors duration-300"
           >
             {/* 1. DRAWER HEADER */}
             <div className="border-b border-neutral-100 dark:border-neutral-900 px-6 py-5 shrink-0">
@@ -315,7 +315,7 @@ export default function CartDrawer() {
                                 },
                               }}
                               onClick={() => setCartDrawerOpen(false)}
-                              className="min-w-[270px] max-w-[270px] shrink-0 rounded-xl border border-neutral-100 dark:border-neutral-900 bg-white dark:bg-neutral-950 overflow-hidden hover:border-neutral-300 dark:hover:border-neutral-700 transition duration-300 shadow-xs"
+                              className="min-w-67.5 max-w-67.5 shrink-0 rounded-xl border border-neutral-100 dark:border-neutral-900 bg-white dark:bg-neutral-950 overflow-hidden hover:border-neutral-300 dark:hover:border-neutral-700 transition duration-300 shadow-xs"
                             >
                               <div className="flex h-28">
                                 <div className="relative h-full w-20 shrink-0 overflow-hidden bg-neutral-50 dark:bg-neutral-900 border-r border-neutral-100 dark:border-neutral-900">

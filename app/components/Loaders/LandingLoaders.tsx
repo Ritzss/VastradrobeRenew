@@ -19,7 +19,7 @@ export default function LandingLoader({ loading }: Props) {
       <AnimatePresence mode="wait">
         {loading && (
           <motion.div
-            className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-[#fcfbfa] dark:bg-[#110a0b] overflow-hidden origin-top"
+            className="fixed inset-0 z-9999 flex flex-col items-center justify-center bg-[#fcfbfa] dark:bg-neutral-950 overflow-hidden origin-top"
             initial={{ opacity: 1, y: "0%" }}
             exit={{
               y: "-100%",

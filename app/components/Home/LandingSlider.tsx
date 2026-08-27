@@ -25,7 +25,7 @@ export default function LandingSlider() {
 
   if (!isLoaderFinished) {
     return (
-      <div className="max-w-7xl mx-auto px-6 h-0 md:h-[500px]" />
+      <div className="max-w-7xl mx-auto px-6 h-0 md:h-125" />
     );
   }
 
@@ -50,7 +50,7 @@ export default function LandingSlider() {
               <Link href={`/lp/${page.slug}/index.html`} className="block w-full">
                 
                 {/* Asymmetrical Split Grid Container */}
-                <div className="grid grid-cols-1 md:grid-cols-12 h-auto md:h-[500px]">
+                <div className="grid grid-cols-1 md:grid-cols-12 h-auto md:h-125">
                   
                   {/* 1. LEFT COLUMN: TEXT NARRATIVE */}
                   <div className="md:col-span-6 lg:col-span-5 p-8 sm:p-12 md:p-16 flex flex-col justify-center items-start text-left bg-[#faf9f6] dark:bg-neutral-950 space-y-4 md:space-y-6">

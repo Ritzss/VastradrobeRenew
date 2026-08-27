@@ -349,8 +349,8 @@ export default async function BlogDetailPage({
                   ================================================= */}
 
                   {/* =================================================
-    STANDARD TEXT + IMAGE
-================================================= */}
+                      STANDARD TEXT + IMAGE
+                  ================================================= */}
 
                   {layout === 1 && (
                     <div className="grid md:grid-cols-12 gap-10 items-center">

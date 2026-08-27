@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppContext } from "@/hooks/useAppContext";
+import Image from "next/image";
 
 /**
  * 👑 LUXURY COMPONENT: Fly-To-Cart Jumping Animation (Refined)
@@ -44,7 +45,7 @@ export default function FlyToCartAnimation() {
   return (
     <AnimatePresence>
       {animatingProduct && (
-        <div className="fixed inset-0 pointer-events-none z-[10000] overflow-hidden">
+        <div className="fixed inset-0 pointer-events-none z-10000 overflow-hidden">
           {/* Backdrop flash effect (Ultra-subtle) */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -82,7 +83,7 @@ export default function FlyToCartAnimation() {
             className="fixed w-32 h-40 overflow-hidden border-2 border-[#6A0F1F] dark:border-[#e4e198] shadow-2xl bg-white dark:bg-black"
           >
             {productImg && (
-              <img
+              <Image
                 src={productImg}
                 alt=""
                 className="w-full h-full object-cover object-top pointer-events-none select-none"

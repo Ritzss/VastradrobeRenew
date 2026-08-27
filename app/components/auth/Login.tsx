@@ -5,7 +5,7 @@ import { useAppContext } from "@/hooks/useAppContext";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import OtpInput from "./OtpInput";
 import { toast } from "sonner";
 import Script from "next/script";
