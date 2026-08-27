@@ -203,17 +203,7 @@ const Home = async () => {
 
         <section
           id="kids-collection"
-          className="
-            border-b
-            border-[#dce2d5]
-            bg-[#edf1e9]
-            py-20
-            transition-colors
-            duration-300
-            dark:border-neutral-900
-            dark:bg-[#101310]
-            sm:py-24
-          "
+          className=" border-b border-[#dce2d5] bg-[#edf1e9] py-20 transition-colors duration-300 dark:border-neutral-900 dark:bg-[#101310] sm:py-24"
         >
           <ScrollReveal direction="up" delay={100}>
             <SectionHeader
