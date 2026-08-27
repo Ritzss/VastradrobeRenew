@@ -38,7 +38,7 @@ const CATEGORY_MAP: Record<string, string[]> = {
 export default function ScrollRevealProducts({
   products,
   category,
-  color,
+  // color,
 }: Props) {
   const normalizedCategory = category.toLowerCase();
   const categoryFilters = CATEGORY_MAP[normalizedCategory] || [
