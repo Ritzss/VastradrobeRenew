@@ -292,7 +292,7 @@ const Home = async () => {
 
             <LazySection placeholderHeight={700}>
               <ScrollReveal direction="up" delay={200}>
-                <BlogPreviewGrid limit={3} />
+                <BlogPreviewGrid limit={4} />
               </ScrollReveal>
             </LazySection>
 
