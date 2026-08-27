@@ -64,19 +64,7 @@ const BlogClient = ({ showTitle = true }: BlogClientProps) => {
                 {/* Main title */}
 
                 <h1
-                  className="
-                    max-w-4xl
-                    font-serif
-                    text-4xl
-                    font-light
-                    leading-[1.05]
-                    tracking-[-0.025em]
-                    text-[#332d28]
-                    sm:text-5xl
-                    md:text-6xl
-                    lg:text-7xl
-                    dark:text-white
-                  "
+                  className=" max-w-4xl font-serif text-4xl font-light leading-[1.05] tracking-tight text-[#332d28] sm:text-5xl md:text-6xl lg:text-7xl dark:text-white"
                 >
                   Beyond Fabric.
                   <br />
@@ -171,8 +159,8 @@ const BlogClient = ({ showTitle = true }: BlogClientProps) => {
                         dark:bg-neutral-900
                         ${
                           isFeatured
-                            ? "aspect-[16/9]"
-                            : "aspect-[4/3]"
+                            ? "aspect-video"
+                            : "aspect-4/3"
                         }
                       `}
                     >
@@ -200,7 +188,7 @@ const BlogClient = ({ showTitle = true }: BlogClientProps) => {
                         className="
                           absolute
                           inset-0
-                          bg-gradient-to-t
+                          bg-linear-to-t
                           from-black/35
                           via-transparent
                           to-transparent
