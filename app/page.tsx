@@ -1,247 +1,351 @@
 import Link from "next/link";
-// import BlogClient from "./blog/BlogsClient";
 import Slider from "./components/Global/Header";
 import ScrollReveal from "./components/Global/ScrollReveal";
-// import CategoryBar from "./components/navbar/Categorybar";
-// import CategorySlider from "./components/Home/CategorySlider";
-// import HomeVideos from "./components/Home/HomeVideos";
 import LatestArrivals from "./components/Home/LatestProduct";
 import ScrollRevealProducts from "./components/Home/ScrollRevealProducts";
-// import SocialProof from "./components/Home/SocialProof";
-import { IMSProduct } from "./Types/Product";
-// import HomeVideosWrapper from "./components/Global/HomeVideosWrapper";
-// import BlogClientWrapper from "./components/Global/BlogClientWrapper";
-import SocialProofClient from "./components/Global/SocialProofClient";
-import dynamic from "next/dynamic";
+import SocialProof from "./components/Home/SocialProof";
 import BlogPreviewGrid from "./components/Home/BlogPreviewGrid";
 import LandingSlider from "./components/Home/LandingSlider";
+import RecentlyViewed from "./components/Home/RecentlyViewed";
+import FeaturedCollections from "./components/Home/FeaturedCollections";
+import LazySection from "./components/Global/LazySection";
+import ShopByColor from "./components/Home/ShopbyColor";
+import WhatsAppPageMessage from "./components/Global/WhatsAppPageMessage";
+import SectionHeader from "./components/Global/SectionHeader";
+import { whatsappMessages } from "./lib/whatsapp";
 
-// const BlogClient = dynamic(() => import("./blog/BlogsClient"));
-const HomeVideos = dynamic(() => import("./components/Home/HomeVideos"), {
-  loading: () => <div className="h-125 w-full bg-gray-200 animate-pulse" />,
-});
-// const SocialProof = dynamic(() => import("./components/Home/SocialProof"),
-//   { ssr: false }
-// );
-// const SocialSection = dynamic(() => import("./components/Home/SocialSection"));
-
-const CATEGORY_MAP: Record<string, string[]> = {
-  men: ["men"],
-  women: ["women"],
-  kids: ["boys", "girls"],
-  ethnic: ["ethnic"],
-};
-
-// export const dynamic = "force-dynamic";
-async function getProductsByMainCategory(
-  mainCategory: string,
-  limit = 8,
-): Promise<IMSProduct[]> {
-  try {
-    const categories = CATEGORY_MAP[mainCategory.toLowerCase()] || [];
-
-    if (categories.length === 0) return [];
-
-    const responses = await Promise.all(
-      categories.map((cat) =>
-        fetch(
-          `${process.env.IMS_BASE_URL}/api/ims/public/products?category=${cat}&limit=${limit}`,
-          { next: { revalidate: 120 } },
-        ),
-      ),
-    );
-
-    const results = await Promise.all(
-      responses.map((res) =>
-        res.ok ? res.json() : Promise.resolve({ products: [] }),
-      ),
-    );
-
-    return results.flatMap((r) => r.products || []);
-  } catch (err) {
-    console.error(`${mainCategory.toUpperCase()} FETCH ERROR:`, err);
-    return [];
-  }
-}
-
-async function getLatestProducts(): Promise<IMSProduct[]> {
-  try {
-    const res = await fetch(
-      `${process.env.IMS_BASE_URL}/api/ims/public/products/latest`,
-      { next: { revalidate: 60 } },
-    );
-
-    if (!res.ok) return [];
-
-    const data = await res.json();
-    return data.products || [];
-  } catch (err) {
-    console.error("LATEST PRODUCTS FETCH ERROR:", err);
-    return [];
-  }
-}
-
+/**
+ * VastraDrobe Homepage
+ *
+ * The homepage is structured as an editorial shopping journey:
+ *
+ * Hero
+ * → Promotional content
+ * → Featured collections
+ * → Latest arrivals
+ * → Shop by color
+ * → Women
+ * → Kids
+ * → Men
+ * → Recently viewed
+ * → Vastra Journal
+ * → Social proof
+ *
+ * ScrollReveal and LazySection are intentionally retained throughout
+ * the page to preserve the existing animation and performance behavior.
+ */
 const Home = async () => {
-  const latestProducts = await getLatestProducts();
-  const womenProducts = await getProductsByMainCategory("women");
-  const kidsProducts = await getProductsByMainCategory("kids");
-  const menProducts = await getProductsByMainCategory("men");
+  let latestProducts = [];
+  let womenProducts = [];
+  let menProducts = [];
+  let kidsProducts = [];
+  let featuredCollections = [];
+  let allProducts = [];
+
+  /*
+   * Fetch all homepage data from the IMS in one request.
+   *
+   * The 120-second revalidation keeps the homepage fast while
+   * still allowing new products and collection changes to appear
+   * without requiring a deployment.
+   */
+  try {
+    const res = await fetch(`${process.env.IMS_BASE_URL}/api/ims/public/home`, {
+      next: {
+        revalidate: 120,
+      },
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+
+      latestProducts = data.latestProducts || [];
+      womenProducts = data.womenProducts || [];
+      menProducts = data.menProducts || [];
+      kidsProducts = data.kidsProducts || [];
+      featuredCollections = data.featuredCollections || [];
+      allProducts = data.allProducts || [];
+    } else {
+      console.warn("Homepage fetch returned non-200 status:", res.status);
+    }
+  } catch (err) {
+    /*
+     * Keep the homepage renderable even if the IMS is temporarily
+     * unavailable. Individual sections will simply receive empty
+     * product arrays.
+     */
+    console.error("HOMEPAGE IMS FETCH FAILED:", err);
+  }
 
   return (
-    <section className="w-full bg-[#f9f5ef] text-black ">
-      {/* HERO */}
-      <Slider />
+    <>
+      <WhatsAppPageMessage message={whatsappMessages.home()} />
 
-      {/* LANDING PAGE PROMO */}
-      <div className="hidden md:block">
-        <LandingSlider />
-      </div>
+      <section className="w-full bg-[#fffdf9] text-black transition-colors duration-300 dark:bg-black dark:text-white">
+        {/* =====================================================
+            HERO
+            ===================================================== */}
 
-      {/* CATEGORY */}
-      {/* <section id="category-section" className="py-20 bg-[#dfc9ac] text-center">
-        <p className="uppercase tracking-[0.35em]  text-sm text-[#25272D] mb-4">
-          Explore
-        </p>
-        <h2 className="text-4xl text-[#6a0f1f] font-semibold mb-12">
-          Shop by Category
-        </h2>
-        <CategorySlider />
-      </section> */}
+        <Slider />
 
-      {/* LATEST ARRIVALS */}
-      <section
-        id="latestArrival"
-        className="mx-auto py-24 text-center bg-[#fffaf6]"
-      >
-        <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
-          New This Season
-        </p>
+        {/* =====================================================
+            LANDING PROMOTION
+            ===================================================== */}
 
-        <h2 className="text-4xl md:text-5xl text-[#5f5143] font-semibold mb-6">
-          Latest Arrivals
-        </h2>
-
-        <p className="text-[#957f6a] max-w-xl mx-auto mb-16 text-base leading-relaxed">
-          Fresh silhouettes, breathable fabrics, and elevated everyday
-          essentials.
-        </p>
-
-        <LatestArrivals products={latestProducts} />
-      </section>
-
-      {/* WOMEN */}
-      <section id="collection" className="bg-[#f9f5ef] py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-20">
-          <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
-            Women
-          </p>
-
-          <h2 className="text-4xl md:text-5xl text-[#5f5143] font-semibold">
-            Co-ords You’ll Love
-          </h2>
-        </div>
-        <ScrollRevealProducts
-          products={womenProducts}
-          category="women"
-          title=""
-          color="#fffaf6"
-        />
-      </section>
-
-      {/* Kids */}
-      <section className="bg-[#fffaf6] py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-20">
-          <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
-            Kids
-          </p>
-
-          <h2 className="text-4xl md:text-5xl text-[#5f5143] font-semibold">
-            Playful & Comfortable
-          </h2>
+        <div className="block">
+          <ScrollReveal direction="up" delay={100}>
+            <LandingSlider />
+          </ScrollReveal>
         </div>
 
-        <ScrollRevealProducts
-          products={kidsProducts}
-          category="kids"
-          title=""
-          color="#f9f5ef"
-        />
-      </section>
+        {/* =====================================================
+            FEATURED COLLECTIONS
+            ===================================================== */}
 
-      {/* MEN */}
-      <section className="bg-[#f9f5ef] py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-20">
-          <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
-            Men
-          </p>
+        <section className="bg-[#fffdf9] py-8 transition-colors duration-300 dark:bg-black sm:py-12">
+          <LazySection placeholderHeight={450}>
+            <ScrollReveal direction="up" delay={100}>
+              <FeaturedCollections sections={featuredCollections} />
+            </ScrollReveal>
+          </LazySection>
+        </section>
 
-          <h2 className="text-4xl md:text-5xl text-[#5f5143] font-semibold">
-            Modern Everyday Wear
-          </h2>
-        </div>
+        {/* =====================================================
+            LATEST ARRIVALS
+            ===================================================== */}
 
-        <ScrollRevealProducts
-          products={menProducts}
-          category="men"
-          title=""
-          color="#fffaf6"
-        />
-      </section>
-
-      {/* VIDEO SECTION */}
-      <section className="bg-[#fffaf6] py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-          <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
-            Craftsmanship
-          </p>
-
-          <h2 className="text-4xl md:text-5xl text-[#5f5143] font-semibold">
-            See Vastra in Motion
-          </h2>
-        </div>
-
-        <HomeVideos />
-      </section>
-
-      {/* BLOG */}
-      <section className="bg-[#f9f5ef] py-28">
-        <div className="max-w-7xl mx-auto px-6">
-          <ScrollReveal>
-            <div className="text-center mb-20">
-              <p className="uppercase tracking-[0.35em] text-[12px] text-[#957f6a] mb-4">
-                Vastra Journal
-              </p>
-
-              <h2 className="text-4xl md:text-5xl text-[#5f5143] font-semibold mb-6">
-                Beyond Fabric. Into Thought.
-              </h2>
-
-              <p className="text-[#7a6a5c] max-w-2xl mx-auto text-lg">
-                Stories on sustainability, craftsmanship, and the materials
-                shaping modern wardrobes.
-              </p>
-            </div>
+        <section
+          id="latestArrival"
+          className=" border-y border-[#e5dfd6] bg-white py-20 text-center transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950 sm:py-24"
+        >
+          <ScrollReveal direction="up" delay={100}>
+            <SectionHeader
+              subtitle="New This Season"
+              title="Latest Arrivals"
+              description="Fresh silhouettes, breathable fabrics, and elevated everyday essentials. Handcrafted with care for modern presence."
+              className="mb-14 px-6"
+            />
           </ScrollReveal>
 
-          <BlogPreviewGrid limit={3} />
+          <ScrollReveal direction="up" delay={200}>
+            <LatestArrivals products={latestProducts} />
+          </ScrollReveal>
+        </section>
 
-          <div className="flex justify-center mt-16">
-            <Link
-              href="/blog"
-              className="px-10 py-3 rounded-full border border-[#5f5143] text-[#5f5143] hover:bg-[#5f5143] hover:text-white transition"
-            >
-              Explore All Articles →
-            </Link>
+        {/* =====================================================
+            SHOP BY COLOR
+            ===================================================== */}
+
+        <LazySection placeholderHeight={450}>
+          <ScrollReveal direction="up" delay={100}>
+            <ShopByColor products={allProducts} />
+          </ScrollReveal>
+        </LazySection>
+
+        {/* =====================================================
+            WOMEN
+            ===================================================== */}
+
+        <section
+          id="women-collection"
+          className=" border-y border-[#e2dbd1] bg-[#f7f2eb] py-20 transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950 sm:py-24"
+        >
+          <ScrollReveal direction="up" delay={100}>
+            <SectionHeader
+              subtitle="Women"
+              title="Co-ords You’ll Love"
+              description="Effortless silhouettes designed to move with you, from polished everyday dressing to relaxed occasions."
+              className="mb-12 px-6"
+            />
+          </ScrollReveal>
+
+          <ScrollReveal direction="up" delay={200}>
+            <ScrollRevealProducts
+              products={womenProducts}
+              category="women"
+              title=""
+              text="#5f5143"
+              color="text-[#fff5f5] dark:text-[#1a1a1a]"
+              
+            />
+          </ScrollReveal>
+
+          {/* <div className="mt-10 flex justify-center">
+            <ScrollReveal direction="up" delay={300}>
+              <Link
+                href="/women"
+                className=" rounded-full border border-[#bfb2a5] px-7 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#5f5143] transition-all duration-300 hover:border-[#6A0F1F] hover:bg-[#6A0F1F] hover:text-white"
+              >
+                Explore Women →
+              </Link>
+            </ScrollReveal>
+          </div> */}
+        </section>
+
+        {/* =====================================================
+                        KIDS
+            ===================================================== */}
+
+        <section
+          id="kids-collection"
+          className=" border-b border-[#dce2d5] bg-[#edf1e9] py-20 transition-colors duration-300 dark:border-neutral-900 dark:bg-[#101310] sm:py-24"
+        >
+          <ScrollReveal direction="up" delay={100}>
+            <SectionHeader
+              subtitle="Kids"
+              title="Playful & Comfortable"
+              description="Easy-to-wear styles made for movement, comfort, and all the little moments in between."
+              className="mb-12 px-6"
+            />
+          </ScrollReveal>
+
+          <ScrollReveal direction="up" delay={200}>
+            <ScrollRevealProducts
+              products={kidsProducts}
+              category="kids"
+              title=""
+              color="text-[#fff8f8] dark:text-[#1a1a1a]"
+            />
+          </ScrollReveal>
+
+          {/* <div className="mt-10 flex justify-center">
+            <ScrollReveal direction="up" delay={300}>
+              <Link
+                href="/kids"
+                className=" rounded-full border border-[#aeb9a6] px-7 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#53604f] transition-all duration-300 hover:border-[#53604f] hover:bg-[#53604f] hover:text-white"
+              >
+                Explore Kids →
+              </Link>
+            </ScrollReveal>
+          </div> */}
+        </section>
+
+        {/* =====================================================
+            MEN
+            ===================================================== */}
+
+        <section
+          id="men-collection"
+          className=" border-b border-[#d6cec3] bg-[#eee6db] py-20 transition-colors duration-300 dark:border-neutral-900 dark:bg-neutral-950 sm:py-24"
+        >
+          <ScrollReveal direction="up" delay={100}>
+            <SectionHeader
+              subtitle="Men"
+              title="Modern Everyday Wear"
+              description="Refined essentials, relaxed tailoring, and timeless silhouettes made for everyday presence."
+              className="mb-12 px-6"
+            />
+          </ScrollReveal>
+
+          <ScrollReveal direction="up" delay={200}>
+            <ScrollRevealProducts
+              products={menProducts}
+              category="men"
+              title=""
+              text="#5f5143"
+              color="text-[#fff5f5] dark:text-[#1a1a1a]"
+            />
+          </ScrollReveal>
+
+          {/* <div className="mt-10 flex justify-center">
+            <ScrollReveal direction="up" delay={300}>
+              <Link
+                href="/men"
+                className=" rounded-full border border-[#b8aa9b] px-7 py-3 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#554b42] transition-all duration-300 hover:border-[#6A0F1F] hover:bg-[#6A0F1F] hover:text-white"
+              >
+                Explore Men →
+              </Link>
+            </ScrollReveal>
+          </div> */}
+        </section>
+
+        {/* =====================================================
+            RECENTLY VIEWED
+            ===================================================== */}
+
+        <RecentlyViewed products={allProducts} />
+
+        {/* =====================================================
+            VASTRA JOURNAL
+            ===================================================== */}
+
+        <section
+          className=" bg-[#29231f] py-20 transition-colors duration-300 dark:bg-[#050505] sm:py-24"
+        >
+          <div className="mx-auto max-w-7xl px-6">
+            {/* =================================================
+        JOURNAL HEADER
+        ================================================= */}
+
+            <ScrollReveal direction="up" delay={100}>
+              <SectionHeader
+                subtitle="Vastra Journal"
+                title="Beyond Fabric. Into Thought."
+                description="Stories on sustainability, craftsmanship, and the materials shaping modern wardrobes."
+                className=" mb-14 [&_p]:text-[#b9aea4]! [&_h2]:text-[#f7f4ee]!"
+              />
+            </ScrollReveal>
+
+            {/* =================================================
+        BLOG ARTICLES
+        ================================================= */}
+
+            <LazySection placeholderHeight={700}>
+              <ScrollReveal direction="up" delay={200}>
+                <BlogPreviewGrid limit={4} />
+              </ScrollReveal>
+            </LazySection>
+
+            {/* =================================================
+        JOURNAL CTA
+        ================================================= */}
+
+            <div className="mt-14 flex justify-center">
+              <ScrollReveal direction="up" delay={300}>
+                <Link
+                  href="/blog"
+                  className=" rounded-full border border-[#81766d] px-10 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#f7f4ee] transition-all duration-300 hover:border-[#f7f4ee] hover:bg-[#f7f4ee] hover:text-[#29231f]"
+                >
+                  Explore All Articles →
+                </Link>
+              </ScrollReveal>
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* =====================================================
+            SOCIAL PROOF
+            ===================================================== */}
+
+        <section className=" bg-[#fffdf9] py-20 transition-colors duration-300 dark:bg-black sm:py-24">
+          <LazySection placeholderHeight={750}>
+            <ScrollReveal direction="up" delay={100}>
+              <SocialProof />
+            </ScrollReveal>
+          </LazySection>
+        </section>
+
+        {/* =====================================================
+            SEO CONTENT
+            ===================================================== */}
+
+        <section className="sr-only">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="text-3xl font-semibold text-[#7a1020]">
+              Shop Women&apos;s Co-Ord Sets Online in India
+            </h2>
+
+            <p className="mt-6 leading-8 text-[#7b6a58]">
+              Discover premium women&apos;s co-ord sets online in India,
+              including formal co-ord sets for women, office wear co-ord sets,
+              cotton co-ord sets, western wear, ethnic wear, dresses, tops, and
+              everyday fashion. VastraDrobe offers thoughtfully designed
+              clothing crafted for comfort, elegance, and modern lifestyles.
+            </p>
+          </div>
+        </section>
       </section>
-
-      {/* Social Media */}
-      {/* <SocialSection /> */}
-
-      {/* SOCIAL PROOF */}
-      <SocialProofClient />
-    </section>
+    </>
   );
 };
 

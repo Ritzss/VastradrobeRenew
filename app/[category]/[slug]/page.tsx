@@ -6,6 +6,9 @@ import ProductPDPClient from "../../components/products/ProductIdClient";
 import { IMSProduct } from "@/Types/Product";
 import { createSlug, getProductIdFromSlug } from "@/lib/slug";
 import { redirect } from "next/navigation";
+import WhatsAppPageMessage from "@/components/Global/WhatsAppPageMessage";
+import { whatsappMessages } from "@/lib/whatsapp";
+import ProductFAQSchema from "@/components/products/ProductFAQSchema";
 
 async function getProduct(id: number): Promise<IMSProduct | null> {
   const res = await fetch(
@@ -130,7 +133,80 @@ export async function generateMetadata({
   };
 }
 
+// async function getProductReviewRating(productId: number) {
+//   try {
+//     const res = await fetch(
+//       `${process.env.NEXT_PUBLIC_IMS_BASE_URL || "https://vastradrobe.com"}/api/reviews?productId=${productId}`,
+//       {
+//         next: { revalidate: 120 },
+//       },
+//     );
 
+//     if (!res.ok) {
+//       return null;
+//     }
+
+//     const data = await res.json();
+
+//     // Don't generate aggregateRating when the product
+//     // doesn't have any reviews yet.
+//     if (!data.success || !data.rating || Number(data.rating.count) === 0) {
+//       return null;
+//     }
+
+//     return {
+//       average: Number(data.rating.average),
+//       count: Number(data.rating.count),
+//     };
+//   } catch (error) {
+//     console.error("Failed to fetch product review rating:", error);
+
+//     return null;
+//   }
+// }
+
+async function getProductReviewRating(productId: number) {
+  try {
+    const baseUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      "https://vastradrobe.com";
+
+    const res = await fetch(
+      `${baseUrl}/api/reviews?productId=${productId}`,
+      {
+        next: { revalidate: 120 },
+      },
+    );
+
+    if (!res.ok) {
+      return null;
+    }
+
+    const data = await res.json();
+
+    // Don't generate aggregateRating when the product
+    // doesn't have any reviews yet.
+    if (
+      !data.success ||
+      !data.rating ||
+      Number(data.rating.count) === 0
+    ) {
+      return null;
+    }
+
+    return {
+      average: Number(data.rating.average),
+      count: Number(data.rating.count),
+    };
+  } catch (error) {
+    console.error(
+      "Failed to fetch product review rating:",
+      error,
+    );
+
+    return null;
+  }
+}
 
 export default async function ProductPage({
   params,
@@ -165,9 +241,11 @@ export default async function ProductPage({
     return <div className="p-10 text-center">Product not found</div>;
   }
 
-  const inventory = await getInventory(productId);
-
-  const allProducts = await getAllProducts();
+  const [inventory, reviewRating, allProducts] = await Promise.all([
+    getInventory(productId),
+    getProductReviewRating(productId),
+    getAllProducts(),
+  ]);
 
   const similarProducts = allProducts.filter(
     (p) => p.category === product.category && p.productId !== product.productId,
@@ -230,6 +308,18 @@ export default async function ProductPage({
 
     category: product.category,
 
+    ...(reviewRating
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: reviewRating.average,
+            reviewCount: reviewRating.count,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
+
     offers: {
       "@type": "Offer",
 
@@ -242,7 +332,23 @@ export default async function ProductPage({
 
       price: product.price,
 
-      availability: inventory.some((item: any) => item.quantity > 0)
+      availability: inventory.some((variant: any) => {
+        // Product without designs
+        if (variant.sizes && Object.keys(variant.sizes).length > 0) {
+          return Object.values(variant.sizes).some(
+            (qty: any) => Number(qty) > 0,
+          );
+        }
+
+        // Product with designs
+        if (variant.designs) {
+          return Object.values(variant.designs).some((design: any) =>
+            Object.values(design).some((qty: any) => Number(qty) > 0),
+          );
+        }
+
+        return false;
+      })
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
     },
@@ -250,6 +356,15 @@ export default async function ProductPage({
 
   return (
     <>
+      <WhatsAppPageMessage
+        message={whatsappMessages.product(
+          product.name,
+          `https://vastradrobe.com/${product.category.toLowerCase()}/${createSlug(
+            product.name,
+            product.productId,
+          )}`,
+        )}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -263,6 +378,8 @@ export default async function ProductPage({
           __html: JSON.stringify(productStructuredData),
         }}
       />
+
+      <ProductFAQSchema product={product} />
 
       <ProductPDPClient
         product={product}

@@ -23,6 +23,7 @@ export async function GET() {
 
     return NextResponse.json({
       cart: user?.cart || [],
+      savedForLater: user?.savedForLater || [],
     });
   } catch {
     return NextResponse.json({ cart: [] }, { status: 401 });

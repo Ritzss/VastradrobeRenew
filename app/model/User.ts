@@ -11,23 +11,76 @@ const UserSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
+      sparse: true,
       lowercase: true,
       trim: true,
     },
     password: {
       type: String,
-      required: true,
+      default: null,
+    },
+
+    isPasswordSet: {
+      type: Boolean,
+      default: false,
     },
     avatar: { type: String },
+    mobile: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+    },
 
     /* 🛒 CART */
     cart: [
       {
-        productId: Number,
-        size: String,
-        qty: Number,
+        productId: {
+          type: Number,
+          required: true,
+        },
+
+        color: {
+          type: String,
+          required: true,
+        },
+
+        size: {
+          type: String,
+          required: true,
+        },
+
+        qty: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
+
+    /* 💾 SAVED FOR LATER */
+    savedForLater: [
+      {
+        productId: {
+          type: Number,
+          required: true,
+        },
+
+        color: {
+          type: String,
+          required: true,
+        },
+
+        size: {
+          type: String,
+          required: true,
+        },
+
+        qty: {
+          type: Number,
+          default: 1,
+        },
       },
     ],
 

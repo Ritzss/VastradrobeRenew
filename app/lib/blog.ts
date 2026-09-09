@@ -1,10 +1,23 @@
 export interface BlogSection {
-  type: "paragraph" | "heading" | "list" | "image" | "Intro";
+  type: "paragraph" | "heading" | "list" | "image" | "Intro" | "table" | "faq";
+
   value?: string;
+
   items?: string[];
+
   src?: string;
+
   style?: "decimal" | "disc";
+
   layout?: "default" | "side-left" | "side-right";
+
+  // Table content
+  headers?: string[];
+  rows?: string[][];
+
+  // FAQ content
+  question?: string;
+  answer?: string;
 }
 
 export interface BlogItem {
@@ -13,6 +26,7 @@ export interface BlogItem {
   excerpt?: string;
   coverImage: string;
   content: BlogSection[];
+  date?: string;
 }
 
 export const blogs: BlogItem[] = [
@@ -21,7 +35,8 @@ export const blogs: BlogItem[] = [
     slug: "cotton-flex-hemp-summer-fabric",
     excerpt:
       "When summer arrives, fabric choices matter as much as style. Enter Cotton Flex hemp — a lightweight, breathable hybrid that’s quickly becoming a favorite for warm-weather wardrobes. Combining the softness and drape of cotton with the strength, breathability, and eco-credentials of hemp, Cotton Flex hemp offers a practical, comfortable, and stylish solution for everything from everyday tees to tailored summer trousers......See More",
-    coverImage: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933749/stack_bossoz.jpg",
+    coverImage:
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/v1771933749/stack_bossoz.jpg",
     content: [
       {
         type: "Intro",
@@ -147,6 +162,1314 @@ export const blogs: BlogItem[] = [
         type: "paragraph",
         value:
           "Cotton Flex hemp is more than just another summer fabric — it’s a practical, comfortable, and eco-minded choice that answers modern needs: breathable performance, a soft hand, durability, and subtle stretch for movement. Whether you’re building a travel capsule wardrobe, looking for breathable officewear, or simply want a comfortable tee that holds up to heat and activity, Cotton Flex hemp is worth trying this season.",
+      },
+    ],
+  },
+  {
+    title: "Quiet Luxury vs. Loud Fashion: Which Style Actually Fits You?",
+    slug: "quiet-luxury-vs-loud-fashion-style-guide",
+    excerpt:
+      "Minimal elegance or bold self-expression? Quiet Luxury and Loud Fashion are two of the biggest fashion movements shaping 2026. Explore what defines each aesthetic, why they're trending, and discover which style truly reflects your personality...See More",
+
+    coverImage: "https://images.unsplash.com/photo-1496747611176-843222e1e57c",
+
+    content: [
+      {
+        type: "Intro",
+        value:
+          "Fashion has always been more than just clothing. It's a reflection of personality, confidence, culture, and even mood. In 2026, style has become deeply personal, allowing people to express themselves in ways that go far beyond following seasonal trends. Scroll through Instagram, Pinterest, or TikTok and you'll notice something fascinating. Some creators are dressed in perfectly tailored neutral outfits that radiate elegance without a single visible logo. Others embrace oversized silhouettes, vibrant colors, graphic prints, and statement accessories that instantly grab attention. These two worlds represent the biggest fashion movements today: Quiet Luxury and Loud Fashion. While they appear completely opposite, both encourage authenticity and confidence. The real question isn't which trend is better. It's which one genuinely feels like you. This guide explores both styles, their origins, key characteristics, and practical styling tips to help you build a wardrobe that reflects your personality instead of simply following trends.",
+      },
+
+      {
+        type: "heading",
+        value: "Fashion Is No Longer About Following Trends",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b",
+        value:
+          "Modern fashion evolves at incredible speed thanks to social media, digital creators, and online shopping. Individual expression now matters more than blindly following seasonal trends.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "A decade ago, fashion trends were largely dictated by luxury designers, fashion magazines, and celebrities. Collections released during Fashion Week influenced what stores sold months later, and trends often lasted an entire season before gradually changing. Today, the fashion industry moves at the speed of social media. A single viral outfit can inspire millions of people within hours, and entirely new aesthetics can emerge almost overnight. This rapid evolution has transformed the way people shop, dress, and think about personal style.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Instead of committing to one fashion identity, people now embrace multiple aesthetics depending on the occasion. You might wear relaxed streetwear while meeting friends, switch to smart casual attire for work, choose elegant ethnic wear during festivals, and prefer comfortable basics while traveling. Modern wardrobes are becoming more versatile because life itself demands versatility. Fashion is no longer about fitting into one category. It's about having the freedom to express different parts of your personality whenever you choose.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "This shift has also encouraged smarter shopping habits. Rather than buying clothes simply because they're trending, many people now invest in pieces that offer longevity, versatility, and quality. Consumers are increasingly asking important questions before making purchases. Will this outfit still look good next year? Can I style it in multiple ways? Does it reflect who I am? These questions have given rise to two distinct yet equally influential approaches to dressing: Quiet Luxury and Loud Fashion.",
+      },
+
+      {
+        type: "heading",
+        value: "The Rise of Personal Style Over Fashion Rules",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1483985988355-763728e1935b",
+        value:
+          "Today's wardrobes combine timeless essentials with expressive statement pieces, allowing people to adapt their style to every occasion.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "One of the biggest changes in modern fashion is the decline of rigid style rules. There was a time when people believed certain colors couldn't be worn together, oversized clothing was considered unfashionable, or sneakers belonged only in gyms. Those ideas have largely disappeared. Today's fashion celebrates experimentation. Confidence has become more important than conformity, and individuality is often considered more stylish than perfection.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "This freedom has encouraged people to build wardrobes that reflect their lifestyles rather than chasing every passing trend. Students prioritize comfort without sacrificing style. Professionals seek clothing that transitions effortlessly between meetings and evenings out. Travelers value lightweight, versatile pieces that can be styled multiple ways. The modern wardrobe isn't defined by quantity but by flexibility, making every purchase more meaningful.",
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Quiet Luxury",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
+        value:
+          "Quiet Luxury emphasizes impeccable tailoring, premium fabrics, timeless silhouettes, and understated sophistication instead of obvious branding.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Quiet Luxury is one of the fastest-growing fashion movements in recent years. Despite its name, it isn't about spending enormous amounts of money or wearing designer labels from head to toe. Instead, it's about choosing clothing that speaks through quality, craftsmanship, and attention to detail. A perfectly fitted white shirt, well-tailored trousers, premium denim, or a beautifully structured blazer can often create a stronger impression than garments covered in oversized logos.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "The philosophy behind Quiet Luxury is simple: let the clothing do the talking without demanding attention. Every piece is selected for its versatility, durability, and timeless appeal. Neutral color palettes, clean lines, and refined textures create outfits that remain stylish season after season. Instead of chasing trends, people embracing this aesthetic build wardrobes around essentials that can be mixed and matched effortlessly.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Although the trend gained significant attention through celebrities, luxury brands, and television dramas, its core principles are surprisingly practical. Anyone can embrace Quiet Luxury by prioritizing quality over quantity, choosing garments with excellent fit, and focusing on fabrics that look and feel premium. The result is a wardrobe that feels polished, sophisticated, and remarkably easy to style.",
+      },
+
+      {
+        type: "heading",
+        value: "Key Characteristics of Quiet Luxury",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Neutral shades like white, cream, beige, olive, charcoal, navy, and black.",
+          "Minimal or completely invisible branding.",
+          "Premium fabrics including cotton, linen, wool, cashmere, and quality blends.",
+          "Timeless tailoring that remains fashionable year after year.",
+          "Perfect fit taking priority over flashy designs.",
+          "Classic footwear such as loafers, leather sneakers, Chelsea boots, and clean white sneakers.",
+          "Simple accessories that complement rather than dominate the outfit.",
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Quiet Luxury appeals to people who appreciate timeless fashion over short-lived trends. Every purchase becomes an investment rather than an impulse buy. A carefully chosen wardrobe built around versatile essentials not only looks sophisticated but also reduces unnecessary shopping, making it a more sustainable approach to fashion in the long run.",
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Loud Fashion",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1509631179647-0177331693ae",
+        value:
+          "Loud Fashion celebrates individuality through bold colors, oversized silhouettes, eye-catching graphics, and statement accessories that instantly stand out.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "If Quiet Luxury is about subtle confidence, Loud Fashion is about fearless self-expression. This aesthetic embraces the idea that clothing should be exciting, creative, and impossible to ignore. Instead of blending into the crowd, Loud Fashion encourages people to showcase their personality through bold prints, oversized fits, unique textures, layered outfits, and vibrant color combinations. Every outfit becomes an opportunity to tell a story.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Streetwear has played a major role in shaping this movement. What began as a niche culture influenced by skateboarding, hip-hop, and sneaker communities has evolved into one of the most influential segments of global fashion. Oversized hoodies, graphic t-shirts, cargo pants, varsity jackets, chunky sneakers, and statement accessories have become everyday wardrobe staples for millions of young people around the world.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Loud Fashion isn't about wearing the most expensive clothes. It's about confidence, creativity, and originality. Mixing unexpected colors, layering different textures, or pairing classic pieces with bold accessories allows every individual to create a look that's uniquely their own.",
+      },
+
+      {
+        type: "heading",
+        value: "Characteristics of Loud Fashion",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Oversized silhouettes and relaxed fits.",
+          "Graphic prints and bold typography.",
+          "Statement sneakers and chunky footwear.",
+          "Bright color combinations.",
+          "Cargo pants and utility-inspired designs.",
+          "Layering with jackets, overshirts, and hoodies.",
+          "Bold accessories like chains, caps, rings, and crossbody bags.",
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "One reason Loud Fashion continues to dominate is because it allows people to experiment without strict rules. A colorful oversized shirt can be paired with neutral trousers. A graphic tee can be styled under a blazer. Sneakers can be worn with tailored pants. The emphasis is on creativity rather than perfection, making every outfit feel personal.",
+      },
+
+      {
+        type: "heading",
+        value: "Why Gen Z Loves Both Styles",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f",
+        value:
+          "Today's generation doesn't limit itself to one aesthetic. Modern wardrobes combine timeless essentials with expressive statement pieces depending on the occasion.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Unlike previous generations, Gen Z rarely commits to a single fashion identity. One day they may wear relaxed cargos and sneakers, while the next day they choose a monochrome linen shirt with tailored trousers. Fashion has become fluid, allowing people to switch aesthetics depending on mood, season, or occasion.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Social media has played an enormous role in encouraging this flexibility. Platforms like Instagram, Pinterest, and TikTok expose users to thousands of styling ideas every day. Instead of following one influencer, people borrow inspiration from many different creators and combine elements to develop their own unique style.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Another reason is practicality. Today's consumers value clothing that works in multiple situations. A wardrobe built around versatile essentials mixed with statement pieces offers endless outfit combinations while reducing unnecessary shopping.",
+      },
+
+      {
+        type: "heading",
+        value: "The Psychology Behind What You Wear",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
+        value:
+          "Clothing influences confidence, perception, and first impressions more than most people realize.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Fashion isn't only about appearance. It has a surprising psychological impact on how we think, feel, and interact with others. Researchers often refer to this phenomenon as 'enclothed cognition,' the idea that the clothes we wear influence our confidence, decision-making, and behavior.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "A perfectly fitted blazer may make someone feel more professional during an important presentation. Comfortable oversized clothing can create a relaxed mindset during casual outings. Bright colors often communicate energy and optimism, while neutral shades project sophistication and calmness. Although clothing doesn't define personality, it certainly influences how we present ourselves to the world.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "First impressions are often formed within seconds, and clothing naturally becomes part of that process. Well-fitted garments, clean footwear, and coordinated colors create an image of confidence and attention to detail before a single conversation begins.",
+      },
+
+      {
+        type: "heading",
+        value: "Trending Fashion Colors for 2026",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
+        value:
+          "Fashion in 2026 embraces earthy neutrals, calming tones, and timeless shades that pair effortlessly with modern silhouettes.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Every season introduces new color palettes, but 2026 has shown a clear preference for earthy, versatile shades that work across different aesthetics. These colors are easy to mix, photograph beautifully, and remain wearable throughout the year.",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Olive Green",
+          "Butter Yellow",
+          "Mocha Brown",
+          "Off White",
+          "Sand Beige",
+          "Dusty Blue",
+          "Charcoal Grey",
+          "Forest Green",
+          "Soft Black",
+          "Deep Navy",
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Rather than filling wardrobes with dozens of bright colors, many stylists recommend building a neutral foundation first and then introducing statement shades through shirts, jackets, sneakers, or accessories. This approach creates outfits that remain stylish across multiple seasons without feeling repetitive.",
+      },
+
+      {
+        type: "heading",
+        value: "Building a Smart Wardrobe Instead of a Big Wardrobe",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f",
+        value:
+          "A thoughtfully curated wardrobe focuses on versatility rather than quantity, allowing every piece to work with several others.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "One of the biggest misconceptions in fashion is that looking stylish requires owning hundreds of clothes. In reality, the most fashionable people often own fewer garments than you'd expect. The difference lies in choosing versatile, well-fitting pieces that can be mixed and matched effortlessly. A wardrobe built around timeless essentials not only saves money but also makes getting dressed significantly easier every morning.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "This philosophy is known as a capsule wardrobe. Instead of chasing every trend, a capsule wardrobe focuses on high-quality basics that work across seasons and occasions. The result is less clutter, fewer impulsive purchases, and outfits that always feel intentional.",
+      },
+
+      {
+        type: "heading",
+        value: "10 Essentials Every Modern Wardrobe Should Have",
+      },
+
+      {
+        type: "list",
+        style: "decimal",
+        items: [
+          "A crisp white shirt that works for both formal and casual occasions.",
+          "A well-fitted pair of blue jeans.",
+          "Neutral-colored trousers for work and special events.",
+          "Quality oversized and regular-fit t-shirts.",
+          "A lightweight overshirt or jacket for layering.",
+          "Clean white sneakers that complement almost every outfit.",
+          "A versatile blazer for smart-casual styling.",
+          "A classic hoodie or sweatshirt for relaxed days.",
+          "Minimal accessories such as a leather belt, watch, or chain.",
+          "Comfortable ethnic wear for festivals and celebrations.",
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Once these essentials are in place, adding seasonal trends becomes much easier. Every new purchase should complement existing pieces rather than requiring an entirely new outfit. This approach maximizes the value of every garment while keeping your wardrobe fresh and practical.",
+      },
+
+      {
+        type: "heading",
+        value: "How to Mix Quiet Luxury with Loud Fashion",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d",
+        value:
+          "Modern fashion isn't about choosing one aesthetic. Combining minimalist staples with bold statement pieces creates balanced, versatile outfits.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "The best part about modern fashion is that you don't have to choose between Quiet Luxury and Loud Fashion. Many of today's most stylish outfits combine elements of both. Pair a minimalist beige overshirt with relaxed cargo trousers. Wear a graphic t-shirt under a tailored blazer. Style classic denim with bold sneakers. These combinations create outfits that feel balanced, contemporary, and uniquely personal.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Mixing aesthetics also increases the versatility of your wardrobe. Instead of buying separate collections for different occasions, you simply style the same garments differently. A neutral shirt worn with tailored trousers creates a sophisticated office look, while pairing that same shirt with cargos and sneakers instantly gives it a relaxed streetwear vibe.",
+      },
+
+      {
+        type: "heading",
+        value: "Common Fashion Mistakes to Avoid",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Even expensive clothing can't compensate for poor styling choices. Building confidence starts with avoiding a few common mistakes that many shoppers make.",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Buying clothes simply because they're trending.",
+          "Ignoring fit in favor of brand names.",
+          "Choosing quantity over quality.",
+          "Wearing too many statement pieces together.",
+          "Ignoring fabric quality and comfort.",
+          "Neglecting footwear while focusing only on clothing.",
+          "Choosing colors that don't complement each other.",
+          "Keeping clothes that no longer fit or suit your style.",
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Fashion should simplify your life rather than complicate it. Every item in your wardrobe should have a purpose. If a piece hasn't been worn in over a year and doesn't hold sentimental value, it may be time to let it go.",
+      },
+
+      {
+        type: "heading",
+        value: "Accessories: The Small Details That Make a Big Difference",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1504593811423-6dd665756598",
+        value:
+          "Minimal accessories often elevate an outfit more effectively than adding extra layers of clothing.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Accessories are often overlooked, yet they can completely transform an outfit. A clean leather belt, classic wristwatch, minimalist chain, sunglasses, or structured tote bag adds personality without overwhelming your look. The key is balance. Quiet Luxury favors understated accessories that blend seamlessly into the outfit, while Loud Fashion embraces bold sneakers, chunky jewelry, crossbody bags, and statement eyewear.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Rather than wearing every accessory you own, choose one or two that complement the overall outfit. Sometimes the smallest details create the strongest impression.",
+      },
+
+      {
+        type: "heading",
+        value: "Dressing for Different Occasions",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Your wardrobe should adapt to your lifestyle. Modern fashion isn't about wearing the same style everywhere. It's about knowing how to dress appropriately while staying true to your personality.",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "College: Relaxed oversized t-shirts, cargos, sneakers, and lightweight shirts.",
+          "Office: Neutral shirts, tailored trousers, loafers, and structured blazers.",
+          "Travel: Breathable fabrics, versatile layers, and comfortable footwear.",
+          "Festivals: Contemporary ethnic wear with modern accessories.",
+          "Date Nights: Clean silhouettes, premium fabrics, and subtle accessories.",
+          "Weekend Outings: Graphic tees, denim, overshirts, and comfortable sneakers.",
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Dressing appropriately for each occasion doesn't mean sacrificing your individuality. Instead, it shows an understanding of balance, confidence, and personal style.",
+      },
+
+      {
+        type: "heading",
+        value: "Fashion Trends Defining 2026",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1517841905240-472988babdf9",
+        value:
+          "Fashion in 2026 blends comfort, functionality, sustainability, and timeless design, proving that style and practicality can coexist beautifully.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Every year introduces fresh trends, but 2026 stands out because fashion is becoming more thoughtful rather than simply more dramatic. Consumers are paying closer attention to fabric quality, garment longevity, versatility, and sustainability. Instead of chasing dozens of short-lived trends, shoppers are investing in clothing that offers value beyond a single season.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Designers across the world are embracing relaxed tailoring, breathable natural fabrics, earthy color palettes, and silhouettes that prioritize comfort without compromising style. Oversized fits continue to dominate casual wear, while clean tailoring remains the foundation of formal dressing. This balance between comfort and sophistication is shaping the future of modern wardrobes.",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Relaxed tailoring replacing overly slim silhouettes.",
+          "Earth-inspired color palettes dominating seasonal collections.",
+          "Natural fabrics such as cotton, linen, hemp, and blends gaining popularity.",
+          "Matching co-ord sets becoming everyday essentials.",
+          "Utility-inspired details like oversized pockets and cargos.",
+          "Minimal sneakers replacing bulky statement footwear.",
+          "Gender-neutral styling becoming increasingly mainstream.",
+          "Layering lightweight garments for year-round versatility.",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "The Future of Fashion Is Sustainable",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1514996937319-344454492b37",
+        value:
+          "Choosing quality over quantity helps create a wardrobe that's better for both your personal style and the environment.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Sustainability is no longer a niche concept. It has become one of the biggest priorities in fashion. Consumers are becoming more conscious of how clothing is produced, how long it lasts, and its overall environmental impact. Instead of buying five low-quality garments that wear out within months, many shoppers now prefer investing in one well-made piece that remains stylish for years.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Simple habits such as buying versatile clothing, caring for garments properly, repairing instead of replacing, and choosing timeless designs contribute to a more sustainable wardrobe. These choices also reduce unnecessary spending while encouraging mindful shopping habits.",
+      },
+
+      {
+        type: "heading",
+        value: "Finding Your Own Personal Style",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Perhaps the most important lesson in fashion is that personal style can't be copied. Inspiration can come from celebrities, creators, magazines, or runway shows, but true style develops through experimentation. It grows as you discover which colors make you feel confident, which fits suit your body, and which outfits genuinely represent your personality.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Some people naturally gravitate toward timeless minimalism, while others enjoy bold prints, oversized silhouettes, and expressive accessories. Many find themselves somewhere in between. There is no universal formula because fashion is ultimately about authenticity rather than perfection.",
+      },
+
+      {
+        type: "heading",
+        value: "Why Quality Always Wins",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Regardless of the aesthetic you prefer, quality should always remain the foundation of your wardrobe. A well-constructed garment fits better, feels more comfortable, lasts longer, and continues looking great after repeated wear. Whether you're buying a simple t-shirt, a tailored shirt, premium denim, or a lightweight jacket, paying attention to fabric, stitching, and craftsmanship makes a noticeable difference.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Quality doesn't necessarily mean luxury pricing. It means choosing garments thoughtfully, taking proper care of them, and building a wardrobe filled with pieces you'll genuinely enjoy wearing instead of clothes that sit untouched in the back of your closet.",
+      },
+
+      {
+        type: "heading",
+        value: "Discover Your Style with VastraDrobe",
+      },
+
+      {
+        type: "image",
+        src: "https://images.unsplash.com/photo-1523398002811-999ca8dec234",
+        value:
+          "A modern wardrobe begins with versatile essentials that combine comfort, quality, and contemporary design.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "At VastraDrobe, we believe fashion should inspire confidence rather than confusion. Whether you're drawn to the understated elegance of Quiet Luxury or the expressive energy of Loud Fashion, the right wardrobe begins with thoughtfully designed pieces that balance quality, comfort, and versatility. From everyday essentials and contemporary casualwear to statement pieces for special occasions, our collections are created to help you express your individuality with ease.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Instead of chasing every passing trend, focus on building a wardrobe you'll enjoy wearing season after season. Mix timeless staples with modern silhouettes, experiment with colors that reflect your personality, and invest in clothing that fits well and feels even better. Fashion is at its best when it empowers you to feel comfortable, confident, and authentic.",
+      },
+
+      {
+        type: "heading",
+        value: "Final Thoughts",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Quiet Luxury and Loud Fashion may seem like complete opposites, but they share one important idea: clothing should help you express who you are. Some days call for clean tailoring, neutral colors, and effortless sophistication. Other days invite bold prints, oversized silhouettes, and fearless creativity. The beauty of modern fashion is that you don't have to choose just one identity. Build a wardrobe around quality essentials, add statement pieces that make you smile, and don't be afraid to experiment. Trends will continue to evolve, but confidence, comfort, and authenticity never go out of style.",
+      },
+    ],
+  },
+  {
+    title: "How to Choose the Right Clothing Colors for Your Skin Tone",
+    slug: "how-to-choose-the-right-clothing-colors-for-your-skin-tone",
+    excerpt:
+      "Discover how to choose clothing colors that complement your skin tone and undertone. Learn about warm, cool, neutral, and olive undertones, contrast, color intensity, outfit combinations, and how to build a personal color palette for a more confident wardrobe.",
+    coverImage:
+      "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747341/female-model-casual-clothes-shrugging-her-shoulders-while-standing-near-her-wardrobe-having-hesitations-what-wear-pretty-woman-having-nothing-wear-clothing-fashionable-people-concept_js7bxv.jpg",
+
+    content: [
+      {
+        type: "Intro",
+        value:
+          "Have you ever noticed that a color can look amazing on one person but completely different on someone else? You put on the same shade expecting the same effect, yet somehow it makes your complexion look dull while it makes someone else look brighter and more polished. That is not just coincidence. The relationship between your skin, clothing color, hair, lighting, and contrast plays a major role in how an outfit looks. Choosing the right clothing colors is not about following strict fashion rules or deciding that certain shades are permanently off-limits. It is about understanding your skin tone, identifying your undertone, recognizing the level of contrast that suits you, and learning how different shades interact with your natural coloring. Once you understand these basics, shopping becomes easier, outfit combinations become more predictable, and your wardrobe starts working together instead of containing twenty random colors that refuse to cooperate. In this guide, we will explore warm, cool, neutral, and olive undertones, discuss skin depth and contrast, explain how to choose colors for casual, formal, and ethnic wear, and show you how to build a practical personal color palette.",
+      },
+
+      {
+        type: "heading",
+        value: "Why Clothing Color Matters More Than You Think",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747343/close-up-woman-front-clothing-piles_mmoc3q.jpg",
+        value:
+          "Color is one of the first things people notice about an outfit. Before someone studies the fabric, stitching, silhouette, or small design details, they usually notice the overall visual impression created by color.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "The right clothing color can make your complexion appear brighter, bring attention toward your face, create better contrast, and make even a simple outfit feel intentional. This is especially important for shirts, T-shirts, kurtas, jackets, dresses, and other pieces that sit close to your face.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "The wrong shade does not necessarily mean the garment looks bad. Sometimes the color simply competes with your natural coloring. It may be too close to your skin, too intense, too muted, too warm, or too cool. The useful part is that you can usually adjust the shade rather than abandoning the entire color family.",
+      },
+
+      {
+        type: "heading",
+        value: "Skin Tone vs. Skin Undertone",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Skin tone and skin undertone are two different things. Your skin tone describes the visible depth of your complexion, such as fair, light, medium, tan, dusky, or deep. Your skin tone can appear slightly different depending on sunlight, tanning, seasons, and lighting.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Your undertone is the subtle color underneath the surface of your skin. The most common categories are warm, cool, and neutral. Olive is also commonly discussed separately because olive complexions can contain a muted green, golden, or slightly grey quality that does not always fit neatly into a warm-versus-cool system.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "This distinction matters because two people with a similar skin depth can have different undertones and therefore look better in different versions of the same color. A medium complexion with a warm undertone and a medium complexion with a cool undertone may both look great in blue, but the most flattering blue may be completely different.",
+      },
+
+      {
+        type: "heading",
+        value: "Quick Undertone Comparison",
+      },
+
+      {
+        type: "table",
+        headers: [
+          "Undertone",
+          "Common Clues",
+          "Best Color Families",
+          "Try These",
+        ],
+        rows: [
+          [
+            "Warm",
+            "Golden, peachy, yellow or warm appearance",
+            "Earthy and warm shades",
+            "Rust, mustard, olive, cream, camel",
+          ],
+          [
+            "Cool",
+            "Pink, rosy or bluish appearance",
+            "Blue-based and jewel tones",
+            "Navy, cobalt, emerald, plum, burgundy",
+          ],
+          [
+            "Neutral",
+            "Combination of warm and cool characteristics",
+            "Balanced shades",
+            "Taupe, teal, sage, dusty rose, navy",
+          ],
+          [
+            "Olive",
+            "Green, golden, neutral or muted cast",
+            "Earthy, muted and rich shades",
+            "Deep teal, forest green, burgundy, chocolate",
+          ],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "How to Identify Your Skin Undertone",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "You do not need professional equipment to get a useful idea of your undertone. Natural daylight and a few simple comparisons are enough to give you a strong starting point. No single test is perfect, so it is better to combine several clues.",
+      },
+
+      {
+        type: "list",
+        style: "decimal",
+        items: [
+          "Vein test: Look at the veins on your wrist in natural daylight. Green-looking veins can indicate a warm undertone, while blue or purple-looking veins can indicate a cool undertone. A mixture can suggest neutral.",
+          "Gold and silver test: Compare gold and silver jewelry against your skin. If gold appears more harmonious, you may lean warm. If silver looks more natural, you may lean cool. If both work equally well, you may be neutral.",
+          "White and cream test: Hold pure white and cream or ivory near your face. If cream makes your complexion look more balanced, you may lean warm. If crisp white looks cleaner, you may lean cool.",
+          "Sun reaction: How your skin reacts to sunlight can provide another clue, although this should not be treated as a definitive undertone test.",
+          "Color comparison: Compare different versions of the same color. Try navy, cobalt, sky blue, and dusty blue instead of judging the entire blue family as one color.",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Warm Undertones",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747351/stylish-woman-spending-time-summer-field_spllzs.jpg",
+        value:
+          "Warm undertones often pair naturally with earthy shades, golden neutrals, warm greens, terracotta, rust, mustard, camel, and other rich colors.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Warm undertones often contain golden, yellow, peach, or warm-olive qualities. Clothing colors with similar warmth can create a natural relationship with the complexion and make an outfit feel cohesive.",
+      },
+
+      {
+        type: "table",
+        headers: ["Color Family", "Good Starting Shades", "Style Effect"],
+        rows: [
+          ["Yellow", "Mustard, Ochre", "Warm and energetic"],
+          ["Red", "Brick Red, Warm Burgundy", "Rich and confident"],
+          ["Green", "Olive, Forest Green", "Earthy and sophisticated"],
+          ["Brown", "Camel, Chocolate", "Classic and grounded"],
+          ["Orange", "Rust, Terracotta", "Warm and expressive"],
+          ["White", "Cream, Ivory", "Soft and polished"],
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "For a casual outfit, try a cream T-shirt with olive trousers and brown footwear. For smart casual dressing, a beige shirt with chocolate trousers can create a sophisticated combination. For evening wear, deeper shades such as forest green, rust, warm burgundy, and dark brown can add richness without looking overly bright.",
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Cool Undertones",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787748787/full-shot-cool-people-posing-together_1_mkjxlx.jpg",
+        value:
+          "Cool undertones often pair naturally with blue-based shades, jewel tones, crisp neutrals, and cooler reds.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Cool undertones generally contain pink, rosy, bluish, or cool-red qualities. Colors with blue, violet, or cooler red characteristics can create a clean and balanced appearance.",
+      },
+
+      {
+        type: "table",
+        headers: ["Color Family", "Good Starting Shades", "Style Effect"],
+        rows: [
+          ["Blue", "Navy, Cobalt, Sapphire", "Clean and confident"],
+          ["Green", "Emerald, Cool Forest Green", "Rich and elegant"],
+          ["Purple", "Lavender, Plum", "Creative and refined"],
+          ["Red", "Berry, Wine, Cool Burgundy", "Bold and sophisticated"],
+          ["Pink", "Cool Pink, Rose", "Fresh and refined"],
+          ["White", "Pure White", "Crisp and bright"],
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "For everyday wear, a crisp white T-shirt with navy denim is an easy combination. For formal clothing, light blue with charcoal or navy is a reliable choice. For evening outfits, burgundy, wine, emerald, and deep blue can provide strong color while remaining sophisticated.",
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Neutral Undertones",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Neutral undertones sit between warm and cool. This usually gives you considerable flexibility because you can wear both warm and cool shades, provided the intensity and contrast are balanced.",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Soft white",
+          "Cream",
+          "Taupe",
+          "Stone",
+          "Beige",
+          "Navy",
+          "Charcoal",
+          "Dusty rose",
+          "Muted teal",
+          "Sage",
+          "Mauve",
+          "Berry",
+          "Medium grey",
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "For neutral undertones, contrast and saturation can sometimes matter more than whether a shade is technically warm or cool. This makes neutral coloring particularly useful for experimenting with different fashion styles.",
+      },
+
+      {
+        type: "heading",
+        value: "What About Olive Undertones?",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747338/pexels-nyaraaquino-11701105_ovruxp.jpg",
+        value:
+          "Olive complexions often look especially harmonious in rich, earthy, jewel-inspired, and slightly muted shades.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Olive undertones can be difficult to classify because they may contain a mixture of green, golden, neutral, or slightly grey qualities. A shade that is described as warm or cool on paper may therefore look different against olive skin than expected.",
+      },
+
+      {
+        type: "table",
+        headers: ["Color", "Why It Can Work", "Try This Version"],
+        rows: [
+          [
+            "Deep Teal",
+            "Balances green and blue qualities",
+            "Dark or muted teal",
+          ],
+          ["Forest Green", "Works with earthy undertones", "Deep forest green"],
+          ["Burgundy", "Adds rich contrast", "Wine or muted burgundy"],
+          ["Chocolate Brown", "Creates a grounded palette", "Dark chocolate"],
+          ["Cream", "Softens the complexion", "Ivory or warm cream"],
+          ["Mustard", "Adds controlled warmth", "Muted mustard"],
+        ],
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "If very bright or neon colors feel overpowering, experiment with slightly muted versions. Deep teal instead of bright turquoise, dusty rose instead of neon pink, or forest green instead of extremely bright green can create a more balanced effect.",
+      },
+
+      {
+        type: "heading",
+        value: "Skin Depth Also Changes How Colors Look",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Undertone is important, but skin depth also influences how colors appear. A pale yellow shirt creates a different visual relationship against a deep complexion than it does against a very light complexion. Neither combination is automatically better. What matters is the level of contrast you want.",
+      },
+
+      {
+        type: "table",
+        headers: ["Skin Depth", "Colors to Explore"],
+        rows: [
+          [
+            "Light",
+            "Navy, burgundy, forest green, chocolate, charcoal, emerald, rust",
+          ],
+          ["Medium", "Navy, olive, cream, burgundy, teal, terracotta, mustard"],
+          [
+            "Dusky / Deep",
+            "Emerald, cobalt, royal blue, burgundy, fuchsia, mustard, white, purple",
+          ],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Understanding Contrast in Clothing",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747341/pexels-o-l-the-creator-2154260838-34169346_q5rvzm.jpg",
+        value:
+          "Contrast determines how strongly the colors in an outfit stand apart from each other. Similar shades create a softer effect, while stronger differences create a sharper appearance.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Contrast describes the difference in brightness and depth between your skin, hair, and clothing. Low-contrast outfits use colors with similar levels of lightness. Medium-contrast outfits create a noticeable difference. High-contrast outfits create a dramatic visual separation.",
+      },
+
+      {
+        type: "table",
+        headers: ["Contrast Level", "Example", "Effect"],
+        rows: [
+          [
+            "Low",
+            "Cream shirt + beige trousers + tan shoes",
+            "Soft and understated",
+          ],
+          [
+            "Medium",
+            "White shirt + olive trousers + brown shoes",
+            "Balanced and versatile",
+          ],
+          ["High", "White shirt + black trousers", "Sharp and dramatic"],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Color Intensity Matters Too",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Hue is only one part of color. Intensity matters just as much. Sage green and neon green are technically the same color family, but they create completely different visual effects. The same applies to dusty rose and bright fuchsia, sky blue and cobalt, or brick red and scarlet.",
+      },
+
+      {
+        type: "table",
+        headers: ["Soft Version", "Medium Version", "Strong Version"],
+        rows: [
+          ["Sage", "Olive", "Neon Green"],
+          ["Dusty Rose", "Rose", "Fuchsia"],
+          ["Sky Blue", "Royal Blue", "Cobalt"],
+          ["Brick Red", "Red", "Scarlet"],
+          ["Powder Pink", "Pink", "Hot Pink"],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Choosing Colors for Shirts and T-Shirts",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Tops deserve extra attention because they sit close to your face. Start with reliable neutrals such as white, off-white, black, navy, grey, olive, beige, and dark denim. Then add colors that complement your undertone.",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Warm undertones: rust, mustard, olive, terracotta, coral, and cream.",
+          "Cool undertones: cobalt, burgundy, emerald, lavender, navy, and berry.",
+          "Neutral undertones: dusty rose, teal, taupe, sage, soft blue, and mauve.",
+          "Olive undertones: deep teal, forest green, burgundy, chocolate, cream, and muted mustard.",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Choosing Trouser Colors",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Trousers provide more freedom because they sit farther away from your face. Black, navy, charcoal, beige, khaki, olive, brown, cream, light denim, and dark denim are useful wardrobe foundations.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "This is also where you can experiment with colors that may feel too strong as a top. If mustard is overwhelming near your face, mustard trousers can still look excellent with a cream, white, navy, or brown shirt.",
+      },
+
+      {
+        type: "heading",
+        value: "Best Colors for Formal Wear",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Formal clothing usually benefits from controlled combinations. White with navy, white with charcoal, light blue with navy, cream with brown, burgundy with charcoal, black with white, beige with dark brown, and olive with cream are reliable combinations.",
+      },
+
+      {
+        type: "table",
+        headers: ["Occasion", "Color Combination", "Overall Effect"],
+        rows: [
+          ["Interview", "White + Navy + Brown", "Professional and dependable"],
+          ["Office", "Light Blue + Charcoal", "Clean and polished"],
+          ["Dinner", "Burgundy + Charcoal", "Rich and sophisticated"],
+          ["Wedding", "Emerald + Cream + Gold", "Festive and elegant"],
+          ["Business Casual", "Beige + Navy + White", "Relaxed but refined"],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Best Colors for Casual Wear",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747340/pexels-martin-de-arriba-25131490-6919889_hcdu8v.jpg",
+        value:
+          "Casual fashion provides more freedom to experiment with colors, layering, relaxed silhouettes, and statement pieces.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Casual fashion allows considerably more experimentation. Try olive with cream, navy with beige, brown with off-white, burgundy with charcoal, dusty blue with white, forest green with beige, rust with dark denim, black with grey, or teal with cream.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "A simple rule is to let one part of the outfit become the visual focus. If your shirt is bold, keep your trousers relatively neutral. If your trousers are colorful, use a simpler top. This keeps experimentation from becoming visual chaos.",
+      },
+
+      {
+        type: "heading",
+        value: "Choosing Colors for Indian Ethnic Wear",
+      },
+
+      {
+        type: "image",
+        src: "https://res.cloudinary.com/dwhn5ec09/image/upload/v1787747355/young-indian-woman-wearing-sari_1_cswl9z.jpg",
+        value:
+          "Indian fashion offers a particularly wide range of colors, from earthy neutrals and jewel tones to festive maroons, saffrons, emeralds, royal blues, golds, and deep reds.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Indian ethnic wear provides an excellent opportunity to experiment with color. Kurtas, sarees, lehengas, sherwanis, Nehru jackets, salwar suits, and Indo-western outfits often combine multiple shades through embroidery, borders, prints, fabrics, and accessories.",
+      },
+
+      {
+        type: "table",
+        headers: ["Undertone", "Ethnic Colors to Explore"],
+        rows: [
+          [
+            "Warm",
+            "Mustard, saffron, rust, maroon, terracotta, olive, peach, gold",
+          ],
+          [
+            "Cool",
+            "Emerald, royal blue, sapphire, plum, wine, magenta, silver",
+          ],
+          ["Neutral", "Teal, dusty rose, jade, mauve, lavender, taupe, berry"],
+          [
+            "Olive",
+            "Deep green, muted teal, burgundy, chocolate, cream, mustard",
+          ],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Gold vs. Silver Accessories",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Accessories can reinforce the temperature of an outfit. Warm palettes often pair naturally with gold, antique gold, bronze, and copper. Cool palettes can work particularly well with silver, white gold, and platinum-like finishes. Neutral undertones can usually move between both.",
+      },
+
+      {
+        type: "heading",
+        value: "The 60-30-10 Color Rule",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "The 60-30-10 rule is an easy way to balance colors. Think of approximately 60 percent of the outfit as the dominant color, 30 percent as the secondary color, and 10 percent as an accent.",
+      },
+
+      {
+        type: "table",
+        headers: ["Percentage", "Role", "Example"],
+        rows: [
+          ["60%", "Dominant", "Navy trousers and jacket"],
+          ["30%", "Secondary", "Cream shirt"],
+          ["10%", "Accent", "Burgundy belt or accessory"],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Monochromatic Dressing",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Monochromatic dressing uses different shades of one color. A light blue shirt with medium blue trousers and a navy jacket is one example. Cream, beige, and camel create another. This approach is useful when you want a polished outfit without spending twenty minutes trying to negotiate peace between your clothes.",
+      },
+
+      {
+        type: "heading",
+        value: "Building Your Personal Color Palette",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Instead of buying clothes in random colors, create a personal palette. Start with three core neutrals, add three supporting colors, and then choose one or two statement shades.",
+      },
+
+      {
+        type: "table",
+        headers: [
+          "Palette",
+          "Core Neutrals",
+          "Supporting Colors",
+          "Statement Colors",
+        ],
+        rows: [
+          [
+            "Warm",
+            "Cream, Camel, Brown",
+            "Olive, Terracotta, Mustard",
+            "Rust, Burgundy",
+          ],
+          [
+            "Cool",
+            "White, Navy, Charcoal",
+            "Emerald, Lavender, Berry",
+            "Cobalt, Plum",
+          ],
+          [
+            "Neutral",
+            "Beige, Navy, Grey",
+            "Sage, Teal, Taupe",
+            "Dusty Rose, Mauve",
+          ],
+          [
+            "Olive",
+            "Cream, Chocolate, Navy",
+            "Deep Teal, Forest Green",
+            "Burgundy, Muted Mustard",
+          ],
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Your 5-Minute Personal Color Test",
+      },
+
+      {
+        type: "list",
+        style: "decimal",
+        items: [
+          "Identify whether your undertone appears warm, cool, neutral, or olive.",
+          "Choose three neutral colors that can form the foundation of your wardrobe.",
+          "Choose three supporting colors that complement your complexion.",
+          "Choose one or two statement colors that reflect your personality.",
+          "Check your chosen colors in natural daylight.",
+          "Try combining each new color with at least three existing pieces.",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Before You Buy: Quick Checklist",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Does the color complement my undertone?",
+          "Does it look good in natural light?",
+          "Can I pair it with at least three things I already own?",
+          "Is the intensity comfortable for me?",
+          "Does it suit the occasion?",
+          "Does the garment fit properly?",
+          "Do I actually like wearing it?",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "How to Make a Difficult Color Work",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "If you love a color that does not naturally complement your undertone, you do not need to remove it from your wardrobe. Move it farther away from your face. Use it as trousers, shoes, a bag, cap, scarf, or jacket. You can also choose a muted version of the same color or balance it with cream, beige, navy, grey, black, or white.",
+      },
+
+      {
+        type: "heading",
+        value: "Common Color Mistakes to Avoid",
+      },
+
+      {
+        type: "list",
+        style: "disc",
+        items: [
+          "Choosing colors only based on whether your skin is fair, medium, dusky, or deep.",
+          "Assuming one shade represents an entire color family.",
+          "Wearing several strong statement colors together without balance.",
+          "Ignoring fit because the color looks good.",
+          "Buying something only because the color is trending.",
+          "Judging colors only under artificial lighting.",
+          "Forgetting that personal preference is part of good styling.",
+        ],
+      },
+
+      {
+        type: "heading",
+        value: "Frequently Asked Questions",
+      },
+
+      {
+        type: "faq",
+        question: "What color looks good on every skin tone?",
+        answer:
+          "There is no single perfect color for everyone. However, navy, cream, burgundy, teal, forest green, and carefully chosen neutrals can work across a wide range of complexions.",
+      },
+
+      {
+        type: "faq",
+        question: "How do I know if my undertone is warm or cool?",
+        answer:
+          "Compare gold and silver jewelry, cream and pure white fabric, and different clothing colors in natural daylight. Use several clues together rather than relying on one test.",
+      },
+
+      {
+        type: "faq",
+        question: "Which colors suit olive skin?",
+        answer:
+          "Deep teal, forest green, burgundy, chocolate brown, cream, olive, muted mustard, terracotta, and earthy reds are useful starting points for olive complexions.",
+      },
+
+      {
+        type: "faq",
+        question: "Can I wear colors that do not match my undertone?",
+        answer:
+          "Absolutely. Move the color farther away from your face, choose a softer version, or balance it with a neutral. Personal style matters just as much as color theory.",
+      },
+
+      {
+        type: "faq",
+        question: "What are good clothing colors for Indian skin tones?",
+        answer:
+          "Indian complexions cover a very broad range, so undertone and skin depth are more useful than one universal palette. Depending on the individual, colors such as emerald, navy, burgundy, mustard, cream, teal, rust, olive, royal blue, and terracotta can be excellent starting points.",
+      },
+
+      {
+        type: "faq",
+        question: "Does skin tone matter more than undertone?",
+        answer:
+          "Both matter. Skin depth influences contrast, while undertone helps determine whether warmer, cooler, or more neutral versions of colors tend to harmonize with the complexion.",
+      },
+
+      {
+        type: "heading",
+        value: "Discover Your Best Colors with VastraDrobe",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "At VastraDrobe, we believe fashion should make getting dressed easier, not more confusing. Whether you prefer clean neutrals, earthy tones, expressive streetwear, contemporary casualwear, or traditional Indian fashion, understanding color gives you another tool for creating better outfits.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Start with versatile neutrals. Discover shades that complement your undertone. Experiment with contrast. Add a few statement colors. Most importantly, choose clothes that fit your lifestyle and make you feel comfortable and confident. You do not need hundreds of clothes. You need clothes that work together.",
+      },
+
+      {
+        type: "heading",
+        value: "Final Thoughts",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "Choosing clothing colors does not require memorizing hundreds of fashion rules. Start by understanding your skin tone and undertone, then experiment with warm, cool, neutral, and olive-friendly shades. Pay attention to contrast, color intensity, fabric, lighting, and the way different colors interact with your complexion.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "But do not let color theory become another set of restrictions. If you love a color that is not traditionally recommended for your undertone, find another way to wear it. Move it farther away from your face, choose a softer version, or balance it with a neutral. Fashion should give you more possibilities, not fewer.",
+      },
+
+      {
+        type: "paragraph",
+        value:
+          "There is no single best color for everyone. The best color is the one that complements your natural features, works with your wardrobe, fits the occasion, and makes you feel like yourself. Once you discover those colors, getting dressed becomes much easier because your wardrobe starts working together instead of behaving like twelve different people forced into the same group project.",
       },
     ],
   },

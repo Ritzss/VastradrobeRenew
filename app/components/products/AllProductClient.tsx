@@ -1,132 +1,137 @@
 "use client";
 
 import ProductCard from "@/components/Global/ProductCard";
+import {
+  collectionDescriptions,
+  collectionMap,
+  collectionOrder,
+} from "@/lib/collectionMap";
 import { IMSProduct } from "@/Types/Product";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { COLLECTIONS } from "@/lib/collections";
+import Link from "next/link";
 
 type Props = {
-  initialProducts: IMSProduct[];
-  pageSize: number;
+  sections: {
+    subcategory: string;
+    totalProducts: number;
+    products: IMSProduct[];
+  }[];
 };
 
-const AllProductClient = ({ initialProducts, pageSize }: Props) => {
-  const [products, setProducts] = useState<IMSProduct[]>(initialProducts);
-  const [page, setPage] = useState(2);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-
-  const observerRef = useRef<HTMLDivElement | null>(null);
-
-  const fetchMore = useCallback(async () => {
-    if (loading || !hasMore) return;
-
-    setLoading(true);
-
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?page=${page}&limit=${pageSize}`,
-      );
-
-      if (!res.ok) throw new Error("Fetch failed");
-
-      const data = await res.json();
-      const newProducts = data.products || [];
-
-      setProducts((prev) => [...prev, ...newProducts]);
-      setPage((prev) => prev + 1);
-
-      if (newProducts.length < pageSize) {
-        setHasMore(false);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+/**
+ * 👑 LUXURY REDESIGN: All Collections Page (Nangalia Ruchira Theme)
+ * 
+ * Elegant, spacious, expanded lookbook layout:
+ * - Each collection is rendered as a standalone, spacious, fully expanded section (no hidden accordions!).
+ * - Every section features:
+ *    - An elegant, minimalist serif header block with the collection's narrative story description.
+ *    - A clean, modern geometric 4-column grid displaying its top 4 featured products using our newly redesigned ProductCard.
+ *    - A tracked uppercase link trigger prompting them to explore the full collection.
+ */
+const AllProductClient = ({ sections }: Props) => {
+  const groupedCollections: Record<
+    string,
+    {
+      description: string;
+      products: IMSProduct[];
     }
-  }, [page, pageSize, loading, hasMore]);
+  > = {};
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          fetchMore();
-        }
-      },
-      { rootMargin: "200px" }, // smoother preload
-    );
+  sections.forEach((section) => {
+    const collection =
+      collectionMap[section.subcategory] ?? `✨ ${section.subcategory}`;
 
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
+    if (!groupedCollections[collection]) {
+      groupedCollections[collection] = {
+        description:
+          collectionDescriptions[collection] ??
+          `Discover our latest ${section.subcategory.toLowerCase()} collection crafted for every occasion.`,
+        products: [],
+      };
     }
 
-    return () => observer.disconnect();
-  }, [fetchMore]);
+    groupedCollections[collection].products.push(...section.products);
+  });
 
-  const groupedProducts = Object.values(
-    products.reduce(
-      (acc, product) => {
-        const key = product.name.trim().toLowerCase();
-        if (!acc[key]) acc[key] = product;
-        return acc;
-      },
-      {} as Record<string, IMSProduct>,
+  const orderedCollections = [
+    ...collectionOrder
+      .filter((name) => groupedCollections[name])
+      .map((name) => [name, groupedCollections[name]] as const),
+
+    ...Object.entries(groupedCollections).filter(
+      ([name]) => !collectionOrder.includes(name),
     ),
-  );
+  ];
 
   return (
-    <section className="w-full pt-28 px-12 bg-[#f9f5ef]">
-      <h1 className="sr-only">All Fashion Products | VastraDrobe</h1>
-      <div className="flex flex-col justify-center items-center">
-        <h1 className="mb-3 text-4xl md:text-5xl font-light tracking-tight text-[#5f5143]">
-        Curated for Every Occasion
-      </h1>
+    <div className="w-full bg-[#fcfbfa] py-12 transition-colors duration-300">
+      
+      {/* 1. HERO HEADER AREA */}
+      <div className="max-w-7xl mx-auto px-6 text-center space-y-4 mb-20">
+        <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+          Vastra Portfolios
+        </p>
 
-      <p className="mb-10 max-w-3xl text-center leading-7 text-[#7a6a5c]">
-        Browse our complete collection of contemporary fashion, from effortless
-        everyday wear to standout statement pieces. Find styles that move with
-        you, wherever the day takes you.
-      </p>
+        <h1 className="font-serif text-4xl md:text-5xl font-light text-neutral-800 tracking-wide uppercase leading-tight">
+          Curated Collections
+        </h1>
+
+        <p className="max-w-2xl mx-auto text-sm leading-relaxed text-neutral-500 font-light">
+          Browse our complete clothing portfolios, handcrafted with intention and organized cleanly to help you discover perfect silhouettes for every occasion.
+        </p>
       </div>
 
-      {/* Count */}
-      <div className="mb-10 text-sm text-[#7a6a5c]">
-        Showing {groupedProducts.length} products
+      {/* 2. COLLECTION SECTIONS (One beautifully styled expanded section per collection) */}
+      <div className="space-y-24 max-w-7xl mx-auto px-6">
+        {orderedCollections.map(([collection, data]) => {
+          const currentCollection = COLLECTIONS.find(
+            (c) => c.label === collection,
+          );
+
+          if (!currentCollection) return null;
+          const elementId = `collection-${currentCollection.slug}`;
+
+          return (
+            <section 
+              key={collection} 
+              id={elementId} 
+              className="scroll-mt-32 space-y-8 border-b border-neutral-100 pb-16 last:border-b-0 last:pb-0"
+            >
+              {/* Collection narrative header */}
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="space-y-3 max-w-3xl">
+                  <h2 className="font-serif text-2xl sm:text-3xl font-light text-neutral-800 tracking-wide uppercase">
+                    {collection}
+                  </h2>
+                  <p className="text-xs leading-relaxed text-neutral-500 font-light">
+                    {data.description}
+                  </p>
+                </div>
+
+                <Link
+                  href={`/collections/${currentCollection.slug}`}
+                  className="inline-flex text-[10px] tracking-widest font-bold uppercase text-[#6A0F1F] hover:underline underline-offset-4 transition duration-300"
+                >
+                  Explore Complete Collection ({data.products.length} items) →
+                </Link>
+              </div>
+
+              {/* Top 4 products grid */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                {data.products.slice(0, 4).map((product) => (
+                  <ProductCard
+                    key={product.productId}
+                    product={product}
+                    Linked
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
 
-      {/* GRID */}
-      <div
-        className="
-        grid
-        grid-cols-2
-        md:grid-cols-3
-        lg:grid-cols-4
-        gap-8
-        lg:gap-10
-      "
-      >
-        {groupedProducts.map((item, index) => (
-          <ProductCard
-            key={`${item.productId}-${index}`}
-            product={item}
-            Linked
-          />
-        ))}
-      </div>
-
-      {/* Infinite Scroll Trigger */}
-      {hasMore && (
-        <div
-          ref={observerRef}
-          className="h-20 flex items-center justify-center"
-        >
-          {loading && (
-            <div className="text-sm text-[#957f6a] animate-pulse">
-              Loading more products…
-            </div>
-          )}
-        </div>
-      )}
-    </section>
+    </div>
   );
 };
 

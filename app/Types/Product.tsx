@@ -14,10 +14,20 @@ export type ProductDetails = {
   unitCount?: string;
 };
 
+export type ProductDesign = {
+  design: string;
+  images: string[];
+  sizes: string[];
+  sku?: string;
+  price?: number;
+  mrp?: number;
+};
+
 export type ProductVariant = {
   color: string;
   sizes: string[];
   images: string[];
+  designs?: ProductDesign[];
 };
 
 export type IMSProduct = {

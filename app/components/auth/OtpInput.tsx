@@ -9,6 +9,13 @@ type Props = {
   onComplete?: (otp: string) => void;
 };
 
+/**
+ * 👑 LUXURY REDESIGN: OTP Digits Input (Nangalia Ruchira Theme)
+ *
+ * Styled for premium look and dark-mode synchronized:
+ * - Geometric shape: Swapped old borders for crisp, slightly rounded rectangular fields.
+ * - Colors: Fully coordinated with signature Wine-Red (#6A0F1F) and Ivory-Gold (#e4e198).
+ */
 export default function OtpInput({
   value,
   setValue,
@@ -76,7 +83,7 @@ export default function OtpInput({
   };
 
   return (
-    <div className="flex gap-4 justify-center mt-2">
+    <div className="flex gap-3.5 justify-center mt-2 select-none">
       {Array.from({ length }).map((_, index) => (
         <input
           key={index}
@@ -89,7 +96,7 @@ export default function OtpInput({
           onChange={(e) => handleChange(index, e.target.value)}
           onKeyDown={(e) => handleKeyDown(index, e)}
           onPaste={handlePaste}
-          className="w-8 md:w-12 h-12 text-center text-lg font-semibold rounded-xl bg-white border border-[#e6d8c8] text-[#5f5143] outline-none transition-all duration-200 focus:border-[#6a0f1f] focus:scale-101"
+          className="w-10 sm:w-12 h-12 text-center text-lg font-serif font-light rounded-md bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-white outline-none transition-all duration-300 focus:border-[#6A0F1F] dark:focus:border-[#e4e198] focus:scale-105 shadow-inner"
         />
       ))}
     </div>

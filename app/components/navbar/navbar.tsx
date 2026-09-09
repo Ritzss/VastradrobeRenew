@@ -1,53 +1,50 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-import { IoSearch, IoCart } from "react-icons/io5";
-import { FaRegHeart } from "react-icons/fa6";
-import { MdSupportAgent } from "react-icons/md";
-import { RiAccountBoxFill, RiAccountBoxLine } from "react-icons/ri";
-import { Dock, Home, LogOut, Menu, ShoppingBag, X } from "lucide-react";
-
+import { useRouter, usePathname } from "next/navigation";
+import {
+  Search,
+  ShoppingBag,
+  Heart,
+  User,
+  Menu,
+  X,
+  LogOut,
+  HelpCircle,
+  ChevronDown,
+} from "lucide-react";
 import { useAppContext } from "@/hooks/useAppContext";
-import { FaRegListAlt } from "react-icons/fa";
-// import TypingEffect from "../UI/TypingEffect";
-import { IoIosArrowDown } from "react-icons/io";
-import RotatingText from "../UI/RotatingText";
+import { motion, AnimatePresence } from "framer-motion";
+import Logo from "@/components/UI/Logo";
 
 /**
- * Fixes applied:
- * - consistent pill corners using rounded-full
- * - reliable dropdown open state (mouse + focus) so it doesn't close while interacting
- * - input + rotating placeholder vertically aligned
+ * 👑 LUXURY REDESIGN: Navbar (Nangalia Ruchira Theme)
  *
- * UI-only tweaks — core logic (fetch, router, handlers) preserved.
+ * Advanced Features Implemented:
+ * - 🌗 Full dark-mode support styling (using class-based selectors with Tailwind v4).
+ * - ⚡ INTERACTIVE SHRINKING HEADER:
+ *   * When scrolled down, the header shrinks to h-14/15.
+ *   * If you hover over the shrunk header, OR scroll back up, it expands back smoothly to h-20/24!
+ * - 🌀 Sliding marquee announcements inside the wine-red top bar.
+ * - 📱 Overlap-proof mobile responsiveness.
+ * - 🎬 Entrance Animations: Slow-easing entrance animations on logo, links, icons, and mobile panels.
  */
-
 const Navbar = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-  const [showCategoryDropdown, setShowCategoryDropdown] = useState(true);
-  const [open, setOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false); // <-- small UI state to keep dropdown open while interacting
+  const [searchActive, setSearchOpen] = useState(false);
+  const [collectionOpen, setCollectionOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isHovered, setIsHovered] = useState(false); // Track header hover state
   const menuRef = useRef<HTMLDivElement>(null);
-
-  const searchItems = [
-    "Pants",
-    "Tops",
-    "Sandals",
-    "Jackets",
-    "Pants",
-    "Tops",
-    "Sandals",
-    "Jackets",
-  ];
 
   const {
     products,
@@ -57,58 +54,83 @@ const Navbar = () => {
     searchQuery,
     setSearchQuery,
     handleLogout,
+    setCartDrawerOpen,
+    isLoaderFinished,
   } = useAppContext();
 
   const isLogged = !!user;
-
   const [value, setValue] = useState(searchQuery);
-  const [profileOpen, setProfileOpen] = useState(false);
+
+  const announcements = [
+    "Free Shipping Over ₹999 | Handcrafted Luxury Clothing",
+    "Where Elegance Meets Everyday Wear",
+    "Designed with Intention. Worn with Confidence.",
+    "Easy 3-Day Returns | Secure Checkout",
+    "Complimentary Shipping Above ₹999",
+  ];
+
+  // Shrink header when user scrolls down
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close menus on page navigation
+  useEffect(() => {
+    setMenuOpen(false);
+    setSearchOpen(false);
+    setCollectionOpen(false);
+    setProfileOpen(false);
+  }, [pathname]);
+
+  // Handle mobile resize
   useEffect(() => {
     const media = window.matchMedia("(min-width: 768px)");
-
     const handleChange = () => {
       if (media.matches) {
         setMenuOpen(false);
       }
     };
-
     media.addEventListener("change", handleChange);
     return () => media.removeEventListener("change", handleChange);
   }, []);
 
-  /* 🔍 FETCH SEARCH SUGGESTIONS (DEBOUNCED) */
-useEffect(() => {
-  const fetchSuggestions = async () => {
-    if (!searchQuery.trim()) {
-      setSuggestions([]);
-      return;
-    }
+  // Fetch search suggestions
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (!searchQuery.trim()) {
+        setSuggestions([]);
+        return;
+      }
+      try {
+        setLoadingSuggestions(true);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?search=${encodeURIComponent(
+            searchQuery,
+          )}`,
+        );
+        const data = await res.json();
+        setSuggestions(data.products?.slice(0, 5) || []);
+      } catch (error) {
+        console.error("Suggestion Error:", error);
+        setSuggestions([]);
+      } finally {
+        setLoadingSuggestions(false);
+      }
+    };
 
-    try {
-      setLoadingSuggestions(true);
+    const timer = setTimeout(fetchSuggestions, 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_IMS_BASE_URL}/api/ims/public/products?search=${encodeURIComponent(
-          searchQuery
-        )}`
-      );
-
-      const data = await res.json();
-
-      setSuggestions(data.products?.slice(0, 8) || []);
-    } catch (error) {
-      console.error("Suggestion Error:", error);
-      setSuggestions([]);
-    } finally {
-      setLoadingSuggestions(false);
-    }
-  };
-
-  const timer = setTimeout(fetchSuggestions, 300);
-
-  return () => clearTimeout(timer);
-}, [searchQuery]);
-
+  // Handle click outside menu
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -119,256 +141,326 @@ useEffect(() => {
         setMenuOpen(false);
       }
     };
-
     document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    return () => document.removeEventListener("click", handleClickOutside);
   }, [menuOpen]);
 
-  const handleSelectSuggestion = (id: string) => {
+  const handleSelectSuggestion = (id: number) => {
     setSuggestions([]);
     setSearchQuery("");
+    setSearchOpen(false);
     router.push(`/collection`);
   };
 
-  const handleSearch = () => {
-    const query = searchQuery.trim();
-
-    if (!query) return;
-
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!value.trim()) return;
     setSuggestions([]);
-    router.push(`/search?q=${encodeURIComponent(query)}`);
+    setSearchOpen(false);
+    router.push(`/search?q=${encodeURIComponent(value.trim())}`);
   };
 
-  useEffect(() => {
-    if (!searchQuery.trim()) {
-      setSuggestions([]);
-      return;
-    }
+  // Determine active shrinking state
+  // ⚡ The header contracts ONLY when scrolled down AND the user is NOT hovering their mouse over it!
+  const isShrunk = scrolled && !isHovered;
 
-    const filtered = products
-      .filter((product: any) =>
-        product.productName?.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-      .slice(0, 5);
-
-    setSuggestions(filtered);
-  }, [searchQuery, products]);
-
-  // const router = useRouter();
-
-  // const [searchQuery, setSearchQuery] = useState("");
-  // const [suggestions, setSuggestions] = useState<any[]>([]);
   return (
-    // Make NAV pill slightly elevated and pill-shaped
-    <nav aria-label="Main navigation">
-      <div className="max-w-7xl mx-auto px-4">
-        <div
-          className="w-full rounded-full p-3 flex items-center gap-6 shadow-[0_10px_25px_rgba(149,127,106,0.08)]"
-          style={{
-            background: "#f5f1e7",
-            border: "1px solid rgba(0,0,0,0.04)",
-            backdropFilter: "blur(6px)",
-          }}
-        >
-          {/* LOGO */}
-          <Link
-            href="/"
-            className="relative nav-logo h-13 w-24 mx-4 rounded-full shrink-0 overflow-hidden flex items-center"
-          >
-            <Image
-              src="/Assets/Images/Logo2.png"
-              fill
-              sizes="(max-width: 768px) 120px, 160px"
-              alt="Vastradrobe"
-              className=""
-              priority
-            />
-          </Link>
-
-          {/* NAV LINKS (desktop) */}
-          <div className="hidden md:flex flex-1 items-center gap-3 text-sm font-medium text-[#957f6a]">
-            <Link href="/" className="hover:text-[#6a0f1f]">
-              Home
-            </Link>
-
-            {/* COLLECTION with improved open behaviour */}
-            <div
-              className="relative"
-              onMouseEnter={() => setDropdownOpen(true)}
-              onMouseLeave={() => setDropdownOpen(false)}
+    <header
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="fixed top-0 inset-x-0 z-40 bg-white dark:bg-black flex flex-col transition-all duration-300"
+    >
+      {/* 1. TOP ANNOUNCEMENT BAR (Sleek Wine-Red Sliding Marquee) */}
+      <div className="bg-[#6A0F1F] h-8 flex items-center overflow-hidden w-full relative">
+        <div className="flex w-max animate-marquee whitespace-nowrap">
+          {[...announcements, ...announcements].map((text, index) => (
+            <span
+              key={index}
+              className="mx-8 flex justify-center items-center gap-4 text-[9px] sm:text-[10px] font-medium text-white tracking-[0.25em] uppercase"
             >
+              <span>{text}</span>
+              <span aria-hidden="true" className="text-white/60">
+                ✦
+              </span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* 2. MAIN BRAND NAVIGATION HEADER (Shrinks dynamically on scroll / expands back on hover + fully Dark-Mode styled) */}
+      <nav
+        className={`border-b border-neutral-100 dark:border-neutral-900 bg-white/95 dark:bg-black/95 backdrop-blur-md transition-all duration-300 ${
+          isShrunk ? "h-14 sm:h-15 shadow-sm" : "h-18 sm:h-20"
+        }`}
+        aria-label="Main Navigation"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between relative">
+          {/* LEFT: Menu Hamburger (Mobile) & Desktop Links (Animate entrance) */}
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={
+              isLoaderFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: -15 }
+            }
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+            className="flex items-center"
+          >
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-2 -ml-2 rounded-full text-neutral-800 dark:text-neutral-200 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition md:hidden"
+              aria-label="Toggle Menu"
+            >
+              {menuOpen ? (
+                <X size={20} strokeWidth={1.5} />
+              ) : (
+                <Menu size={20} strokeWidth={1.5} />
+              )}
+            </button>
+
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex items-center gap-8 text-[11px] font-semibold text-neutral-800 dark:text-neutral-200 uppercase tracking-[0.2em] relative">
               <Link
-                href="/collection"
-                className="flex items-center gap-2 hover:text-[#6a0f1f]"
-                aria-haspopup="true"
-                aria-expanded={dropdownOpen}
+                href="/"
+                className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
               >
-                Our Collection
-                <IoIosArrowDown
-                  size={16}
-                  className={`transform transition-transform duration-200 ${
-                    dropdownOpen ? "rotate-180" : "rotate-0"
-                  }`}
-                />
+                Home
               </Link>
 
-              {showCategoryDropdown && dropdownOpen && (
-                <div className="absolute left-0 top-full pt-5 z-50">
-                  {/* Arrow */}
-                  <div className="absolute left-10 top-3 w-5 h-5 bg-white rotate-45"></div>
+              {/* Sub-Collection Dropdown Trigger */}
+              <div
+                className="relative flex items-center gap-1 cursor-pointer"
+                onMouseEnter={() => setCollectionOpen(true)}
+                onMouseLeave={() => setCollectionOpen(false)}
+              >
+                <Link
+                  href="/collection"
+                  className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
+                >
+                  Collections
+                </Link>
+                <ChevronDown
+                  size={12}
+                  className={`transition-transform duration-200 ${collectionOpen ? "rotate-180 text-[#6A0F1F] dark:text-[#e4e198]" : ""}`}
+                />
 
-                  <div className="w-205 rounded-[48px] p-5 bg-white">
-                    <div className="grid grid-cols-3 gap-6">
-                      {/* WOMEN */}
+                {/* Collections Dropdown Panel (Simple text list) */}
+                {collectionOpen && (
+                  <div className="absolute left-0 top-full pt-4 w-50 z-50 animate-fadeIn">
+                    <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-xl shadow-md py-2 text-left">
                       <Link
                         href="/women#categoryPage"
-                        className="flex flex-col items-center text-center group"
+                        className="block px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
                       >
-                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
-                          <Image
-                            src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770977218/products/ocktsxwyzhi2rzwoantd.jpg"
-                            alt="Women's Co-ords"
-                            fill
-                            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                        <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Women&apos;s Co-ords
-                        </span>
+                        Women Collection
                       </Link>
-
-                      {/* MEN */}
                       <Link
-                        href="/men#categoryPage"
-                        className="flex flex-col items-center text-center group"
+                        href="/men"
+                        className="block px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
                       >
-                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
-                          <Image
-                            src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1771238559/products/miaelyvxljqatr8prk9v.jpg"
-                            alt="Men's Linen Essentials"
-                            fill
-                            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                        <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Men&apos;s Fashion & Clothing
-                        </span>
+                        Men Collection
                       </Link>
-
-                      {/* KIDS */}
                       <Link
-                        href="/kids#categoryPage"
-                        className="flex flex-col items-center text-center group"
+                        href="/kids"
+                        className="block px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
                       >
-                        <div className="relative w-full h-35 rounded-4xl overflow-hidden">
-                          <Image
-                            src="https://res.cloudinary.com/dwhn5ec09/image/upload/v1770292098/products/uiyy3o3gztwnx5et7oiy.jpg"
-                            alt="Kids' Comfort Wear"
-                            fill
-                            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                        <span className="mt-3 text-[14px] font-medium text-[#5f5143]">
-                          Kid&apos;s Comfort Wear
-                        </span>
+                        Kids Collection
                       </Link>
                     </div>
                   </div>
-                </div>
+                )}
+              </div>
+
+              <Link
+                href="/blog"
+                className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition duration-200"
+              >
+                Blogs
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* CENTER: BRAND LOGO (Absolutely Centered, scales with scroll / hover, enters with elegant scale-blur reveal) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: -15 }}
+            animate={
+              isLoaderFinished
+                ? { opacity: 1, scale: 1, y: 0 }
+                : { opacity: 0, scale: 0.9, y: -15 }
+            }
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-auto"
+          >
+            <Link href="/" className="flex items-center">
+              <div
+                className={`relative transition-all duration-300 ${
+                  isShrunk
+                    ? "w-28 h-8 sm:w-32 sm:h-9"
+                    : "w-36 h-10 sm:w-44 sm:h-12"
+                }`}
+              >
+                <Logo className="w-full h-full object-contain" />
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* RIGHT: SEARCH, WISHLIST (Desktop Only), ACCOUNT (Desktop Only), CART Drawer Trigger (Animate entrance) */}
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={
+              isLoaderFinished ? { opacity: 1, y: 0 } : { opacity: 0, y: -15 }
+            }
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+            className="flex items-center gap-0.5 sm:gap-2 text-neutral-800 dark:text-neutral-200"
+          >
+            {/* SEARCH PANEL TRIGGER */}
+            <button
+              onClick={() => setSearchOpen(!searchActive)}
+              className="p-2 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 transition cursor-pointer hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+              aria-label="Toggle Search"
+            >
+              <Search size={19} strokeWidth={1.5} />
+            </button>
+
+            {/* WISHLIST LINK (Desktop Only) */}
+            <Link
+              href="/favorites"
+              className="hidden md:inline-flex p-2.5 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 transition hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+              aria-label="Wishlist"
+            >
+              <Heart size={19} strokeWidth={1.5} />
+            </Link>
+
+            {/* ACCOUNT / PROFILE (Desktop Only) */}
+            <div
+              className="hidden md:block relative"
+              onMouseEnter={() => setProfileOpen(true)}
+              onMouseLeave={() => setProfileOpen(false)}
+            >
+              {!authLoading && !isLogged ? (
+                <Link
+                  href="/account/login"
+                  className="p-2.5 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 flex items-center justify-center hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                  aria-label="Login"
+                >
+                  <User size={19} strokeWidth={1.5} />
+                </Link>
+              ) : (
+                <>
+                  <button
+                    className="p-2.5 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 flex items-center justify-center hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                    aria-label="User Profile"
+                  >
+                    <User size={19} strokeWidth={1.5} />
+                  </button>
+
+                  {profileOpen && isLogged && (
+                    <div className="absolute right-0 top-full pt-4 w-44 z-50">
+                      <div className="bg-white dark:bg-neutral-950 border border-neutral-100 dark:border-neutral-900 rounded-xl shadow-lg py-2">
+                        <div className="px-4 py-2 border-b border-neutral-50 dark:border-neutral-900">
+                          <p className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium">
+                            Hello,
+                          </p>
+                          <p className="text-xs font-bold text-neutral-800 dark:text-white truncate">
+                            {user?.username}
+                          </p>
+                        </div>
+                        <Link
+                          href="/profile"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition"
+                        >
+                          <User size={14} strokeWidth={1.5} />
+                          My Profile
+                        </Link>
+                        <Link
+                          href="/orders"
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] transition"
+                        >
+                          <ShoppingBag size={14} strokeWidth={1.5} />
+                          My Orders
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center gap-2.5 px-4 py-2.5 cursor-pointer text-xs font-medium text-red-600 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition"
+                        >
+                          <LogOut size={14} strokeWidth={1.5} />
+                          Log out
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
-            <Link href="/blog" className="hover:text-[#6a0f1f]">
-              Blog
-            </Link>
-          </div>
-
-          {/* Right actions */}
-          <div className="flex items-center gap-4 ml-auto">
-            {/* SEARCH on Desktop */}
-            <div
-              className="hidden lg:block relative rounded-full overflow-visible"
-              style={{ width: "360px" }}
+            {/* CART (Triggers slide-out CartDrawer on click with beautiful pop/jump animation on cart count changes) */}
+            <motion.button
+              onClick={() => setCartDrawerOpen(true)}
+              animate={{
+                scale: [1, 1.25, 0.95, 1.1, 1],
+                y: [0, -6, 1, -0.5, 0],
+              }}
+              key={cartCount}
+              transition={{
+                duration: 0.45,
+                ease: "easeInOut",
+              }}
+              className="group relative p-2 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 transition cursor-pointer hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+              aria-label="Cart"
             >
-              <div
-                className="flex items-center rounded-full px-3 py-2"
-                style={{
-                  background: "#ffffff",
-                  boxShadow:
-                    "inset 0 2px 6px rgba(0,0,0,0.04), 0 6px 18px rgba(149,127,106,0.06)",
-                }}
+              <ShoppingBag size={19} strokeWidth={1.5} />
+              {cartCount > 0 && (
+                <span className="absolute top-1 right-1 rounded-full bg-[#6A0F1F] px-1.5 py-0.5 text-[8px] font-bold text-white leading-none">
+                  {cartCount}
+                </span>
+              )}
+            </motion.button>
+          </motion.div>
+        </div>
+
+        {/* 3. FLOATING SEARCH DRAWER */}
+        {searchActive && (
+          <div className="border-t border-neutral-100 dark:border-neutral-900 bg-neutral-50/50 dark:bg-neutral-950 py-4 px-4 shadow-inner transition duration-300">
+            <div className="max-w-3xl mx-auto">
+              <form
+                onSubmit={handleSearchSubmit}
+                className="relative flex items-center"
               >
-                <IoSearch className="text-[#957f6a]" />
-                {/* wrapper is flex so icon + input + rotating text align vertically */}
-                <div className="relative flex-1 ml-3 flex items-center">
-                  <input
-                    className="w-full bg-transparent outline-none text-sm placeholder:text-[#b99f84] leading-5"
-                    value={value}
-                    onChange={(e) => {
-                      setValue(e.target.value);
-                      setSearchQuery(e.target.value);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && value.trim()) {
-                        setSuggestions([]);
-                        router.push(`/search?q=${encodeURIComponent(value)}`);
-                      }
-                    }}
-                    aria-label="Search products"
-                    style={{ paddingTop: 2, paddingBottom: 2 }}
-                  />
+                <input
+                  type="text"
+                  placeholder="SEARCH FOR CO-ORD SETS, DRESSES, ETS..."
+                  className="w-full bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-full px-5 py-3 text-xs uppercase tracking-widest font-semibold text-neutral-800 dark:text-neutral-200 placeholder:text-neutral-400 focus:outline-none focus:border-[#6A0F1F] dark:focus:border-[#e4e198] shadow-xs"
+                  value={value}
+                  onChange={(e) => {
+                    setValue(e.target.value);
+                    setSearchQuery(e.target.value);
+                  }}
+                  autoFocus
+                />
+                <button
+                  type="submit"
+                  className="absolute right-4 p-1.5 text-neutral-400 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                >
+                  <Search size={18} strokeWidth={1.5} />
+                </button>
+              </form>
 
-                  {/* rotating placeholder aligned vertically with input */}
-                  {!value && (
-                    <div
-                      className="pointer-events-none absolute left-0 ml-0 flex items-center gap-1 top-1/2 -translate-y-1/2 text-sm"
-                      style={{ color: "#b99f84" }}
-                    >
-                      <span className="text-[#b99f84]">Search</span>
-                      <RotatingText
-                        texts={searchItems}
-                        mainClassName="inline-block text-sm text-[#c0a38a] overflow-hidden leading-5"
-                        staggerFrom={"last"}
-                        initial={{ y: "100%" }}
-                        animate={{ y: 0 }}
-                        exit={{ y: "-120%" }}
-                        staggerDuration={0.025}
-                        splitLevelClassName="overflow-hidden"
-                        transition={{
-                          type: "spring",
-                          damping: 30,
-                          stiffness: 400,
-                        }}
-                        rotationInterval={2400}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* SUGGESTIONS */}
+              {/* Suggestions dropdown */}
               {searchQuery && (
-                <div className="absolute left-0 right-0 mt-3 bg-white border rounded-xl shadow-sm z-50 max-h-72 overflow-auto">
+                <div className="mt-2 bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-2xl shadow-lg max-h-56 overflow-y-auto divide-y divide-neutral-50 dark:divide-neutral-850">
                   {loadingSuggestions && (
-                    <div className="px-4 py-2 text-sm text-gray-400">
-                      Searching…
+                    <div className="px-5 py-3 text-xs text-neutral-400 tracking-wider">
+                      Searching...
                     </div>
                   )}
-
                   {!loadingSuggestions && suggestions.length === 0 && (
-                    <div className="px-4 py-2 text-sm text-gray-400">
+                    <div className="px-5 py-3 text-xs text-neutral-400 tracking-wider">
                       No results found
                     </div>
                   )}
-
                   {suggestions.map((item) => (
                     <div
                       key={item.productId}
                       onClick={() => handleSelectSuggestion(item.productId)}
-                      className="px-4 py-2 text-sm cursor-pointer hover:bg-gray-50"
+                      className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:text-[#6A0F1F] dark:hover:text-[#e4e198] cursor-pointer transition"
                     >
                       {item.name}
                     </div>
@@ -376,283 +468,142 @@ useEffect(() => {
                 </div>
               )}
             </div>
-
-            {/* CART */}
-            <Link
-              href="/cart"
-              className="relative text-[#957f6a] hover:text-[#6a0f1f]"
-            >
-              <IoCart size={21} />
-              {cartCount > 0 && (
-                <span
-                  className="absolute -top-1 -right-2 text-xs text-white rounded-full px-1.5"
-                  style={{ background: "#957f6a" }}
-                >
-                  {cartCount}
-                </span>
-              )}
-            </Link>
-
-            {/* DESKTOP ACTIONS */}
-            <div className="hidden md:flex items-center relative">
-              {!authLoading && !isLogged && (
-                <Link
-                  href="/account/login"
-                  className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-[#5f5143] bg-white hover:bg-[#e9e1d4] transition"
-                >
-                  <RiAccountBoxLine size={18} />
-                  Login
-                </Link>
-              )}
-
-              {isLogged && (
-                <div
-                  className="relative"
-                  onMouseEnter={() => setProfileOpen(true)}
-                  onMouseLeave={() => setProfileOpen(false)}
-                >
-                  <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[#5f5143] text-sm font-medium shadow-sm hover:bg-[#e9e1d4] transition">
-                    <RiAccountBoxLine size={18} />
-                    <span className="max-w-27.5 truncate">
-                      {user?.username}
-                    </span>
-                    <IoIosArrowDown size={14} />
-                  </button>
-
-                  {profileOpen && (
-                    <div className="absolute right-0 top-full pt-3 z-50">
-                      {/* Arrow */}
-                      <div className="absolute right-6 top-2 w-4 h-4 bg-white rotate-45 border-black/5"></div>
-
-                      <div className="relative w-44 rounded-2xl overflow-hidden bg-white">
-                        <Link
-                          href="/profile"
-                          className="flex items-center gap-3 p-5 text-sm text-[#5f5143] hover:bg-[#e9e1d4] transition"
-                        >
-                          <RiAccountBoxLine size={16} />
-                          Profile
-                        </Link>
-
-                        <button
-                          onClick={handleLogout}
-                          className="w-full flex items-center gap-3 p-5 cursor-pointer text-sm text-[#9a4b4b] hover:bg-[#e9e1d4] transition"
-                        >
-                          <LogOut size={16} />
-                          Logout
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* ------------------------------------------------Mobile Hamburger------------------------------------------------ */}
-          <div className="md:hidden ml-2">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#e9e1d4] transition"
-              aria-label="Menu"
-            >
-              {menuOpen ? (
-                <X size={22} strokeWidth={2} className="text-[#957f6a]" />
-              ) : (
-                <Menu size={22} strokeWidth={2} className="text-[#957f6a]" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* MOBILE MENU (rounded elevated panel) */}
-        {menuOpen && (
-          <div
-            ref={menuRef}
-            className="fixed inset-x-4 top-24 z-50 md:hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div
-              className="rounded-[28px] p-5 space-y-6 shadow-[0_30px_80px_rgba(149,127,106,0.18)]"
-              style={{ background: "#f5f1e7" }}
-            >
-              {/* SEARCH */}
-              <div className="relative">
-                <div
-                  className="flex items-center gap-3 rounded-full px-4 py-3"
-                  style={{
-                    background: "#ffffff",
-                    boxShadow: "inset 0 1px 4px rgba(0,0,0,0.04)",
-                  }}
-                >
-                  <IoSearch
-                    className="text-[#957f6a] cursor-pointer"
-                    size={18}
-                    onClick={handleSearch}
-                  />
-
-                  <input
-                    className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#b99f84]"
-                    placeholder="Search products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        handleSearch();
-                      }
-                    }}
-                  />
-                </div>
-
-                {suggestions.length > 0 && (
-                  <div className="absolute left-0 right-0 mt-2 bg-white rounded-xl border shadow-lg z-50 overflow-hidden">
-                    {suggestions.map((item: any) => (
-                      <button
-                        key={item._id}
-                        type="button"
-                        className="w-full px-4 py-3 text-left hover:bg-gray-50 transition"
-                        onClick={() => {
-                          setSearchQuery(item.productName);
-                          setSuggestions([]);
-                          router.push(
-                            `/search?q=${encodeURIComponent(item.productName)}`,
-                          );
-                        }}
-                      >
-                        <div className="font-medium text-sm">
-                          {item.productName}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* PRIMARY LINKS */}
-              <div className="rounded-2xl overflow-hidden bg-white divide-y divide-black/5">
-                <Link
-                  href="/"
-                  className="flex items-center gap-4 px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
-                >
-                  <Home size={18} />
-                  <span className="text-sm font-medium">Home</span>
-                </Link>
-
-                <button
-                  onClick={() => setOpen(!open)}
-                  className="w-full flex items-center justify-between px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
-                >
-                  <div className="flex items-center gap-4">
-                    <ShoppingBag size={18} />
-                    <span className="text-sm font-medium">Collection</span>
-                  </div>
-                  <IoIosArrowDown
-                    size={16}
-                    className={`transition-transform duration-300 ${
-                      open ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-
-                {open && (
-                  <div className="bg-[#faf7f2]">
-                    <Link
-                      href="/women#categoryPage"
-                      onClick={() => setOpen(false)}
-                      className="block px-12 py-3 text-sm text-[#957f6a] hover:bg-[#e9e1d4]"
-                    >
-                      Women
-                    </Link>
-                    <Link
-                      href="/men#categoryPage"
-                      onClick={() => setOpen(false)}
-                      className="block px-12 py-3 text-sm text-[#957f6a] hover:bg-[#e9e1d4]"
-                    >
-                      Men
-                    </Link>
-                    <Link
-                      href="/kids#categoryPage"
-                      onClick={() => setOpen(false)}
-                      className="block px-12 py-3 text-sm text-[#957f6a] hover:bg-[#e9e1d4]"
-                    >
-                      Kids
-                    </Link>
-                  </div>
-                )}
-
-                <Link
-                  href="/blog"
-                  className="flex items-center gap-4 px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
-                >
-                  <Dock size={18} />
-                  <span className="text-sm font-medium">Blog</span>
-                </Link>
-
-                <Link
-                  href="/support"
-                  className="flex items-center gap-4 px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
-                >
-                  <MdSupportAgent size={18} />
-                  <span className="text-sm font-medium">Contact Support</span>
-                </Link>
-              </div>
-
-              {/* ACCOUNT SECTION */}
-              <div className="rounded-2xl overflow-hidden bg-white divide-y divide-black/5">
-                {!authLoading && !isLogged && (
-                  <Link
-                    href="/account/login"
-                    className="flex items-center gap-4 px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
-                  >
-                    <RiAccountBoxLine size={18} />
-                    <span className="text-sm font-medium">
-                      Login / Register
-                    </span>
-                  </Link>
-                )}
-
-                {isLogged && (
-                  <>
-                    <Link
-                      href="/profile"
-                      className="flex items-center gap-4 px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
-                    >
-                      <RiAccountBoxFill size={18} />
-                      <span className="text-sm font-medium">
-                        {user?.username}
-                      </span>
-                    </Link>
-
-                    <Link
-                      href="/favorites"
-                      className="flex items-center gap-4 px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
-                    >
-                      <FaRegHeart size={18} />
-                      <span className="text-sm font-medium">Favorites</span>
-                    </Link>
-
-                    <Link
-                      href="/orders"
-                      className="flex items-center gap-4 px-5 py-4 text-[#5f5143] hover:bg-[#e9e1d4] transition"
-                    >
-                      <FaRegListAlt size={18} />
-                      <span className="text-sm font-medium">Orders</span>
-                    </Link>
-
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-4 px-5 py-4 text-[#9a4b4b] hover:bg-[#e9e1d4] transition"
-                    >
-                      <LogOut size={18} />
-                      <span className="text-sm font-medium">Logout</span>
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+
+      {/* 4. MOBILE HAMBURGER DROPDOWN SLIDEOUT MENU (Animate Slideout Panel) */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            ref={menuRef}
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="absolute inset-x-0 top-full h-[calc(100vh-100%)] z-30 md:hidden bg-white dark:bg-black flex flex-col justify-between border-t border-neutral-100 dark:border-neutral-900 shadow-lg overflow-y-auto"
+          >
+            <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
+              {/* Primary Category Links */}
+              <div className="space-y-4">
+                <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                  Categories
+                </p>
+                <div className="flex flex-col gap-3 font-semibold text-sm uppercase tracking-widest text-neutral-800 dark:text-neutral-200">
+                  <Link
+                    href="/"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
+                  >
+                    Home
+                  </Link>
+                  <Link
+                    href="/women#categoryPage"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
+                  >
+                    Women Collection
+                  </Link>
+                  <Link
+                    href="/men"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
+                  >
+                    Men Collection
+                  </Link>
+                  <Link
+                    href="/kids"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1 border-b border-neutral-50 dark:border-neutral-900"
+                  >
+                    Kids Collection
+                  </Link>
+                  <Link
+                    href="/blog"
+                    className="hover:text-[#6A0F1F] dark:hover:text-[#e4e198] py-1"
+                  >
+                    Vastra Journal
+                  </Link>
+                </div>
+              </div>
+
+              {/* System / Help Links */}
+              <div className="space-y-4 pt-4 border-t border-neutral-100 dark:border-neutral-900">
+                <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                  Customer Support
+                </p>
+                <div className="flex flex-col gap-3 font-semibold text-xs uppercase tracking-widest text-neutral-600 dark:text-neutral-400">
+                  <Link
+                    href="/support"
+                    className="flex items-center gap-2 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                  >
+                    <HelpCircle size={15} strokeWidth={1.5} />
+                    Contact Support
+                  </Link>
+                </div>
+              </div>
+
+              {/* Profile / Account Area */}
+              <div className="space-y-4 pt-4 border-t border-neutral-100 dark:border-neutral-900">
+                <p className="text-[10px] font-bold text-neutral-400 tracking-[0.25em] uppercase">
+                  Account
+                </p>
+                {!authLoading && !isLogged ? (
+                  <Link
+                    href="/account/login"
+                    className="flex items-center gap-2 py-1 font-semibold text-xs uppercase tracking-widest text-neutral-700 dark:text-neutral-300 hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                  >
+                    <User size={15} strokeWidth={1.5} />
+                    Login / Signup
+                  </Link>
+                ) : (
+                  <div className="space-y-3 font-semibold text-xs uppercase tracking-widest text-neutral-700 dark:text-neutral-300">
+                    <div className="flex items-center gap-2 text-neutral-900 dark:text-white pb-2 border-b border-neutral-50 dark:border-neutral-900">
+                      <User
+                        size={15}
+                        strokeWidth={1.5}
+                        className="text-[#6A0F1F] dark:text-[#e4e198]"
+                      />
+                      <span>Hello, {user?.username}</span>
+                    </div>
+                    <Link
+                      href="/profile"
+                      className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                    >
+                      My Profile
+                    </Link>
+                    <Link
+                      href="/favorites"
+                      className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                    >
+                      My Wishlist
+                    </Link>
+                    <Link
+                      href="/orders"
+                      className="block hover:text-[#6A0F1F] dark:hover:text-[#e4e198]"
+                    >
+                      Track Orders
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left font-bold text-red-600 flex items-center gap-2 pt-2 border-t border-neutral-50 dark:border-neutral-900 cursor-pointer"
+                    >
+                      <LogOut size={15} strokeWidth={1.5} />
+                      Log Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* 🔒 FIXED MOBILE FOOTER: Added 'dark:bg-neutral-950' and 'dark:border-neutral-900' 
+                so that the footer branding bar correctly transitions in dark mode!
+            */}
+            <div className="bg-neutral-50 dark:bg-neutral-950 border-t border-neutral-100 dark:border-neutral-900 px-6 py-5 text-center transition-colors">
+              <p className="text-[9px] text-neutral-400 dark:text-neutral-500 tracking-widest font-semibold uppercase">
+                © 2026 VastraDrobe Label. All Rights Reserved.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 };
 

@@ -1,31 +1,115 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const OrderSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: false,
+    },
+
+    // Unique identifiers
+    orderNumber: {
+      type: String,
+      unique: true,
       required: true,
+    },
+
+    invoiceNumber: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+
+    transactionId: {
+      type: Schema.Types.ObjectId,
+      ref: "Transaction",
     },
 
     items: [
       {
         productId: Number,
-        name: String,
+
+        name: {
+          type: String,
+          required: true,
+        },
+
+        sku: String,
+
         color: String,
-        price: Number,
+
+        // Design is stored separately because a color variant
+        // can contain multiple designs.
+        //
+        // This is important for reviews because we need to know
+        // exactly which variant the customer purchased.
+        design: String,
+
         size: {
           type: String,
           required: true,
         },
-        qty: Number,
-        image: [{ type: String }],
+
+        quantity: {
+          type: Number,
+          required: true,
+        },
+
+        price: {
+          type: Number,
+          required: true,
+        },
+
+        total: {
+          type: Number,
+          required: true,
+        },
+
+        image: [String],
       },
     ],
 
     deliveryAddress: {
-      address: { type: String, required: true },
-      phone: { type: String, required: true },
+      name: String,
+      email: String,
+      phone: {
+        type: String,
+        required: true,
+      },
+
+      address: {
+        type: String,
+        required: true,
+      },
+
+      city: String,
+      state: String,
+      pincode: String,
+      country: {
+        type: String,
+        default: "India",
+      },
+    },
+
+    subtotal: {
+      type: Number,
+      required: true,
+    },
+
+    shippingCharge: {
+      type: Number,
+      default: 0,
+    },
+
+    discount: {
+      type: Number,
+      default: 0,
+    },
+
+    tax: {
+      type: Number,
+      default: 0,
     },
 
     totalAmount: {
@@ -33,9 +117,30 @@ const OrderSchema = new mongoose.Schema(
       required: true,
     },
 
+    paymentMethod: {
+      type: String,
+      enum: ["COD", "Razorpay", "UPI", "Card", "Net Banking"],
+      default: "COD",
+    },
+
+    paymentStatus: {
+      type: String,
+      enum: ["Pending", "Paid", "Failed", "Refunded"],
+      default: "Pending",
+    },
+
     status: {
       type: String,
-      enum: ["pending", "paid", "shipped", "delivered", "cancelled"],
+      enum: [
+        "pending",
+        "paid",
+        "packing",
+        "shipping",
+        "delivered",
+        "cancelled",
+        "returned",
+        "refunded",
+      ],
       default: "pending",
     },
 
@@ -43,9 +148,14 @@ const OrderSchema = new mongoose.Schema(
       provider: String,
       orderId: String,
       paymentId: String,
+      signature: String,
     },
+
+    invoiceUrl: String,
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 export default mongoose.models.Order || mongoose.model("Order", OrderSchema);

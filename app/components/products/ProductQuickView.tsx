@@ -219,7 +219,7 @@ const ProductQuickView = ({
 
   return (
     <div
-      className="fixed inset-0 z-9999 bg-black/70 backdrop-blur-sm flex items-center justify-center p-2 md:p-6"
+      className="fixed inset-0 z-9999 bg-neutral-950/70 backdrop-blur-sm flex items-center justify-center p-2 md:p-6"
       onClick={onClose}
     >
       <div
@@ -256,7 +256,7 @@ const ProductQuickView = ({
           {/* IMAGE */}
           <div className="relative bg-linear-to-br from-[#f8f4ef] to-[#efe7dc] h-[40vh] md:h-full overflow-hidden">
             {product.mrp && product.mrp > product.price && (
-              <div className="absolute top-5 left-5 z-20 bg-black text-white px-4 py-2 rounded-full text-xs font-medium tracking-[0.15em] uppercase">
+              <div className="absolute top-5 left-5 z-20 bg-neutral-950 text-white px-4 py-2 rounded-full text-xs font-medium tracking-[0.15em] uppercase">
                 {Math.round(
                   ((product.mrp - product.price) / product.mrp) * 100,
                 )}
@@ -270,7 +270,7 @@ const ProductQuickView = ({
                 src={currentVariant?.images?.[activeImageIndex]}
                 alt=""
                 fill
-                sizes="(max-width: 768px) 100vw, 25vw"
+                sizes="100vw"
                 className="object-cover blur scale-110 opacity-40"
               />
 
@@ -280,7 +280,7 @@ const ProductQuickView = ({
                   src={currentVariant?.images?.[activeImageIndex]}
                   alt={product.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, 25vw"
+                  sizes="100vw"
                   className="object-contain md:object-cover"
                 />
                 {/* Wishlist */}
@@ -313,7 +313,7 @@ const ProductQuickView = ({
                       src={image}
                       alt=""
                       fill
-                      sizes="(max-width: 768px) 100vw, 25vw"
+                      sizes="100vw"
                       className="object-cover"
                     />
                   </button>
@@ -323,17 +323,17 @@ const ProductQuickView = ({
           </div>
 
           {/* DETAILS */}
-          <div className="flex flex-col overflow-y-auto p-6 md:p-10">
+          <div className="flex flex-col overflow-y-auto p-6 md:p-10 dark:bg-neutral-950 dark:text-[#b68351] scrollbar-hide bg-white">
             <p className="text-xs uppercase tracking-[0.3em] text-[#9a8571]">
               {product.category}
             </p>
 
-            <h2 className="mt-4 text-2xl sm:text-3xl md:text-5xl font-light tracking-tight text-[#2e2924]">
+            <h2 className="mt-4 text-2xl sm:text-3xl md:text-5xl font-light tracking-tight dark:text-[#b68351] text-[#2e2924]">
               {product.name}
             </h2>
 
             <div className="flex items-end gap-4 mt-6">
-              <span className="text-2xl font-semibold text-[#3d342d]">
+              <span className="text-2xl font-semibold dark:text-[#b68351] text-[#3d342d]">
                 ₹{product.price}
               </span>
 
@@ -394,11 +394,7 @@ const ProductQuickView = ({
                         setSelectedSize("");
                         setActiveImage(0);
                       }}
-                      className={`px-4 py-2 rounded-md border ${
-                        selectedColor === index
-                          ? "bg-[#6A0F1F] text-white border-white"
-                          : "border-gray-300"
-                      }`}
+                      className={`px-4 py-2 rounded-md border ${selectedColor === index ? "bg-[#6A0F1F] text-white border-white dark:border-[#b68351]" : "border-gray-300"}`}
                     >
                       <>
                         {variant.color}
@@ -426,15 +422,7 @@ const ProductQuickView = ({
                         key={size}
                         disabled={outOfStock}
                         onClick={() => setSelectedSize(size)}
-                        className={`relative px-4 py-2 rounded-md border transition ${
-                          selectedSize === size
-                            ? "bg-[#6A0F1F] text-white border-[#6A0F1F]"
-                            : "border-gray-300"
-                        } ${
-                          outOfStock
-                            ? "opacity-40 cursor-not-allowed line-through"
-                            : "hover:border-[#6A0F1F]"
-                        }`}
+                        className={`relative px-4 py-2 rounded-md border transition ${selectedSize === size? "bg-[#6A0F1F] text-white border-[#6A0F1F] dark:border-[#b68351]": "border-gray-300"} ${outOfStock? "opacity-40 cursor-not-allowed line-through": "hover:border-[#6A0F1F]"}`}
                       >
                         {size}
                         {!outOfStock && stock < 10 && (
@@ -461,7 +449,7 @@ const ProductQuickView = ({
             </Link>
 
             {(product.stock ?? 0) > 0 ? (
-              <div className="sticky bottom-0 bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
+              <div className="sticky bottom-0 dark:bg-neutral-950 bg-white border-t border-[#eee] pt-6 mt-8 flex md:flex-col gap-3">
                 <button
                   onClick={handleCartToggle}
                   disabled={!selectedSize}
@@ -473,7 +461,7 @@ const ProductQuickView = ({
                 <button
                   onClick={handleBuyNow}
                   disabled={!selectedSize}
-                  className="w-full border border-[#2d2722] text-[#2d2722] py-4 rounded-xl hover:bg-[#2d2722] hover:text-white transition disabled:opacity-50"
+                  className="w-full border border-[#2d2722] dark:text-[#9a8571] text-[#2d2722] py-4 rounded-xl hover:bg-[#2d2722] hover:text-white transition disabled:opacity-50"
                 >
                   ⚡ Buy Instantly
                 </button>

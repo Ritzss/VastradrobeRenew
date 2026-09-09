@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import {
   AppContext,
   CartItem,
@@ -21,7 +23,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   /* 🔍 Search & Filter */
   const [searchQuery, setSearchQuery] = useState("");
   const [selectGender, setSelectGender] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
+  const [sortBy, setSortBy] = useState("featured");
   const [priceRange, setPriceRange] = useState<PriceRange>({
     min: "",
     max: "",
@@ -35,8 +39,93 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
+  /* 🎬 Animation Coordination */
+  const [isLoaderFinished, setIsLoaderFinished] = useState(false);
+
+  /* 🌗 Theme (Circular Grow Transition) */
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  // Load and apply theme on mount
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("vastradrobe_theme") as
+      | "light"
+      | "dark"
+      | null;
+    const initialTheme = storedTheme || "light";
+    setTheme(initialTheme);
+    if (initialTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  // Perform the circular clip-path expansion View Transition
+  const toggleTheme = (event: React.MouseEvent) => {
+    const targetTheme = theme === "light" ? "dark" : "light";
+
+    // Fallback if browser doesn't support the View Transition API
+    if (!(document as any).startViewTransition) {
+      setTheme(targetTheme);
+      localStorage.setItem("vastradrobe_theme", targetTheme);
+      if (targetTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      return;
+    }
+
+    // Get click coordinate relative to page for circle's anchor point
+    const x = event.clientX;
+    const y = event.clientY;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    const transition = (document as any).startViewTransition(() => {
+      setTheme(targetTheme);
+      localStorage.setItem("vastradrobe_theme", targetTheme);
+      if (targetTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    });
+
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`,
+      ];
+
+      document.documentElement.animate(
+        {
+          clipPath: targetTheme === "dark" ? clipPath : clipPath.reverse(),
+        },
+        {
+          duration: 400,
+          easing: "ease-in-out",
+          pseudoElement:
+            targetTheme === "dark"
+              ? "::view-transition-new(root)"
+              : "::view-transition-old(root)",
+        },
+      );
+    });
+  };
+
   /* 🛒 Cart */
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [savedForLater, setSavedForLater] = useState<CartItem[]>([]);
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
+  const [lastAddedProduct, setLastAddedProduct] = useState<{
+    product: IMSProduct;
+    variant: IMSProduct["variants"][number];
+    size: string;
+    qty: number;
+  } | null>(null);
 
   /*Product Details */
   const [showVariants, setShowVariants] = useState<boolean>(true);
@@ -51,8 +140,30 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const clearCart = () => setCartItems([]);
 
-  const addToCart = (productId: number, size: string, color: string) => {
+  const addToCart = (productId: number, size: string, color: string ,design: string = "") => {
     const product = products.find((p) => p.productId === productId);
+
+    const selectedVariant =
+      product?.variants.find(
+        (v) => v.color.toLowerCase() === color.toLowerCase(),
+      ) ??
+      product?.variants[0] ??
+      null;
+
+    if (product) {
+      setLastAddedProduct({
+        product,
+        variant: selectedVariant ?? product.variants[0],
+        size,
+        qty: 1,
+      });
+
+      // Give the cart icon time to animate before
+      // opening the cart drawer.
+      setTimeout(() => {
+        setCartDrawerOpen(true);
+      }, 400);
+    }
 
     fbPixel.addToCart({
       id: String(productId),
@@ -60,31 +171,54 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       price: product?.price ?? 0,
     });
 
+    // A product without designs simply stores an empty string.
+    const cartDesign = design || "";
+
     setCartItems((prev) => {
+      // Product + color + design + size uniquely identifies
+      // the selected cart variant.
       const existing = prev.find(
         (i) =>
-          i.productId === productId && i.size === size && i.color === color,
+          i.productId === productId &&
+          i.size === size &&
+          i.color === color &&
+          i.design === cartDesign,
       );
 
       if (existing) {
         return prev.map((i) =>
-          i.productId === productId && i.size === size && i.color === color
-            ? { ...i, qty: i.qty + 1 }
+          i.productId === productId &&
+          i.size === size &&
+          i.color === color &&
+          i.design === cartDesign
+            ? {
+                ...i,
+                qty: i.qty + 1,
+              }
             : i,
         );
       }
 
-      return [...prev, { productId, size, color, qty: 1 }];
+      return [
+        ...prev,
+        {
+          productId,
+          size,
+          color,
+          design: cartDesign,
+          qty: 1,
+        },
+      ];
     });
 
     toast.success("Item Added to cart");
   };
 
-  const removeFromCart = (productId: number, size: string, color: string) => {
+  const removeFromCart = (productId: number, size: string, color: string, design: string = "") => {
     setCartItems((prev) =>
       prev.filter(
         (i) =>
-          !(i.productId === productId && i.size === size && i.color === color),
+          !(i.productId === productId && i.size === size && i.color === color && i.design === design),
       ),
     );
 
@@ -116,6 +250,91 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         )
         .filter((i) => i.qty > 0),
     );
+  };
+
+  const saveForLater = async (
+    productId: number,
+    size: string,
+    color: string,
+  ) => {
+    const res = await fetch("/api/cart/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId,
+        size,
+        color,
+      }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.message || "Failed");
+      return;
+    }
+
+    setCartItems(data.cart);
+    setSavedForLater(data.savedForLater);
+
+    toast.success("Moved to Saved for Later");
+  };
+
+  const moveToCart = async (productId: number, size: string, color: string) => {
+    const res = await fetch("/api/cart/move", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId,
+        size,
+        color,
+      }),
+    });
+
+    if (!res.ok) {
+      toast.error("Failed");
+      return;
+    }
+
+    const data = await res.json();
+
+    setCartItems(data.cart);
+    setSavedForLater(data.savedForLater);
+
+    toast.success("Moved to Cart");
+  };
+
+  const removeSavedForLater = async (
+    productId: number,
+    size: string,
+    color: string,
+  ) => {
+    const res = await fetch("/api/cart/remove-saved", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId,
+        size,
+        color,
+      }),
+    });
+
+    if (!res.ok) {
+      toast.error("Failed to remove item");
+      return;
+    }
+
+    const data = await res.json();
+
+    setCartItems(data.cart);
+    setSavedForLater(data.savedForLater);
+
+    toast.success("Removed from Saved for Later");
   };
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
@@ -184,13 +403,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   /* ---------------- AUTH ---------------- */
 
   const [loginForm, setLoginForm] = useState<LoginData>({
-    email: "",
+    identifier: "",
     password: "",
   });
 
   const [registerForm, setRegisterForm] = useState<RegisterData>({
     username: "",
     email: "",
+    mobile: "",
     password: "",
   });
 
@@ -231,7 +451,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
       toast.success("Account created");
 
-      setRegisterForm({ username: "", email: "", password: "" });
+      setRegisterForm({ username: "", email: "", password: "", mobile: "" });
 
       // hydrate auth state FIRST
       await loadUser();
@@ -322,6 +542,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
           // ✅ cart is ARRAY
           setCartItems(Array.isArray(data.cart) ? data.cart : []);
+          setSavedForLater(
+            Array.isArray(data.savedForLater) ? data.savedForLater : [],
+          );
         } catch (err) {
           console.error("Failed to load cart from DB", err);
         }
@@ -354,13 +577,27 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         "Content-Type": "application/json",
         authorization: `Bearer ${document.cookie}`, // or however you pass token
       },
-      body: JSON.stringify({ cart: cartItems }),
+      body: JSON.stringify({ cart: cartItems, savedForLater }),
     });
-  }, [cartItems, user]);
+  }, [cartItems, savedForLater, user]);
 
   useEffect(() => {
     if (!user) return;
-    loadFavorites();
+    loadFavorites().then(async () => {
+      try {
+        const pendingIdStr = localStorage.getItem("pendingFavoriteProductId");
+        if (pendingIdStr) {
+          const id = Number(pendingIdStr);
+          if (!isNaN(id)) {
+            await addToCollection("Favorites", id);
+            toast.success("Added your pending item to default folder!");
+          }
+          localStorage.removeItem("pendingFavoriteProductId");
+        }
+      } catch (err) {
+        console.error("Hydrating pending favorite failed:", err);
+      }
+    });
   }, [user]);
 
   /* ---------------- PROVIDER ---------------- */
@@ -372,12 +609,18 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setSearchQuery,
         selectGender,
         setSelectGender,
+        selectedCategory,
+        setSelectedCategory,
         subCategory,
         setSubCategory,
         priceRange,
         setPriceRange,
         sizes,
         setSizes,
+        sortBy,
+        setSortBy,
+        theme,
+        toggleTheme,
 
         cartItems,
         cartCount,
@@ -386,6 +629,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         removeFromCart,
         incrementQty,
         decrementQty,
+        savedForLater,
+        saveForLater,
+        moveToCart,
+        removeSavedForLater,
+        cartDrawerOpen,
+        setCartDrawerOpen,
+        lastAddedProduct,
+        setLastAddedProduct,
 
         favCollections,
         createCollection,
@@ -410,6 +661,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         authLoading,
         user,
         setUser,
+        isLoaderFinished,
+        setIsLoaderFinished,
       }}
     >
       {children}

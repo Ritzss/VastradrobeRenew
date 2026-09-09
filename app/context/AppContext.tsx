@@ -5,13 +5,14 @@ import { IMSProduct } from "@/Types/Product";
 import { AuthUser } from "@/Types/AuthUser";
 
 export type LoginData = {
-  email: string;
+  identifier: string;
   password: string;
 };
 
 export type RegisterData = {
   username: string;
   email: string;
+  mobile: string;
   password: string;
 };
 
@@ -20,18 +21,21 @@ export type CartItem = {
   size: string;
   color: string;
   qty: number;
+  design?:string;
 };
 
 export type PriceRange = {
   min: number | "";
   max: number | "";
 };
-
-
 export interface AppContextType {
   /* 🔍 Search & Filter */
   selectGender: string;
   setSelectGender: Dispatch<SetStateAction<string>>;
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
+  sortBy: string;
+  setSortBy: Dispatch<SetStateAction<string>>;
   searchQuery: string;
   setSearchQuery: Dispatch<SetStateAction<string>>;
   subCategory: string;
@@ -45,14 +49,48 @@ export interface AppContextType {
   showProductDeatils: boolean;
   setShowProductDeatils: Dispatch<SetStateAction<boolean>>;
 
+  /* 🌗 Theme Toggle (Circle Grow Transition) */
+  theme: "light" | "dark";
+  toggleTheme: (event: React.MouseEvent) => void;
+
   /* 🛒 Cart */
   cartItems: CartItem[];
+  savedForLater: CartItem[];
   cartCount: number;
+  saveForLater: (
+    productId: number,
+    size: string,
+    color: string,
+  ) => Promise<void>;
+  moveToCart: (productId: number, size: string, color: string) => Promise<void>;
+  removeSavedForLater: (
+    productId: number,
+    size: string,
+    color: string,
+  ) => Promise<void>;
   clearCart: () => void;
-  addToCart: (productId: number, size: string,color:string) => void;
-  removeFromCart: (productId: number, size: string,color:string) => void;
-  incrementQty: (productId: number, size: string,color:string) => void;
-  decrementQty: (productId: number, size: string,color:string) => void;
+  addToCart: (productId: number, size: string, color: string, design?:string) => void;
+  removeFromCart: (productId: number, size: string, color: string, design?:string) => void;
+  incrementQty: (productId: number, size: string, color: string) => void;
+  decrementQty: (productId: number, size: string, color: string) => void;
+  /* 🛍 Cart Drawer */
+  cartDrawerOpen: boolean;
+  setCartDrawerOpen: Dispatch<SetStateAction<boolean>>;
+  lastAddedProduct: {
+    product: IMSProduct;
+    variant: IMSProduct["variants"][number];
+    size: string;
+    qty: number;
+  } | null;
+
+  setLastAddedProduct: Dispatch<
+    SetStateAction<{
+      product: IMSProduct;
+      variant: IMSProduct["variants"][number];
+      size: string;
+      qty: number;
+    } | null>
+  >;
 
   /* ❤️ Favorites (DB-backed) */
   favCollections: Record<string, Set<number>>;
@@ -75,9 +113,11 @@ export interface AppContextType {
   loadUser: () => Promise<void>;
   authLoading: boolean;
   user: AuthUser | null;
-  setUser:Dispatch<SetStateAction<AuthUser | null>>;
+  setUser: Dispatch<SetStateAction<AuthUser | null>>;
+
+  /* 🎬 Animation Coordination */
+  isLoaderFinished: boolean;
+  setIsLoaderFinished: Dispatch<SetStateAction<boolean>>;
 }
 
-export const AppContext = createContext<AppContextType | undefined>(
-  undefined
-);
+export const AppContext = createContext<AppContextType | undefined>(undefined);

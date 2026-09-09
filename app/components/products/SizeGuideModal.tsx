@@ -18,11 +18,17 @@ export default function SizeGuideModal({
     ] || [];
 
   const availableSizes =
-    product.variants
-      ?.flatMap((variant) => variant.sizes || [])
-      ?.filter(Boolean) || [];
+  product.variants?.flatMap((variant) => {
+    if (variant.designs?.length) {
+      return variant.designs.flatMap(
+        (design) => design.sizes || []
+      );
+    }
 
-  const uniqueSizes = Array.from(new Set(availableSizes));
+    return variant.sizes || [];
+  }) || [];
+
+  const uniqueSizes = [...new Set(availableSizes)];
 
   const filteredGuide = guide.filter((row) =>
     uniqueSizes.includes(row.size)
